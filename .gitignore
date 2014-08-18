@@ -1,0 +1,4 @@
+/target/classes
+/target/test-classes
+/target/m2e-jee/web-resources/META-INF/maven
+/src/main/webapp/WEB-INF/classes

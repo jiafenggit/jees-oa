@@ -1,0 +1,34 @@
+#
+# 目录结构
+#
+src/main/java 框架源码
+com.iisquare.jees.framework.controller 控制器处理类
+com.iisquare.jees.framework.model 模型处理类
+com.iisquare.jees.framework.view 视图处理类
+com.iisquare.jees.framework.util 工具类
+
+src/main/resources 项目配置文件
+
+src/test/java 测试代码
+src/test/resources 测试配置文件,文件统一添加*.test.*后缀
+
+src/main/java/core 核心类
+com.iisquare.jees.core.component 核心组件
+
+src/main/java/controller 应用控制器
+com.iisquare.jees.demo.controller.index 控制器模块
+src/main/java/model 应用模型
+com.iisquare.jees.demo.dao 数据访问对象
+com.iisquare.jees.demo.service 业务类
+其中：
+com.iisquare.jees.demo.controller.index
+com.iisquare.jees - 唯一标识
+demo - 项目名称
+controller | domain | dao | service - 功能标识
+index - 模块名称
+
+插件目录：
+src/main/java/plugin
+com.iisquare.jees.demo.controller.plugin
+com.iisquare.jees.demo.dao.plugin
+com.iisquare.jees.demo.service.plugin
