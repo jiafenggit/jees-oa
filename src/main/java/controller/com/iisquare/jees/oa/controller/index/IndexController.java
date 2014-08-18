@@ -1,4 +1,4 @@
-package com.iisquare.jees.demo.controller.index;
+package com.iisquare.jees.oa.controller.index;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iisquare.jees.core.component.CController;
-import com.iisquare.jees.demo.domain.Test;
-import com.iisquare.jees.demo.service.TestService;
+import com.iisquare.jees.oa.domain.Test;
+import com.iisquare.jees.oa.service.TestService;
 
 /**
  * 示例程序

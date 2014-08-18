@@ -1,4 +1,4 @@
-package com.iisquare.jees.demo.domain;
+package com.iisquare.jees.oa.domain;
 
 public class Test {
 	private Integer id; // 主键

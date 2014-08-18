@@ -1,4 +1,4 @@
-package com.iisquare.jees.demo.service;
+package com.iisquare.jees.oa.service;
 
 import java.util.List;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iisquare.jees.demo.dao.TestDao;
-import com.iisquare.jees.demo.domain.Test;
 import com.iisquare.jees.framework.model.ServiceBase;
+import com.iisquare.jees.oa.dao.TestDao;
+import com.iisquare.jees.oa.domain.Test;
 
 @Service
 public class TestService extends ServiceBase {

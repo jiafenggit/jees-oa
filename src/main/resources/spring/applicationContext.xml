@@ -13,9 +13,9 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-	<context:component-scan base-package="com.iisquare.jees.demo.dao"
+	<context:component-scan base-package="com.iisquare.jees.oa.dao"
 			name-generator="com.iisquare.jees.framework.controller.FrameworkAnnotationBeanNameGenerator" />
-	<context:component-scan base-package="com.iisquare.jees.demo.service"
+	<context:component-scan base-package="com.iisquare.jees.oa.service"
 			name-generator="com.iisquare.jees.framework.controller.FrameworkAnnotationBeanNameGenerator" />
 
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
@@ -48,7 +48,7 @@
 	</bean>
 
 	<bean id="configuration" class="com.iisquare.jees.framework.Configuration">
-		<property name="modulePrefix" value="com.iisquare.jees.demo.controller." />
+		<property name="modulePrefix" value="com.iisquare.jees.oa.controller." />
 		<property name="skinFolder" value="skin" />
 		<property name="themeName" value="${config.theme_name}" />
 		<property name="dateTimeFormat" value="${config.datetime_format}" />
