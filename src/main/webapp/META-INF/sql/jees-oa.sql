@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-08-19 15:28:59
+Date: 2014-08-19 17:21:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -323,11 +323,13 @@ CREATE TABLE `oa_setting` (
   `time_create` bigint(20) NOT NULL DEFAULT '0',
   `time_update` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_setting
 -- ----------------------------
+INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '0', '0', '0', '0', '0');
+INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `oa_test`
