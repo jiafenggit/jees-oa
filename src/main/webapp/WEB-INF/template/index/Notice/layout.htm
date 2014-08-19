@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../Public/common.inc.htm">
+<#include "../Public/resource.inc.htm">
+<table class="listAction" url="<@url action="list" />" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+	<thead>
+		<tr>
+			<th field="title">标题</th>
+			<th field="type">类型</th>
+			<th field="author">作者</th>
+			<th field="status">状态</th>
+			<th field="sort">排序</th>
+			<th field="createTime">发布时间</th>
+		</tr>
+	</thead>
+</table>
+<div id="toolbar" class="controllerBar">
+	<#if _BASE_.hasPermit("show")><a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a></#if>
+	<#if _BASE_.hasPermit("create")><a href="<@url action="create" />" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a></#if>
+	<#if _BASE_.hasPermit("modify")><a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a></#if>
+	<#if _BASE_.hasPermit("delete")><a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a></#if>
+	<#if _BASE_.hasPermit("NoticeType", "layout")><a href="<@url controller="NoticeType" action="layout" />" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a></#if>
+	<div class="floatRight marginRight5">
+		<div class="leftOfSerchBox">状态：
+		<input type="radio" name="read" value="-1" />全部
+		<input type="radio" name="read" value="0" checked="checked" />未读
+		<input type="radio" name="read" value="1" />已读</div>
+		<input id="searchBox"></input>
+	</div>
+	<div id="searchMenu">
+		<@getSearchOptionList seq=_ASSIGN_.noticeType tips="全部类型" />
+	</div>
+</div>
+<script>
+$(function () {
+	$('#searchBox').searchbox({ 
+		searcher:function(value, name){ 
+			$('.listAction').datagrid('load', {
+				id : name,
+				read : $('input[name="read"]:checked').val(),
+				title : value
+			});
+		}, 
+		menu:'#searchMenu', 
+		prompt:'请输入搜索内容'
+	});
+	$('.listAction').datagrid({
+		onDblClickRow : function (rowIndex, rowData) {}
+	});
+	$('#buttonShow').bind('click', function () {
+		var id = Web_getDataGridRowId($('.listAction'));
+		if(-1 == id) return ;
+		var url = '<@url action="show" />?back=1&id=' + id;
+		var row = $('.listAction').datagrid('getSelected');
+		parent.platformTab.add(row.titleText, url, 'padding2');
+	});
+	$('#buttonModify').bind('click', function () {
+		var id = Web_getDataGridRowId($('.listAction'));
+		if(-1 == id) return ;
+		var url = '<@url action="modify" />?id=' + id;
+		Web_redirectPage(url);
+	});
+});
+</script>

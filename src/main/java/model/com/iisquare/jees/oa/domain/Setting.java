@@ -6,9 +6,11 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Setting {
-	private Integer id;
-	private String name;
-	private String content;
+	private Integer id; // 主键
+	private String name; // 名称
+	private String type; // 分类
+	private String content; // 内容
+	private String remark; // 备注
 	private Integer idCreate; // 创建者
 	private Integer idUpdate; // 修改者
 	private int sort; // 排序（从高到低）
@@ -31,12 +33,28 @@ public class Setting {
 		this.name = name;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getContent() {
 		return content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Integer getIdCreate() {

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../Public/common.inc.htm">
+<#include "../Public/resource.inc.htm">
+<style type="text/css">
+.waterfallCell { width:264px;}
+</style>
+<script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
+<script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
+<div class="easyui-layout" data-options="fit:true,border:false,plain:true">
+<form id="submitForm" method="post" action="<@url action="saveSetting" />" class="scrollYOnly">
+<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+	<tr>
+		<th>设置</th>
+		<td>
+			<input type="checkbox" name="logPermitEnable" value="1"
+			<#if !empty(_ASSIGN_.logPermitEnable)> checked="checked"</#if>
+					class="inputCheckbox" />开启日志记录功能
+			<input type="checkbox" name="logPermitNoExist" value="1"
+			<#if !empty(_ASSIGN_.logPermitNoExist)> checked="checked"</#if>
+					class="inputCheckbox" />记录未配置的操作
+		</td>
+	</tr>
+	<tr>
+		<th colspan="2">记录模块</th>
+	</tr>
+	<tr>
+		<td colspan="2" id="waterfallContainer">
+		<#list _ASSIGN_.permitMap["modules"]?keys as moduleKey>
+			<div class="padding2 waterfallCell">
+				<div class="modulePanel" title="${_ASSIGN_.permitMap["modules"][moduleKey]["name"]}"    
+						style="width:260px;height:auto;padding:5px;" 
+						data-options="iconCls:'icon-key',collapsible:true">  
+				<ul class="moduleTree" data-options="checkbox:true,data:[{
+				'text' : '${moduleKey}[${_ASSIGN_.permitMap["modules"][moduleKey]["name"]}]',
+				'state' : 'open',
+				'attributes' : {
+					'key' : '${moduleKey}'
+				},
+				'children' : [
+				<#list _ASSIGN_.permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey>
+				{
+					'text' : '${controllerKey}[${_ASSIGN_.permitMap["modules"][moduleKey]["controllers"][controllerKey]["name"]}]',
+					'state' : 'closed',
+					'attributes' : {
+						'key' : '${controllerKey}'
+					},
+					'children' : [
+						<#list _ASSIGN_.permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey>
+						{
+								'text' : '${actionKey}[${_ASSIGN_.permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["name"]}]',
+								'checked' : <#if (_ASSIGN_.logPermitMap[moduleKey][controllerKey][actionKey])!false>true<#else>false</#if>,
+								'attributes' : {
+									'key' : '${actionKey}'
+								},
+							}<#if actionKey_has_next>,</#if>
+						</#list>]
+					}<#if controllerKey_has_next>,</#if>
+				</#list>]}]"></ul>
+				</div>
+			</div>
+		</#list>
+		</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
+			<a href="<@url action="layout" />" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="logPermitMapJson" value="" />
+</form>
+</div>
+<script>
+function reLayout() {
+	$('#waterfallContainer').masonry('reLayout', function () {});
+}
+$(function () {
+	$('.modulePanel').panel({
+		'onCollapse' : function () {
+			reLayout();
+		},'onExpand' : function () {
+			reLayout();
+		}
+	});
+	$('.moduleTree').tree({
+		'onCollapse' : function(node) {
+			reLayout();
+		},'onExpand' : function(node) {
+			reLayout();
+		}
+	});
+	$('#waterfallContainer').masonry({
+		itemSelector: '.waterfallCell'
+	});
+	$('#submitForm').form({
+		success : function (data) {
+			data = $.parseJSON(data);
+			Web_alertInfo(data.message);
+			$('#buttonOk').linkbutton('enable');
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		$(this).linkbutton('disable');
+		/* 处理模块权限 */
+		var permitCheckedData = {};
+		$('.moduleTree').each(function () {
+			var moduleData = $(this).tree('getData', $(this).tree('getRoot').target);
+			/* 处理Module */
+			var moduleName = moduleData.attributes.key;
+			permitCheckedData[moduleName] = {};
+			for(var i = 0; i < moduleData.children.length; i++) {
+				/* 处理Controller */
+				var controllerData = moduleData.children[i];
+				var controllerName = controllerData.attributes.key;
+				permitCheckedData[moduleName][controllerName] = {};
+				for(var j = 0; j < controllerData.children.length; j++) {
+					/* 处理Action */
+					var actionData = controllerData.children[j];
+					var actionName = actionData.attributes.key;
+					permitCheckedData[moduleName][controllerName][actionName] = actionData.checked;
+				}
+			}
+		});
+		$('input[name="logPermitMapJson"]').val($.toJSON(permitCheckedData));
+		$('#submitForm').submit();
+	});
+	$('#buttonCancel').bind('click', function () {
+		$('#submitForm')[0].reset();
+	});
+});
+</script>

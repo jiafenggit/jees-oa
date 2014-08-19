@@ -1,0 +1,10 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../Public/common.inc.htm">
+<#include "../Public/resource.inc.htm">
+<script>
+$(function () {
+	Web_alertInfo('用户未登录或登录超时，请登录后继续！', function () {
+		Web_redirectPage(Web_projectUrl + '/login?forward=back');
+	});
+});
+</script>

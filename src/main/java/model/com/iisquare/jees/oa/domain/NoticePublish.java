@@ -9,7 +9,7 @@ public class NoticePublish {
 	private Integer id; // 主键
 	private Integer idNotice; // 通知公告
 	private Integer idRel; // 部门、角色、用户
-	private int type; // 关联对象类型（0阅读用户，1部门，2角色，3用户）
+	private int type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
 	private int status; // 状态（0拒绝读，1允许读）
 	private long timeCreate; // 阅读时间
 	

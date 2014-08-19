@@ -1,0 +1,90 @@
+<#-- This page can be include only -->
+<script src="${Web_projectHome}/api/SWFUpload/swfupload.js" language="javascript"></script>
+<script>
+var isSWFUploading = false;
+var swfUploadFunction = {
+	fileDialogComplete : function (numFilesSelected, numFilesQueued) {
+		try {
+			isSWFUploading = true;
+			this.startUpload();
+		} catch (ex)  {
+			this.debug(ex);
+		}
+	},
+	uploadSuccess : function (file, serverData) {
+		isSWFUploading = false;
+		try {
+		} catch (ex) {}
+	},
+	fileQueueError : function (file, errorCode, message) {
+		isSWFUploading = false;
+		try {
+			if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+				alert("单次上传的文件数量超过限制！");
+				return;
+			}
+			switch (errorCode) {
+			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+				alert("文件大小超过限制！");
+				break;
+			case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+				alert("无效的文件大小！");
+				break;
+			case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+				alert("无效的文件类型！");
+				break;
+			default:
+				if (file !== null) {
+					alert("未知的上传错误！");
+				}
+				break;
+			}
+		} catch (ex) {
+			this.debug(ex);
+		}
+	},
+	uploadStart : function (file) {},
+	uploadProgress : function (file, bytesLoaded, bytesTotal) {},
+	fileQueued : function (file) {},
+	uploadError : function (file, errorCode, message) {},
+	uploadComplete : function (file) {},
+	queueComplete : function (numFilesUploaded) {}
+}
+
+
+var swfUploadSettings = {
+	upload_url: '<@url controller="Upload" action="uploadJson" />',
+	file_post_name : 'files',
+	post_params: {'${_GLOBAL_PARAMETERS_.SESSION_NAME}' : '${_REQUEST_.getSession().getId()}'},
+	file_size_limit : "1 MB",
+	file_types : "*.jpg;*.jpeg;*.bmp;*.png;*.gif",
+	file_types_description : "Picture Files",
+	file_upload_limit : 5,
+	file_queue_limit : 1,
+	custom_settings : {},
+	debug: false,
+	
+	button_image_url: "",
+	button_width: "58",
+	button_height: "16",
+	button_placeholder_id: "swfUpload",
+	button_text: '本地上传',
+	button_text_style: "",
+	button_text_left_padding: 0,
+	button_text_top_padding: 0,
+	button_cursor: SWFUpload.CURSOR.HAND,
+	button_window_mode:'transparent',
+	flash_url : "${Web_projectHome}/api/SWFUpload/Flash/swfupload.swf",
+	prevent_swf_caching : false,
+	
+	file_queued_handler : swfUploadFunction.fileQueued,
+	file_queue_error_handler : swfUploadFunction.fileQueueError,
+	file_dialog_complete_handler : swfUploadFunction.fileDialogComplete,
+	upload_start_handler : swfUploadFunction.uploadStart,
+	upload_progress_handler : swfUploadFunction.uploadProgress,
+	upload_error_handler : swfUploadFunction.uploadError,
+	upload_success_handler : swfUploadFunction.uploadSuccess,
+	upload_complete_handler : swfUploadFunction.uploadComplete,
+	queue_complete_handler : swfUploadFunction.queueComplete	// Queue plugin event
+};
+</script>

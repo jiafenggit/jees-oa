@@ -1,0 +1,60 @@
+<#-- This page can be include only -->
+<div class="hidden">
+	<div id="selectIconDialog" style="width:320px; height:400px;" data-options="buttons:'#selectIconButton',modal:true,resizable:true">
+		<table id="selectIconTreegrid" class="easyui-treegrid" url="<@url controller="IconType" action="listSelect" />" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name">
+			<thead>
+				<tr>
+					<th field="name">名称</th>
+					<th field="icon">图标</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div id="selectIconButton">
+		<a id="buttonSelectIconOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+		<a id="buttonSelectIconCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</a>
+	</div>
+</div>
+<script>
+$(function () {
+	var $selectIconTreegrid = $('#selectIconTreegrid');
+	$('.selectIcon').live('click', function () {
+		var $selectIcon = $(this);
+		var $selectIconClass = $($(this).data('out'));
+		$selectIconTreegrid.treegrid('clearSelections');
+		$('#selectIconDialog').dialog({
+			title : '选择图标',
+			iconCls : 'icon-edit',
+			onOpen : function () {
+				$selectIconTreegrid.treegrid('autoSizeColumn');
+				var iconClass = $selectIconClass.val();
+				var signStr = 'icon-auto';
+				var index = iconClass.indexOf(signStr);
+				if(0 != index) return ;
+				var id = parseInt(iconClass.substr(signStr.length, 10));
+				if(Web_empty(id)) return ;
+				var node = $selectIconTreegrid.treegrid('find', id);
+				if(null == node) return ;
+				$selectIconTreegrid.treegrid('select', id);
+			}
+		});
+		$('#buttonSelectIconOk').unbind('click.selectIcon')
+			.bind('click.selectIcon', function () {
+			var row = $selectIconTreegrid.treegrid('getSelected');
+			var iconClass = '';
+			if(null != row) {
+				iconClass = row.icon;
+			}
+			$selectIcon.linkbutton({
+				iconCls : iconClass
+			});
+			$selectIconClass.val(iconClass);
+			$('#selectIconDialog').dialog('close');
+		});
+		$('#buttonSelectIconCancel').unbind('click.selectIcon')
+			.bind('click.selectIcon', function () {
+			$('#selectIconDialog').dialog('close');
+		});
+	});
+});
+</script>

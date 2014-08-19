@@ -1,0 +1,37 @@
+<#-- This page can be include only -->
+<#-- Setting for FreeMarker  Start -->
+
+<#-- Close default number format behaviour -->
+<#setting number_format="#">
+
+<#-- Setting for FreeMarker  End -->
+
+<#macro url module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" params="">${_WEB_URL_}/${module}/${controller}/${action}${params}</#macro>
+<#macro nameSpace module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" segment="_">${module}${segment}${controller}${segment}${action}</#macro>
+<#macro getOptionList seq=[] default=-1 tips="" prefix="" children="">
+	<#if "" != tips>
+		<option value="">${tips}</option>
+	</#if>
+	<#list seq as object>
+		<#if object.id == default>
+			<option value="${object.id}" selected="selected">${prefix}${object.name}</option>
+		<#else>
+			<option value="${object.id}">${prefix}${object.name}</option>
+		</#if>
+		<#if "children" == children>
+			<@getOptionList seq=object.children default=default prefix="${prefix}|-" children=children />
+		</#if>
+	</#list>
+</#macro>
+<#macro getSearchOptionList seq=[] tips="">
+	<#if "" != tips>
+		<div data-options="name:'0'">${tips}</div>
+	</#if>
+	<#list seq as object>
+		<div data-options="name:${object.id}">${object.name}</div>
+	</#list>
+</#macro>
+<#assign _THEME_URL_="${_WEB_URL_}/${_CONFIG_.skinFolder}">
+<#if !empty(_CONFIG_.themeName)>
+<#assign _THEME_URL_="${_THEME_URL_}/${_CONFIG_.themeName}">
+</#if>

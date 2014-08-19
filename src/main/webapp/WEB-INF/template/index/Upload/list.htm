@@ -1,0 +1,16 @@
+<#include "../Public/common.inc.htm">
+{
+	"total":"${_ASSIGN_.total}",
+	"rows":[
+		<#list _ASSIGN_.rows as upload>
+		{
+			"id":"${upload.id}",
+			"url":"${upload.url}",
+			"href":"<a href=\"${upload.url}\" target=\"_blank\">${upload.url}</a>",
+			"file":"${upload.file}",
+			"author":"${(upload.author.name)!""}",
+			"createTime":"${millisToDateTime(upload.createTime)}"
+		}<#if upload_has_next>,</#if>
+		</#list>
+	]
+}

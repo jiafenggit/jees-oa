@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../Public/common.inc.htm">
+<#include "../Public/resource.inc.htm">
+<form id="submitForm" method="post" action="<@url action="updateDefault" />">
+<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+	<tr>
+		<th class="width130">系统名称</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.WEB_NAME" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.WEB_NAME)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>访问路径</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.WEB_URL" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.WEB_URL)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>主题目录</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.SKIN_FOLDER" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.SKIN_FOLDER)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>主题名称</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.SKIN_NAME" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.SKIN_NAME)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>日期格式</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.DATE_FORMAT" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.DATE_FORMAT)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>默认密码</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>分页大小</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.PAGE_SIZE" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.PAGE_SIZE)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>表前缀</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.TABLE_PREFIX" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.TABLE_PREFIX)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>模板后缀</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.TEMPLATE_SUFFIX" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.TEMPLATE_SUFFIX)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>Cookie生命周期</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="_GLOBAL_PARAMETERS_.COOKIE_MAX_AGE" data-options="required:true" value="${(_GLOBAL_PARAMETERS_.COOKIE_MAX_AGE)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
+		</td>
+	</tr>
+</table>
+</form>
+<script>
+$(function () {
+	$('#submitForm').form({
+		success : function (data) {
+			data = $.parseJSON(data);
+			Web_alertInfo(data.message);
+			$('#buttonOk').linkbutton('enable');
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		$(this).linkbutton('disable');
+		$('#submitForm').submit();
+	});
+	$('#buttonCancel').bind('click', function () {
+		$('#submitForm')[0].reset();
+	});
+});
+</script>

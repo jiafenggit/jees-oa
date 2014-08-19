@@ -1,0 +1,14 @@
+<#include "../Public/common.inc.htm">
+{
+	"total":"${_ASSIGN_.total}",
+	"rows":[
+		<#list _ASSIGN_.rows as noticeType>
+		{
+			"id":"${noticeType.id}",
+			"sort":"${noticeType.sort}",
+			"name":"${noticeType.name}",
+			"createTime":"${millisToDateTime(noticeType.createTime)}"
+		}<#if noticeType_has_next>,</#if>
+		</#list>
+	]
+}

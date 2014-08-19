@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../Public/common.inc.htm">
+<#include "../Public/resource.inc.htm">
+<table class="listAction" url="<@url action="list" />" toolbar="#toolbar" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name" checkonselect="false" selectoncheck="false">
+	<thead>
+		<tr>
+			<th checkbox="true"></th>
+			<th field="name">名称</th>
+			<th field="sort">排序</th>
+			<th field="createTime">创建时间</th>
+		</tr>
+	</thead>
+</table>
+<div id="toolbar" class="controllerBar">
+	<#if _BASE_.hasPermit("create")><a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a></#if>
+	<#if _BASE_.hasPermit("modify")><a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a></#if>
+	<#if _BASE_.hasPermit("delete")><a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a></#if>
+	<#if _BASE_.hasPermit("editPower")><a id="buttonEditPower" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-key" plain="true">权限编辑</a></#if>
+	<#if _BASE_.hasPermit("Member", "listView")><a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-crowd" plain="true">用户列表</a></#if>
+</div>
+
+<div class="createActionDialog modifyActionDialog" style="width:230px;height:170px" data-options="buttons:'#actionButton',modal:true,resizable:true">
+	<form class="createActionForm modifyActionForm" method="post" action=""></form>
+</div>
+<div id="actionButton">
+	<a href="javascript:void(0);" class="easyui-linkbutton createActionOK modifyActionOK" data-options="iconCls:'icon-ok'">确定</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton createActionCancel modifyActionCancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<textarea id="Template-List" class="hidden">
+{#template MAIN}
+<table align="center" class="horizontalTable trHeight25">
+	<tr>
+		<th>上级</th>
+		<td>
+			<select id="role" class="easyui-combobox width152" data-options="editable:false" name="role.parent.id"></select>
+		</td>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<td>
+			<input class="easyui-validatebox inputText width150" type="text" name="role.name" data-options="required:true" value="{$T.name}" />
+		</td>
+	</tr>
+	<tr>
+		<th>排序</th>
+		<td>
+			<input class="easyui-numberspinner inputText lengthPercent50" type="text" name="role.sort" data-options="required:true,min:0" value="{$T.sort}" />
+		</td>
+	</tr>
+</table>
+{#/template MAIN}
+</textarea>
+<script>
+function getRoleOptions(roles, selected, prefix, tips){
+	var str = '';
+	if(typeof tips != "undefined") {
+		str += '<option value="">' + tips + '</option>';
+	}
+	for (var i = 0; i < roles.length; i++) {
+		var role = roles[i];
+		if(selected == role.id) {
+			str += '<option value="' + role.id + '" selected="selected">' + prefix + role.name + '</option>';
+		} else {
+			str += '<option value="' + role.id + '">' + prefix + role.name + '</option>';
+		}
+		if(role.children.length > 0) {
+			str += getRoleOptions(role.children, selected, prefix + '|-')
+		}
+	}
+	return str;
+}
+$(function (){
+	$('.listAction').datagrid({
+		onCheckAll : function (rows) {
+			for(i = 0; i < rows.length; i++) {
+				$(this).datagrid('checkRow', $(this).datagrid('getRowIndex', rows[i]));
+			}
+		},
+		onUncheckAll : function (rows) {
+			$(this).datagrid('uncheckRow', $(this).datagrid('getRowIndex', rows[i]));
+		}
+	});
+	controllerBar.actions.beforeCreate = function (eventObject) {
+		return {
+			status : 0,
+			message : {
+				'sort' : 0
+			}
+		};
+	}
+	controllerBar.actions.afterCreate = function (eventObject, data) {
+		var html = getRoleOptions($('.listAction').treegrid('getData'), -1, '|-', '默认为顶级节点');
+		$('#role').html(html);	
+	}
+	controllerBar.actions.afterModify = function (eventObject, data) {
+		data = $.parseJSON(data);
+		var html = getRoleOptions($('.listAction').treegrid('getData'), data.message.pid, '|-', '默认为顶级节点');
+		$('#role').html(html);	
+	}
+	$('#buttonEditPower').bind('click', function () {
+		var id = Web_getDataGridRowId($('.listAction'));
+		if(-1 == id) return ;
+		var url = '<@url action="editPower" />?id=' + id;
+		Web_redirectPage(url);
+	});
+	$('#buttonListMember').bind('click', function () {
+		var rows = $('.listAction').treegrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要查看的角色！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '<@url controller="Member" action="listView" />?rid=' + ids;
+		Web_redirectPage(url);
+	});
+});
+</script>

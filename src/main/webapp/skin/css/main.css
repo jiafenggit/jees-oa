@@ -1,0 +1,82 @@
+/* Default Style */
+html, body, form, div, ul, fieldset, li, table, tr, td, span, em, lable, span, input {
+	 margin:0px; padding:0px; font-size:13px;
+}
+a { text-decoration:none; color:#0e2d5f;}
+a:hover { text-decoration:underline;}
+
+.bgColorBlue { background:#ebf5f7;}
+.scrollXOnly { overflow-x:scroll; overflow-y:hidden;}
+.scrollYOnly { overflow-x:hidden; overflow-y:scroll;}
+
+.hidden { display:none;}
+
+.fullWH { width:100%; height:100%;}
+.width80 { width:80px;}
+.width130 { width:130px;}
+.width150 { width:150px;}
+.width152 { width:152px;}
+.width160 { width:160px;}
+.width200 { width:200px;}
+.width290 { width:290px;}
+.width196 { width:196px;}
+.width240 { width:240px;}
+.widthPercent98 { width:98%;}
+.w668h280 { width:668px; height:280px;}
+.w320h400 { width:320px; height:400px;}
+.w195h100 { width:195px; height:100px;}
+.w300h50 { width:300px; height:50px;}
+
+.length200 { width:200px;}
+.length430 { width:430px;}
+
+.lengthPercent50 { width: 50%;}
+.lengthPercent100 { width: 100%;}
+
+.padding1 { padding:1px;}
+.padding2 { padding:2px;}
+.padding5 { padding:5px;}
+.paddingLeft2 { padding-left:2px;}
+.margin1 { margin:1px;}
+.margin2 { margin:2px;}
+.margin5 { margin:5px;}
+.marginTop2 { margin-top:2px;}
+.marginRight5 { margin-right:5px;}
+
+.floatLeft { float:left;}
+.floatRight { float:right;}
+
+.alignCenter { text-align:center;}
+
+/* Style for Form Start */
+form { width:100%; height:100%;}
+.inputText { text-align: left;}
+.inputCheckbox { margin-right:5px;}
+.img { margin:0 auto; vertical-align:middle;}
+.leftOfSerchBox { height:28px; line-height:28px; padding-right:5px; vertical-align:middle; float:left;}
+/* Style for Form End */
+
+/* Style for Table Start */
+.horizontalTable { text-align: center; margin:0 auto;}
+.horizontalTable td { text-align:left;}
+
+.lineTable { width:100%; text-align:center; background-color:#cad9ea; font-size:13px;}
+.lineTable th { background-color:#f5fafe; text-align:center; font-weight:500;}
+.lineTable td { background-color:#FFFFFF; padding:0px 2px 0px 2px;}
+.lineTable td a { font-size:12px; margin:2px;}
+.lineTable tr { line-height:26px; vertical-align:middle;}
+.lineTable .editor { padding:2px;}
+
+.tdLeft td { text-align:left;}
+.trHeight25 tr { height:25px; line-height:25px; vertical-align:middle;}
+/* Style for Table End */
+
+/* Style for platform Start */
+#platform { text-align:center; vertical-align:middle;}
+#platformNorth { height:50px;}
+#platformNorth .left { float:left; padding: 10px 0px 0px 25px; font-size:18px; letter-spacing:2px;}
+#platformSouth { height:33px; line-height:33px;}
+#platformSouth .left { float:left; padding-left:15px;}
+#platformWest { width:200px;}
+#platformCenter {}
+/* Style for platform End */

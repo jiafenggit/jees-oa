@@ -1,0 +1,65 @@
+<#-- This page can be include only -->
+<div class="hidden">
+	<div id="selectRoleDialog" style="width:320px; height:400px;" data-options="buttons:'#selectRoleButton',modal:true,resizable:true">
+		<table id="selectRoleTreegrid" class="easyui-treegrid" url="<@url controller="Role" action="list" />" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="false" nowrap="true" idfield="id" treefield="name" checkonselect="true" selectoncheck="true">
+			<thead>
+				<tr>
+					<th checkbox="true"></th>
+					<th field="name">名称</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div id="selectRoleButton">
+		<a id="buttonSelectRoleOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+		<a id="buttonSelectRoleCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</a>
+	</div>
+</div>
+<script>
+$(function () {
+	var $selectRoleTreegrid = $('#selectRoleTreegrid');
+	$('.selectRole').bind('click', function () {
+		var $showText = $(this).parent().find('.showText');
+		var $selectIds = $(this).parent().find('.selectIds');
+		var $selectText = $(this).parent().find('.selectText');
+		$selectRoleTreegrid.treegrid('clearSelections');
+		$('#selectRoleDialog').dialog({
+			title : '选择角色',
+			iconCls : 'icon-edit',
+			onOpen : function () {
+				$selectRoleTreegrid.treegrid('autoSizeColumn');
+				var ids = $selectIds.val().split(',');
+				for(var i = 0; i < ids.length; i++) {
+					var id = ids[i];
+					if(Web_empty(id)) continue ;
+					var node = $selectRoleTreegrid.treegrid('find', id);
+					if(null == node) continue ;
+					$selectRoleTreegrid.treegrid('select', id);
+				}
+			}
+		});
+		$('#buttonSelectRoleOk').unbind('click.selectRole')
+			.bind('click.selectRole', function () {
+			var rows = $selectRoleTreegrid.treegrid('getSelections');
+			var ids = '', text = '', size = rows.length;
+			for(var i = 0; i < size; i++) {
+				var row = rows[i];
+				ids += row.id + '';
+				text += row.name + '';
+				if(i + 1 < size) {
+					ids += ',';
+					text += ',';
+				}
+			}
+			$showText.html(text);
+			$selectIds.val(ids);
+			$selectText.val(text);
+			$('#selectRoleDialog').dialog('close');
+		});
+		$('#buttonSelectRoleCancel').unbind('click.selectRole')
+			.bind('click.selectRole', function () {
+			$('#selectRoleDialog').dialog('close');
+		});
+	});
+});
+</script>

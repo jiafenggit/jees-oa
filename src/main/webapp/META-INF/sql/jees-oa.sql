@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-08-19 13:08:17
+Date: 2014-08-19 15:28:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -314,7 +314,9 @@ DROP TABLE IF EXISTS `oa_setting`;
 CREATE TABLE `oa_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
+  `type` varchar(64) NOT NULL DEFAULT '',
   `content` tinytext NOT NULL,
+  `remark` tinytext NOT NULL,
   `id_create` int(11) NOT NULL DEFAULT '0',
   `id_update` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',

@@ -53,5 +53,6 @@
 		<property name="themeName" value="${config.theme_name}" />
 		<property name="dateTimeFormat" value="${config.datetime_format}" />
 		<property name="sessionName" value="${config.session_name}" />
+		<property name="tablePrefix" value="${config.table_prefix}" />
 	</bean>
 </beans>
