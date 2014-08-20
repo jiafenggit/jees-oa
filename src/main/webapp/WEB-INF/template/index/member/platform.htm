@@ -1,0 +1,31 @@
+<#include "../public/header.inc.htm">
+<div id="platform" class="easyui-layout" data-options="fit:true,border:true,plain:true">
+	<div id="platformNorth" data-options="region:'north',split:true,plain:true" class="bgColorBlue">
+		<div class="left">${Web_projectName}</div>
+	</div>
+	<div id="platformSouth" data-options="region:'south',split:true,plain:true" class="bgColorBlue">
+		<div class="left">
+			<a href="<@url action="logout" />" class="easyui-linkbutton" data-options="iconCls:'icon-logout',plain:true">安全退出</a>
+		</div>
+	</div>
+	<div id="platformWest" data-options="region:'west',split:true,plain:true" title="${currentMember.name}" class="bgColorBlue"></div>
+	<div id="platformCenter" data-options="region:'center',split:true,plain:true" class="bgColorBlue">
+		<div id="platformTabs" data-options="fit:true,border:false,plain:true">
+			<div title="欢迎使用">
+				- Task -
+			</div>
+		</div>
+	</div>
+</div>
+<div id="platformTabsMenu">
+	<div data-options="name:'refreshCurrent'">刷新当前页</div>
+	<div data-options="name:'closeCurrent'">关闭当前页</div>
+	<div class="menu-sep"></div>
+	<div data-options="name:'closeLeft'">关闭左侧页</div>
+	<div data-options="name:'closeRight'">关闭右侧页</div>
+	<div data-options="name:'closeOther'">关闭其他页</div>
+	<div data-options="name:'closeAll'">关闭全部页</div>
+	<div class="menu-sep"></div>
+	<div data-options="name:'cancel'">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</div>
+</div>
+<#include "../public/footer.inc.htm">

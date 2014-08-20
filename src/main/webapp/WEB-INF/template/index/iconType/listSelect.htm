@@ -1,0 +1,23 @@
+<#include "../public/common.inc.htm">
+{
+	"total":"${total}",
+	"rows":[
+		<#list rows as iconType>
+		{
+			"id":"iconType${iconType.id}",
+			"name":"${iconType.name}",
+			"icon":"",
+			"children":[
+				<#list iconType.items as icon>
+				{
+					"id":"${icon.id}",
+					"name":"${icon.name}",
+					"icon":"icon-auto${icon.id}",
+					"iconCls":"icon-auto${icon.id}"
+				}<#if icon_has_next>,</#if>
+				</#list>
+			]
+		}<#if iconType_has_next>,</#if>
+		</#list>
+	]
+}

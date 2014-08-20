@@ -1,0 +1,21 @@
+<#include "../public/common.inc.htm">
+{
+	"total":"${total}",
+	"rows":[
+		<#list rows as log>
+		{
+			"id":"${log.id}",
+			"name":"${log.name}",
+			"type":"${log.type}",
+			"module":"${log.module}",
+			"controller":"${log.controller}",
+			"action":"${log.action}",
+			"request":"${((log.request)!"")?json_string}",
+			"result":"${((log.result)!"")?json_string}",
+			"member":"${(log.member.name)!""}[${(log.member.serial)!""}]",
+			"ip":"${log.ip}",
+			"createTime":"${millisToDateTime(log.createTime)}"
+		}<#if log_has_next>,</#if>
+		</#list>
+	]
+}

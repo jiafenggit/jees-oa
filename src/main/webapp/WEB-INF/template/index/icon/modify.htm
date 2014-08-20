@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../public/common.inc.htm">
+<#include "../public/resource.inc.htm">
+<#if empty((icon.id)!0)>
+<form id="submitForm" method="post" action="<@url action="insert" />">
+<#else>
+<form id="submitForm" method="post" action="<@url action="update" />">
+<input type="hidden" name="id" value="${(icon.id)!0}" />
+</#if>
+<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+	<tr>
+		<th class="width130">名称</th>
+		<td>
+			<input class="easyui-validatebox inputText length200" type="text" name="icon.name" data-options="required:true" value="${(icon.name)!""}" />
+		</td>
+	</tr>
+	<tr>
+		<th>排序</th>
+		<td>
+			<input class="easyui-numberspinner inputText" type="text" name="icon.sort" data-options="required:true,min:0" value="${(icon.sort)!0}" />
+		</td>
+	</tr>
+	<tr>
+		<th>类型</th>
+		<td>
+			<select id="role" class="easyui-combobox length200" data-options="editable:false" name="icon.type.id">
+				<@getOptionList seq=type default=tid!0 tips="请选择类型" />
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>图标</th>
+		<td>
+			效果预览[<img src="${(icon.url)!""}" class="img iconImageShow" width="16px" height="16px" />]16*16
+			<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-upload" plain="true"><span id="swfUpload"></span></a>
+		</td>
+	</tr>
+	<tr>
+		<th>地址</th>
+		<td class="editor">
+			<textarea name="icon.url" class="w300h50 iconImageUrl">${(icon.url)!""}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
+			<a href="<@url action="layout" />" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+		</td>
+	</tr>
+</table>
+</form>
+<#include "../Upload/swfUpload.htm">
+<script>
+$(function () {
+	swfUploadSettings.post_params['dir'] = 'icon';
+	swfUploadSettings.upload_success_handler = function (file, serverData) {
+		isSWFUploading = false;
+		try {
+			var data = $.parseJSON(serverData);
+			if(0 == data.error) {
+				$('.iconImageUrl').val(data.url).trigger('change');
+			} else {
+				Web_alertInfo(data.message);
+			}
+		} catch (ex) {
+			Web_alertInfo('上传失败！');
+		}
+	};
+	var swfUpload = new SWFUpload(swfUploadSettings);
+	
+	$('.iconImageUrl').bind('change', function () {
+		$('.iconImageShow').attr('src', $(this).val());
+	});
+	$('#submitForm').form({
+		success : function (data) {
+			data = $.parseJSON(data);
+			if(data.status) {
+				Web_alertInfo(data.message);
+				$('#buttonOk').linkbutton('enable');
+			} else {
+				Web_redirectPage(data.message);
+			}
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		$(this).linkbutton('disable');
+		$('#submitForm').submit();
+	});
+	$('#buttonCancel').bind('click', function () {
+		$('#submitForm')[0].reset();
+	});
+});
+</script>

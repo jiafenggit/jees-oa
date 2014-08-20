@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../public/common.inc.htm">
+<#include "../public/resource.inc.htm">
+<style type="text/css">
+.waterfallCell { width:264px;}
+</style>
+<script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
+<script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
+<div class="easyui-layout" data-options="fit:true,border:false,plain:true">
+	<div data-options="region:'west',split:true,border:false,plain:true" class="width290 paddingLeft2" title="模块菜单" align="center">
+		<#list permitMap["modules"]?keys as moduleKey>
+			<#if permitMap["modules"][moduleKey]["visible"]>
+				<div class="modulePanel" title="${permitMap["modules"][moduleKey]["name"]}"
+						style="width:260px;height:auto;padding:5px;" 
+						data-options="iconCls:'icon-key',collapsible:true">
+				<ul class="moduleTree" data-options="data:[{
+				'text' : '${permitMap["modules"][moduleKey]["name"]}',
+				'state' : 'open',
+				'children' : [
+				<#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey>
+				<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["visible"]>{
+					'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["name"]}',
+					'state' : 'closed',
+					'children' : [
+						<#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey>
+						<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["visible"]>{
+								'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["name"]}',
+								'attributes' : {
+									'url' : '@${moduleKey}/${controllerKey}${_GLOBAL_PARAMETERS_.STRUTS_ACTION_SIGN}${actionKey}'
+								},
+							}<#if actionKey_has_next>,</#if>
+						</#if>
+						</#list>]
+					}<#if controllerKey_has_next>,</#if>
+				</#if>
+				</#list>]}]"></ul>
+				</div>
+			</#if>
+		</#list>
+	</div>
+	<div data-options="region:'center',split:true,border:false,plain:true">
+		<table id="menuTreeGrid" url="<@url action="list" />" toolbar="#toolbar" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name" checkonselect="false" selectoncheck="false">
+			<thead>
+				<tr>
+					<th field="name">名称</th>
+					<th field="icon">图标</th>
+					<th field="status">状态</th>
+					<th field="targetText">打开方式</th>
+					<th field="sort">排序</th>
+					<th field="url">地址</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div id="toolbar" class="controllerBar">
+	<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-tip" plain="true"></a>
+	一级菜单：系统保留，二级菜单：Tabs标题，三级以下菜单：菜单树
+</div>
+<div id="treeGridMenu">
+	<div data-options="name:'refresh'">更&nbsp;&nbsp;新</div>
+	<div class="menu-sep"></div>
+	<#if _BASE_.hasPermit("insert")><div data-options="name:'add'">添&nbsp;&nbsp;加</div></#if>
+	<#if _BASE_.hasPermit("modify")><div data-options="name:'modify'">修&nbsp;&nbsp;改</div></#if>
+	<#if _BASE_.hasPermit("move")><div data-options="name:'move'">移&nbsp;&nbsp;动</div></#if>
+	<#if _BASE_.hasPermit("delete")><div data-options="name:'delete'">删&nbsp;&nbsp;除</div></#if>
+	<div class="menu-sep"></div>
+	<div data-options="name:'concel'">取&nbsp;&nbsp;消</div>
+</div>
+<div class="moveActionDialog" style="width:320px; height:400px;" data-options="buttons:'#actionMoveButton',modal:true,resizable:true">
+	<ul id="menuMoveTree" class="margin5" data-options="lines:true"></ul>
+</div>
+<div id="actionMoveButton">
+	<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+	<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<div class="actionDialog" style="width:240px;height:350px" data-options="buttons:'#actionButton',modal:true,resizable:true">
+	<form class="actionForm" method="post" action=""></form>
+</div>
+<div id="actionButton">
+	<a href="javascript:void(0);" class="easyui-linkbutton actionOK" data-options="iconCls:'icon-ok'">确定</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton actionCancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<textarea id="Template-List" class="hidden">
+{#template MAIN}
+<table align="center" class="horizontalTable trHeight25">
+	<tr>
+		<th>上级</th>
+		<td>
+			<input type="hidden" name="menu.parent.id" value="{$T.parent.id}" />{$T.parent.name}
+		</td>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<td>
+			<input class="easyui-validatebox inputText width160" type="text" name="menu.name" data-options="required:true" value="{$T.name}" />
+		</td>
+	</tr>
+	<tr>
+		<th>排序</th>
+		<td>
+			<input class="easyui-numberspinner inputText width80" type="text" name="menu.sort" data-options="required:true,min:0" value="{$T.sort}" />
+		</td>
+	</tr>
+	<tr>
+		<th>状态</th>
+		<td>
+			<input type="checkbox" name="menu.status" value="1" />启用
+		</td>
+	</tr>
+	<tr>
+		<th>方式</th>
+		<td>
+			<select id="menuTarget" class="easyui-combobox width160" data-options="editable:false" name="menu.target">
+				<option value="_tabIFrame">Tab框架打开</option>
+				<option value="_tab">Tab内容打开</option>
+				<option value="_self">当前页打开</option>
+				<option value="_blank">新窗口打开</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>图标</th>
+		<td>
+			<a href="javascript:void(0);" class="easyui-linkbutton selectIcon" data-out=".selectIconClass" iconcls="" plain="true">选取图标</a>
+		</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td>
+			<input class="easyui-validatebox inputText width160 selectIconClass" type="text" name="menu.icon" value="{$T.icon}" />
+		</td>
+	</tr>
+	<tr>
+		<th>地址</th>
+		<td>
+			<a href="javascript:void(0);" class="easyui-linkbutton selectMenuLink" iconcls="icon-select" plain="true">选取链接</a>
+		</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td>
+			&lt;textarea class="width160 selectMenuLinkValue" type="text" name="menu.url"&gt;{$T.url}&lt;/textarea&gt;
+		</td>
+	</tr>
+</table>
+{#/template MAIN}
+</textarea>
+<#include "../Icon/select.inc.htm">
+<script>
+function reLayout() {
+	
+}
+var contextMenuNode = null;
+var romoveToNode = null;
+var bMenuLinkSelecting = false;
+$(function () {
+	$('.modulePanel').panel({
+		'onCollapse' : function () {
+			reLayout();
+		},'onExpand' : function () {
+			reLayout();
+		}
+	});
+	$('.moduleTree').tree({
+		'onCollapse' : function(node) {
+			reLayout();
+		},
+		'onExpand' : function(node) {
+			reLayout();
+		},
+		'onClick' : function (node) {
+			if(bMenuLinkSelecting) {
+				if(node.attributes && node.attributes.url) {
+					bMenuLinkSelecting = false;
+					$('.actionDialog').dialog('open');
+					$('.selectMenuLinkValue').val(node.attributes.url);
+				}
+			}
+		}
+	});
+	$('.selectMenuLink').live('click', function () {
+		bMenuLinkSelecting = true;
+		$('.actionDialog').dialog('minimize');
+	});
+	$('#menuTreeGrid').treegrid({
+		onContextMenu : function (e, row) {
+			e.preventDefault();
+			if(bMenuLinkSelecting) {
+				Web_alertInfo('请选择模块菜单！');
+				return false;
+			}
+			contextMenuNode = row;
+			$('#menuTreeGrid').treegrid('select', row.id);
+			$('#treeGridMenu').menu('show', {
+				left: e.pageX,
+				top: e.pageY
+			});
+		}
+	});
+	$('#menuMoveTree').tree({
+		onClick : function (node) {
+			romoveToNode = node;
+		}
+	});
+	$('#treeGridMenu').menu({
+		onClick : function (item) {
+			var menuClickedIndex = item.name;
+			switch (menuClickedIndex) {
+				case 'refresh' : // 更新
+					$('#menuTreeGrid').treegrid('reload');
+				break;
+				case 'add' : // 添加
+					$('.actionForm').setTemplateElement('Template-List');
+					$('.actionForm').processTemplate({
+						'parent' : {
+							'id' : contextMenuNode.id,
+							'name' : contextMenuNode.name
+						},
+						'name' : '',
+						'sort' : 0,
+						'icon' : '',
+						'url' : ''
+					});
+					$('.actionDialog').dialog({
+						title : '添加菜单',
+						iconCls : 'icon-edit',
+						onOpen : function () {
+							$.parser.parse($(this));
+							$('.actionOK').unbind('click.action').bind('click.action' ,function () {
+								$('.actionForm').form('submit', {
+									url : '<@url action="insert" />',
+									success : function (data) {
+										data = $.parseJSON(data);
+										if(data.status) {
+											Web_alertInfo(data.message);
+										} else {
+											$('#menuTreeGrid').treegrid('reload');
+											Web_confirm(data.message + '是否继续操作？', function (result) {
+												if(result) {
+													$('.actionForm')[0].reset();
+												} else {
+													$('.actionDialog').dialog('close');
+												}
+											});
+										}
+									}
+								});
+							})
+							$('.actionCancel').unbind('click.action').bind('click.action' ,function () {
+								$('.actionDialog').dialog('close');
+							});
+						}
+					});
+				break;
+				case 'modify' : // 修改
+					var url = '<@url action="modify" />?id=' + contextMenuNode.id;
+					$.getJSON(url, function (data) {
+						if(data.status) {
+							Web_alertInfo(data.message);
+						} else {
+							$('.actionForm').setTemplateElement('Template-List');
+							$('.actionForm').processTemplate(data.message);
+							$('.actionDialog').dialog({
+								title : '编辑菜单',
+								iconCls : 'icon-edit',
+								onOpen : function () {
+									$.parser.parse($(this));
+									if(data.message.status) {
+										$('input[name="menu.status"]').trigger('click');
+									}
+									$('#menuTarget').combobox('select', data.message.target);
+									$('.actionOK').unbind('click.action').bind('click.action' ,function () {
+										$('.actionForm').form('submit', {
+											url : '<@url action="update" />?id=' + data.message.id,
+											success : function (data) {
+												data = $.parseJSON(data);
+												if(data.status) {
+													Web_alertInfo(data.message);
+												} else {
+													$('#menuTreeGrid').treegrid('reload');
+													$('.actionDialog').dialog('close');
+												}
+											}
+										});
+									})
+									$('.actionCancel').unbind('click.action').bind('click.action' ,function () {
+										$('.actionDialog').dialog('close');
+									});
+								}
+							});
+						}
+					});
+				break;
+				case 'delete' : // 删除
+					var url = '<@url action="delete" />?id=' + contextMenuNode.id;
+					$.getJSON(url, function (data) {
+						if(data.status) {
+							Web_alertInfo(data.message);
+						} else {
+							$('#menuTreeGrid').treegrid('reload');
+						}
+					});
+				break;
+				case 'move' : // 移动
+					romoveToNode = null;
+					var rootNode = $('#menuTreeGrid').treegrid('getRoot');
+					if(rootNode.id == contextMenuNode.id) {
+						Web_alertInfo('该菜单不允许移动！');
+						return ;
+					}
+					var data = $('#menuTreeGrid').treegrid('getData');
+					$('#menuMoveTree').tree({data : data});
+					var currentNode = $('#menuMoveTree').tree('find', contextMenuNode.id);
+					if(null == currentNode) {
+						Web_alertInfo('请选择需要移动的菜单！');
+						return ;
+					} else {
+						$('#menuMoveTree').tree('remove', currentNode.target);
+						$('.moveActionDialog').dialog({
+							title : '将[' + contextMenuNode.name + ']移动至：',
+							iconCls : 'icon-edit'
+						});
+					}
+				break;
+			}
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		if(null == romoveToNode) {
+			Web_alertInfo('请选择菜单！');
+			return ;
+		}
+		var url = '<@url action="move" />?id=' + contextMenuNode.id + '&pid=' + romoveToNode.id;
+		$(this).linkbutton('disable');
+		$.getJSON(url, function (data) {
+			if(data.status) {
+				Web_alertInfo(data.message);
+			} else {
+				$('#menuTreeGrid').treegrid('reload');
+				$('.moveActionDialog').dialog('close');
+			}
+			$('#buttonOk').linkbutton('enable');
+		});
+	});
+	$('#buttonCancel').bind('click', function () {
+		$('.moveActionDialog').dialog('close');
+	});
+});
+</script>

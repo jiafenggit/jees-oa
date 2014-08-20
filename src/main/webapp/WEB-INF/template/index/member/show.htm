@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../public/common.inc.htm">
+<#include "../public/resource.inc.htm">
+<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+	<tr>
+		<th class="width130">账号</th>
+		<td>
+			${(member.serial)!""}
+		</td>
+	</tr>
+	<tr>
+		<th class="width130">姓名</th>
+		<td>
+			${(member.name)!""}
+		</td>
+	</tr>
+	<tr>
+		<th>排序</th>
+		<td>
+			${(member.sort)!0}
+		</td>
+	</tr>
+	<tr>
+		<th>组织</th>
+		<td>
+			<#list (member.organizes)![] as organize>
+				${organize.name}
+				<#if organize_has_next>,</#if>
+			</#list>
+		</td>
+	</tr>
+	<tr>
+		<th>角色</th>
+		<td>
+			<#list (member.roles)![] as role>
+				${role.name}
+				<#if role_has_next>,</#if>
+			</#list>
+		</td>
+	</tr>
+	<tr>
+		<th>状态</th>
+		<td>
+			${(member.statusText)!""}
+		</td>
+	</tr>
+	<tr>
+		<th>活动时间</th>
+		<td>
+			${millisToDateTime(member.lastActive)}
+		</td>
+	</tr>
+	<tr>
+		<th>活动IP</th>
+		<td>
+			${(member.lastIp)!""}
+		</td>
+	</tr>
+	<tr>
+		<th>注册时间</th>
+		<td>
+			${millisToDateTime(member.registerTime)}
+		</td>
+	</tr>
+	<tr>
+		<th>注册IP</th>
+		<td>
+			${(member.registerIp)!""}
+		</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<#if _BASE_.hasPermit("modify")><a href="<@url action="modify" params="?id=${id}" />" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a></#if>
+			<#if _BASE_.hasPermit("delete")><a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a></#if>
+			<#if _PARAMETERS_.back??>
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+			</#if>
+		</td>
+	</tr>
+</table>
+<script>
+$(function () {
+	$('#buttonDelete').bind('click', function () {
+		var $buttonDelete = $(this);
+		$buttonDelete.linkbutton('disable');
+		var url = '<@url action="delete" params="?id=${id}" />';
+		$.getJSON(url, function (data) {
+			if(data.status) {
+				Web_alertInfo(data.message);
+				$('#buttonDelete').linkbutton('enable');
+			} else {
+				var tab = window.parent.parent.$('#platformTabs').tabs('getSelected');
+				tab.panel('refresh');
+			}
+		});
+	});
+});
+</script>

@@ -1,0 +1,25 @@
+<#-- This page can be include only -->
+<link href="${_WEB_URL_}/api/jQuery/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css" />
+<link href="${_WEB_URL_}/api/jQuery/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="${_THEME_URL_}/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${_WEB_URL_}/files/work/icon.auto.css" rel="stylesheet" type="text/css" />
+<script src="${_WEB_URL_}/api/jQuery/jquery-1.8.0.min.js" language="javascript"></script>
+<script src="${_WEB_URL_}/api/jQuery/jquery.easyui.min.js" language="javascript"></script>
+<script src="${_WEB_URL_}/api/jQuery/jquery-jtemplates.min.js" language="javascript"></script>
+<script language="javascript">
+	var Web_pageSize = parseInt('${_PAGE_SIZE_}');
+	var Web_projectUrl = '${_WEB_URL_}';
+	var Web_themeUrl = '${_THEME_URL_}';
+	function Web_url(action, controller, module) {
+		var url = Web_projectUrl;
+		url += '/';
+		url += module ? module : '${_MODULE_}';
+		url += '/';
+		url += controller ? controller : '${_CONTROLLER_}';
+		url += '/';
+		url += action ? action : '${_ACTION_}';
+		return url;
+	}
+</script>
+<script src="${_THEME_URL_}/script/code.js" language="javascript"></script>
+<script src="${_THEME_URL_}/script/main.js" language="javascript"></script>

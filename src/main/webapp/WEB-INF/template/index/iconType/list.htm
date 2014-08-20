@@ -1,0 +1,14 @@
+<#include "../public/common.inc.htm">
+{
+	"total":"${total}",
+	"rows":[
+		<#list rows as iconType>
+		{
+			"id":"${iconType.id}",
+			"sort":"${iconType.sort}",
+			"name":"${iconType.name}",
+			"createTime":"${millisToDateTime(iconType.createTime)}"
+		}<#if iconType_has_next>,</#if>
+		</#list>
+	]
+}

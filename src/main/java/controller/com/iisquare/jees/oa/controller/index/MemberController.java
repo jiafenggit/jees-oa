@@ -20,7 +20,9 @@ public class MemberController extends CPermitController {
 	public String loginAction() throws Exception {
 		String forward = convertForward(get("forward").toString());
 		if(null != currentMember) return redirect(forward);
+		String year = DPUtil.millisToDateTime(System.currentTimeMillis(), "yyyy");
 		assign("forward", forward);
+		assign("year", year);
 		return displayTemplate();
 	}
 	

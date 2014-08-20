@@ -1,0 +1,18 @@
+<#include "../public/common.inc.htm">
+{
+	"status" : 0,
+	"message" : {
+		"parent" : {
+			"id" : "${(menu.parent.id)!0}",
+			"name" : "${(menu.parent.name)!""}"
+		},
+		"id" : "${menu.id}",
+		"name" : "${menu.name}",
+		"icon" : "${menu.icon}",
+		"url" : "${menu.url}",
+		"target" : "${menu.target}",
+		"targetText" : "${menu.targetText}",
+		"sort" : ${menu.sort},
+		"status" : ${menu.status}
+	}
+}

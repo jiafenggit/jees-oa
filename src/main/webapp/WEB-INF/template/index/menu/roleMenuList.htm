@@ -1,0 +1,14 @@
+<#include "../public/common.inc.htm">
+<#macro listMenu seq=[]>
+	<#list seq as menu>
+	{
+		"id" : ${menu.id},
+		"text" : "${menu.name}",
+		"iconCls" : "${(menu.icon)!""}",
+		"checked" : <#if -1 == roleMenuList.indexOf(menu.id)>false<#else>true</#if>,
+		"children" : [<@listMenu seq=menu.children />]
+	}
+	<#if menu_has_next>,</#if>
+	</#list>
+</#macro>
+[<@listMenu seq=rows />]
