@@ -6,13 +6,13 @@
 			<tr>
 				<th>账号</th>
 				<td>
-					<input class="easyui-validatebox inputText lengthPercent100" type="text" name="member.serial" data-options="required:true" />
+					<input class="easyui-validatebox inputText lengthPercent100" type="text" name="serial" data-options="required:true" />
 				</td>
 			</tr>
 			<tr>
 				<th>密码</th>
 				<td>
-					<input class="easyui-validatebox inputText lengthPercent100" type="password" name="member.password" data-options="required:true" />
+					<input class="easyui-validatebox inputText lengthPercent100" type="password" name="password" data-options="required:true" />
 				</td>
 			</tr>
 		</table>
@@ -25,19 +25,19 @@
 <script>
 $(function () {
 	var password;
-	var $serial = $('input[name="member.serial"]');
-	var $password = $('input[name="member.password"]');
+	var $serial = $('input[name="serial"]');
+	var $password = $('input[name="password"]');
 	$('#loginForm').form({
 		onSubmit : function () {
 			password = $password.val();
-			$('input[name="member.password"]').val(Web_encodePassword(password));
+			$('input[name="password"]').val(Web_encodePassword(password));
 		},
 		success : function (data) {
 			data = $.parseJSON(data);
 			if(data.status) {
 				Web_alertInfo(data.message);
 				$('#buttonOk').linkbutton('enable');
-				$('input[name="member.password"]').val(password);
+				$('input[name="password"]').val(password);
 			} else {
 				Web_redirectPage(data.message);
 			}

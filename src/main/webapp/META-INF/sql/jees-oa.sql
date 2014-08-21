@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-08-19 17:21:29
+Date: 2014-08-20 15:23:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,11 +99,12 @@ CREATE TABLE `oa_member` (
   `ipCreate` varchar(64) NOT NULL DEFAULT '',
   `ipActive` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
+INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0', '61F5DE7ED45A7A3F351922EE39B7886E', '888888', '0', '1', '0', '0', '0', '', '');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -330,24 +331,6 @@ CREATE TABLE `oa_setting` (
 -- ----------------------------
 INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '0', '0', '0', '0', '0');
 INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '0', '0', '0', '0', '0');
-
--- ----------------------------
--- Table structure for `oa_test`
--- ----------------------------
-DROP TABLE IF EXISTS `oa_test`;
-CREATE TABLE `oa_test` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(256) NOT NULL DEFAULT '',
-  `content` text NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `time_create` bigint(20) NOT NULL DEFAULT '0',
-  `time_update` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_test
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `oa_upload`

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iisquare.jees.core.component.CPermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.oa.domain.Member;
 
 /**
  * 用户管理
@@ -26,9 +27,29 @@ public class MemberController extends CPermitController {
 		return displayTemplate();
 	}
 	
+	public String logonAction() throws Exception {
+		String serial = get("serial");
+		String password = get("password");
+		if(DPUtil.empty(serial) || DPUtil.empty(password)) {
+			return displayMessage(1, "请输入账号和密码！");
+		}
+		Member member = memberService.getBySerial(serial);
+		if(null == member || 1 != member.getStatus()
+				|| !memberService.encodePassword(password, member.getSalt()).equals(member.getPassword())) {
+			return displayMessage(2, "账号或密码错误，请重新输入！");
+		}
+		memberService.setCurrent(this, member);
+		return displayMessage(0, convertForward(get("forward").toString()));
+	}
+	
+	public String logoutAction() throws Exception {
+		_REQUEST_.getSession().invalidate();
+		return redirect(_WEB_URL_);
+	}
+	
 	@RequestMapping(value="/platform")
 	public String platformAction() throws Exception {
-		if(null == currentMember) return redirect("login", "");
+		if(null == currentMember) return redirect("/login");
 		return displayTemplate();
 	}
 	

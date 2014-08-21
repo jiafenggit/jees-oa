@@ -1,5 +1,6 @@
 package com.iisquare.jees.framework.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -215,6 +216,17 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 根据ID获取对象列表
+	 */
+	public List<T> getByIds(Object... ids) {
+		if(DPUtil.empty(ids)) return new ArrayList<T>(0);
+		StringBuilder sb = new StringBuilder();
+		sb.append("select * from ").append(tableName()).append(" where ")
+				.append(primaryKey).append(" in (").append(DPUtil.makeIds(ids)).append(")");
+		return query(sb.toString(), ids, new BeanPropertyRowMapper<T>(entityClass));
+	}
+	
+	/**
 	 * 根据单个字段获取对象
 	 */
 	public T getByField(String field, String value, String operator, String append) {
@@ -232,7 +244,9 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据多个字段获取对象
 	 */
 	public T getByFields(Map<String, Object> where, Map<String, String> operators, String append) {
-		return getPage(where, operators, append, 1, 1).get(0);
+		 List<T> list = getPage(where, operators, append, 1, 1);
+		 if(list.size() < 1) return null;
+		return list.get(0);
 	}
 	
 	/**
@@ -242,6 +256,14 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 			Map<String, String> operators, String append, int page, int pageSize) {
 		String sql = SqlUtil.buildSelect(tableName(), "*", SqlUtil.buildWhere(where, operators), append, page, pageSize);
 		return npJdbcTemplate().query(sql, where, new BeanPropertyRowMapper<T>(entityClass));
+	}
+	
+	/**
+	 * 获取对象列表
+	 */
+	public List<T> getAll(Map<String, Object> where,
+			Map<String, String> operators, String append) {
+		return getPage(where, operators, append, 0, 0);
 	}
 	
 	/**

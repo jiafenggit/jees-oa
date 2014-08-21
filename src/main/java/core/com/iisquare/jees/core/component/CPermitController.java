@@ -22,13 +22,37 @@ public class CPermitController extends CController {
 	public SettingService settingService;
 	
 	public Member currentMember;
+	private boolean isCheckPermit = true; // 是否进行权限验证
 	
+	public boolean isCheckPermit() {
+		return isCheckPermit;
+	}
+
+	public void setCheckPermit(boolean isCheckPermit) {
+		this.isCheckPermit = isCheckPermit;
+	}
+
 	@Override
 	public void init(HttpServletRequest request, HttpServletResponse response,
 			Object handler) {
 		super.init(request, response, handler);
+		currentMember = memberService.getCurrent(this);
+		preCheckPermit();
+		if(isCheckPermit) checkPermit();
 	}
-
+	
+	/**
+	 * 检测权限前执行
+	 */
+	protected void preCheckPermit() {}
+	
+	/**
+	 * 执行权限检测处理
+	 */
+	protected void checkPermit() {
+		
+	}
+	
 	@Override
 	public void destroy(HttpServletRequest request,
 			HttpServletResponse response, Object handler,

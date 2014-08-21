@@ -20,6 +20,7 @@ public class SqlUtil {
 	
 	/**
 	 * 将select语句转换为select COUNT(*)语句
+	 * 如需要去重等操作，建议在where条件中处理
 	 */
 	public static String convertForCount(String sql, String countName) {
 		StringBuilder sb = new StringBuilder("$1 ").append(sqlCountName);

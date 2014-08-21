@@ -4,13 +4,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.iisquare.jees.framework.model.DaoBase;
-import com.iisquare.jees.oa.domain.Test;
+import com.iisquare.jees.oa.domain.Icon;
 
 @Repository
 @Scope("prototype")
-public class IconDao extends DaoBase<Test> {
+public class IconDao extends DaoBase<Icon> {
 	
 	public IconDao() {
-		super(Test.class);
+		super(Icon.class);
 	}
 }
