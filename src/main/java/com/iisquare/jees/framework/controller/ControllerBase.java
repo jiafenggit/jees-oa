@@ -345,41 +345,4 @@ public abstract class ControllerBase {
 	protected String[] gets(String key) {
 		return gets(key, false);
 	}
-	
-	/**
-	 * 当对象不存在时返回空字符串
-	 * @param object
-	 * @return
-	 */
-	protected String S(Object object) {
-		if(DPUtil.empty(object)) return "";
-		return object.toString();
-	}
-	
-	/**
-	 * 当对象不存在时返回0
-	 * @param object
-	 * @return
-	 */
-	protected int I(Object object) {
-		return DPUtil.parseInt(object);
-	}
-	
-	/**
-	 * 当对象不存在时返回0.0f
-	 * @param object
-	 * @return
-	 */
-	protected float F(Object object) {
-		return DPUtil.parseFloat(object);
-	}
-	
-	/**
-	 * 当对象不存在时返回0.0
-	 * @param object
-	 * @return
-	 */
-	protected long L(Object object) {
-		return DPUtil.parseLong(object);
-	}
 }
