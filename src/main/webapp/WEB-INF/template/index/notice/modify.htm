@@ -1,31 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
 <script src="${Web_projectHome}/api/KindEditor/kindeditor-all-min.js" language="javascript"></script>
-<#if empty((notice.id)!0)>
-<form id="submitForm" method="post" action="<@url action="insert" />">
-<#else>
-<form id="submitForm" method="post" action="<@url action="update" />">
+[#if empty((notice.id)!0)]
+<form id="submitForm" method="post" action="[@url action="insert" /]">
+[#else]
+<form id="submitForm" method="post" action="[@url action="update" /]">
 <input type="hidden" name="id" value="${(notice.id)!0}" />
-</#if>
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+[/#if]
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th class="width130">标题</th>
 		<td>
-			<input class="easyui-validatebox inputText length430" type="text" name="notice.title" data-options="required:true" value="${(notice.title)!""}" />
+			<input class="easyui-validatebox input-text length430" type="text" name="notice.title" data-options="required:true" value="${(notice.title)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>排序</th>
 		<td>
-			<input class="easyui-numberspinner inputText" type="text" name="notice.sort" data-options="required:true,min:0" value="${(notice.sort)!0}" />
+			<input class="easyui-numberspinner input-text" type="text" name="notice.sort" data-options="required:true,min:0" value="${(notice.sort)!0}" />
 		</td>
 	</tr>
 	<tr>
 		<th>类型</th>
 		<td>
 			<select id="role" class="easyui-combobox length200" data-options="editable:false" name="notice.type.id">
-				<@getOptionList seq=type default=tid!0 tips="请选择类型" />
+				[@getOptionList seq=type default=tid!0 tips="请选择类型" /]
 			</select>
 		</td>
 	</tr>
@@ -84,9 +84,9 @@
 	</tr>
 </table>
 </form>
-<#include "../Organize/select.inc.htm">
-<#include "../Role/select.inc.htm">
-<#include "../Member/select.inc.htm">
+[#include "../Organize/select.inc.htm"]
+[#include "../Role/select.inc.htm"]
+[#include "../Member/select.inc.htm"]
 <script>
 $(function () {
 	var contentEditor = KindEditor.create('textarea[name="notice.content"]');

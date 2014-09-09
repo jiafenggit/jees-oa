@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-08-20 15:23:29
+Date: 2014-08-28 17:21:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -104,7 +104,7 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0', '61F5DE7ED45A7A3F351922EE39B7886E', '888888', '0', '1', '0', '0', '0', '', '');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0', '9634A8F6EA8AB6E32E0B24C2919B66BC', '888888', '0', '1', '0', '0', '0', '', '');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`

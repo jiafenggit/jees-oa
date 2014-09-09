@@ -21,6 +21,7 @@ public class FreemarkerTemplateManager {
 
 	public void setFreeMarkerConfigurer(FreeMarkerConfigurer freeMarkerConfigurer) {
 		freemarker.template.Configuration fmConfiguration = freeMarkerConfigurer.getConfiguration();
+		fmConfiguration.setTagSyntax(freemarker.template.Configuration.SQUARE_BRACKET_TAG_SYNTAX);
 		fmConfiguration.setSharedVariable("millisToDateTime",
         		new FreemarkerMillisToDateTimeModel(this.configuration));
 		fmConfiguration.setSharedVariable("empty", new FreemarkerEmptyModel());

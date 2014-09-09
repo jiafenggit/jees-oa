@@ -1,4 +1,4 @@
-<#-- This page can be include only -->
+[#-- This page can be include only --]
 <script src="${Web_projectHome}/api/SWFUpload/swfupload.js" language="javascript"></script>
 <script>
 var isSWFUploading = false;
@@ -53,7 +53,7 @@ var swfUploadFunction = {
 
 
 var swfUploadSettings = {
-	upload_url: '<@url controller="Upload" action="uploadJson" />',
+	upload_url: '[@url controller="Upload" action="uploadJson" /]',
 	file_post_name : 'files',
 	post_params: {'${_GLOBAL_PARAMETERS_.SESSION_NAME}' : '${_REQUEST_.getSession().getId()}'},
 	file_size_limit : "1 MB",

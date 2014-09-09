@@ -98,12 +98,6 @@ function Web_inArray(value, array) {
 	return false;
 }
 
-function Web_encodePassword(password) {
-	var str = hex_md5(password);
-	str = str.substr(0, 20) + 'iisquare.com' + str.substr(18);
-	return hex_md5(str);
-}
-
 function Web_getDataGridRowId(object) {
 	var row = object.datagrid('getSelected');
 	if(!row) {
@@ -160,7 +154,7 @@ $(function () {
 					id : url,
 					title : title,
 					content : '<iframe name="platformIFrame" scrolling="auto" frameborder="0" src="'
-							+ url + '" class="fullWH"></iframe>',
+							+ url + '" class="full-w-h"></iframe>',
 					closable : true
 				});
 			} else {
@@ -460,7 +454,7 @@ $(function () {
 	/* Events for ControllerBar End */
 	
 	// Trigger Events
-	$('#platformWest').load(Web_url('memberMenuList', 'Menu'), function () {
+	$('#platform-west').load(Web_url('memberMenuList', 'Menu'), function () {
 		$.parser.parse($(this)); // 渲染easyUI元素
 		$('.platformMenuTree').each(function(index, element) {
 			$(this).tree({ // bind menu tree clicked

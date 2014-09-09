@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<table class="listAction" url="<@url action="list" />" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="false" nowrap="true" checkonselect="true" selectoncheck="true">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table class="listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="false" nowrap="true" checkonselect="true" selectoncheck="true">
 	<thead>
 		<tr>
 			<th checkbox="true"></th>
@@ -20,9 +20,9 @@
 	</thead>
 </table>
 <div id="toolbar" class="controllerBar">
-	<#if _BASE_.hasPermit("delete")><a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true">删除</a></#if>
-	<#if _BASE_.hasPermit("truncate")><a id="buttonTruncate" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a></#if>
-	<#if _BASE_.hasPermit("editSetting")><a href="<@url action="editSetting" />" class="easyui-linkbutton" iconcls="icon-type" plain="true">参数设置</a></#if>
+	[#if _BASE_.hasPermit("delete")]<a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true">删除</a>[/#if]
+	[#if _BASE_.hasPermit("truncate")]<a id="buttonTruncate" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a>[/#if]
+	[#if _BASE_.hasPermit("editSetting")]<a href="[@url action="editSetting" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">参数设置</a>[/#if]
 	<a id="searchAction" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <div class="searchActionDialog" style="width:230px;height:308px" data-options="buttons:'#actionButton',modal:true,resizable:true">
@@ -42,37 +42,37 @@
 	<tr>
 		<th>类型</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="type" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="type" value="" />
 		</td>
 	</tr>
 	<tr>
 		<th>模块</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="module" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="module" value="" />
 		</td>
 	</tr>
 	<tr>
 		<th>控制器</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="controller" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="controller" value="" />
 		</td>
 	</tr>
 	<tr>
 		<th>方法</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="action" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="action" value="" />
 		</td>
 	</tr>
 	<tr>
 		<th>用户</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="member" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="member" value="" />
 		</td>
 	</tr>
 	<tr>
 		<th>IP</th>
 		<td>
-			<input class="easyui-validatebox inputText width130" type="text" name="ip" value="" />
+			<input class="easyui-validatebox input-text width130" type="text" name="ip" value="" />
 		</td>
 	</tr>
 </table>
@@ -134,7 +134,7 @@ $(function () {
 				ids += ',';
 			}
 		}
-		var url = '<@url action="delete" />?ids=' + ids;
+		var url = '[@url action="delete" /]?ids=' + ids;
 		$.getJSON(url, function(data) {
 			if(0 == data.status) {
 				Web_confirm(data.message + '重新载入当前页面......', function (result) {
@@ -147,7 +147,7 @@ $(function () {
 		});
 	});
 	$('#buttonTruncate').bind('click', function () {
-		var url = '<@url action="truncate" />';
+		var url = '[@url action="truncate" /]';
 		$.getJSON(url, function(data) {
 			if(0 == data.status) {
 				Web_confirm(data.message + '重新载入当前页面......', function (result) {

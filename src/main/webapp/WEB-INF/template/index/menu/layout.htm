@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
 <style type="text/css">
 .waterfallCell { width:264px;}
 </style>
 <script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
 <script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
 <div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-	<div data-options="region:'west',split:true,border:false,plain:true" class="width290 paddingLeft2" title="模块菜单" align="center">
-		<#list permitMap["modules"]?keys as moduleKey>
-			<#if permitMap["modules"][moduleKey]["visible"]>
+	<div data-options="region:'west',split:true,border:false,plain:true" class="width290 padding-left2" title="模块菜单" align="center">
+		[#list permitMap["modules"]?keys as moduleKey]
+			[#if permitMap["modules"][moduleKey]["visible"]]
 				<div class="modulePanel" title="${permitMap["modules"][moduleKey]["name"]}"
 						style="width:260px;height:auto;padding:5px;" 
 						data-options="iconCls:'icon-key',collapsible:true">
@@ -17,29 +17,29 @@
 				'text' : '${permitMap["modules"][moduleKey]["name"]}',
 				'state' : 'open',
 				'children' : [
-				<#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey>
-				<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["visible"]>{
+				[#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey]
+				[#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["visible"]]{
 					'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["name"]}',
 					'state' : 'closed',
 					'children' : [
-						<#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey>
-						<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["visible"]>{
+						[#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey]
+						[#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["visible"]]{
 								'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["name"]}',
 								'attributes' : {
 									'url' : '@${moduleKey}/${controllerKey}${_GLOBAL_PARAMETERS_.STRUTS_ACTION_SIGN}${actionKey}'
 								},
-							}<#if actionKey_has_next>,</#if>
-						</#if>
-						</#list>]
-					}<#if controllerKey_has_next>,</#if>
-				</#if>
-				</#list>]}]"></ul>
+							}[#if actionKey_has_next],[/#if]
+						[/#if]
+						[/#list]]
+					}[#if controllerKey_has_next],[/#if]
+				[/#if]
+				[/#list]]}]"></ul>
 				</div>
-			</#if>
-		</#list>
+			[/#if]
+		[/#list]
 	</div>
 	<div data-options="region:'center',split:true,border:false,plain:true">
-		<table id="menuTreeGrid" url="<@url action="list" />" toolbar="#toolbar" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name" checkonselect="false" selectoncheck="false">
+		<table id="menuTreeGrid" url="[@url action="list" /]" toolbar="#toolbar" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name" checkonselect="false" selectoncheck="false">
 			<thead>
 				<tr>
 					<th field="name">名称</th>
@@ -60,10 +60,10 @@
 <div id="treeGridMenu">
 	<div data-options="name:'refresh'">更&nbsp;&nbsp;新</div>
 	<div class="menu-sep"></div>
-	<#if _BASE_.hasPermit("insert")><div data-options="name:'add'">添&nbsp;&nbsp;加</div></#if>
-	<#if _BASE_.hasPermit("modify")><div data-options="name:'modify'">修&nbsp;&nbsp;改</div></#if>
-	<#if _BASE_.hasPermit("move")><div data-options="name:'move'">移&nbsp;&nbsp;动</div></#if>
-	<#if _BASE_.hasPermit("delete")><div data-options="name:'delete'">删&nbsp;&nbsp;除</div></#if>
+	[#if _BASE_.hasPermit("insert")]<div data-options="name:'add'">添&nbsp;&nbsp;加</div>[/#if]
+	[#if _BASE_.hasPermit("modify")]<div data-options="name:'modify'">修&nbsp;&nbsp;改</div>[/#if]
+	[#if _BASE_.hasPermit("move")]<div data-options="name:'move'">移&nbsp;&nbsp;动</div>[/#if]
+	[#if _BASE_.hasPermit("delete")]<div data-options="name:'delete'">删&nbsp;&nbsp;除</div>[/#if]
 	<div class="menu-sep"></div>
 	<div data-options="name:'concel'">取&nbsp;&nbsp;消</div>
 </div>
@@ -93,13 +93,13 @@
 	<tr>
 		<th>名称</th>
 		<td>
-			<input class="easyui-validatebox inputText width160" type="text" name="menu.name" data-options="required:true" value="{$T.name}" />
+			<input class="easyui-validatebox input-text width160" type="text" name="menu.name" data-options="required:true" value="{$T.name}" />
 		</td>
 	</tr>
 	<tr>
 		<th>排序</th>
 		<td>
-			<input class="easyui-numberspinner inputText width80" type="text" name="menu.sort" data-options="required:true,min:0" value="{$T.sort}" />
+			<input class="easyui-numberspinner input-text width80" type="text" name="menu.sort" data-options="required:true,min:0" value="{$T.sort}" />
 		</td>
 	</tr>
 	<tr>
@@ -128,7 +128,7 @@
 	<tr>
 		<th></th>
 		<td>
-			<input class="easyui-validatebox inputText width160 selectIconClass" type="text" name="menu.icon" value="{$T.icon}" />
+			<input class="easyui-validatebox input-text width160 selectIconClass" type="text" name="menu.icon" value="{$T.icon}" />
 		</td>
 	</tr>
 	<tr>
@@ -146,7 +146,7 @@
 </table>
 {#/template MAIN}
 </textarea>
-<#include "../Icon/select.inc.htm">
+[#include "../Icon/select.inc.htm"]
 <script>
 function reLayout() {
 	
@@ -229,7 +229,7 @@ $(function () {
 							$.parser.parse($(this));
 							$('.actionOK').unbind('click.action').bind('click.action' ,function () {
 								$('.actionForm').form('submit', {
-									url : '<@url action="insert" />',
+									url : '[@url action="insert" /]',
 									success : function (data) {
 										data = $.parseJSON(data);
 										if(data.status) {
@@ -254,7 +254,7 @@ $(function () {
 					});
 				break;
 				case 'modify' : // 修改
-					var url = '<@url action="modify" />?id=' + contextMenuNode.id;
+					var url = '[@url action="modify" /]?id=' + contextMenuNode.id;
 					$.getJSON(url, function (data) {
 						if(data.status) {
 							Web_alertInfo(data.message);
@@ -272,7 +272,7 @@ $(function () {
 									$('#menuTarget').combobox('select', data.message.target);
 									$('.actionOK').unbind('click.action').bind('click.action' ,function () {
 										$('.actionForm').form('submit', {
-											url : '<@url action="update" />?id=' + data.message.id,
+											url : '[@url action="update" /]?id=' + data.message.id,
 											success : function (data) {
 												data = $.parseJSON(data);
 												if(data.status) {
@@ -293,7 +293,7 @@ $(function () {
 					});
 				break;
 				case 'delete' : // 删除
-					var url = '<@url action="delete" />?id=' + contextMenuNode.id;
+					var url = '[@url action="delete" /]?id=' + contextMenuNode.id;
 					$.getJSON(url, function (data) {
 						if(data.status) {
 							Web_alertInfo(data.message);
@@ -331,7 +331,7 @@ $(function () {
 			Web_alertInfo('请选择菜单！');
 			return ;
 		}
-		var url = '<@url action="move" />?id=' + contextMenuNode.id + '&pid=' + romoveToNode.id;
+		var url = '[@url action="move" /]?id=' + contextMenuNode.id + '&pid=' + romoveToNode.id;
 		$(this).linkbutton('disable');
 		$.getJSON(url, function (data) {
 			if(data.status) {

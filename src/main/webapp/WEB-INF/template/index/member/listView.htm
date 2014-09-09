@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<table class="listAction" url="<#if empty(rid)><@url action="list" params="?id=${id}" /><#else><@url action="list" params="?rid=${rid}" /></#if>" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table class="listAction" url="[#if empty(rid)][@url action="list" params="?id=${id}" /][#else][@url action="list" params="?rid=${rid}" /][/#if]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
 	<thead>
 		<tr>
 			<th field="serial">账号</th>
@@ -18,24 +18,24 @@
 	</thead>
 </table>
 <div id="toolbar" class="controllerBar">
-	<#if _BASE_.hasPermit("show")><a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a></#if>
-	<#if _BASE_.hasPermit("create")><a href="<@url action="create" params="?id=${id}" />" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a></#if>
-	<#if _BASE_.hasPermit("modify")><a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a></#if>
-	<#if _BASE_.hasPermit("delete")><a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a></#if>
-	<#if !empty(rid)><a href="<@url controller="Role" action="layout" />" class="easyui-linkbutton" iconcls="icon-back" plain="true">返回角色管理</a></#if>
-	<div class="floatRight marginRight5">
+	[#if _BASE_.hasPermit("show")]<a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a>[/#if]
+	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" params="?id=${id}" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
+	[#if !empty(rid)]<a href="[@url controller="Role" action="layout" /]" class="easyui-linkbutton" iconcls="icon-back" plain="true">返回角色管理</a>[/#if]
+	<div class="float-right margin-right5">
 		<input id="searchBox"></input>
 	</div>
 	<div id="searchMenu">
-	<#if empty(rid)>
+	[#if empty(rid)]
 		<div data-options="name:'0'">仅含当前节点</div>
 		<div data-options="name:'1'">仅包含子节点</div>
 		<div data-options="name:'2'">包含子孙节点</div>
-	<#else>
+	[#else]
 		<div data-options="name:'0'">至少满足一个</div>
 		<div data-options="name:'1'">角色全不满足</div>
 		<div data-options="name:'2'">满足全部角色</div>
-	</#if>
+	[/#if]
 	</div>
 </div>
 <script>
@@ -56,13 +56,13 @@ $(function () {
 	$('#buttonShow').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '<@url action="show" />?back=1&id=' + id;
+		var url = '[@url action="show" /]?back=1&id=' + id;
 		Web_redirectPage(url);
 	});
 	$('#buttonModify').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '<@url action="modify" />?id=' + id;
+		var url = '[@url action="modify" /]?id=' + id;
 		Web_redirectPage(url);
 	});
 });

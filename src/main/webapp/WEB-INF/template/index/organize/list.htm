@@ -1,12 +1,12 @@
-<#include "../public/common.inc.htm">
-<#macro listOrganize seq=[]>
-	<#list seq as organize>
+[#include "../public/common.inc.htm"]
+[#macro listOrganize seq=[]]
+	[#list seq as organize]
 	{
 		"id" : ${organize.id},
 		"text" : "${organize.name}",
-		"children" : [<@listOrganize seq=organize.children />]
+		"children" : [[@listOrganize seq=organize.children /]]
 	}
-	<#if organize_has_next>,</#if>
-	</#list>
-</#macro>
-[<@listOrganize seq=rows />]
+	[#if organize_has_next],[/#if]
+	[/#list]
+[/#macro]
+[[@listOrganize seq=rows /]]

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<table class="easyui-datagrid listAction" url="<@url action="list" />" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table class="easyui-datagrid listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
 	<thead>
 		<tr>
 			<th field="href">文件</th>
@@ -13,7 +13,7 @@
 </table>
 <div id="toolbar" class="controllerBar">
 	<a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a>
-	<#if _BASE_.hasPermit("delete")><a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a></#if>
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
 </div>
 <script>
 $(function () {

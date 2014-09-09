@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<table class="easyui-datagrid listAction" url="<@url action="list" />" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table class="easyui-datagrid listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
 	<thead>
 		<tr>
 			<th field="name">名称</th>
@@ -12,9 +12,9 @@
 	</thead>
 </table>
 <div id="toolbar" class="controllerBar">
-	<#if _BASE_.hasPermit("create")><a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a></#if>
-	<#if _BASE_.hasPermit("modify")><a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a></#if>
-	<#if _BASE_.hasPermit("delete")><a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a></#if>
+	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
 </div>
 
 <div class="createActionDialog modifyActionDialog" style="width:265px;height:210px" data-options="buttons:'#actionButton',modal:true,resizable:true">
@@ -30,7 +30,7 @@
 	<tr>
 		<th>名称</th>
 		<td>
-			<input class="easyui-validatebox inputText width196" type="text" name="setting.name" data-options="required:true" value="{$T.name}" />
+			<input class="easyui-validatebox input-text width196" type="text" name="setting.name" data-options="required:true" value="{$T.name}" />
 		</td>
 	</tr>
 	<tr>

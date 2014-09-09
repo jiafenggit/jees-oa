@@ -1,12 +1,12 @@
-<#include "../public/common.inc.htm">
+[#include "../public/common.inc.htm"]
 {
 	"rows":[
-		<#list rows as file>
+		[#list rows as file]
 		{
 			"id":"${file.fileName}",
 			"fileName":"${file.fileName}",
 			"lastModified":"${millisToDateTime(file.lastModified)}"
-		}<#if file_has_next>,</#if>
-		</#list>
+		}[#if file_has_next],[/#if]
+		[/#list]
 	]
 }

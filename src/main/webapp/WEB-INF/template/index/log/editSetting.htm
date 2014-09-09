@@ -1,23 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
 <style type="text/css">
 .waterfallCell { width:264px;}
 </style>
 <script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
 <script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
 <div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-<form id="submitForm" method="post" action="<@url action="saveSetting" />" class="scrollYOnly">
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+<form id="submitForm" method="post" action="[@url action="saveSetting" /]" class="scroll-x-only">
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th>设置</th>
 		<td>
 			<input type="checkbox" name="logPermitEnable" value="1"
-			<#if !empty(logPermitEnable)> checked="checked"</#if>
-					class="inputCheckbox" />开启日志记录功能
+			[#if !empty(logPermitEnable)] checked="checked"[/#if]
+					class="input-checkbox" />开启日志记录功能
 			<input type="checkbox" name="logPermitNoExist" value="1"
-			<#if !empty(logPermitNoExist)> checked="checked"</#if>
-					class="inputCheckbox" />记录未配置的操作
+			[#if !empty(logPermitNoExist)] checked="checked"[/#if]
+					class="input-checkbox" />记录未配置的操作
 		</td>
 	</tr>
 	<tr>
@@ -25,7 +25,7 @@
 	</tr>
 	<tr>
 		<td colspan="2" id="waterfallContainer">
-		<#list permitMap["modules"]?keys as moduleKey>
+		[#list permitMap["modules"]?keys as moduleKey]
 			<div class="padding2 waterfallCell">
 				<div class="modulePanel" title="${permitMap["modules"][moduleKey]["name"]}"    
 						style="width:260px;height:auto;padding:5px;" 
@@ -37,7 +37,7 @@
 					'key' : '${moduleKey}'
 				},
 				'children' : [
-				<#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey>
+				[#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey]
 				{
 					'text' : '${controllerKey}[${permitMap["modules"][moduleKey]["controllers"][controllerKey]["name"]}]',
 					'state' : 'closed',
@@ -45,20 +45,20 @@
 						'key' : '${controllerKey}'
 					},
 					'children' : [
-						<#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey>
+						[#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey]
 						{
 								'text' : '${actionKey}[${permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["name"]}]',
-								'checked' : <#if (logPermitMap[moduleKey][controllerKey][actionKey])!false>true<#else>false</#if>,
+								'checked' : [#if (logPermitMap[moduleKey][controllerKey][actionKey])!false]true[#else]false[/#if],
 								'attributes' : {
 									'key' : '${actionKey}'
 								},
-							}<#if actionKey_has_next>,</#if>
-						</#list>]
-					}<#if controllerKey_has_next>,</#if>
-				</#list>]}]"></ul>
+							}[#if actionKey_has_next],[/#if]
+						[/#list]]
+					}[#if controllerKey_has_next],[/#if]
+				[/#list]]}]"></ul>
 				</div>
 			</div>
-		</#list>
+		[/#list]
 		</td>
 	</tr>
 	<tr>
@@ -66,7 +66,7 @@
 		<td>
 			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
 			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
-			<a href="<@url action="layout" />" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+			<a href="[@url action="layout" /]" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
 		</td>
 	</tr>
 </table>

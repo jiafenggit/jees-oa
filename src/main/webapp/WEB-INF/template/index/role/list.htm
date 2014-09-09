@@ -1,17 +1,17 @@
-<#include "../public/common.inc.htm">
-<#macro listRole seq=[]>
-	<#list seq as role>
+[#include "../public/common.inc.htm"]
+[#macro listRole seq=[]]
+	[#list seq as role]
 	{
 		"id":"${role.id}",
 		"sort":"${role.sort}",
 		"name":"${role.name}",
 		"createTime":"${millisToDateTime(role.createTime)}",
-		"children":[<@listRole seq=role.children />]
+		"children":[[@listRole seq=role.children /]]
 	}
-	<#if role_has_next>,</#if>
-	</#list>
-</#macro>
+	[#if role_has_next],[/#if]
+	[/#list]
+[/#macro]
 {
 	"total":"${total}",
-	"rows":[<@listRole seq=rows />]
+	"rows":[[@listRole seq=rows /]]
 }

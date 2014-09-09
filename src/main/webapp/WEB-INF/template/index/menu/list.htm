@@ -1,6 +1,6 @@
-<#include "../public/common.inc.htm">
-<#macro listMenu seq=[]>
-	<#list seq as menu>
+[#include "../public/common.inc.htm"]
+[#macro listMenu seq=[]]
+	[#list seq as menu]
 	{
 		"id":"${menu.id}",
 		"sort":"${menu.sort}",
@@ -12,12 +12,12 @@
 		"target":"${(menu.target)!""}",
 		"targetText":"${(menu.targetText)!""}",
 		"status":"${menu.statusText}",
-		"children":[<@listMenu seq=menu.children />]
+		"children":[[@listMenu seq=menu.children /]]
 	}
-	<#if menu_has_next>,</#if>
-	</#list>
-</#macro>
+	[#if menu_has_next],[/#if]
+	[/#list]
+[/#macro]
 {
 	"total":"${total}",
-	"rows":[<@listMenu seq=rows />]
+	"rows":[[@listMenu seq=rows /]]
 }

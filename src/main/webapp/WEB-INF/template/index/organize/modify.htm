@@ -1,24 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<#if empty((organize.id)!0)>
-<form id="submitForm" method="post" action="<@url action="insert" />">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+[#if empty((organize.id)!0)]
+<form id="submitForm" method="post" action="[@url action="insert" /]">
 <input type="hidden" name="organize.parent.id" value="${(pid)!1}" />
-<#else>
-<form id="submitForm" method="post" action="<@url action="update" />">
+[#else]
+<form id="submitForm" method="post" action="[@url action="update" /]">
 <input type="hidden" name="id" value="${(organize.id)!0}" />
-</#if>
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+[/#if]
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th class="width130">名称</th>
 		<td>
-			<input class="easyui-validatebox inputText length200" type="text" name="organize.name" data-options="required:true" value="${(organize.name)!""}" />
+			<input class="easyui-validatebox input-text length200" type="text" name="organize.name" data-options="required:true" value="${(organize.name)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>排序</th>
 		<td>
-			<input class="easyui-numberspinner inputText lengthPercent50" type="text" name="organize.sort" data-options="required:true,min:0" value="${(organize.sort)!0}" />
+			<input class="easyui-numberspinner input-text length-percent50" type="text" name="organize.sort" data-options="required:true,min:0" value="${(organize.sort)!0}" />
 		</td>
 	</tr>
 	<tr>

@@ -1,18 +1,18 @@
-<#include "../public/header.inc.htm">
+[#include "../public/header.inc.htm"]
 <div id="login" class="easyui-dialog" title="用户登录" minimizable="false" maximizable="false" closable="false" style="width:260px;height:140px" data-options="buttons:'#actionButton',modal:true">
-	<form id="loginForm" method="post" action="<@url action="logon" />">
+	<form id="loginForm" method="post" action="[@url action="logon" /]">
 	<input type="hidden" name="forward" value="${forward}" />
-		<table align="center" class="horizontalTable trHeight25">
+		<table align="center" class="table-horizontal tr-height25">
 			<tr>
 				<th>账号</th>
 				<td>
-					<input class="easyui-validatebox inputText lengthPercent100" type="text" name="serial" data-options="required:true" />
+					<input class="easyui-validatebox input-text length-percent100" type="text" name="serial" data-options="required:true" />
 				</td>
 			</tr>
 			<tr>
 				<th>密码</th>
 				<td>
-					<input class="easyui-validatebox inputText lengthPercent100" type="password" name="password" data-options="required:true" />
+					<input class="easyui-validatebox input-text length-percent100" type="password" name="password" data-options="required:true" />
 				</td>
 			</tr>
 		</table>
@@ -24,32 +24,27 @@
 </div>
 <script>
 $(function () {
-	var password;
 	var $serial = $('input[name="serial"]');
 	var $password = $('input[name="password"]');
 	$('#loginForm').form({
-		onSubmit : function () {
-			password = $password.val();
-			$('input[name="password"]').val(Web_encodePassword(password));
-		},
+		onSubmit : function () {},
 		success : function (data) {
 			data = $.parseJSON(data);
 			if(data.status) {
 				Web_alertInfo(data.message);
 				$('#buttonOk').linkbutton('enable');
-				$('input[name="password"]').val(password);
 			} else {
 				Web_redirectPage(data.message);
 			}
 		}
 	});
 	$('#buttonOk').bind('click', function () {
-		serial = $serial.val();
+		var serial = $serial.val();
+		var password = $password.val();
 		if(serial.length < 1) {
 			Web_alertInfo('请输入您的账号！');
 			return false;
 		}
-		password = $password.val();
 		if(password.length < 1) {
 			Web_alertInfo('请输入您的密码！');
 			return false;
@@ -62,4 +57,4 @@ $(function () {
 	});
 });
 </script>
-<#include "../public/footer.inc.htm">
+[#include "../public/footer.inc.htm"]

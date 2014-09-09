@@ -1,15 +1,22 @@
-<#include "../public/header.inc.htm">
+[#include "../public/header.inc.htm"]
 <div id="platform" class="easyui-layout" data-options="fit:true,border:true,plain:true">
-	<div id="platformNorth" data-options="region:'north',split:true,plain:true" class="bgColorBlue">
-		<div class="left">${Web_projectName}</div>
-	</div>
-	<div id="platformSouth" data-options="region:'south',split:true,plain:true" class="bgColorBlue">
-		<div class="left">
-			<a href="<@url action="logout" />" class="easyui-linkbutton" data-options="iconCls:'icon-logout',plain:true">安全退出</a>
+	<div id="platform-north" data-options="region:'north',split:true,plain:true" class="bg-color-bootstrap">
+		<div class="left">${_WEB_NAME_}</div>
+		<div class="right">
+			<ul>
+				<li>TT</li>
+				<li class="splite">|</li>
+				<li><a href="[@url action="logout" /]">安全退出</a></li>
+			</ul>
 		</div>
 	</div>
-	<div id="platformWest" data-options="region:'west',split:true,plain:true" title="${currentMember.name}" class="bgColorBlue"></div>
-	<div id="platformCenter" data-options="region:'center',split:true,plain:true" class="bgColorBlue">
+	<div id="platform-south" data-options="region:'south',split:true,plain:true" class="bg-color-bootstrap">
+		<div class="text">
+			Copyright &copy; 2010 - ${.now?string("yyyy")} <a href="http://www.iisquare.com/" target="_blank">iisquare.com</a> All Rights Reserved
+		</div>
+	</div>
+	<div id="platform-west" data-options="region:'west',split:true,plain:true" title="${currentMember.name}" class="bg-color-bootstrap"></div>
+	<div id="platform-center" data-options="region:'center',split:true,plain:true" class="bg-color-bootstrap">
 		<div id="platformTabs" data-options="fit:true,border:false,plain:true">
 			<div title="欢迎使用">
 				- Task -
@@ -28,4 +35,4 @@
 	<div class="menu-sep"></div>
 	<div data-options="name:'cancel'">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</div>
 </div>
-<#include "../public/footer.inc.htm">
+[#include "../public/footer.inc.htm"]

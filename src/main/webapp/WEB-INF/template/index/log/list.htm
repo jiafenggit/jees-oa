@@ -1,8 +1,8 @@
-<#include "../public/common.inc.htm">
+[#include "../public/common.inc.htm"]
 {
 	"total":"${total}",
 	"rows":[
-		<#list rows as log>
+		[#list rows as log]
 		{
 			"id":"${log.id}",
 			"name":"${log.name}",
@@ -15,7 +15,7 @@
 			"member":"${(log.member.name)!""}[${(log.member.serial)!""}]",
 			"ip":"${log.ip}",
 			"createTime":"${millisToDateTime(log.createTime)}"
-		}<#if log_has_next>,</#if>
-		</#list>
+		}[#if log_has_next],[/#if]
+		[/#list]
 	]
 }

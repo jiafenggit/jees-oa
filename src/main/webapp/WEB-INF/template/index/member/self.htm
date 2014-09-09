@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<form id="submitForm" method="post" action="<@url action="reSelf" />">
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<form id="submitForm" method="post" action="[@url action="reSelf" /]">
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th class="width130">账号</th>
 		<td>
@@ -12,25 +12,25 @@
 	<tr>
 		<th class="width130">姓名</th>
 		<td>
-			<input class="easyui-validatebox inputText length200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
+			<input class="easyui-validatebox input-text length200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th class="width130">组织</th>
 		<td>
-			<#list (member.organizes)![] as organize>
+			[#list (member.organizes)![] as organize]
 				${organize.name}
-				<#if organize_has_next>,</#if>
-			</#list>
+				[#if organize_has_next],[/#if]
+			[/#list]
 		</td>
 	</tr>
 	<tr>
 		<th class="width130">角色</th>
 		<td>
-			<#list (member.roles)![] as role>
+			[#list (member.roles)![] as role]
 				${role.name}
-				<#if role_has_next>,</#if>
-			</#list>
+				[#if role_has_next],[/#if]
+			[/#list]
 		</td>
 	</tr>
 	<tr>

@@ -1,0 +1,5 @@
+#
+# Dom class id
+#
+Html元素的类名、ID名统一采用小写加中划线的形式。
+若某个类名或ID名为JavaScript操作使用，名称统一以“js-功能-”开始。

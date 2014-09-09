@@ -1,35 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<#if empty((member.id)!0)>
-<form id="submitForm" method="post" action="<@url action="insert" />">
-<#else>
-<form id="submitForm" method="post" action="<@url action="update" />">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+[#if empty((member.id)!0)]
+<form id="submitForm" method="post" action="[@url action="insert" /]">
+[#else]
+<form id="submitForm" method="post" action="[@url action="update" /]">
 <input type="hidden" name="id" value="${(member.id)!0}" />
-</#if>
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+[/#if]
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th class="width130">账号</th>
 		<td>
-			<input class="easyui-validatebox inputText length200" type="text" name="member.serial" data-options="required:true" value="${(member.serial)!""}" />
+			<input class="easyui-validatebox input-text length200" type="text" name="member.serial" data-options="required:true" value="${(member.serial)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>姓名</th>
 		<td>
-			<input class="easyui-validatebox inputText length200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
+			<input class="easyui-validatebox input-text length200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>密码</th>
 		<td>
-			<input class="easyui-validatebox inputText length200" type="text" name="member.password" value="<#if empty((member.id)!0)>${_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD}</#if>" />
+			<input class="easyui-validatebox input-text length200" type="text" name="member.password" value="[#if empty((member.id)!0)]${_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD}[/#if]" />
 		</td>
 	</tr>
 	<tr>
 		<th>排序</th>
 		<td>
-			<input class="easyui-numberspinner inputText lengthPercent50" type="text" name="member.sort" data-options="required:true,min:0" value="${(member.sort)!0}" />
+			<input class="easyui-numberspinner input-text length-percent50" type="text" name="member.sort" data-options="required:true,min:0" value="${(member.sort)!0}" />
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@
 	<tr>
 		<th>状态</th>
 		<td>
-			<input class="inputCheckbox" type="checkbox" name="member.status" value="1" <#if 1 == (member.status)!-1>checked="checked"</#if> />启用
+			<input class="input-checkbox" type="checkbox" name="member.status" value="1" [#if 1 == (member.status)!-1]checked="checked"[/#if] />启用
 		</td>
 	</tr>
 	<tr>
@@ -66,8 +66,8 @@
 	</tr>
 </table>
 </form>
-<#include "../Organize/select.inc.htm">
-<#include "../Role/select.inc.htm">
+[#include "../Organize/select.inc.htm"]
+[#include "../Role/select.inc.htm"]
 <script>
 $(function () {
 	var password;

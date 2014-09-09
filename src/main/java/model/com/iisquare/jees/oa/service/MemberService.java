@@ -47,6 +47,6 @@ public class MemberService extends ServiceBase {
 	
 	public static void main(String[] args) {
 		MemberService memberService = new MemberService();
-		System.out.println(memberService.encodePassword("3f94e0907912af043dda2bdd02375c1b", "888888"));
+		System.out.println(memberService.encodePassword("admin888", "888888"));
 	}
 }

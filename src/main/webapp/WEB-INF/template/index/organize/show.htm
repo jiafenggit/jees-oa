@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
-<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
 		<th class="width130">名称</th>
 		<td>${organize.name}</td>
@@ -13,8 +13,8 @@
 	<tr>
 		<th>操作</th>
 		<td>
-			<#if _BASE_.hasPermit("modify")><a href="<@url action="modify" params="?id=${id}" />" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a></#if>
-			<#if _BASE_.hasPermit("delete")><a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a></#if>
+			[#if _BASE_.hasPermit("modify")]<a href="[@url action="modify" params="?id=${id}" /]" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>[/#if]
+			[#if _BASE_.hasPermit("delete")]<a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>[/#if]
 		</td>
 	</tr>
 </table>
@@ -23,7 +23,7 @@ $(function () {
 	$('#buttonDelete').bind('click', function () {
 		var $buttonDelete = $(this);
 		$buttonDelete.linkbutton('disable');
-		var url = '<@url action="delete" params="?id=${id}" />';
+		var url = '[@url action="delete" params="?id=${id}" /]';
 		$.getJSON(url, function (data) {
 			if(data.status) {
 				Web_alertInfo(data.message);

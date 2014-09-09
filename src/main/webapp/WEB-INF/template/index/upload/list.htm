@@ -1,8 +1,8 @@
-<#include "../public/common.inc.htm">
+[#include "../public/common.inc.htm"]
 {
 	"total":"${total}",
 	"rows":[
-		<#list rows as upload>
+		[#list rows as upload]
 		{
 			"id":"${upload.id}",
 			"url":"${upload.url}",
@@ -10,7 +10,7 @@
 			"file":"${upload.file}",
 			"author":"${(upload.author.name)!""}",
 			"createTime":"${millisToDateTime(upload.createTime)}"
-		}<#if upload_has_next>,</#if>
-		</#list>
+		}[#if upload_has_next],[/#if]
+		[/#list]
 	]
 }

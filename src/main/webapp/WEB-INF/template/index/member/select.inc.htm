@@ -1,4 +1,4 @@
-<#-- This page can be include only -->
+[#-- This page can be include only --]
 <div class="hidden">
 	<div id="selectMemberDialog" style="width:430px; height:400px;" data-options="buttons:'#selectMemberButton',modal:true,resizable:true">
 		<div id="selectMemberTabs" data-options="fit:true,border:false">
@@ -119,14 +119,14 @@ $(function () {
 	$('#selectMemberOrganizeTree').tree({
 		onClick : function (node) {
 			$selectMemberDatagridWithOrganize.datagrid({
-				url : '<@url controller="Member" action="list" />?id=' + node.id
+				url : '[@url controller="Member" action="list" /]?id=' + node.id
 			})
 		}
 	});
 	$('#selectMemberRoleTreegrid').treegrid({
 		onClickRow : function (rowData) {
 			$selectMemberDatagridWithRole.datagrid({
-				url : '<@url controller="Member" action="list" />?id=' + rowData.id
+				url : '[@url controller="Member" action="list" /]?id=' + rowData.id
 			})
 		}
 	});
@@ -194,7 +194,7 @@ $(function () {
 				if(null == selectMemberOrganizeData) {
 					var rootNode = $('#selectOrganizeTree').tree('getRoot');
 					if(null == rootNode) {
-						$.getJSON('<@url controller="Organize" action="list" />',  function (data) {
+						$.getJSON('[@url controller="Organize" action="list" /]',  function (data) {
 							selectMemberOrganizeData = data;
 						});
 					} else {
@@ -208,7 +208,7 @@ $(function () {
 					if($('#selectRoleTreegrid').length > 0) {
 						selectMemberRoleData = $('#selectRoleTreegrid').treegrid('getData');
 					} else {
-						$.getJSON('<@url controller="Role" action="list" />',  function (data) {
+						$.getJSON('[@url controller="Role" action="list" /]',  function (data) {
 							selectMemberRoleData = data;
 						});
 					}

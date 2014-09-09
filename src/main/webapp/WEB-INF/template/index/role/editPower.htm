@@ -1,29 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#include "../public/common.inc.htm">
-<#include "../public/resource.inc.htm">
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
 <style type="text/css">
 .waterfallCell { width:264px;}
 </style>
 <script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
 <script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
 <div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-<form id="submitForm" method="post" action="<@url action="savePower" />">
+<form id="submitForm" method="post" action="[@url action="savePower" /]">
 <input type="hidden" name="id" value="${role.id}" />
-	<div data-options="region:'west',split:true,border:false,plain:true" class="width240 paddingLeft2" title="模块菜单">
-		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'<@url controller="Menu" action="roleMenuList" />?id=${role.id}',lines:true"></ul>
+	<div data-options="region:'west',split:true,border:false,plain:true" class="width240 padding-left2" title="模块菜单">
+		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'[@url controller="Menu" action="roleMenuList" /]?id=${role.id}',lines:true"></ul>
 	</div>
 	<div data-options="region:'center',split:true,border:false,plain:true">
-		<table cellspacing="1" cellpadding="0" class="lineTable tdLeft">
+		<table cellspacing="1" cellpadding="0" class="table-line td-left">
 			<tr>
 				<th colspan="2">独立权限</th>
 			</tr>
 			<tr>
 				<td colspan="2">
-				<#list powerMap?keys as powerKey>
+				[#list powerMap?keys as powerKey]
 					<input type="checkbox" name="${powerKey}" value="1"
-					<#if (powerRoleMap[powerKey])!false> checked="checked"</#if>
-							class="inputCheckbox" />${powerMap[powerKey]}
-				</#list>
+					[#if (powerRoleMap[powerKey])!false] checked="checked"[/#if]
+							class="input-checkbox" />${powerMap[powerKey]}
+				[/#list]
 				</td>
 			</tr>
 			<tr>
@@ -31,8 +31,8 @@
 			</tr>
 			<tr>
 				<td colspan="2" id="waterfallContainer">
-				<#list permitMap["modules"]?keys as moduleKey>
-					<#if permitMap["modules"][moduleKey]["configurable"]>
+				[#list permitMap["modules"]?keys as moduleKey]
+					[#if permitMap["modules"][moduleKey]["configurable"]]
 					<div class="padding2 waterfallCell">
 						<div class="modulePanel" title="${permitMap["modules"][moduleKey]["name"]}"    
 								style="width:260px;height:auto;padding:5px;" 
@@ -44,31 +44,31 @@
 							'key' : '${moduleKey}'
 						},
 						'children' : [
-						<#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey>
-						<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["configurable"]>{
+						[#list permitMap["modules"][moduleKey]["controllers"]?keys as controllerKey]
+						[#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["configurable"]]{
 							'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["name"]}',
 							'state' : 'closed',
 							'attributes' : {
 								'key' : '${controllerKey}'
 							},
 							'children' : [
-								<#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey>
-								<#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["configurable"]>{
+								[#list permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"]?keys as actionKey]
+								[#if permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["configurable"]]{
 										'text' : '${permitMap["modules"][moduleKey]["controllers"][controllerKey]["actions"][actionKey]["name"]}',
-										'checked' : <#if (permitRoleMap[moduleKey][controllerKey][actionKey])!false>true<#else>false</#if>,
+										'checked' : [#if (permitRoleMap[moduleKey][controllerKey][actionKey])!false]true[#else]false[/#if],
 										'attributes' : {
 											'key' : '${actionKey}'
 										},
-									}<#if actionKey_has_next>,</#if>
-								</#if>
-								</#list>]
-							}<#if controllerKey_has_next>,</#if>
-						</#if>
-						</#list>]}]"></ul>
+									}[#if actionKey_has_next],[/#if]
+								[/#if]
+								[/#list]]
+							}[#if controllerKey_has_next],[/#if]
+						[/#if]
+						[/#list]]}]"></ul>
 						</div>
 					</div>
-					</#if>
-				</#list>
+					[/#if]
+				[/#list]
 				</td>
 			</tr>
 			<tr>

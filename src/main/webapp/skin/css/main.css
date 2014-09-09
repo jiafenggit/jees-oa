@@ -5,13 +5,13 @@ html, body, form, div, ul, fieldset, li, table, tr, td, span, em, lable, span, i
 a { text-decoration:none; color:#0e2d5f;}
 a:hover { text-decoration:underline;}
 
-.bgColorBlue { background:#ebf5f7;}
-.scrollXOnly { overflow-x:scroll; overflow-y:hidden;}
-.scrollYOnly { overflow-x:hidden; overflow-y:scroll;}
+.bg-color-bootstrap { background:#ffffff;}
+.scroll-x-only { overflow-x:scroll; overflow-y:hidden;}
+.scroll-y-only { overflow-x:hidden; overflow-y:scroll;}
 
 .hidden { display:none;}
 
-.fullWH { width:100%; height:100%;}
+.full-w-h { width:100%; height:100%;}
 .width80 { width:80px;}
 .width130 { width:130px;}
 .width150 { width:150px;}
@@ -21,7 +21,7 @@ a:hover { text-decoration:underline;}
 .width290 { width:290px;}
 .width196 { width:196px;}
 .width240 { width:240px;}
-.widthPercent98 { width:98%;}
+.width-percent98 { width:98%;}
 .w668h280 { width:668px; height:280px;}
 .w320h400 { width:320px; height:400px;}
 .w195h100 { width:195px; height:100px;}
@@ -30,53 +30,59 @@ a:hover { text-decoration:underline;}
 .length200 { width:200px;}
 .length430 { width:430px;}
 
-.lengthPercent50 { width: 50%;}
-.lengthPercent100 { width: 100%;}
+.length-percent50 { width: 50%;}
+.length-percent100 { width: 100%;}
 
 .padding1 { padding:1px;}
 .padding2 { padding:2px;}
 .padding5 { padding:5px;}
-.paddingLeft2 { padding-left:2px;}
+.padding-left2 { padding-left:2px;}
 .margin1 { margin:1px;}
 .margin2 { margin:2px;}
 .margin5 { margin:5px;}
-.marginTop2 { margin-top:2px;}
-.marginRight5 { margin-right:5px;}
+.margin-top2 { margin-top:2px;}
+.margin-right5 { margin-right:5px;}
 
-.floatLeft { float:left;}
-.floatRight { float:right;}
+.clear-float{ clear:both; float:none;}
+.float-left { float:left;}
+.float-right { float:right;}
 
-.alignCenter { text-align:center;}
+.align-center { text-align:center;}
 
 /* Style for Form Start */
 form { width:100%; height:100%;}
-.inputText { text-align: left;}
-.inputCheckbox { margin-right:5px;}
+.input-text { text-align: left;}
+.input-checkbox { margin-right:5px;}
 .img { margin:0 auto; vertical-align:middle;}
-.leftOfSerchBox { height:28px; line-height:28px; padding-right:5px; vertical-align:middle; float:left;}
+.left-serch-box { height:28px; line-height:28px; padding-right:5px; vertical-align:middle; float:left;}
 /* Style for Form End */
 
 /* Style for Table Start */
-.horizontalTable { text-align: center; margin:0 auto;}
-.horizontalTable td { text-align:left;}
+.table-horizontal { text-align: center; margin:0 auto;}
+.table-horizontal td { text-align:left;}
 
-.lineTable { width:100%; text-align:center; background-color:#cad9ea; font-size:13px;}
-.lineTable th { background-color:#f5fafe; text-align:center; font-weight:500;}
-.lineTable td { background-color:#FFFFFF; padding:0px 2px 0px 2px;}
-.lineTable td a { font-size:12px; margin:2px;}
-.lineTable tr { line-height:26px; vertical-align:middle;}
-.lineTable .editor { padding:2px;}
+.table-line { width:100%; text-align:center; background-color:#cad9ea; font-size:13px;}
+.table-line th { background-color:#f5fafe; text-align:center; font-weight:500;}
+.table-line td { background-color:#FFFFFF; padding:0px 2px 0px 2px;}
+.table-line td a { font-size:12px; margin:2px;}
+.table-line tr { line-height:26px; vertical-align:middle;}
+.table-line .editor { padding:2px;}
 
-.tdLeft td { text-align:left;}
-.trHeight25 tr { height:25px; line-height:25px; vertical-align:middle;}
+.td-left td { text-align:left;}
+.tr-height25 tr { height:25px; line-height:25px; vertical-align:middle;}
 /* Style for Table End */
 
 /* Style for platform Start */
 #platform { text-align:center; vertical-align:middle;}
-#platformNorth { height:50px;}
-#platformNorth .left { float:left; padding: 10px 0px 0px 25px; font-size:18px; letter-spacing:2px;}
-#platformSouth { height:33px; line-height:33px;}
-#platformSouth .left { float:left; padding-left:15px;}
-#platformWest { width:200px;}
-#platformCenter {}
+#platform-north { height:50px;}
+#platform-north .left { float:left; padding: 10px 0px 0px 25px; font-size:18px; letter-spacing:2px;}
+#platform-north .right { float:right; padding:0px 5px 0px 0px;}
+#platform-north .right ul { list-style:none; height:25px; line-height:25px; vertical-align:middle;}
+#platform-north .right ul li { float:left;}
+#platform-north .right .splite { margin:0px 5px 0px 5px;}
+#platform-south { height:40px; text-align:center;}
+#platform-south .text { height:33px; line-height:33px; vertical-align:middle;}
+#platform-south .text a { color: #333;}
+#platform-west { width:200px;}
+#platform-center {}
 /* Style for platform End */

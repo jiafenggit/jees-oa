@@ -50,6 +50,7 @@ public class MemberController extends CPermitController {
 	@RequestMapping(value="/platform")
 	public String platformAction() throws Exception {
 		if(null == currentMember) return redirect("/login");
+		assign("currentMember", currentMember);
 		return displayTemplate();
 	}
 	
