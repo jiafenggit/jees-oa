@@ -7,12 +7,12 @@ package com.iisquare.jees.oa.domain;
  */
 public class NoticePublish {
 	private Integer id; // 主键
-	private Integer idNotice; // 通知公告
-	private Integer idRel; // 部门、角色、用户
+	private Integer noticeId; // 通知公告
+	private Integer relId; // 部门、角色、用户
 	private int type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
 	private int status; // 状态（0拒绝读，1允许读）
-	private long timeCreate; // 阅读时间
-	
+	private long createTime; // 阅读时间
+
 	public Integer getId() {
 		return id;
 	}
@@ -21,20 +21,20 @@ public class NoticePublish {
 		this.id = id;
 	}
 
-	public Integer getIdNotice() {
-		return idNotice;
+	public Integer getNoticeId() {
+		return noticeId;
 	}
 
-	public void setIdNotice(Integer idNotice) {
-		this.idNotice = idNotice;
+	public void setNoticeId(Integer noticeId) {
+		this.noticeId = noticeId;
 	}
 
-	public Integer getIdRel() {
-		return idRel;
+	public Integer getRelId() {
+		return relId;
 	}
 
-	public void setIdRel(Integer idRel) {
-		this.idRel = idRel;
+	public void setRelId(Integer relId) {
+		this.relId = relId;
 	}
 
 	public int getType() {
@@ -53,12 +53,12 @@ public class NoticePublish {
 		this.status = status;
 	}
 
-	public long getTimeCreate() {
-		return timeCreate;
+	public long getCreateTime() {
+		return createTime;
 	}
 
-	public void setTimeCreate(long timeCreate) {
-		this.timeCreate = timeCreate;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
 	public NoticePublish() {}

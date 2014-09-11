@@ -43,19 +43,19 @@ public class SettingService extends ServiceBase {
 			if(!DPUtil.empty(remark)) {
 				setting.setRemark(remark);
 			}
-			setting.setIdCreate(member.getId());
-			setting.setIdUpdate(member.getId());
+			setting.setCreateId(member.getId());
+			setting.setUpdateId(member.getId());
 			setting.setSort(0);
-			setting.setTimeCreate(time);
-			setting.setTimeUpdate(time);
+			setting.setCreateTime(time);
+			setting.setUpdateTime(time);
 			return insert(setting) > 0;
 		} else {
 			setting.setContent(content);
 			if(!DPUtil.empty(remark)) {
 				setting.setRemark(remark);
 			}
-			setting.setIdUpdate(member.getId());
-			setting.setTimeUpdate(time);
+			setting.setUpdateId(member.getId());
+			setting.setUpdateTime(time);
 			return update(setting) > 0;
 		}
 	}

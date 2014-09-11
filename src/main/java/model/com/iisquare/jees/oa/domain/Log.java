@@ -14,9 +14,9 @@ public class Log {
 	private String action; // 方法名称
 	private String request; // 请求参数
 	private String result; // 操作结果
-	private Integer idCreate; // 创建者
-	private String ipCreate; // 注册IP
-	private long timeCreate; // 注册时间
+	private Integer createId; // 创建者
+	private String createIp; // 注册IP
+	private long createTime; // 注册时间
 
 	public Integer getId() {
 		return id;
@@ -82,28 +82,28 @@ public class Log {
 		this.result = result;
 	}
 
-	public Integer getIdCreate() {
-		return idCreate;
+	public Integer getCreateId() {
+		return createId;
 	}
 
-	public void setIdCreate(Integer idCreate) {
-		this.idCreate = idCreate;
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
 	}
 
-	public String getIpCreate() {
-		return ipCreate;
+	public String getCreateIp() {
+		return createIp;
 	}
 
-	public void setIpCreate(String ipCreate) {
-		this.ipCreate = ipCreate;
+	public void setCreateIp(String createIp) {
+		this.createIp = createIp;
 	}
 
-	public long getTimeCreate() {
-		return timeCreate;
+	public long getCreateTime() {
+		return createTime;
 	}
 
-	public void setTimeCreate(long timeCreate) {
-		this.timeCreate = timeCreate;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
 	public Log() {}

@@ -173,6 +173,26 @@ public class DPUtil {
 		return Float.parseFloat(str);
 	}
 	
+	/**
+	 * 转换为String类型
+	 */
+	public static String parseString(Object object) {
+		if(null == object) return "";
+		return object.toString();
+	}
+	
+	/**
+	 * 比较两个对象是否相等
+	 */
+	public static boolean equals(Object object1, Object object2) {
+		if(null == object1) {
+			if(null == object2) return true;
+		} else {
+			return object1.equals(object2);
+		}
+		return false;
+	}
+	
 	public static List<String> getMatcher(String regex, String str) {
 		return getMatcher(regex, str, true);
 	}
@@ -321,17 +341,21 @@ public class DPUtil {
 	
 	/**
 	 * 将ArrayList转换为String数组
-	 * @param list
-	 * @return
 	 */
-	public static String[] collectionToStringArray(Collection<String> list) {
+	public static String[] collectionToStringArray(Collection<?> list) {
+		return (String[]) collectionToArray(list);
+	}
+	
+	/**
+	 * 将ArrayList转换为Object数组
+	 */
+	public static Object[] collectionToArray(Collection<?> list) {
 		if(null == list) {
-			String[] stringArray = {};
-			return stringArray;
+			return new Object[]{};
 		}
-		String[] stringArray = new String[list.size()];
-		list.toArray(stringArray);
-		return stringArray;
+		Object[] objectArray = new Object[list.size()];
+		list.toArray(objectArray);
+		return objectArray;
 	}
 	
 	/**
@@ -655,5 +679,39 @@ public class DPUtil {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static List<Map<String, Object>> formatRelation(List<Map<String, Object>> list, Object root) {
+		return formatRelation(list, "id", "parent_id", "children", root);
+	}
+	
+	/**
+	 * 格式化层级关系
+	 */
+	public static List<Map<String, Object>> formatRelation(List<Map<String, Object>> list,
+			String primaryKey, String parentKey, String childrenKey, Object root) {
+		Map<Object, List<Map<String, Object>>> parentMap = new HashMap<Object, List<Map<String, Object>>>();
+		for (Map<String, Object> item : list) {
+			Object parentValue = item.get(parentKey);
+			List<Map<String, Object>> listSub = parentMap.get(parentValue);
+			if(null == listSub) {
+				listSub = new ArrayList<Map<String, Object>>();
+			}
+			listSub.add(item);
+			parentMap.put(parentValue, listSub);
+		}
+		return processFormatRelation(parentMap, primaryKey, childrenKey, root);
+	}
+	
+	private static List<Map<String, Object>> processFormatRelation(
+			Map<Object, List<Map<String, Object>>> parentMap, String primaryKey, String childrenKey, Object root) {
+		List<Map<String, Object>> list = parentMap.get(root);
+		if(null == list) {
+			return new ArrayList<Map<String, Object>>();
+		}
+		for(Map<String, Object> map : list) {
+			map.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, map.get(primaryKey)));
+		}
+		return list;
 	}
 }

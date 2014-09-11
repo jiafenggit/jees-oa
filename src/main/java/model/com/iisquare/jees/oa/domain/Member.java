@@ -9,17 +9,17 @@ public class Member {
 	private Integer id; // 主键
 	private String serial; // 编号
 	private String name; // 昵称
-	private Integer idCreate; // 创建者
-	private Integer idUpdate; // 修改者
+	private Integer createId; // 创建者
+	private Integer updateId; // 修改者
 	private String password; // 密码
 	private String salt; // 盐
 	private int sort; // 排序（从高到低）
 	private int status; // 状态（-1删除，0禁用，1正常）
-	private long timeCreate; // 注册时间
-	private long timeUpdate; // 修改时间
-	private long timeActive; // 最后活动时间
-	private String ipCreate; // 注册IP
-	private String ipActive; // 最后活动IP
+	private long createTime; // 注册时间
+	private long updateTime; // 修改时间
+	private long activeTime; // 最后活动时间
+	private String createIp; // 注册IP
+	private String activeIp; // 最后活动IP
 
 	public Integer getId() {
 		return id;
@@ -45,20 +45,20 @@ public class Member {
 		this.name = name;
 	}
 
-	public Integer getIdCreate() {
-		return idCreate;
+	public Integer getCreateId() {
+		return createId;
 	}
 
-	public void setIdCreate(Integer idCreate) {
-		this.idCreate = idCreate;
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
 	}
 
-	public Integer getIdUpdate() {
-		return idUpdate;
+	public Integer getUpdateId() {
+		return updateId;
 	}
 
-	public void setIdUpdate(Integer idUpdate) {
-		this.idUpdate = idUpdate;
+	public void setUpdateId(Integer updateId) {
+		this.updateId = updateId;
 	}
 
 	public String getPassword() {
@@ -93,44 +93,44 @@ public class Member {
 		this.status = status;
 	}
 
-	public long getTimeCreate() {
-		return timeCreate;
+	public long getCreateTime() {
+		return createTime;
 	}
 
-	public void setTimeCreate(long timeCreate) {
-		this.timeCreate = timeCreate;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
-	public long getTimeUpdate() {
-		return timeUpdate;
+	public long getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setTimeUpdate(long timeUpdate) {
-		this.timeUpdate = timeUpdate;
+	public void setUpdateTime(long updateTime) {
+		this.updateTime = updateTime;
 	}
 
-	public long getTimeActive() {
-		return timeActive;
+	public long getActiveTime() {
+		return activeTime;
 	}
 
-	public void setTimeActive(long timeActive) {
-		this.timeActive = timeActive;
+	public void setActiveTime(long activeTime) {
+		this.activeTime = activeTime;
 	}
 
-	public String getIpCreate() {
-		return ipCreate;
+	public String getCreateIp() {
+		return createIp;
 	}
 
-	public void setIpCreate(String ipCreate) {
-		this.ipCreate = ipCreate;
+	public void setCreateIp(String createIp) {
+		this.createIp = createIp;
 	}
 
-	public String getIpActive() {
-		return ipActive;
+	public String getActiveIp() {
+		return activeIp;
 	}
 
-	public void setIpActive(String ipActive) {
-		this.ipActive = ipActive;
+	public void setActiveIp(String activeIp) {
+		this.activeIp = activeIp;
 	}
 
 	public Member() {}

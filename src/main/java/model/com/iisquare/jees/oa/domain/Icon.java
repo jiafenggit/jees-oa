@@ -8,13 +8,13 @@ package com.iisquare.jees.oa.domain;
 public class Icon {
 	private Integer id; // 主键
 	private String name; // 名称
-	private Integer idType; // 分类
-	private Integer idCreate; // 创建者
-	private Integer idUpdate; // 修改者
+	private Integer typeId; // 分类
+	private Integer createId; // 创建者
+	private Integer updateId; // 修改者
 	private String url; // 图片地址
 	private int sort; // 排序（从高到低）
-	private long timeCreate; // 添加时间
-	private long timeUpdate; // 修改时间
+	private long createTime; // 添加时间
+	private long updateTime; // 修改时间
 
 	public Integer getId() {
 		return id;
@@ -32,28 +32,28 @@ public class Icon {
 		this.name = name;
 	}
 
-	public Integer getIdType() {
-		return idType;
+	public Integer getTypeId() {
+		return typeId;
 	}
 
-	public void setIdType(Integer idType) {
-		this.idType = idType;
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
 	}
 
-	public Integer getIdCreate() {
-		return idCreate;
+	public Integer getCreateId() {
+		return createId;
 	}
 
-	public void setIdCreate(Integer idCreate) {
-		this.idCreate = idCreate;
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
 	}
 
-	public Integer getIdUpdate() {
-		return idUpdate;
+	public Integer getUpdateId() {
+		return updateId;
 	}
 
-	public void setIdUpdate(Integer idUpdate) {
-		this.idUpdate = idUpdate;
+	public void setUpdateId(Integer updateId) {
+		this.updateId = updateId;
 	}
 
 	public String getUrl() {
@@ -72,20 +72,20 @@ public class Icon {
 		this.sort = sort;
 	}
 
-	public long getTimeCreate() {
-		return timeCreate;
+	public long getCreateTime() {
+		return createTime;
 	}
 
-	public void setTimeCreate(long timeCreate) {
-		this.timeCreate = timeCreate;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
-	public long getTimeUpdate() {
-		return timeUpdate;
+	public long getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setTimeUpdate(long timeUpdate) {
-		this.timeUpdate = timeUpdate;
+	public void setUpdateTime(long updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public Icon() {}

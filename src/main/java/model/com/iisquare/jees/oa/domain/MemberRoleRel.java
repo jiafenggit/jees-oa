@@ -6,23 +6,23 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class MemberRoleRel {
-	private Integer idMember;
-	private Integer idRole;
+	private Integer memberId;
+	private Integer roleId;
 	
-	public Integer getIdMember() {
-		return idMember;
+	public Integer getMemberId() {
+		return memberId;
 	}
 
-	public void setIdMember(Integer idMember) {
-		this.idMember = idMember;
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 
-	public Integer getIdRole() {
-		return idRole;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setIdRole(Integer idRole) {
-		this.idRole = idRole;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public MemberRoleRel() {}
@@ -32,8 +32,8 @@ public class MemberRoleRel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((idMember == null) ? 0 : idMember.hashCode());
-		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
+				+ ((memberId == null) ? 0 : memberId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -46,15 +46,15 @@ public class MemberRoleRel {
 		if (getClass() != obj.getClass())
 			return false;
 		MemberRoleRel other = (MemberRoleRel) obj;
-		if (idMember == null) {
-			if (other.idMember != null)
+		if (memberId == null) {
+			if (other.memberId != null)
 				return false;
-		} else if (!idMember.equals(other.idMember))
+		} else if (!memberId.equals(other.memberId))
 			return false;
-		if (idRole == null) {
-			if (other.idRole != null)
+		if (roleId == null) {
+			if (other.roleId != null)
 				return false;
-		} else if (!idRole.equals(other.idRole))
+		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

@@ -6,23 +6,23 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class MemberOrganizeRel {
-	private Integer idMember;
-	private Integer idOrganize;
+	private Integer memberId;
+	private Integer organizeId;
 
-	public Integer getIdMember() {
-		return idMember;
+	public Integer getMemberId() {
+		return memberId;
 	}
 
-	public void setIdMember(Integer idMember) {
-		this.idMember = idMember;
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 
-	public Integer getIdOrganize() {
-		return idOrganize;
+	public Integer getOrganizeId() {
+		return organizeId;
 	}
 
-	public void setIdOrganize(Integer idOrganize) {
-		this.idOrganize = idOrganize;
+	public void setOrganizeId(Integer organizeId) {
+		this.organizeId = organizeId;
 	}
 
 	public MemberOrganizeRel() {}
@@ -32,9 +32,9 @@ public class MemberOrganizeRel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((idMember == null) ? 0 : idMember.hashCode());
+				+ ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result
-				+ ((idOrganize == null) ? 0 : idOrganize.hashCode());
+				+ ((organizeId == null) ? 0 : organizeId.hashCode());
 		return result;
 	}
 
@@ -47,15 +47,15 @@ public class MemberOrganizeRel {
 		if (getClass() != obj.getClass())
 			return false;
 		MemberOrganizeRel other = (MemberOrganizeRel) obj;
-		if (idMember == null) {
-			if (other.idMember != null)
+		if (memberId == null) {
+			if (other.memberId != null)
 				return false;
-		} else if (!idMember.equals(other.idMember))
+		} else if (!memberId.equals(other.memberId))
 			return false;
-		if (idOrganize == null) {
-			if (other.idOrganize != null)
+		if (organizeId == null) {
+			if (other.organizeId != null)
 				return false;
-		} else if (!idOrganize.equals(other.idOrganize))
+		} else if (!organizeId.equals(other.organizeId))
 			return false;
 		return true;
 	}

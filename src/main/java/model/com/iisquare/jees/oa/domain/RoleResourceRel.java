@@ -6,23 +6,23 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class RoleResourceRel {
-	private Integer idRole;
-	private Integer idResource;
+	private Integer roleId;
+	private Integer resourceId;
 
-	public Integer getIdRole() {
-		return idRole;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setIdRole(Integer idRole) {
-		this.idRole = idRole;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public Integer getIdResource() {
-		return idResource;
+	public Integer getResourceId() {
+		return resourceId;
 	}
 
-	public void setIdResource(Integer idResource) {
-		this.idResource = idResource;
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
 	}
 
 	public RoleResourceRel() {}
@@ -32,8 +32,8 @@ public class RoleResourceRel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((idResource == null) ? 0 : idResource.hashCode());
-		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
+				+ ((resourceId == null) ? 0 : resourceId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -46,15 +46,15 @@ public class RoleResourceRel {
 		if (getClass() != obj.getClass())
 			return false;
 		RoleResourceRel other = (RoleResourceRel) obj;
-		if (idResource == null) {
-			if (other.idResource != null)
+		if (resourceId == null) {
+			if (other.resourceId != null)
 				return false;
-		} else if (!idResource.equals(other.idResource))
+		} else if (!resourceId.equals(other.resourceId))
 			return false;
-		if (idRole == null) {
-			if (other.idRole != null)
+		if (roleId == null) {
+			if (other.roleId != null)
 				return false;
-		} else if (!idRole.equals(other.idRole))
+		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

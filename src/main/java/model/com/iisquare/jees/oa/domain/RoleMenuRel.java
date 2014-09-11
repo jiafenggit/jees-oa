@@ -6,23 +6,23 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class RoleMenuRel {
-	private Integer idRole;
-	private Integer idMenu;
+	private Integer roleId;
+	private Integer menuId;
 
-	public Integer getIdRole() {
-		return idRole;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setIdRole(Integer idRole) {
-		this.idRole = idRole;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public Integer getIdMenu() {
-		return idMenu;
+	public Integer getMenuId() {
+		return menuId;
 	}
 
-	public void setIdMenu(Integer idMenu) {
-		this.idMenu = idMenu;
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
 	}
 
 	public RoleMenuRel() {}
@@ -31,8 +31,8 @@ public class RoleMenuRel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idMenu == null) ? 0 : idMenu.hashCode());
-		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
+		result = prime * result + ((menuId == null) ? 0 : menuId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -45,15 +45,15 @@ public class RoleMenuRel {
 		if (getClass() != obj.getClass())
 			return false;
 		RoleMenuRel other = (RoleMenuRel) obj;
-		if (idMenu == null) {
-			if (other.idMenu != null)
+		if (menuId == null) {
+			if (other.menuId != null)
 				return false;
-		} else if (!idMenu.equals(other.idMenu))
+		} else if (!menuId.equals(other.menuId))
 			return false;
-		if (idRole == null) {
-			if (other.idRole != null)
+		if (roleId == null) {
+			if (other.roleId != null)
 				return false;
-		} else if (!idRole.equals(other.idRole))
+		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

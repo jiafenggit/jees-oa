@@ -53,6 +53,34 @@ public class CPermitController extends CController {
 		
 	}
 	
+	/**
+	 * 判断是否拥有当前Action的权限
+	 */
+	public boolean hasPermit () {
+		return hasPermit(_MODULE_, _CONTROLLER_, _ACTION_);
+	}
+	
+	/**
+	 * 判断是否拥有对应Action的权限
+	 */
+	public boolean hasPermit (String action) {
+		return hasPermit(_MODULE_, _CONTROLLER_, action);
+	}
+	
+	/**
+	 * 判断是否拥有对应Controller中Action的权限
+	 */
+	public boolean hasPermit (String controller, String action) {
+		return hasPermit(_MODULE_, controller, action);
+	}
+	
+	/**
+	 * 判断是否拥有对应Module、Controller、Action的权限
+	 */
+	public boolean hasPermit (String module, String controller, String action) {
+		return true;
+	}
+	
 	@Override
 	public void destroy(HttpServletRequest request,
 			HttpServletResponse response, Object handler,

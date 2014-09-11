@@ -8,10 +8,10 @@ package com.iisquare.jees.oa.domain;
 public class Upload {
 	
 	private Integer id;
-	private Integer idCreate; // 创建者
+	private Integer createId; // 创建者
 	private String url;
 	private String file;
-	private long timeCreate; // 添加时间
+	private long createTime; // 添加时间
 
 	public Integer getId() {
 		return id;
@@ -21,12 +21,12 @@ public class Upload {
 		this.id = id;
 	}
 
-	public Integer getIdCreate() {
-		return idCreate;
+	public Integer getCreateId() {
+		return createId;
 	}
 
-	public void setIdCreate(Integer idCreate) {
-		this.idCreate = idCreate;
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
 	}
 
 	public String getUrl() {
@@ -45,12 +45,12 @@ public class Upload {
 		this.file = file;
 	}
 
-	public long getTimeCreate() {
-		return timeCreate;
+	public long getCreateTime() {
+		return createTime;
 	}
 
-	public void setTimeCreate(long timeCreate) {
-		this.timeCreate = timeCreate;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
 	public Upload() {}
