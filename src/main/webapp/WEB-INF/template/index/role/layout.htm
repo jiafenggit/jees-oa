@@ -1,34 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name" checkonselect="false" selectoncheck="false">
-	<thead>
-		<tr>
-			<th checkbox="true"></th>
-			<th field="name">名称</th>
-			<th field="sort">排序</th>
-			<th field="createTime">创建时间</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
+<table class="js-list-table"></table>
+<div id="toolbar">
 	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("editPower")]<a id="buttonEditPower" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-key" plain="true">权限编辑</a>[/#if]
+	
 	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-crowd" plain="true">用户列表</a>[/#if]
 </div>
+<script>
+$(function () {
+	$('.js-list-table').datagrid({
+		url : '[@url action="list" /]',
+		idField : 'id',
+		treeField : 'name',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'name',title:'名称'},
+			{field:'sort',title:'排序'},
+			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '[#if _BASE_.hasPermit("editPower")]<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-key" plain="true">权限编辑</a>[/#if]';
+			}}
+		]]
+	});
+});
+</script>
 
-<div class="createActionDialog modifyActionDialog" style="width:230px;height:170px" data-options="buttons:'#actionButton',modal:true,resizable:true">
-	<form class="createActionForm modifyActionForm" method="post" action=""></form>
-</div>
-<div id="actionButton">
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionOK modifyActionOK" data-options="iconCls:'icon-ok'">确定</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionCancel modifyActionCancel" data-options="iconCls:'icon-cancel'">取消</a>
-</div>
+
+
 <textarea id="Template-List" class="hidden">
 {#template MAIN}
-<table align="center" class="horizontalTable trHeight25">
+<table align="center" class="table-horizontal tr-height25">
 	<tr>
 		<th>上级</th>
 		<td>
@@ -50,7 +63,7 @@
 </table>
 {#/template MAIN}
 </textarea>
-<script>
+<script>/*
 function getRoleOptions(roles, selected, prefix, tips){
 	var str = '';
 	if(typeof tips != "undefined") {
@@ -120,5 +133,5 @@ $(function (){
 		var url = '[@url controller="member" action="listView" /]?rid=' + ids;
 		Web_redirectPage(url);
 	});
-});
+});*/
 </script>

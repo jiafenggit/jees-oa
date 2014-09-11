@@ -2,28 +2,28 @@
  * Dependence:code.js
 */
 
-/* Global settings Start */
-$.extend($.fn.pagination.defaults, {  
-	pageSize : Web_pageSize,
-	pageList : [10, 15, 20, 25, 30, 35, 40, 50, 70, 100]
-});
-$.extend($.fn.datagrid.defaults, {  
-	pageSize : $.fn.pagination.defaults.pageSize,
-	pageList : $.fn.pagination.defaults.pageList
-});
-$.extend($.messager.defaults, {  
-	ok : '确定',  
-	cancel : '取消'  
-});
-$.fn.datebox.defaults.formatter = function(date){
-	var y = date.getFullYear();
-	var m = date.getMonth() + 1;
-	if(10 > m) m = '0' + m;
-	var d = date.getDate();
-	if(10 > d) d = '0' + d;
-	return y + '-' + m + '-' + d;
-}
-/* Global settings End */
+/* Extend prototype */
+Date.prototype.format = function(format){ 
+	var o = { 
+		"M+" : this.getMonth()+1, // month 
+		"d+" : this.getDate(), // day 
+		"h+" : this.getHours(), // hour 
+		"m+" : this.getMinutes(), // minute 
+		"s+" : this.getSeconds(), // second 
+		"q+" : Math.floor((this.getMonth()+3) / 3), // quarter 
+		"S" : this.getMilliseconds() // millisecond 
+	} 
+	if(/(y+)/.test(format)) { 
+		format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+	} 
+	for(var k in o) { 
+		if(new RegExp("("+ k +")").test(format)) { 
+			var temp = RegExp.$1.length == 1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length);
+			format = format.replace(RegExp.$1, temp); 
+		} 
+	} 
+	return format; 
+} 
 
 /* Global functions Start */
 function Web_alertInfo(msg, callBack) {
@@ -108,11 +108,31 @@ function Web_getDataGridRowId(object) {
 }
 /* Global functions End */
 
+/* Global settings Start */
+$.extend($.fn.pagination.defaults, {  
+	pageSize : Web_pageSize,
+	pageList : [10, 15, 20, 25, 30, 35, 40, 50, 70, 100]
+});
+$.extend($.fn.datagrid.defaults, {  
+	pageSize : $.fn.pagination.defaults.pageSize,
+	pageList : $.fn.pagination.defaults.pageList
+});
+$.extend($.messager.defaults, {  
+	ok : '确定',  
+	cancel : '取消'  
+});
+$.fn.datebox.defaults.formatter = function(date){
+	var y = date.getFullYear();
+	var m = date.getMonth() + 1;
+	if(10 > m) m = '0' + m;
+	var d = date.getDate();
+	if(10 > d) d = '0' + d;
+	return y + '-' + m + '-' + d;
+}
+/* Global settings End */
+
 /* Comming tools Start */
 var platformTab = {};
-var controllerBar = {};
-/* Comming tools End */
-
 $(function () {
 	// Attributes
 	var platformTabsContextMenuIndex = -1;
@@ -234,227 +254,8 @@ $(function () {
 			}
 		}
 	});
-	
 	/* Events for Platform End */
-	
-	/* Events for ControllerBar Start */
-	controllerBar = {
-		enable : function () {
-			$('.controllerBar').find('a').each(function () {
-				$(this).linkbutton('enable');
-			});
-		},
-		disable : function () {
-			$('.controllerBar').find('a').each(function () {
-				$(this).linkbutton('disable');
-			});
-		},
-		actions : {
-			beforeCreate : function (eventObject) {
-				return {
-					status : 0,
-					message : {}
-				};
-				//return Web_url('create'); // 返回添加路径
-			},
-			create : function (eventObject, data) {
-				if(typeof data == 'undefined' || null == data) return ;
-				if(0 == data.status) {
-					$('.createActionForm').setTemplateElement('Template-List');
-					$('.createActionForm').processTemplate(data.message);
-					return true;
-				} else {
-					Web_alertInfo(data.message);
-					return false;
-				}
-			},
-			afterCreate : function (eventObject, data) {
-				// 添加窗口显示完成
-			},
-			beforeInsert : function (eventObject) {
-				eventObject.linkbutton('disable');
-				return Web_url('insert'); // 返回添加路径
-			},
-			afterInsert : function (eventObject, data) {
-				if(typeof data == 'undefined' || null == data) return ;
-				if(0 == data.status) {
-					Web_confirm(data.message + '重新载入当前页面......', function (result) {
-						if(result)Web_refreshCurrentPage();
-					});
-					eventObject.linkbutton('enable');
-					return true; // 信息添加完成，关闭窗口
-				} else {
-					Web_alertInfo(data.message);
-					eventObject.linkbutton('enable');
-					return false;
-				}
-				eventObject.linkbutton('enable');
-			},
-			beforeModify : function (eventObject) {
-				var id = Web_getDataGridRowId($('.listAction'));
-				if(-1 == id) return ;
-				return Web_url('modify') + '?id=' + id; // 获取修改路径
-			},
-			modify : function (eventObject, data) {
-				if(typeof data == 'undefined' || null == data) return false;
-				data = $.parseJSON(data);
-				if(0 == data.status) {
-					$('.modifyActionForm').setTemplateElement('Template-List');
-					$('.modifyActionForm').processTemplate(data.message);
-					return true;
-				} else {
-					Web_alertInfo(data.message);
-					return false;
-				}
-			},
-			afterModify : function (eventObject, data) {
-				// 修改窗口显示完成
-			},
-			beforeUpdate : function (eventObject) {
-				eventObject.linkbutton('disable');
-				var id = Web_getDataGridRowId($('.listAction'));
-				if(-1 == id) return ;
-				return Web_url('update') + '?id=' + id; // 获取更新路径
-			},
-			afterUpdate : function (eventObject, data) {
-				eventObject.linkbutton('enable');
-				if(typeof data == 'undefined' || null == data) return false;
-				if(0 == data.status) {
-					Web_confirm(data.message + '重新载入当前页面......', function (result) {
-						if(result)Web_refreshCurrentPage();
-					});
-					eventObject.linkbutton('enable');
-					return true; // 信息更新完成。关闭窗口
-				} else {
-					Web_alertInfo(data.message);
-					eventObject.linkbutton('enable');
-					return false;
-				}
-			},
-			beforeDelete : function (eventObject) {
-				var id = Web_getDataGridRowId($('.listAction'));
-				if(-1 == id) return ;
-				return Web_url('delete') + '?id=' + id; // 获取删除路径
-			},
-			afterDelete : function (eventObject, data) {
-				if(typeof data == 'undefined' || null == data) return ;
-				data = $.parseJSON(data);
-				if(0 == data.status) {
-					Web_confirm(data.message + '重新载入当前页面......', function (result) {
-						if(result)Web_refreshCurrentPage();
-					});
-				} else {
-					Web_alertInfo(data.message);
-				}
-			}
-		}
-	}
-	
-	$('.createAction').live('click', function () {
-		function insert(eventObject, insertData) {
-			if(controllerBar.actions.afterInsert(eventObject, insertData)) {
-				$('.createActionDialog').dialog('close');
-			}
-		}
-		function create(eventObject, createData) {
-			if(controllerBar.actions.create(eventObject, createData)) {
-				$('.createActionDialog').dialog({
-					title : '添加',
-					iconCls : 'icon-add',
-					onOpen : function () {
-						controllerBar.actions.afterCreate(eventObject, createData);
-						$.parser.parse($(this)); // 渲染easyUI元素
-					}
-				});
-				$('.createActionOK').unbind('click.action').bind('click.action' ,function () {
-					var $insertObject = $(this);
-					var insertData = controllerBar.actions.beforeInsert($insertObject);
-					if(typeof insertData == 'string' && insertData.length > 0) {
-						$('.createActionForm').form({
-							url : insertData,
-							success : function (data) {
-								data = $.parseJSON(data);
-								insert($insertObject, data);
-							}
-						}).submit();
-					} else {
-						insert($insertObject, insertData);
-					}
-				})
-				$('.createActionCancel').unbind('click.action').bind('click.action' ,function () {
-					$('.createActionDialog').dialog('close');
-				});
-			}
-		}
-		var $createObject = $(this);
-		var createData = controllerBar.actions.beforeCreate($createObject);
-		if(typeof createData == 'string' && createData.length > 0) {
-			$.post(createData, function (data) { // 获取新建数据
-				create($createObject, data);
-			});
-		} else {
-			create($createObject, createData);
-		}
-	});
-	$('.modifyAction').live('click', function () {
-		function update(eventObject, updateData) {
-			if(controllerBar.actions.afterUpdate(eventObject, updateData)) {
-				$('.modifyActionDialog').dialog('close');
-			}
-		}
-		function modify(eventObject, modifyData) {
-			if(controllerBar.actions.modify(eventObject, modifyData)) { // 调取修改函数
-				$('.modifyActionDialog').dialog({
-					title : '修改',
-					iconCls : 'icon-edit',
-					onOpen : function () {
-						controllerBar.actions.afterModify(eventObject, modifyData);
-						$.parser.parse($(this)); // 渲染easyUI元素
-					}
-				});
-				$('.modifyActionOK').unbind('click.action').bind('click.action' ,function () {
-					var $updateObject = $(this);
-					var updateData = controllerBar.actions.beforeUpdate($updateObject);
-					if(typeof updateData == 'string' && updateData.length > 0) {
-						$('.modifyActionForm').form('submit', {
-							url : updateData,
-							success : function (data) {
-								data = $.parseJSON(data);
-								update($updateObject, data);
-							}
-						});
-					} else {
-						update($insertObject, updateData);
-					}
-				})
-				$('.modifyActionCancel').unbind('click.action').bind('click.action' ,function () {
-					$('.modifyActionDialog').dialog('close');
-				});
-			}
-		}
-		var $modifyObject = $(this);
-		var modifyData = controllerBar.actions.beforeModify($modifyObject);
-		if(typeof modifyData == 'string' && modifyData.length > 0) {
-			$.post(modifyData, function (data) { // 获取修改数据
-				modify($modifyObject, data);
-			});
-		} else {
-			modify($modifyObject, modifyData);
-		}
-	});
-	$('.deleteAction').live('click', function () {
-		var $deleteObject = $(this);
-		var deleteData = controllerBar.actions.beforeDelete($deleteObject);
-		if(typeof deleteData == 'string' && deleteData.length > 0) {
-			$.post(deleteData, function (data) {
-				controllerBar.actions.afterDelete($deleteObject, data);
-			});
-		}
-	});
-	/* Events for ControllerBar End */
-	
-	// Trigger Events
-	$('#platform-west').load(Web_url('memberMenuList', 'Menu'), function () {
+	$('#platform-west').load(Web_url('memberMenuList', 'Menu'), function () { // Trigger Events
 		$.parser.parse($(this)); // 渲染easyUI元素
 		$('.platformMenuTree').each(function(index, element) {
 			$(this).tree({ // bind menu tree clicked
@@ -469,3 +270,4 @@ $(function () {
 	});
 	//platformTab.add('1', 'http://www.iisquare.com/');
 });
+/* Comming tools End */
