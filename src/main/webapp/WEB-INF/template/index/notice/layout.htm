@@ -18,7 +18,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("NoticeType", "layout")]<a href="[@url controller="NoticeType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
+	[#if _BASE_.hasPermit("NoticeType", "layout")]<a href="[@url controller="noticeType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
 	<div class="float-right margin-right5">
 		<div class="leftOfSerchBox">状态：
 		<input type="radio" name="read" value="-1" />全部

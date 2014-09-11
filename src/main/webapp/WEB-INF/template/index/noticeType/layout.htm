@@ -14,7 +14,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("Notice", "layout")]<a href="[@url controller="Notice" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">内容管理</a>[/#if]
+	[#if _BASE_.hasPermit("Notice", "layout")]<a href="[@url controller="notice" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">内容管理</a>[/#if]
 </div>
 
 <div class="createActionDialog modifyActionDialog" style="width:230px;height:140px" data-options="buttons:'#actionButton',modal:true,resizable:true">

@@ -28,10 +28,9 @@ public class RoleController extends CPermitController {
 	}
 	
 	public String listAction() throws Exception {
-		int count = roleService.getCount();
 		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
 		list = DPUtil.formatRelation(list, 0);
-		assign("total", count);
+		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
 	}

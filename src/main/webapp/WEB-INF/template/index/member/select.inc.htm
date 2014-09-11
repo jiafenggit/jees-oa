@@ -119,14 +119,14 @@ $(function () {
 	$('#selectMemberOrganizeTree').tree({
 		onClick : function (node) {
 			$selectMemberDatagridWithOrganize.datagrid({
-				url : '[@url controller="Member" action="list" /]?id=' + node.id
+				url : '[@url controller="member" action="list" /]?id=' + node.id
 			})
 		}
 	});
 	$('#selectMemberRoleTreegrid').treegrid({
 		onClickRow : function (rowData) {
 			$selectMemberDatagridWithRole.datagrid({
-				url : '[@url controller="Member" action="list" /]?id=' + rowData.id
+				url : '[@url controller="member" action="list" /]?id=' + rowData.id
 			})
 		}
 	});
@@ -194,7 +194,7 @@ $(function () {
 				if(null == selectMemberOrganizeData) {
 					var rootNode = $('#selectOrganizeTree').tree('getRoot');
 					if(null == rootNode) {
-						$.getJSON('[@url controller="Organize" action="list" /]',  function (data) {
+						$.getJSON('[@url controller="organize" action="list" /]',  function (data) {
 							selectMemberOrganizeData = data;
 						});
 					} else {

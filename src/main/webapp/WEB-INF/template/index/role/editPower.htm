@@ -10,7 +10,7 @@
 <form id="submitForm" method="post" action="[@url action="savePower" /]">
 <input type="hidden" name="id" value="${role.id}" />
 	<div data-options="region:'west',split:true,border:false,plain:true" class="width240 padding-left2" title="模块菜单">
-		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'[@url controller="Menu" action="roleMenuList" /]?id=${role.id}',lines:true"></ul>
+		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'[@url controller="menu" action="roleMenuList" /]?id=${role.id}',lines:true"></ul>
 	</div>
 	<div data-options="region:'center',split:true,border:false,plain:true">
 		<table cellspacing="1" cellpadding="0" class="table-line td-left">

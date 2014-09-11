@@ -20,7 +20,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("IconType", "layout")]<a href="[@url controller="IconType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
+	[#if _BASE_.hasPermit("IconType", "layout")]<a href="[@url controller="iconType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
 	[#if _BASE_.hasPermit("renderCss")]<a href="javascript:void(0);" class="easyui-linkbutton renderCss" iconcls="icon-reload" plain="true">生成样式</a>[/#if]
 	<div class="float-right margin-right5">
 		<input id="searchBox"></input>

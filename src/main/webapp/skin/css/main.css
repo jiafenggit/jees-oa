@@ -86,3 +86,15 @@ form { width:100%; height:100%;}
 #platform-west { width:200px;}
 #platform-center {}
 /* Style for platform End */
+
+/* Style for easyUI */
+.icon-logout { background:url('../images/icons/logout.png') no-repeat center center;}
+.icon-shutdown { background:url('../images/icons/shutdown.png') no-repeat center center;}
+.icon-home { background:url('../images/icons/home.png') no-repeat center center;}
+.icon-detail { background:url('../images/icons/detail.png') no-repeat center center;}
+.icon-type { background:url('../images/icons/type.png') no-repeat center center;}
+.icon-crowd { background:url('../images/icons/crowd.png') no-repeat center center;}
+.icon-key { background:url('../images/icons/key.png') no-repeat center center;}
+.icon-upload { background:url('../images/icons/upload.png') no-repeat center center;}
+.icon-select { background:url('../images/icons/select.png') no-repeat center center;}
+.icon-truncate { background:url('../images/icons/truncate.png') no-repeat center center;}
