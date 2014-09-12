@@ -43,7 +43,7 @@ public class SqlUtil {
 		StringBuilder where = new StringBuilder().append(key);
 		int length = values.length;
 		if(1 == length) {
-			where.append("=").append("?");
+			where.append("=?");
 		} else {
 			where.append(" in (").append(DPUtil.implode(",", DPUtil.getFillArray(length, "?"))).append(")");
 		}
@@ -63,7 +63,7 @@ public class SqlUtil {
 		if(DPUtil.empty(keys)) return "";
 		int length = keys.length;
 		if(DPUtil.empty(operators)) {
-			operators = DPUtil.getFillArray(length, "?");
+			operators = DPUtil.getFillArray(length, "=");
 		}
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < length; i++) {
@@ -129,9 +129,9 @@ public class SqlUtil {
 			}
 			sbFileds.append(keys[i]);
 			if(bPlaceholder) {
-				sbValues.append("?");
+				sbValues.append("=?");
 			} else {
-				sbValues.append(":").append(keys[i]);
+				sbValues.append("=:").append(keys[i]);
 			}
 		}
 		StringBuilder sb = new StringBuilder("insert into ").append(tableName).append(" (")
@@ -149,11 +149,11 @@ public class SqlUtil {
 			if(i > 0) {
 				sb.append(", ");
 			}
-			sb.append(keys[i]).append("=");
+			sb.append(keys[i]);
 			if(bPlaceholder) {
-				sb.append("?");
+				sb.append("=?");
 			} else {
-				sb.append(":").append(keys[i]);
+				sb.append("=:").append(keys[i]);
 			}
 		}
 		if(!DPUtil.empty(where)) {
