@@ -3,15 +3,14 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	
-	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-crowd" plain="true">用户列表</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true">反选</a>
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
+	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-crowd',plain:true">用户列表</a>[/#if]
+	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
 </div>
 <script>
 $(function () {
-	$('.js-list-table').datagrid({
+	$('.js-list-table').treegrid({
 		url : '[@url action="list" /]',
 		idField : 'id',
 		treeField : 'name',
@@ -30,9 +29,17 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("editPower")]<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-key" plain="true">权限编辑</a>[/#if]';
+				return '[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("editPower")]<a href="javascript:void(0);" class="js-list-button" data-options="iconCls:\'icon-key\'">编辑权限</a>[/#if]';
 			}}
-		]]
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		}
 	});
 });
 </script>
