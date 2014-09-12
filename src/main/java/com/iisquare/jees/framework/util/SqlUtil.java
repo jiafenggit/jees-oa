@@ -1,6 +1,5 @@
 package com.iisquare.jees.framework.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,35 +31,42 @@ public class SqlUtil {
 		return sql;
 	}
 	
-	public static String[] fillOperators(int length, String operator) {
-		String str[] = new String[length];
-		Arrays.fill(str, operator);
-		return str;
+	public static String convertWhereField(Object keys) {
+		return DPUtil.stringConcat("w_", keys);
 	}
 	
-	public static String fillPlaceholder(int length) {
-		return DPUtil.implode(",", fillOperators(length, "?"));
-	}
-	
-	public static String buildWhereIn(String key, boolean bPlaceholder, Object... ids) {
-		if(DPUtil.empty(ids)) return null;
+	/**
+	 * 仅支持占位符方式
+	 */
+	public static String buildWhereIn(String key, Object... values) {
+		if(DPUtil.empty(values)) return null;
 		StringBuilder where = new StringBuilder().append(key);
-		int length = ids.length;
+		int length = values.length;
 		if(1 == length) {
-			where.append(" = ?");
+			where.append("=").append("?");
 		} else {
-			where.append(" in (").append(fillPlaceholder(length)).append(")");
+			where.append(" in (").append(DPUtil.implode(",", DPUtil.getFillArray(length, "?"))).append(")");
 		}
 		return where.toString();
 	}
 	
+	public static Map<String, Object> convertWhereMap(Map<String, Object> where) {
+		if(null == where) return null;
+		Map<String, Object> map = new HashMap<String, Object>(DPUtil.parseInt(where.size() / 0.75f));
+		for(Map.Entry<String, Object> item : where.entrySet()) {
+			map.put(convertWhereField(item.getKey()), item.getValue());
+		}
+		return map;
+	}
+	
 	public static String buildWhere(Object[] keys, Object[] operators, boolean bPlaceholder) {
 		if(DPUtil.empty(keys)) return "";
+		int length = keys.length;
 		if(DPUtil.empty(operators)) {
-			operators = fillOperators(keys.length, "=");
+			operators = DPUtil.getFillArray(length, "?");
 		}
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < keys.length; i++) {
+		for(int i = 0; i < length; i++) {
 			if(i > 0) {
 				sb.append(" and ");
 			}
@@ -68,7 +74,7 @@ public class SqlUtil {
 			if(bPlaceholder) {
 				sb.append("?");
 			} else {
-				sb.append(":").append(keys[i]);
+				sb.append(":").append(convertWhereField(keys[i]));
 			}
 		}
 		return sb.toString();

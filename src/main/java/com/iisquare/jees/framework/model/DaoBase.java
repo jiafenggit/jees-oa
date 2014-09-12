@@ -101,7 +101,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 获取对应的数据库表名称
 	 */
 	public String tableName() {
-		return configuration.getTablePrefix() + DPUtil.addUnderscores(entityClass.getSimpleName());
+		return DPUtil.stringConcat(configuration.getTablePrefix(), DPUtil.addUnderscores(entityClass.getSimpleName()));
 	}
 	
 	/**
@@ -172,6 +172,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int update(Map<String, Object> values,
 			Map<String, Object> where, Map<String, String> operators) {
+		values.putAll(SqlUtil.convertWhereMap(where));
 		return update(values, SqlUtil.buildWhere(where, operators));
 	}
 	
@@ -180,6 +181,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int update(String[] fields, Object[] values,
 			String[] whereFields, Object[] whereValues, String[] operators) {
+		values = DPUtil.arrayMerge(values, whereValues);
 		return update(fields, values, SqlUtil.buildWhere(whereFields, operators, true));
 	}
 	
@@ -187,14 +189,19 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据ID更新记录，返回影响行数
 	 */
 	public int updateByIds(Map<String, Object> values, Object... ids) {
-		return update(values, SqlUtil.buildWhere(primaryKey, ids));
+		String[] fieldArray = DPUtil.collectionToStringArray(values.keySet());
+		Object[] valueArray = DPUtil.collectionToArray(values.values());
+		return updateByIds(fieldArray, valueArray, ids);
 	}
 	
 	/**
 	 * 根据ID更新记录，返回影响行数
 	 */
 	public int updateByIds(String[] fields, Object[] values, Object... ids) {
-		return update(fields, values, SqlUtil.buildWhere(primaryKey, ids));
+		if(DPUtil.empty(ids)) return 0;
+		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String sql = SqlUtil.buildUpdate(tableName(), fields, where, true);
+		return update(sql, DPUtil.arrayMerge(values, ids));
 	}
 	
 	/**
@@ -234,26 +241,10 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据ID删除记录，返回影响行数
 	 */
 	public int deleteByIds(Object... ids) {
-		return delete(SqlUtil.buildWhere(primaryKey, ids));
-	}
-	
-	/**
-	 * 根据ID获取Entity对象
-	 */
-	public T getById(Object id) {
-		String sql = SqlUtil.buildSelect(tableName(), "*", SqlUtil.buildWhere(primaryKey, id), null, 1, 1);
-		return queryForObject(sb.toString(), new Object[]{id}, new BeanPropertyRowMapper<T>(entityClass));
-	}
-	
-	/**
-	 * 根据ID获取Map对像
-	 */
-	public Map<String, Object> getById(String columns, Object id) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select ").append(columns).append(" from ").append(tableName())
-				.append(" where ").append(primaryKey).append(" = ? limit 1");
-		
-		return queryForMap(sb.toString(), new Object[]{id});
+		if(DPUtil.empty(ids)) return 0;
+		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String sql = SqlUtil.buildDelete(tableName(), where);
+		return update(sql, ids);
 	}
 	
 	/**
@@ -261,10 +252,10 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public List<T> getByIds(Object... ids) {
 		if(DPUtil.empty(ids)) return new ArrayList<T>(0);
-		StringBuilder sb = new StringBuilder();
-		sb.append("select * from ").append(tableName()).append(" where ")
-				.append(primaryKey).append(" in (").append(DPUtil.makeIds(ids)).append(")");
-		return query(sb.toString(), ids, new BeanPropertyRowMapper<T>(entityClass));
+		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		int pageSize = (1 == ids.length) ? 1 : 0;
+		String sql = SqlUtil.buildSelect(tableName(), "*", where, null, 1, pageSize);
+		return query(sql, ids, new BeanPropertyRowMapper<T>(entityClass));
 	}
 	
 	/**
@@ -272,11 +263,10 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public List<Map<String, Object>> getByIds(String columns, Object... ids) {
 		if(DPUtil.empty(ids)) return new ArrayList<Map<String, Object>>(0);
-		StringBuilder sb = new StringBuilder();
-		sb.append("select ").append(columns).append(" from ").append(tableName())
-				.append(" where ").append(primaryKey)
-				.append(" in (").append(DPUtil.makeIds(ids)).append(")");
-		return queryForList(sb.toString(), ids);
+		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		int pageSize = (1 == ids.length) ? 1 : 0;
+		String sql = SqlUtil.buildSelect(tableName(), columns, where, null, 1, pageSize);
+		return queryForList(sql, ids);
 	}
 	
 	/**

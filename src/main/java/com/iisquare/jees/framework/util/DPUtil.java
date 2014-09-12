@@ -541,4 +541,24 @@ public class DPUtil {
 		}
 		return collectionToArray(list);
 	}
+	
+	/**
+	 * 将多个对象连接为字符串
+	 */
+	public static String stringConcat(Object... objects) {
+		StringBuilder sb = new StringBuilder();
+		for(Object object : objects) {
+			if(null != object) sb.append(object);
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * 获取初始化填充数组
+	 */
+	public static Object[] getFillArray(int length, Object object) {
+		Object[] objects = new Object[length];
+		Arrays.fill(objects, object);
+		return objects;
+	}
 }
