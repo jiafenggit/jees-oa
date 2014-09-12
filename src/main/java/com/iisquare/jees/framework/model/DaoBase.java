@@ -199,7 +199,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int updateByIds(String[] fields, Object[] values, Object... ids) {
 		if(DPUtil.empty(ids)) return 0;
-		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String where = SqlUtil.buildWhereIn(primaryKey, ids);
 		String sql = SqlUtil.buildUpdate(tableName(), fields, where, true);
 		return update(sql, DPUtil.arrayMerge(values, ids));
 	}
@@ -242,9 +242,27 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int deleteByIds(Object... ids) {
 		if(DPUtil.empty(ids)) return 0;
-		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String where = SqlUtil.buildWhereIn(primaryKey, ids);
 		String sql = SqlUtil.buildDelete(tableName(), where);
 		return update(sql, ids);
+	}
+	
+	/**
+	 * 根据ID获取Entity对象
+	 */
+	public T getById(Object id) {
+		List<T> list = getByIds(id);
+		if(list.size() > 0) return list.get(0);
+		return null;
+	}
+	
+	/**
+	 * 根据ID获取Map对像
+	 */
+	public Map<String, Object> getById(String columns, Object id) {
+		List<Map<String, Object>> list = getByIds(columns, id);
+		if(list.size() > 0) return list.get(0);
+		return null;
 	}
 	
 	/**
@@ -252,7 +270,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public List<T> getByIds(Object... ids) {
 		if(DPUtil.empty(ids)) return new ArrayList<T>(0);
-		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String where = SqlUtil.buildWhereIn(primaryKey, ids);
 		int pageSize = (1 == ids.length) ? 1 : 0;
 		String sql = SqlUtil.buildSelect(tableName(), "*", where, null, 1, pageSize);
 		return query(sql, ids, new BeanPropertyRowMapper<T>(entityClass));
@@ -263,7 +281,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public List<Map<String, Object>> getByIds(String columns, Object... ids) {
 		if(DPUtil.empty(ids)) return new ArrayList<Map<String, Object>>(0);
-		String where = SqlUtil.buildWhereIn(primaryKey, true, ids);
+		String where = SqlUtil.buildWhereIn(primaryKey, ids);
 		int pageSize = (1 == ids.length) ? 1 : 0;
 		String sql = SqlUtil.buildSelect(tableName(), columns, where, null, 1, pageSize);
 		return queryForList(sql, ids);

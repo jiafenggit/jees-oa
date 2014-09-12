@@ -156,7 +156,7 @@ public class DPUtil {
 	 */
 	public static String parseString(Object object) {
 		if(null == object) return "";
-		return object.toString();
+		return String.valueOf(object);
 	}
 	
 	/**
@@ -298,14 +298,19 @@ public class DPUtil {
 	}
 	
 	/**
-	 * 将ArrayList转换为String数组
+	 * 将Collection转换为String数组
 	 */
-	public static String[] collectionToStringArray(Collection<?> list) {
-		return (String[]) collectionToArray(list);
+	public static String[] collectionToStringArray(Collection<?> collection) {
+		if(null == collection) {
+			return new String[]{};
+		}
+		String[] stringArray = new String[collection.size()];
+		collection.toArray(stringArray);
+		return stringArray;
 	}
 	
 	/**
-	 * 将ArrayList转换为Object数组
+	 * 将Collection转换为Object数组
 	 */
 	public static Object[] collectionToArray(Collection<?> collection) {
 		if(null == collection) {
