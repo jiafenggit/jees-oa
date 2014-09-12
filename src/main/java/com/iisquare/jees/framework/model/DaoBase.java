@@ -127,6 +127,15 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 添加记录，返回自增长ID
 	 */
+	public int insert(String[] fields, Object[] values) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		int result = update(SqlUtil.buildInsert(tableName(), fields, true) , values, keyHolder);
+		return result > 0 ? keyHolder.getKey().intValue() : result;
+	}
+	
+	/**
+	 * 添加记录，返回自增长ID
+	 */
 	public int insert(T object) {
 		Map<String, Object> values = DPUtil.convertEntityToMap(object, true);
 		if(null == values) return 0;
@@ -153,20 +162,39 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 更新记录，返回影响行数
 	 */
-	public int update(Map<String, Object> values, Map<String, Object> where, Map<String, String> operators) {
-		String sql = SqlUtil.buildUpdate(tableName(), values, SqlUtil.buildWhere(where, operators));
-		return npJdbcTemplate().update(sql, values);
+	public int update(String[] fields, Object[] values, String where) {
+		String sql = SqlUtil.buildUpdate(tableName(), fields, where, true);
+		return update(sql, values);
+	}
+	
+	/**
+	 * 更新记录，返回影响行数
+	 */
+	public int update(Map<String, Object> values,
+			Map<String, Object> where, Map<String, String> operators) {
+		return update(values, SqlUtil.buildWhere(where, operators));
+	}
+	
+	/**
+	 * 更新记录，返回影响行数
+	 */
+	public int update(String[] fields, Object[] values,
+			String[] whereFields, Object[] whereValues, String[] operators) {
+		return update(fields, values, SqlUtil.buildWhere(whereFields, operators, true));
 	}
 	
 	/**
 	 * 根据ID更新记录，返回影响行数
 	 */
 	public int updateByIds(Map<String, Object> values, Object... ids) {
-		if(DPUtil.empty(ids)) return 0;
-		StringBuilder where = new StringBuilder();
-		where.append(primaryKey).append(" in (").append(DPUtil.makeIds(ids)).append(")");
-		String sql = SqlUtil.buildUpdate(tableName(), values, where.toString());
-		return npJdbcTemplate().update(sql, values);
+		return update(values, SqlUtil.buildWhere(primaryKey, ids));
+	}
+	
+	/**
+	 * 根据ID更新记录，返回影响行数
+	 */
+	public int updateByIds(String[] fields, Object[] values, Object... ids) {
+		return update(fields, values, SqlUtil.buildWhere(primaryKey, ids));
 	}
 	
 	/**
@@ -195,30 +223,32 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 删除记录，返回影响行数
+	 */
+	public int delete(String[] whereFields, Object[] whereValues, String[] operators) {
+		String sql = SqlUtil.buildDelete(tableName(), SqlUtil.buildWhere(whereFields, operators, true));
+		return update(sql, whereValues);
+	}
+	
+	/**
 	 * 根据ID删除记录，返回影响行数
 	 */
 	public int deleteByIds(Object... ids) {
-		if(DPUtil.empty(ids)) return 0;
-		StringBuilder where = new StringBuilder();
-		where.append(primaryKey).append(" in (").append(DPUtil.makeIds(ids)).append(")");
-		String sql = SqlUtil.buildDelete(tableName(), where.toString());
-		return npJdbcTemplate().update(sql, new HashMap<String, Object>());
+		return delete(SqlUtil.buildWhere(primaryKey, ids));
 	}
 	
 	/**
 	 * 根据ID获取Entity对象
 	 */
-	public T getById(int id) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select * from ").append(tableName()).append(" where ")
-				.append(primaryKey).append(" = ? limit 1");
+	public T getById(Object id) {
+		String sql = SqlUtil.buildSelect(tableName(), "*", SqlUtil.buildWhere(primaryKey, id), null, 1, 1);
 		return queryForObject(sb.toString(), new Object[]{id}, new BeanPropertyRowMapper<T>(entityClass));
 	}
 	
 	/**
 	 * 根据ID获取Map对像
 	 */
-	public Map<String, Object> getById(String columns, int id) {
+	public Map<String, Object> getById(String columns, Object id) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("select ").append(columns).append(" from ").append(tableName())
 				.append(" where ").append(primaryKey).append(" = ? limit 1");
@@ -288,11 +318,30 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 根据多个字段获取Entity对象
+	 */
+	public T getByFields(String[] whereFields, Object[] whereValues, String[] operators, String append) {
+		 List<T> list = getPage(whereFields, whereValues, operators, append, 1, 1);
+		 if(list.size() < 1) return null;
+		return list.get(0);
+	}
+	
+	/**
 	 * 根据多个字段获取Map对象
 	 */
 	public Map<String, Object> getByFields(String columns,
 			Map<String, Object> where, Map<String, String> operators, String append) {
 		 List<Map<String, Object>> list = getPage(columns, where, operators, append, 1, 1);
+		 if(list.size() < 1) return null;
+		return list.get(0);
+	}
+	
+	/**
+	 * 根据多个字段获取Map对象
+	 */
+	public Map<String, Object> getByFields(String columns,
+			String[] whereFields, Object[] whereValues, String[] operators, String append) {
+		 List<Map<String, Object>> list = getPage(columns, whereFields, whereValues, operators, append, 1, 1);
 		 if(list.size() < 1) return null;
 		return list.get(0);
 	}
@@ -307,6 +356,16 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 获取分页Entity对象
+	 */
+	public List<T> getPage(String[] whereFields,
+			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), "*",
+				SqlUtil.buildWhere(whereFields, operators, true), append, page, pageSize);
+		return query(sql, whereValues, new BeanPropertyRowMapper<T>(entityClass));
+	}
+	
+	/**
 	 * 获取分页Map对象
 	 */
 	public List<Map<String, Object>> getPage(String columns, Map<String, Object> where,
@@ -317,10 +376,27 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 获取分页Map对象
+	 */
+	public List<Map<String, Object>> getPage(String columns, String[] whereFields,
+			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), columns,
+				SqlUtil.buildWhere(whereFields, operators, true), append, page, pageSize);
+		return queryForList(sql, whereValues);
+	}
+	
+	/**
 	 * 获取Entity对象列表
 	 */
 	public List<T> getAll(Map<String, Object> where, Map<String, String> operators, String append) {
 		return getPage(where, operators, append, 0, 0);
+	}
+	
+	/**
+	 * 获取Entity对象列表
+	 */
+	public List<T> getAll(String[] whereFields, Object[] whereValues, String[] operators, String append) {
+		return getPage(whereFields, whereValues, operators, append, 0, 0);
 	}
 	
 	/**
@@ -332,12 +408,30 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
+	 * 获取Map对象列表
+	 */
+	public List<Map<String, Object>> getAll(String columns,
+			String[] whereFields, Object[] whereValues, String[] operators, String append) {
+		return getPage(columns, whereFields, whereValues, operators, append, 0, 0);
+	}
+	
+	/**
 	 * 获取查询记录结果条数
 	 */
 	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
 		String count = "COUNT(*)";
 		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(where, operators), append, 1, 1);
 		Number number = npJdbcTemplate().queryForObject(sql, where, Integer.class);
+		return (number != null ? number.intValue() : 0);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount(String[] whereFields, Object[] whereValues, String[] operators, String append) {
+		String count = "COUNT(*)";
+		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(whereFields, operators, true), append, 1, 1);
+		Number number = queryForObject(sql, whereValues, Integer.class);
 		return (number != null ? number.intValue() : 0);
 	}
 }

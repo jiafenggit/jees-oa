@@ -38,7 +38,23 @@ public class SqlUtil {
 		return str;
 	}
 	
-	public static String buildWhere(Object[] keys, Object[] operators) {
+	public static String fillPlaceholder(int length) {
+		return DPUtil.implode(",", fillOperators(length, "?"));
+	}
+	
+	public static String buildWhereIn(String key, boolean bPlaceholder, Object... ids) {
+		if(DPUtil.empty(ids)) return null;
+		StringBuilder where = new StringBuilder().append(key);
+		int length = ids.length;
+		if(1 == length) {
+			where.append(" = ?");
+		} else {
+			where.append(" in (").append(fillPlaceholder(length)).append(")");
+		}
+		return where.toString();
+	}
+	
+	public static String buildWhere(Object[] keys, Object[] operators, boolean bPlaceholder) {
 		if(DPUtil.empty(keys)) return "";
 		if(DPUtil.empty(operators)) {
 			operators = fillOperators(keys.length, "=");
@@ -48,7 +64,12 @@ public class SqlUtil {
 			if(i > 0) {
 				sb.append(" and ");
 			}
-			sb.append(keys[i]).append(operators[i]).append(":").append(keys[i]);
+			sb.append(keys[i]).append(operators[i]);
+			if(bPlaceholder) {
+				sb.append("?");
+			} else {
+				sb.append(":").append(keys[i]);
+			}
 		}
 		return sb.toString();
 	}
@@ -56,7 +77,7 @@ public class SqlUtil {
 	public static String buildWhere(Map<String, Object> where, Map<String, String> operators) {
 		if(DPUtil.empty(where)) return "";
 		if(DPUtil.empty(operators)) {
-			return buildWhere(where.keySet().toArray(), null);
+			return buildWhere(where.keySet().toArray(), null, false);
 		} else {
 			/* Map内部元素顺序随机 */
 			String[] keys = DPUtil.collectionToStringArray(where.keySet());
@@ -65,7 +86,7 @@ public class SqlUtil {
 			for(int i = 0; i < length; i++) {
 				values[i] = operators.get(keys[i]);
 			}
-			return buildWhere(keys, values);
+			return buildWhere(keys, values, false);
 		}
 	}
 	
@@ -77,7 +98,8 @@ public class SqlUtil {
 		return map;
 	}
 	
-	public static String buildSelect(String tableName, String fields, String where, String append, int page, int pageSize) {
+	public static String buildSelect(String tableName,
+			String fields, String where, String append, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select ").append(fields).append(" from ").append(tableName);
 		if(!DPUtil.empty(where)) {
 			sb.append(" where ").append(where);
@@ -91,7 +113,7 @@ public class SqlUtil {
 		return sb.toString();
 	}
 	
-	public static String buildInsert(String tableName, Object[] keys) {
+	public static String buildInsert(String tableName, Object[] keys, boolean bPlaceholder) {
 		StringBuilder sbFileds = new StringBuilder();
 		StringBuilder sbValues = new StringBuilder();
 		for(int i = 0; i < keys.length; i++) {
@@ -100,7 +122,11 @@ public class SqlUtil {
 				sbValues.append(", ");
 			}
 			sbFileds.append(keys[i]);
-			sbValues.append(":").append(keys[i]);
+			if(bPlaceholder) {
+				sbValues.append("?");
+			} else {
+				sbValues.append(":").append(keys[i]);
+			}
 		}
 		StringBuilder sb = new StringBuilder("insert into ").append(tableName).append(" (")
 				.append(sbFileds.toString()).append(") values (").append(sbValues.toString()).append(")");
@@ -108,16 +134,21 @@ public class SqlUtil {
 	}
 	
 	public static String buildInsert(String tableName, Map<String, Object> values) {
-		return buildInsert(tableName, values.keySet().toArray());
+		return buildInsert(tableName, values.keySet().toArray(), false);
 	}
 	
-	public static String buildUpdate(String tableName, Object[] keys, String where) {
+	public static String buildUpdate(String tableName, Object[] keys, String where, boolean bPlaceholder) {
 		StringBuilder sb = new StringBuilder("update ").append(tableName).append(" set ");
 		for(int i = 0; i < keys.length; i++) {
 			if(i > 0) {
 				sb.append(", ");
 			}
-			sb.append(keys[i]).append("=").append(":").append(keys[i]);
+			sb.append(keys[i]).append("=");
+			if(bPlaceholder) {
+				sb.append("?");
+			} else {
+				sb.append(":").append(keys[i]);
+			}
 		}
 		if(!DPUtil.empty(where)) {
 			sb.append(" where ").append(where);
@@ -126,7 +157,7 @@ public class SqlUtil {
 	}
 	
 	public static String buildUpdate(String tableName, Map<String, Object> values, String where) {
-		return buildUpdate(tableName, values.keySet().toArray(), where);
+		return buildUpdate(tableName, values.keySet().toArray(), where, false);
 	}
 	
 	public static String buildDelete(String tableName, String where) {

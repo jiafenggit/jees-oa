@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,9 +53,7 @@ public class DPUtil {
 	}
 	
 	/**
-	 * MD5加密字符串
-	 * @param str
-	 * @return 大写32位字符串
+	 * MD5加密字符串（大写）
 	 */
 	public static String MD5(String str) {
 		try {
@@ -75,8 +72,6 @@ public class DPUtil {
 	
 	/**
 	 * 获取随机整数字符串，最长为16位
-	 * @param length
-	 * @return
 	 */
 	public static String random(int length) {
 		if(length > 16) length = 16;
@@ -86,9 +81,6 @@ public class DPUtil {
 	
 	/**
 	 * 毫秒转换为格式化日期
-	 * @param millis 毫秒
-	 * @param format 格式
-	 * @return
 	 */
 	public static String millisToDateTime(long millis, String format) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
@@ -97,9 +89,6 @@ public class DPUtil {
 	
 	/**
 	 * 格式化日期转换为毫秒
-	 * @param dateTime 日期
-	 * @param format 格式
-	 * @return
 	 */
 	public static long dateTimeToMillis(String dateTime, String format) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
@@ -112,8 +101,6 @@ public class DPUtil {
 	
 	/**
 	 * 获取当前日期
-	 * @param format 日期格式
-	 * @return
 	 */
 	public static String getCurrentDateTime(String format) {
 		return millisToDateTime(System.currentTimeMillis(), format);
@@ -121,7 +108,6 @@ public class DPUtil {
 	
 	/**
 	 * 获取当前秒数
-	 * @return
 	 */
 	public static int getCurrentSeconds() {
 		String str = System.currentTimeMillis() + "";
@@ -131,8 +117,6 @@ public class DPUtil {
 	
 	/**
 	 * 转换为int类型
-	 * @param object
-	 * @return
 	 */
 	public static int parseInt(Object object) {
 		return (int) parseDouble(object);
@@ -140,8 +124,6 @@ public class DPUtil {
 	
 	/**
 	 * 转换为long类型
-	 * @param object
-	 * @return
 	 */
 	public static long parseLong(Object object) {
 		return (long) parseDouble(object);
@@ -149,8 +131,6 @@ public class DPUtil {
 	
 	/**
 	 * 转换为double类型
-	 * @param object
-	 * @return
 	 */
 	public static double parseDouble(Object object) {
 		if(null == object) return 0.0;
@@ -162,8 +142,6 @@ public class DPUtil {
 	
 	/**
 	 * 转换为float类型
-	 * @param object
-	 * @return
 	 */
 	public static float parseFloat(Object object) {
 		if(null == object) return 0.0f;
@@ -222,9 +200,6 @@ public class DPUtil {
 	
 	/**
 	 * 获取第一个匹配的字符串
-	 * @param regex
-	 * @param str
-	 * @return
 	 */
 	public static String getFirstMatcher(String regex, String str) {
 		Pattern pattern = Pattern.compile(regex);
@@ -313,23 +288,6 @@ public class DPUtil {
 	}
 	
 	/**
-	 * 采用指定表达式分隔字符串
-	 * @param string 带分割字符串
-	 * @param splitRegex 表达式
-	 * @return 分隔后的字符串数组
-	 */
-	public static String[] explode(String string, String splitRegex) {
-		List<String> list = new ArrayList<String>(0);
-		if(DPUtil.empty(string)) {
-			return new String[]{};
-		}
-		for (String str : string.split(splitRegex)) {
-			list.add(str);
-		}
-		return DPUtil.collectionToStringArray(list);
-	}
-	
-	/**
 	 * 将String数组转换为ArrayList
 	 * @param stringArray
 	 * @return
@@ -349,12 +307,12 @@ public class DPUtil {
 	/**
 	 * 将ArrayList转换为Object数组
 	 */
-	public static Object[] collectionToArray(Collection<?> list) {
-		if(null == list) {
+	public static Object[] collectionToArray(Collection<?> collection) {
+		if(null == collection) {
 			return new Object[]{};
 		}
-		Object[] objectArray = new Object[list.size()];
-		list.toArray(objectArray);
+		Object[] objectArray = new Object[collection.size()];
+		collection.toArray(objectArray);
 		return objectArray;
 	}
 	
@@ -371,31 +329,25 @@ public class DPUtil {
 		return intArray;
 	}
 	
-	/**
-	 * 采用指定字符拼接List
-	 * @param split
-	 * @param list
-	 * @return
-	 */
-	public static String implode(String split, List<?> list) {
-		return implode(split, list, "", "");
+	public static String implode(String split, Object[] objects) {
+		return implode(split, objects, "", "");
 	}
 	
 	/**
-	 * 采用指定字符拼接List
-	 * @param split
-	 * @param list
+	 * 采用指定字符拼接数组
+	 * @param split 分隔符
+	 * @param objects 数组
 	 * @param prefix 增加前缀
 	 * @param subffix 增加后缀
 	 * @return
 	 */
-	public static String implode(String split, List<?> list, String prefix, String subffix) {
+	public static String implode(String split, Object[] objects, String prefix, String subffix) {
 		StringBuilder sb = new StringBuilder();
-		if(null == list) return "";
-		int size = list.size();
+		if(null == objects) return "";
+		int size = objects.length;
 		if(1 > size) return "";
 		for(int i = 0; i < size; i++) {
-			Object value = list.get(i);
+			Object value = objects[i];
 			if(null == value) continue;
 			if(value instanceof List) {
 				sb.append(implode(split, (List<?>)value));
@@ -409,153 +361,24 @@ public class DPUtil {
 		return sb.toString();
 	}
 	
-	/**
-	 * 采用指定字符拼接Set
-	 * @param split
-	 * @param list
-	 * @return
-	 */
-	public static String implode(String split, Set<?> set) {
-		return implode(split, set, "", "");
+	public static String implode(String split, Collection<?> collection) {
+		return implode(split, collection, "", "");
 	}
 	
-	/**
-	 * 采用指定字符拼接Set
-	 * @param split
-	 * @param list
-	 * @param prefix 增加前缀
-	 * @param subffix 增加后缀
-	 * @return
-	 */
-	public static String implode(String split, Set<?> set, String prefix, String subffix) {
-		StringBuilder sb = new StringBuilder();
-		if(null == set) return "";
-		if(1 > set.size()) return "";
-		Iterator<?> item = set.iterator();
-		boolean hasNext = item.hasNext();
-		while(hasNext) {
-			Object value = item.next();
-			if(null == value) continue;
-			if(value instanceof List) {
-				sb.append(implode(split, (List<?>)value));
-			} else if(value instanceof Map) {
-				sb.append(implode(split, (Map<?, ?>)value));
-			} else {
-				sb.append(prefix).append(value).append(subffix);
-			}
-			hasNext = item.hasNext();
-			if(hasNext) sb.append(split);
-		}
-		return sb.toString();
+	public static String implode(String split, Collection<?> collection, String prefix, String subffix) {
+		return implode(split, collectionToArray(collection), prefix, subffix);
 	}
 	
-	/**
-	 * 采用指定字符拼接Map
-	 * @param split
-	 * @param map
-	 * @return
-	 */
 	public static String implode(String split, Map<?, ?> map) {
 		return implode(split, map, "", "");
 	}
 	
-	/**
-	 * 采用指定字符拼接Map
-	 * @param split
-	 * @param map
-	 * @param prefix 增加前缀
-	 * @param subffix 增加后缀
-	 * @return
-	 */
 	public static String implode(String split, Map<?, ?> map, String prefix, String subffix) {
-		StringBuilder sb = new StringBuilder();
-		Set<?> set = map.keySet();
-		int i = 1, size = set.size();
-		for(Object key : set) {
-			if(null == key) continue;
-			Object value = map.get(key);
-			if(null == value) continue;
-			if(value instanceof List) {
-				sb.append(implode(split, (List<?>)value));
-			} else if(value instanceof Map) {
-				sb.append(implode(split, (Map<?, ?>)value));
-			} else {
-				sb.append(prefix).append(value).append(subffix);
-			}
-			if(i++ < size) sb.append(split);
-		}
-		return sb.toString();
+		return implode(split, map.values(), prefix, subffix);
 	}
-	
-	public static String makeIds(Object[] ids) {
-		return makeIds(ids, ",");
-	}
-	
-	/**
-	 * 获取以指定字符分割的ID字符串
-	 * @param ids
-	 * @param divide
-	 * @return
-	 */
-	public static String makeIds(Object[] ids, String divide) {
-		List<Integer> list = new ArrayList<Integer>(0);
-		for(Object id : ids) {
-			list.add(parseInt(id));
-		}
-		return implode(divide, list);
-	}
-	
-	public static String makeIds(Object ids) {
-		return makeIds(ids, ",");
-	}
-	
-	/**
-	 * 获取以指定字符分割的ID字符串
-	 * @param ids 源分割字符串
-	 * @param divide 分割字符
-	 * @return
-	 */
-	public static String makeIds(Object ids, String divide) {
-		if(empty(ids)) return "";
-		String[] idArray = ids.toString().split(divide);
-		List<Integer> list = new ArrayList<Integer>(0);
-		for(String id : idArray) {
-			list.add(parseInt(id));
-		}
-		return implode(divide, list);
-	}
-	
-	/**
-	 * 将以指定字符分割的ID字符串，生成采用其它字符包裹的ID字符串
-	 * 如1,2,3,4以,分割；采用#包裹输出的结果为#1##2##3##4#
-	 * @param ids 源分割字符串
-	 * @param divide 分割字符
-	 * @param wrap 包裹字符
-	 * @return
-	 */
-	public static String makeIds(Object ids, String divide, String wrap) {
-		if(empty(ids)) return "";
-		String[] idArray = ids.toString().split(divide);
-		StringBuilder sb = new StringBuilder();
-		for(String id : idArray) {
-			sb.append(wrap + parseInt(id) +  wrap);
-		}
-		return sb.toString();
-	}
-	
-	/**
-	 * 将以指定字符包裹的ID字符串，生成采用其它字符分割的ID字符串
-	 * 如#1##2##3##4#以#包裹；采用,分割输出的结果为1,2,3,4；是makeIds的逆操作
-	 */
-	public static String unWrapIds(Object ids, String divide, String wrap) {
-		if(empty(ids)) return "";
-		return trim(ids.toString(), wrap).replaceAll(wrap + wrap, divide);
-	}
-	
+
 	/**
 	 * 深度复制对象信息
-	 * @param object 要复制的对象
-	 * @return
 	 */
 	public static Object clone(Object object) {
 		return JSONObject.fromObject(JSONObject.fromObject(object).toString());
@@ -563,9 +386,6 @@ public class DPUtil {
 	
 	/**
 	 * 深度复制Bean信息
-	 * @param object 要复制的Bean对象
-	 * @param beanClass 要转换成的Bean对象类名
-	 * @return
 	 */
 	public static Object clone(Object object, Class<?> beanClass) {
 		return JSONObject.toBean((JSONObject) clone(object), beanClass);
@@ -573,9 +393,6 @@ public class DPUtil {
 	
 	/**
 	 * 将List转换为Set
-	 * @param <T>
-	 * @param list List集合
-	 * @return Set集合
 	 */
 	public static <T> Set<T> listToSet(List<T> list) {
 		Set<T> set = new HashSet<T>(0);
@@ -585,9 +402,6 @@ public class DPUtil {
 	
 	/**
 	 * 将Set转换为List
-	 * @param <T>
-	 * @param set Set集合
-	 * @return List集合
 	 */
 	public static <T> List<T> setToList(Set<T> set) {
 		List<T> list = new ArrayList<T>(0);
@@ -597,8 +411,6 @@ public class DPUtil {
 	
 	/**
 	 * 将字符串首字母小写
-	 * @param str 带转换字符串
-	 * @return 首字母小写后的字符串
 	 */
 	public static String lowerCaseFirst(String str) {
 		return str.substring(0, 1).toLowerCase() + str.substring(1);
@@ -606,8 +418,6 @@ public class DPUtil {
 	
 	/**
 	 * 将大写字母转换为下划线加小写字母的形式
-	 * @param 源字符串
-	 * @return 转换后的字符串
 	 */
 	public static String addUnderscores(String name) {
 		StringBuilder buf = new StringBuilder( name.replace('.', '_') );
@@ -641,19 +451,21 @@ public class DPUtil {
 	}
 	
 	/**
-	 * 判断下标是否在列表范围内
+	 * 判断下标是否在集合范围内
 	 */
-	public static boolean isInArray(List<?> list, int index) {
-		if(null == list) return false;
+	public static boolean isInCollection(Collection<?> collection, int index) {
+		if(null == collection) return false;
 		if(index < 0) return false;
-		return list.size() >= index;
+		return collection.size() >= index;
 	}
 	
 	/**
-	 * 安全获取列表中对应下标的值
+	 * 安全获取集合中对应下标的值
 	 */
-	public static Object getByIndex(List<?> list, int index) {
-		if(isInArray(list, index)) return list.get(index);
+	public static Object getByIndex(Collection<?> collection, int index) {
+		if(isInCollection(collection, index)) {
+			return collection.iterator().next();
+		}
 		return null;
 	}
 	
@@ -703,6 +515,9 @@ public class DPUtil {
 		return processFormatRelation(parentMap, primaryKey, childrenKey, root);
 	}
 	
+	/**
+	 * 层级关系处理程序
+	 */
 	private static List<Map<String, Object>> processFormatRelation(
 			Map<Object, List<Map<String, Object>>> parentMap, String primaryKey, String childrenKey, Object root) {
 		List<Map<String, Object>> list = parentMap.get(root);
@@ -713,5 +528,17 @@ public class DPUtil {
 			map.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, map.get(primaryKey)));
 		}
 		return list;
+	}
+	
+	/**
+	 * 合并多个数组
+	 */
+	public static Object[] arrayMerge(Object[]... arrays) {
+		List<Object> list = new ArrayList<Object>();
+		for (Object[] array : arrays) {
+			if(null == array) continue ;
+			list.addAll(Arrays.asList(array));
+		}
+		return collectionToArray(list);
 	}
 }
