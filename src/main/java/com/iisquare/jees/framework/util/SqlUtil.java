@@ -31,10 +31,6 @@ public class SqlUtil {
 		return sql;
 	}
 	
-	public static String convertWhereField(Object keys) {
-		return DPUtil.stringConcat("w_", keys);
-	}
-	
 	/**
 	 * 仅支持占位符方式
 	 */
@@ -48,15 +44,6 @@ public class SqlUtil {
 			where.append(" in (").append(DPUtil.implode(",", DPUtil.getFillArray(length, "?"))).append(")");
 		}
 		return where.toString();
-	}
-	
-	public static Map<String, Object> convertWhereMap(Map<String, Object> where) {
-		if(null == where) return null;
-		Map<String, Object> map = new HashMap<String, Object>(DPUtil.parseInt(where.size() / 0.75f));
-		for(Map.Entry<String, Object> item : where.entrySet()) {
-			map.put(convertWhereField(item.getKey()), item.getValue());
-		}
-		return map;
 	}
 	
 	public static String buildWhere(Object[] keys, Object[] operators, boolean bPlaceholder) {
@@ -74,7 +61,7 @@ public class SqlUtil {
 			if(bPlaceholder) {
 				sb.append("?");
 			} else {
-				sb.append(":").append(convertWhereField(keys[i]));
+				sb.append(":").append(keys[i]);
 			}
 		}
 		return sb.toString();
@@ -129,9 +116,9 @@ public class SqlUtil {
 			}
 			sbFileds.append(keys[i]);
 			if(bPlaceholder) {
-				sbValues.append("=?");
+				sbValues.append("?");
 			} else {
-				sbValues.append("=:").append(keys[i]);
+				sbValues.append(":").append(keys[i]);
 			}
 		}
 		StringBuilder sb = new StringBuilder("insert into ").append(tableName).append(" (")

@@ -171,9 +171,10 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 更新记录，返回影响行数
 	 */
 	public int update(Map<String, Object> values,
-			Map<String, Object> where, Map<String, String> operators) {
-		values.putAll(SqlUtil.convertWhereMap(where));
-		return update(values, SqlUtil.buildWhere(where, operators));
+			String[] whereFields, Object[] whereValues, String[] operators) {
+		String[] fieldArray = DPUtil.collectionToStringArray(values.keySet());
+		Object[] valueArray = DPUtil.collectionToArray(values.values());
+		return update(fieldArray, valueArray, whereFields, whereValues, operators);
 	}
 	
 	/**
