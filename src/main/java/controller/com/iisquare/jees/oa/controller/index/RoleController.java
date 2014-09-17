@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.CPermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.oa.domain.Role;
 import com.iisquare.jees.oa.service.RoleService;
 
 /**
@@ -33,5 +34,21 @@ public class RoleController extends CPermitController {
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
+	}
+	
+	public String editAction() throws Exception {
+		Object id = get("id");
+		Role role;
+		if(DPUtil.empty(id)) {
+			role = new Role();
+		} else {
+			role = roleService.getById(id);
+			if(DPUtil.empty(role)) return displayInfo("您访问的信息不存在，请刷新后再试！", null);
+		}
+		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
+		list = DPUtil.formatRelation(list, 0);
+		assign("info", role);
+		assign("list", DPUtil.collectionToArray(list));
+		return displayTemplate();
 	}
 }

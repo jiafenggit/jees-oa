@@ -1,56 +1,6 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="js-list-table"></table>
-<div id="toolbar">
-	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true">反选</a>
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
-	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-crowd',plain:true">用户列表</a>[/#if]
-	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
-</div>
-<script>
-$(function () {
-	$('.js-list-table').treegrid({
-		url : '[@url action="list" /]',
-		idField : 'id',
-		treeField : 'name',
-		toolbar : '#toolbar',
-		rownumbers : true,
-		fitcolumns : true,
-		fit : true,
-		nowrap : true,
-		checkOnSelect : false,
-		selectOnCheck : false,
-		columns:[[
-			{field:'id',checkbox:true},
-			{field:'name',title:'名称'},
-			{field:'sort',title:'排序'},
-			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
-				return Web_formatDateTime(value);
-			}},
-			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("editPower")]<a href="[@url action="editPower" /]?id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-key\'">编辑权限</a>[/#if]';
-			}}
-		]],
-		onLoadSuccess : function (data) {
-			$('.js-list-button').linkbutton({
-				plain : true
-			});
-			$('.js-list-table').datagrid('autoSizeColumn');
-		}
-	});
-});
-</script>
-
-
-
-<textarea id="Template-List" class="hidden">
-{#template MAIN}
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
 		<th>上级</th>
@@ -71,8 +21,6 @@ $(function () {
 		</td>
 	</tr>
 </table>
-{#/template MAIN}
-</textarea>
 <script>/*
 function getRoleOptions(roles, selected, prefix, tips){
 	var str = '';

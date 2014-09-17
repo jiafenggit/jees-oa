@@ -93,4 +93,12 @@ public class CPermitController extends CController {
 		super.destroy(request, response, handler, modelAndView);
 	}
 	
+	/**
+	 * 输出提示信息页面
+	 */
+	public String displayInfo(String message, String forward) throws Exception {
+		assign("message", message);
+		assign("url", forward);
+		return displayTemplate("public", "info");
+	}
 }

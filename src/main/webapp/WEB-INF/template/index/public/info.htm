@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>页面访问提示 - Powered by iisquare.com</title>
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<style>
+html,body,form,div,ul,fieldset,li,table,tr,td,span,em,lable,span,input{ margin:0px; padding:0px;}
+body{ background:#FFFFFF; font-family:Arial, Helvetica, sans-serif; font-size:13px; text-align:center;}
+a{ text-decoration:none; color:#006699;}
+a:hover{ text-decoration:underline;}
+.main{ width:960px; text-align:center; margin:auto;}
+.copy{ color:#666666; line-height:20px; font-size:12px;}
+.error { width:500px; height:140px; margin:180px auto 150px auto;}
+.error .logo { float:left; width:125px; height:140px; text-align:left;}
+.error .tips { float:right; width:375px; text-align:left;}
+.error .tips .title { padding:30px 0px 0px 0px; font-size:16px; font-weight:600;}
+.error .tips .time { color:#666; margin:15px 0px 25px 0px;}
+.error .tips .content { color:#666;}
+.error .tips .content .back { color:#666; font-size:8px; margin:0px 0px 0px 15px;}
+</style>
+<script>
+function lazyGoBack() {
+	var sec = $("#sec").text();
+	$("#sec").text(--sec);
+	if (sec > 0)
+		setTimeout(lazyGoBack, 1000);
+	else
+		window.history.back();
+}
+$(function () {
+	lazyGoBack();
+	$('.js-controll-back').bind('click', function () {
+		window.history.back();
+	});
+	$('.js-controll-forward').bind('click', function () {
+		var url = '${forward!""}';
+		if(url.length > 0) {
+			window.location.href = url;
+		} else {
+			window.history.back();
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div class="main">
+	<div class="error">
+		<div class="logo"><img src="${_THEME_URL_}/images/search_boy.gif" width="120" height="136" alt="loading..." /></div>
+		<div class="tips">
+			<div class="title">
+			[#if empty(message)]对不起，您要访问页面不存在或出现了出错！[#else]${message}[/#if]
+			</div>
+			<div class="time">将在<strong id="sec">8</strong>秒后自动跳转。</div>
+			<div class="content">
+				您也可以：
+				<a href="javascript:void(0);" class="easyui-linkbutton js-controll-forward" data-options="iconCls:'icon-redo',plain:true">立即跳转</a>
+				<a href="javascript:void(0);" class="easyui-linkbutton js-controll-back" data-options="iconCls:'icon-back',plain:true">返回上一页</a>
+			</div>
+		</div>
+	</div>
+	<div class="copy">Copyright &copy; 2010 - ${.now?string("yyyy")} iisquare.com All Rights Reserved<br/> ☆灰鸦社区☆ 版权所有</div>
+</div>
+</body>
+</html>

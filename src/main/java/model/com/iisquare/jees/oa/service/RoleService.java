@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.oa.dao.RoleDao;
+import com.iisquare.jees.oa.domain.Role;
 
 @Service
 public class RoleService extends ServiceBase {
@@ -25,5 +26,9 @@ public class RoleService extends ServiceBase {
 			Map<String, String> operators, String orderBy, int page, int pageSize) {
 		String append = "order by " + orderBy;
 		return roleDao.getPage(columns, where, operators, append, page, pageSize);
+	}
+	
+	public Role getById(Object id) {
+		return roleDao.getById(id);
 	}
 }
