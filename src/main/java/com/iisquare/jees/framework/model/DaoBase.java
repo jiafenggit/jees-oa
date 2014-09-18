@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 
 import com.iisquare.jees.framework.Configuration;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.ReflectUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 
 @Repository
@@ -137,7 +138,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 添加记录，返回自增长ID
 	 */
 	public int insert(T object) {
-		Map<String, Object> values = DPUtil.convertEntityToMap(object, true);
+		Map<String, Object> values = ReflectUtil.convertEntityToMap(object, true, null);
 		if(null == values) return 0;
 		return insert(values);
 	}
@@ -147,7 +148,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int update(T object) {
 		if(null == object) return 0;
-		Map<String, Object> values = DPUtil.convertEntityToMap(object, true);
+		Map<String, Object> values = ReflectUtil.convertEntityToMap(object, true, null);
 		return updateByIds(values, values.get(primaryKey));
 	}
 	
@@ -210,7 +211,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public int delete(T object) {
 		if(null == object) return 0;
-		Map<String, Object> values = DPUtil.convertEntityToMap(object, true);
+		Map<String, Object> values = ReflectUtil.convertEntityToMap(object, true, null);
 		return deleteByIds(values.get(primaryKey));
 	}
 	

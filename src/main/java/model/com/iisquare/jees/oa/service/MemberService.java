@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.iisquare.jees.framework.controller.ControllerBase;
 import com.iisquare.jees.framework.model.ServiceBase;
+import com.iisquare.jees.framework.util.CodeUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.domain.Member;
@@ -22,7 +23,7 @@ public class MemberService extends ServiceBase {
 	}
 	
 	public String encodePassword(String password, String salt) {
-		return DPUtil.MD5(DPUtil.MD5(password) + salt);
+		return CodeUtil.md5(CodeUtil.md5(password) + salt);
 	}
 	
 	public Member getById(int id) {

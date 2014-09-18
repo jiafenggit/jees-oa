@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-11 10:17:54
+Date: 2014-09-18 09:06:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -104,7 +104,7 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0', '9634A8F6EA8AB6E32E0B24C2919B66BC', '888888', '0', '1', '0', '0', '0', '', '');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '0', '0', '0', '', '');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -274,12 +274,14 @@ CREATE TABLE `oa_role` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_role
 -- ----------------------------
-INSERT INTO `oa_role` VALUES ('1', '超极管理员', '0', '1', '1', '0', '1', '0', '0');
+INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '1', '1', '0', '1', '0', '0');
+INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '1', '1', '0', '1', '0', '0');
+INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '1', '1', '0', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `oa_role_menu_rel`
