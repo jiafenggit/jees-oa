@@ -10,10 +10,30 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-18 09:06:58
+Date: 2014-09-18 18:03:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `oa_duty`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_duty`;
+CREATE TABLE `oa_duty` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `create_id` int(11) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
+  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_time` bigint(20) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_duty
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `oa_icon`
@@ -113,6 +133,7 @@ DROP TABLE IF EXISTS `oa_member_organize_rel`;
 CREATE TABLE `oa_member_organize_rel` (
   `member_id` int(11) NOT NULL DEFAULT '0',
   `organize_id` int(11) NOT NULL DEFAULT '0',
+  `duty_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`,`organize_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

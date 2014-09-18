@@ -6,8 +6,9 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class MemberOrganizeRel {
-	private Integer memberId;
-	private Integer organizeId;
+	private Integer memberId; // 用户主键
+	private Integer organizeId; // 组织主键
+	private Integer dutyId; // 职务主键
 
 	public Integer getMemberId() {
 		return memberId;
@@ -23,6 +24,14 @@ public class MemberOrganizeRel {
 
 	public void setOrganizeId(Integer organizeId) {
 		this.organizeId = organizeId;
+	}
+
+	public Integer getDutyId() {
+		return dutyId;
+	}
+
+	public void setDutyId(Integer dutyId) {
+		this.dutyId = dutyId;
 	}
 
 	public MemberOrganizeRel() {}

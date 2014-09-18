@@ -6,8 +6,8 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class RoleResourceRel {
-	private Integer roleId;
-	private Integer resourceId;
+	private Integer roleId; // 角色主键
+	private Integer resourceId; // 资源主键
 
 	public Integer getRoleId() {
 		return roleId;
