@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.iisquare.jees.core.component.CPermitController;
+import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.oa.domain.Member;
 
@@ -15,7 +15,7 @@ import com.iisquare.jees.oa.domain.Member;
  */
 @Controller
 @Scope("prototype")
-public class MemberController extends CPermitController {
+public class MemberController extends PermitController {
 	
 	@RequestMapping(value="/login")
 	public String loginAction() throws Exception {

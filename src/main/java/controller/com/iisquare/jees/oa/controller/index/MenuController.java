@@ -3,7 +3,7 @@ package com.iisquare.jees.oa.controller.index;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.iisquare.jees.core.component.CPermitController;
+import com.iisquare.jees.core.component.PermitController;
 
 /**
  * 菜单管理
@@ -12,6 +12,6 @@ import com.iisquare.jees.core.component.CPermitController;
  */
 @Controller
 @Scope("prototype")
-public class MenuController extends CPermitController {
+public class MenuController extends PermitController {
 
 }

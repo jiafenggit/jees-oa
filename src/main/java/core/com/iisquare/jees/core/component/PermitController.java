@@ -15,7 +15,7 @@ import com.iisquare.jees.oa.service.SettingService;
 
 @Controller
 @Scope("prototype")
-public class CPermitController extends CController {
+public class PermitController extends CoreController {
 	@Autowired
 	public MemberService memberService;
 	@Autowired

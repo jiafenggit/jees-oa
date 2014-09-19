@@ -3,7 +3,7 @@ package com.iisquare.jees.oa.controller.index;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.iisquare.jees.core.component.CPermitController;
+import com.iisquare.jees.core.component.PermitController;
 
 /**
  * 上传文件管理
@@ -12,6 +12,6 @@ import com.iisquare.jees.core.component.CPermitController;
  */
 @Controller
 @Scope("prototype")
-public class UploadController extends CPermitController {
+public class UploadController extends PermitController {
 
 }
