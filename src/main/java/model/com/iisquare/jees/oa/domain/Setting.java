@@ -13,9 +13,9 @@ public class Setting {
 	private String remark; // 备注
 	private Integer createId; // 创建者
 	private Integer updateId; // 修改者
-	private int sort; // 排序（从高到低）
-	private long createTime; // 添加时间
-	private long updateTime; // 修改时间
+	private Integer sort; // 排序（从高到低）
+	private Long createTime; // 添加时间
+	private Long updateTime; // 修改时间
 
 	public Integer getId() {
 		return id;
@@ -73,27 +73,27 @@ public class Setting {
 		this.updateId = updateId;
 	}
 
-	public int getSort() {
+	public Integer getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
-	public long getUpdateTime() {
+	public Long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime) {
+	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
 	}
 

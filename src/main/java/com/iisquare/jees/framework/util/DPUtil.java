@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -405,7 +404,7 @@ public class DPUtil {
 	 */
 	public static String addUnderscores(String name) {
 		StringBuilder buf = new StringBuilder( name.replace('.', '_') );
-		for (int i=1; i<buf.length() - 1; i++) {
+		for (int i = 1; i < buf.length() - 1; i++) { // 此处需要实时获取长度
 			if (
 				Character.isLowerCase( buf.charAt(i-1) ) &&
 				Character.isUpperCase( buf.charAt(i) ) &&
@@ -415,6 +414,20 @@ public class DPUtil {
 			}
 		}
 		return buf.toString().toLowerCase();
+	}
+	
+	/**
+	 * 将下划线加小写字母转换为驼峰形式
+	 */
+	public static String upUnderscores(String name) {
+		StringBuilder buf = new StringBuilder(name);
+		int length = buf.length();
+		for (int i = 1; i < length; i++) {
+			if ('_' == buf.charAt(i - 1)) {
+				buf.replace(i, i + 1, String.valueOf(buf.charAt(i)).toUpperCase());
+			}
+		}
+		return buf.toString().replaceAll("_", "");
 	}
 	
 	/**
@@ -451,43 +464,6 @@ public class DPUtil {
 			return collection.iterator().next();
 		}
 		return null;
-	}
-	
-	public static List<Map<String, Object>> formatRelation(List<Map<String, Object>> list, Object root) {
-		return formatRelation(list, "id", "parent_id", "children", root);
-	}
-	
-	/**
-	 * 格式化层级关系
-	 */
-	public static List<Map<String, Object>> formatRelation(List<Map<String, Object>> list,
-			String primaryKey, String parentKey, String childrenKey, Object root) {
-		Map<Object, List<Map<String, Object>>> parentMap = new HashMap<Object, List<Map<String, Object>>>();
-		for (Map<String, Object> item : list) {
-			Object parentValue = item.get(parentKey);
-			List<Map<String, Object>> listSub = parentMap.get(parentValue);
-			if(null == listSub) {
-				listSub = new ArrayList<Map<String, Object>>();
-			}
-			listSub.add(item);
-			parentMap.put(parentValue, listSub);
-		}
-		return processFormatRelation(parentMap, primaryKey, childrenKey, root);
-	}
-	
-	/**
-	 * 层级关系处理程序
-	 */
-	private static List<Map<String, Object>> processFormatRelation(
-			Map<Object, List<Map<String, Object>>> parentMap, String primaryKey, String childrenKey, Object root) {
-		List<Map<String, Object>> list = parentMap.get(root);
-		if(null == list) {
-			return new ArrayList<Map<String, Object>>();
-		}
-		for(Map<String, Object> map : list) {
-			map.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, map.get(primaryKey)));
-		}
-		return list;
 	}
 	
 	/**

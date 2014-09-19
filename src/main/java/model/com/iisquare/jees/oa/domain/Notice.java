@@ -12,10 +12,10 @@ public class Notice {
 	private Integer createId; // 添加者
 	private Integer updateId; // 修改者
 	private String content; // 内容
-	private long sort; // 排序（从高到低）
-	private int status; // 状态（0禁用，1正常）
-	private long createTime; // 添加时间
-	private long updateTime; // 修改时间
+	private Long sort; // 排序（从高到低）
+	private Integer status; // 状态（0禁用，1正常）
+	private Long createTime; // 添加时间
+	private Long updateTime; // 修改时间
 
 	public Integer getId() {
 		return id;
@@ -65,35 +65,35 @@ public class Notice {
 		this.content = content;
 	}
 
-	public long getSort() {
+	public Long getSort() {
 		return sort;
 	}
 
-	public void setSort(long sort) {
+	public void setSort(Long sort) {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
-	public long getUpdateTime() {
+	public Long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime) {
+	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
 	}
 

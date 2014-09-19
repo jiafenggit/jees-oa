@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.oa.domain.Role;
 import com.iisquare.jees.oa.service.RoleService;
 
@@ -30,7 +31,7 @@ public class RoleController extends PermitController {
 	
 	public String listAction() throws Exception {
 		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
-		list = DPUtil.formatRelation(list, 0);
+		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
@@ -46,7 +47,7 @@ public class RoleController extends PermitController {
 			if(DPUtil.empty(role)) return displayInfo("您访问的信息不存在，请刷新后再试！", null);
 		}
 		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
-		list = DPUtil.formatRelation(list, 0);
+		list = ServiceUtil.formatRelation(list, 0);
 		assign("info", role);
 		assign("list", DPUtil.collectionToArray(list));
 		return displayTemplate();

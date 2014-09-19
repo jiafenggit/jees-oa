@@ -9,9 +9,9 @@ public class NoticePublish {
 	private Integer id; // 主键
 	private Integer noticeId; // 通知公告
 	private Integer relId; // 部门、角色、用户
-	private int type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
-	private int status; // 状态（0拒绝读，1允许读）
-	private long createTime; // 阅读时间
+	private Integer type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
+	private Integer status; // 状态（0拒绝读，1允许读）
+	private Long createTime; // 阅读时间
 
 	public Integer getId() {
 		return id;
@@ -37,27 +37,27 @@ public class NoticePublish {
 		this.relId = relId;
 	}
 
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 

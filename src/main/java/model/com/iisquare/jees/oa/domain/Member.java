@@ -13,11 +13,11 @@ public class Member {
 	private Integer updateId; // 修改者
 	private String password; // 密码
 	private String salt; // 盐
-	private int sort; // 排序（从高到低）
-	private int status; // 状态（-1删除，0禁用，1正常）
-	private long createTime; // 注册时间
-	private long updateTime; // 修改时间
-	private long activeTime; // 最后活动时间
+	private Integer sort; // 排序（从高到低）
+	private Integer status; // 状态（-1删除，0禁用，1正常）
+	private Long createTime; // 注册时间
+	private Long updateTime; // 修改时间
+	private Long activeTime; // 最后活动时间
 	private String createIp; // 注册IP
 	private String activeIp; // 最后活动IP
 
@@ -77,43 +77,43 @@ public class Member {
 		this.salt = salt;
 	}
 
-	public int getSort() {
+	public Integer getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
-	public long getUpdateTime() {
+	public Long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime) {
+	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	public long getActiveTime() {
+	public Long getActiveTime() {
 		return activeTime;
 	}
 
-	public void setActiveTime(long activeTime) {
+	public void setActiveTime(Long activeTime) {
 		this.activeTime = activeTime;
 	}
 

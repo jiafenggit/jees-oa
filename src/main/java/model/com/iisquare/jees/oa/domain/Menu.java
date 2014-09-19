@@ -14,10 +14,10 @@ public class Menu {
 	private String icon; // 图标CSS类名
 	private String url; // 链接地址
 	private String target; // 打开方式
-	private int sort; // 排序（从高到低）
-	private int status; // 状态（0禁用，1正常）
-	private long createTime; // 添加时间
-	private long updateTime; // 修改时间
+	private Integer sort; // 排序（从高到低）
+	private Integer status; // 状态（0禁用，1正常）
+	private Long createTime; // 添加时间
+	private Long updateTime; // 修改时间
 
 	public Integer getId() {
 		return id;
@@ -83,35 +83,35 @@ public class Menu {
 		this.target = target;
 	}
 
-	public int getSort() {
+	public Integer getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
-	public long getUpdateTime() {
+	public Long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime) {
+	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
 	}
 

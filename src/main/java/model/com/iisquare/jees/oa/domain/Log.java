@@ -16,7 +16,7 @@ public class Log {
 	private String result; // 操作结果
 	private Integer createId; // 创建者
 	private String createIp; // 注册IP
-	private long createTime; // 注册时间
+	private Long createTime; // 注册时间
 
 	public Integer getId() {
 		return id;
@@ -98,11 +98,11 @@ public class Log {
 		this.createIp = createIp;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 

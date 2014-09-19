@@ -36,7 +36,41 @@ public class ReflectUtil {
 			}
 			return map;
 		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 获取对象属性值
+	 */
+	public static Object getPropertyValue(Object object, String property) {
+		Class<?> instance = object.getClass();
+		try {
+			property = property.substring(0, 1).toUpperCase() + property.substring(1);
+			Method method = instance.getMethod(DPUtil.stringConcat("get", property));
+			return method.invoke(object);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 设置对象属性值
+	 */
+	public static Object setPropertyValue(Object object, String property, Class<?>[] parameterTypes, Object[] args) {
+		Class<?> instance = object.getClass();
+		try {
+			property = property.substring(0, 1).toUpperCase() + property.substring(1);
+			if(null == parameterTypes && null != args) {
+				int length = args.length;
+				parameterTypes = new Class<?>[length];
+				for (int i = 0; i < length; i++) {
+					parameterTypes[i] = args[i].getClass();
+				}
+			}
+			Method method = instance.getMethod(DPUtil.stringConcat("set", property), parameterTypes);
+			return method.invoke(object, args);
+		} catch (Exception e) {
 			return null;
 		}
 	}

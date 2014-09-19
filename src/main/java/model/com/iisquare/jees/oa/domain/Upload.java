@@ -11,7 +11,7 @@ public class Upload {
 	private Integer createId; // 创建者
 	private String url;
 	private String file;
-	private long createTime; // 添加时间
+	private Long createTime; // 添加时间
 
 	public Integer getId() {
 		return id;
@@ -45,11 +45,11 @@ public class Upload {
 		this.file = file;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
