@@ -3,6 +3,6 @@ package com.iisquare.jees.framework.model;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceBase {
+public abstract class ServiceBase {
 	public ServiceBase() {}
 }

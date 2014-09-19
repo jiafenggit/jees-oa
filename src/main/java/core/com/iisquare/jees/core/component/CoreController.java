@@ -10,7 +10,7 @@ import com.iisquare.jees.framework.controller.ControllerBase;
 
 @Controller
 @Scope("prototype")
-public class CoreController extends ControllerBase {
+public abstract class CoreController extends ControllerBase {
 	/**
 	 * 返回JSON信息，可根据需要拓展XML等格式
 	 * @param status 状态码，根据内部规范自定义
