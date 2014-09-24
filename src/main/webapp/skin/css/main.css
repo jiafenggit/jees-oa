@@ -63,10 +63,8 @@ form { width:100%; height:100%;}
 
 .table-line { width:100%; text-align:center; background-color:#cad9ea; font-size:13px;}
 .table-line th { background-color:#f5fafe; text-align:center; font-weight:500;}
-.table-line td { background-color:#FFFFFF; padding:0px 2px 0px 2px;}
-.table-line td a { font-size:12px; margin:2px;}
-.table-line tr { line-height:26px; vertical-align:middle;}
-.table-line .editor { padding:2px;}
+.table-line td { background-color:#FFFFFF; padding:2px;}
+.table-line tr { line-height:24px; vertical-align:middle;}
 
 .td-left td { text-align:left;}
 .tr-height25 tr { height:25px; line-height:25px; vertical-align:middle;}
