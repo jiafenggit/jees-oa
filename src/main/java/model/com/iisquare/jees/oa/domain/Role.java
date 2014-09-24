@@ -15,6 +15,7 @@ public class Role {
 	private Integer status; // 状态（-1删除，0禁用，1正常）
 	private Long createTime; // 添加时间
 	private Long updateTime; // 修改时间
+	private String remark; // 备注
 
 	public Integer getId() {
 		return id;
@@ -86,6 +87,14 @@ public class Role {
 
 	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Role() {}

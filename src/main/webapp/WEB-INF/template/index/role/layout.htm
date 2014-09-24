@@ -35,7 +35,9 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
+				return '<a href="[@url action="show" /]?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
+					+ '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'

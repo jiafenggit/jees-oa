@@ -87,9 +87,9 @@
 		</property>
 	</bean>
 	
-	<!-- 拓展FreeMarker模板 -->
+	<!-- 拓展FreeMarker模板，注意参数顺序 -->
 	<bean class="com.iisquare.jees.framework.view.FreemarkerTemplateManager">
-		<property name="freeMarkerConfigurer" ref="freeMarkerConfigurer" />
 		<property name="configuration" ref="configuration" />
+		<property name="freeMarkerConfigurer" ref="freeMarkerConfigurer" />
 	</bean>
 </beans>

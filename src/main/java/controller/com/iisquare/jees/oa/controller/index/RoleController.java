@@ -37,6 +37,16 @@ public class RoleController extends PermitController {
 		return displayJSON();
 	}
 	
+	public String showAction() throws Exception {
+		Object id = get("id");
+		Map<String, Object> info = roleService.getById(id, true);
+		if(null == info) {
+			return displayInfo("您访问的信息不存在，请刷新后再试！", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
 	public String editAction() throws Exception {
 		Object id = get("id");
 		Role role;

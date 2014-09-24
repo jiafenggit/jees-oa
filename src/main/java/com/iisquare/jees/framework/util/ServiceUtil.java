@@ -17,17 +17,36 @@ public class ServiceUtil {
 	/**
 	 * 填充属性信息
 	 */
+	public static Map<String, Object> fillPropertyText(Map<String, Object> map, Object entity, String... fields) {
+		for (String field : fields) {
+			String property = DPUtil.upUnderscores(field);
+			ReflectUtil.setPropertyValue(entity, property, null, new Object[]{map.get(field)});
+			String key = DPUtil.stringConcat(field, "_text");
+			Object value = ReflectUtil.getPropertyValue(entity, DPUtil.stringConcat(property, "Text"));
+			map.put(key, value);
+		}
+		return map;
+	}
+	
+	/**
+	 * 填充属性信息
+	 */
 	public static List<Map<String, Object>> fillPropertyText(List<Map<String, Object>> list, Object entity, String... fields) {
-		for (Map<String, Object> item : list) {
-			for (String field : fields) {
-				String property = DPUtil.upUnderscores(field);
-				ReflectUtil.setPropertyValue(entity, property, null, new Object[]{item.get(field)});
-				String key = DPUtil.stringConcat(field, "_text");
-				Object value = ReflectUtil.getPropertyValue(entity, DPUtil.stringConcat(property, "Text"));
-				item.put(key, value);
-			}
+		for (Map<String, Object> map : list) {
+			fillPropertyText(map, entity, fields); // 此处map为内存地址（传址）
 		}
 		return list;
+	}
+	
+	/**
+	 * 填充关联记录对应的字段值
+	 */
+	public static Map<String, Object> fillTextMap(DaoBase<?> daoBase,
+			Map<String, Object> map, String[] relFields, String[] fields) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(1);
+		list.add(map);
+		list = fillTextMap(daoBase, list, relFields, fields);
+		return list.get(0);
 	}
 	
 	/**
@@ -37,6 +56,7 @@ public class ServiceUtil {
 			List<Map<String, Object>> list, String[] relFields, String[] fields) {
 		List<Object> ids = getFieldValues(list, relFields);
 		if(DPUtil.empty(ids)) return list;
+		/* 避免在循环中查询数据库 */
 		List<Map<String, Object>> infoList = daoBase.getByIds("*", DPUtil.collectionToArray(ids));
 		Map<Object, Map<String, Object>> indexMap = indexMapList(infoList, daoBase.getPrimaryKey());
 		int length = relFields.length;

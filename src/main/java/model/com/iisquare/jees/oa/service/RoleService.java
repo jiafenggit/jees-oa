@@ -39,4 +39,14 @@ public class RoleService extends ServiceBase {
 	public Role getById(Object id) {
 		return roleDao.getById(id);
 	}
+	
+	public Map<String, Object> getById(Object id, boolean bFill) {
+		Map<String, Object> map = roleDao.getById("*", id);
+		if(null != map && bFill) {
+			map = ServiceUtil.fillPropertyText(map, new Role(), "status");
+			map = ServiceUtil.fillTextMap(memberDao, map,
+					new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		}
+		return map;
+	}
 }
