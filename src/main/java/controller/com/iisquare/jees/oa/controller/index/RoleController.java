@@ -41,7 +41,7 @@ public class RoleController extends PermitController {
 		Object id = get("id");
 		Map<String, Object> info = roleService.getById(id, true);
 		if(null == info) {
-			return displayInfo("您访问的信息不存在，请刷新后再试！", null);
+			return displayInfo("您访问的信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
 		return displayTemplate();
@@ -49,17 +49,48 @@ public class RoleController extends PermitController {
 	
 	public String editAction() throws Exception {
 		Object id = get("id");
-		Role role;
+		Role info;
 		if(DPUtil.empty(id)) {
-			role = new Role();
+			info = new Role();
 		} else {
-			role = roleService.getById(id);
-			if(DPUtil.empty(role)) return displayInfo("您访问的信息不存在，请刷新后再试！", null);
+			info = roleService.getById(id);
+			if(DPUtil.empty(info)) return displayInfo("您访问的信息不存在，请刷新后再试", null);
 		}
-		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
-		list = ServiceUtil.formatRelation(list, 0);
-		assign("info", role);
-		assign("list", DPUtil.collectionToArray(list));
+		assign("info", info);
 		return displayTemplate();
+	}
+	
+	public String saveAction() throws Exception {
+		Object id = get("id");
+		Role persist;
+		if(DPUtil.empty(id)) {
+			persist = new Role();
+		} else {
+			persist = roleService.getById(id);
+			if(DPUtil.empty(persist)) return displayMessage(3001, "您访问的信息不存在，请刷新后再试");
+		}
+		persist.setParentId(DPUtil.parseInt(get("parentId")));
+		String name = DPUtil.trim(get("name"));
+		if(DPUtil.empty(name)) return displayMessage(3002, "请输入名称");
+		persist.setName(name);
+		persist.setSort(DPUtil.parseInt(get("sort")));
+		persist.setStatus(DPUtil.parseInt(get("status")));
+		persist.setRemark(get("remark"));
+		long time = System.currentTimeMillis();
+		persist.setUpdateId(currentMember.getId());
+		persist.setUpdateTime(time);
+		int result;
+		if(DPUtil.empty(persist.getId())) {
+			persist.setCreateId(currentMember.getId());
+			persist.setCreateTime(time);
+			result = roleService.insert(persist);
+		} else {
+			result = roleService.update(persist);
+		}
+		if(result > 0) {
+			return displayMessage(0, url("layout"));
+		} else {
+			return displayMessage(500, "操作失败");
+		}
 	}
 }

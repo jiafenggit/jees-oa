@@ -1,52 +1,75 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
+<script src="${_WEB_URL_}/api/KindEditor/kindeditor-all-min.js" language="javascript"></script>
 <form id="submitForm" method="post" action="[@url action="save" /]">
-<input type="hidden" name="id" value="${info.id!""}" />
+<input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
+		<th class="width130">父级</th>
+		<td><input name="parentId" class="js-select-parent length300" value="${info.parentId!0}" /></td>
+	</tr>
+	<tr>
 		<th class="width130">名称</th>
+		<td><input class="easyui-textbox length300" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
+	</tr>
+	<tr>
+		<th class="width130">排序</th>
+		<td><input class="easyui-numberspinner length150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
+	</tr>
+	<tr>
+		<th class="width130">状态</th>
 		<td>
-			<input class="easyui-validatebox input-text length200" type="text" name="organize.name" data-options="required:true" value="${(organize.name)!""}" />
+			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
+				<option value="">请选择记录状态</option>
+				<option value="0"[#if 0 == info.status!-99] selected="selected"[/#if]>禁用</option>
+				<option value="1"[#if 1 == info.status!-99] selected="selected"[/#if]>正常</option>
+			</select>
 		</td>
 	</tr>
 	<tr>
-		<th>排序</th>
-		<td>
-			<input class="easyui-numberspinner input-text length-percent50" type="text" name="organize.sort" data-options="required:true,min:0" value="${(organize.sort)!0}" />
-		</td>
+		<th class="width130">备注</th>
+		<td class="clear-padding"><textarea name="remark" class="w668h280">${info.remark!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
 		<td>
-			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
-			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
-			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">重置</a>
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
 		</td>
 	</tr>
 </table>
 </form>
 <script>
 $(function () {
-	$('#submitForm').form({
+	$('input[name="parentId"]').combotree({
+		checkbox : true,
+		url : '[@url action="list" /]?nototal=1',
+		loadFilter : function (data, parent) {
+			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
+		}
+	});
+	var editor = KindEditor.create('textarea[name="remark"]');
+	var $submitForm = $('#submitForm');
+	$submitForm.form({
 		success : function (data) {
 			data = $.parseJSON(data);
 			if(data.status) {
 				Web_alertInfo(data.message);
-				$('#buttonOk').linkbutton('enable');
 			} else {
-				var $organizeTree = window.parent.$('#organizeTree');
-				$organizeTree.tree('reload');
 				Web_redirectPage(data.message);
 			}
 		}
 	});
 	$('#buttonOk').bind('click', function () {
-		$(this).linkbutton('disable');
-		$('#submitForm').submit();
+		$('textarea[name="remark"]').val(editor.html());
+		if($submitForm.form('validate')) {
+			$submitForm.form('submit');
+		}
 	});
 	$('#buttonCancel').bind('click', function () {
-		$('#submitForm')[0].reset();
+		$submitForm.form('reset');
 	});
 });
 </script>

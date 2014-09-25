@@ -49,4 +49,12 @@ public class RoleService extends ServiceBase {
 		}
 		return map;
 	}
+	
+	public int insert(Role role) {
+		return roleDao.insert(role);
+	}
+	
+	public int update(Role role) {
+		return roleDao.update(role);
+	}
 }

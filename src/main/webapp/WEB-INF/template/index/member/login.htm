@@ -1,18 +1,18 @@
 [#include "../public/header.inc.htm"]
 <div id="login" class="easyui-dialog" title="用户登录" minimizable="false" maximizable="false" closable="false" style="width:260px;height:140px" data-options="buttons:'#actionButton',modal:true">
-	<form id="loginForm" method="post" action="[@url action="logon" /]">
+	<form id="submitForm" method="post" action="[@url action="logon" /]">
 	<input type="hidden" name="forward" value="${forward}" />
 		<table align="center" class="table-horizontal tr-height25">
 			<tr>
 				<th>账号</th>
 				<td>
-					<input class="easyui-validatebox input-text length-percent100" type="text" name="serial" data-options="required:true" />
+					<input class="easyui-textbox length150" type="text" name="serial" data-options="required:true,iconCls:'icon-man'" />
 				</td>
 			</tr>
 			<tr>
 				<th>密码</th>
 				<td>
-					<input class="easyui-validatebox input-text length-percent100" type="password" name="password" data-options="required:true" />
+					<input class="easyui-textbox length150" type="password" name="password" data-options="required:true,iconCls:'icon-lock'" />
 				</td>
 			</tr>
 		</table>
@@ -24,36 +24,25 @@
 </div>
 <script>
 $(function () {
-	var $serial = $('input[name="serial"]');
-	var $password = $('input[name="password"]');
-	$('#loginForm').form({
+	var $submitForm = $('#submitForm');
+	$submitForm.form({
 		onSubmit : function () {},
 		success : function (data) {
 			data = $.parseJSON(data);
 			if(data.status) {
 				Web_alertInfo(data.message);
-				$('#buttonOk').linkbutton('enable');
 			} else {
 				Web_redirectPage(data.message);
 			}
 		}
 	});
 	$('#buttonOk').bind('click', function () {
-		var serial = $serial.val();
-		var password = $password.val();
-		if(serial.length < 1) {
-			Web_alertInfo('请输入您的账号！');
-			return false;
+		if($submitForm.form('validate')) {
+			$submitForm.form('submit');
 		}
-		if(password.length < 1) {
-			Web_alertInfo('请输入您的密码！');
-			return false;
-		}
-		$(this).linkbutton('disable');
-		$('#loginForm').submit();
 	});
 	$('#buttonCancel').bind('click', function () {
-		$('#loginForm')[0].reset();
+		$submitForm.form('reset');
 	});
 });
 </script>

@@ -98,6 +98,31 @@ function Web_inArray(value, array) {
 	return false;
 }
 
+function Web_formatComboTree(data, valueArray, tips, fieldValue, fieldId, fieldChildren) {
+	if($.isEmptyObject(fieldId)) fieldId = 'id';
+	if($.isEmptyObject(fieldValue)) fieldValue = fieldId;
+	if($.isEmptyObject(fieldChildren)) fieldChildren = 'children';
+	var rows = [];
+	if(!$.isEmptyObject(tips)) {
+		var object = {};
+		object[fieldId] = 0;
+		object[fieldValue] = tips;
+		object[fieldChildren] = [];
+		data = $.merge([object], data);
+	}
+	for (var key in data) {
+		var value = data[key];
+		rows.push({
+			id : value[fieldId],
+			text : value[fieldValue],
+			checked : -1 != $.inArray(value[fieldId], valueArray),
+			children : Web_formatComboTree(
+				value[fieldChildren], valueArray, null, fieldValue, fieldId, fieldChildren)
+		});
+	}
+	return rows;
+}
+
 function Web_getDataGridRowId(object) {
 	var row = object.datagrid('getSelected');
 	if(!row) {

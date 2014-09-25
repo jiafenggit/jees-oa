@@ -148,8 +148,8 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String url(String module, String controller, String action) {
-		StringBuilder sb = new StringBuilder("/");
-		sb.append(module).append("/").append(controller).append("/").append(action);
+		StringBuilder sb = new StringBuilder(_WEB_URL_)
+			.append("/").append(module).append("/").append(controller).append("/").append(action);
 		return sb.toString();
 	}
 	
@@ -174,8 +174,8 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayTemplate(String module, String controller, String action) throws Exception {
-		StringBuilder sb = new StringBuilder("/");
-		sb.append(module).append("/").append(controller).append("/").append(action);
+		StringBuilder sb = new StringBuilder("/")
+			.append(module).append("/").append(controller).append("/").append(action);
 		return display(sb.toString(), ResultType._FREEMARKER_);
 	}
 	
@@ -241,16 +241,6 @@ public abstract class ControllerBase {
 		return redirect(_ACTION_);
 	}
 	
-	/**
-	 * 重定向自定义URL地址
-	 * @param url
-	 * @return
-	 * @throws Exception
-	 */
-	protected String redirect(String url) throws Exception {
-		return display(url, ResultType._REDIRECT_);
-	} 
-	
 	protected String redirect(String action, String params) throws Exception {
 		return redirect(_CONTROLLER_, action, params);
 	}
@@ -269,10 +259,19 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String redirect(String module, String controller, String action, String params) throws Exception {
-		StringBuilder sb = new StringBuilder("/");
-		sb.append(module).append("/").append(controller).append("/").append(action).append(params);
-		return display(sb.toString(), ResultType._REDIRECT_);
+		StringBuilder sb = new StringBuilder(url(module, controller, action)).append(params);
+		return redirect(sb.toString());
 	}
+	
+	/**
+	 * 重定向自定义URL地址
+	 * @param url
+	 * @return
+	 * @throws Exception
+	 */
+	protected String redirect(String url) throws Exception {
+		return display(url, ResultType._REDIRECT_);
+	} 
 	
 	/**
 	 * 根据类型输出视图

@@ -11,7 +11,7 @@
 [#macro nameSpace module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" segment="_"]${module}${segment}${controller}${segment}${action}[/#macro]
 
 [#macro getOptionList seq=[] default=-1 tips="" prefix="" children=""]
-	[#if "" != tips]
+	[#if !empty(tips)]
 		<option value="">${tips}</option>
 	[/#if]
 	[#list seq as object]
@@ -20,7 +20,7 @@
 		[#else]
 			<option value="${object.id}">${prefix}${object.name}</option>
 		[/#if]
-		[#if "children" == children]
+		[#if !empty(children)]
 			[@getOptionList seq=object.children default=default prefix="${prefix}|-" children=children /]
 		[/#if]
 	[/#list]
