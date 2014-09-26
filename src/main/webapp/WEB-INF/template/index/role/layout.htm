@@ -3,10 +3,8 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true">反选</a>
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
-	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-crowd',plain:true">用户列表</a>[/#if]
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-crowd',plain:true">用户列表</a>[/#if]
 </div>
 <script>
 $(function () {
@@ -39,7 +37,7 @@ $(function () {
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
 					+ '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?id='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("editPower")]<a href="[@url action="editPower" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-key\'">编辑权限</a>[/#if]';
@@ -51,6 +49,10 @@ $(function () {
 			});
 			$('.js-list-table').datagrid('autoSizeColumn');
 		}
+	});
+	
+	$('.js-list-checked-revert').bind('click', function () {
+		
 	});
 });
 </script>

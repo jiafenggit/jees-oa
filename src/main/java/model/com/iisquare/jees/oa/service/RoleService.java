@@ -57,4 +57,12 @@ public class RoleService extends ServiceBase {
 	public int update(Role role) {
 		return roleDao.update(role);
 	}
+	
+	public int delete(Object... ids) {
+		for (Object id : ids) { // 下级不为空时，禁止删除
+			int count = roleDao.getCount(new String[]{"parent_id"}, new Object[]{id}, null, null);
+			if(count > 0) return -1;
+		}
+		return roleDao.deleteByIds(ids);
+	}
 }
