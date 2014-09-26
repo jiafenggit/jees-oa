@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-24 09:42:59
+Date: 2014-09-26 15:36:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -267,7 +267,9 @@ DROP TABLE IF EXISTS `oa_resource`;
 CREATE TABLE `oa_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
-  `content` tinytext NOT NULL,
+  `module` varchar(64) NOT NULL DEFAULT '',
+  `controller` varchar(64) NOT NULL DEFAULT '',
+  `action` varchar(64) NOT NULL DEFAULT '',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
@@ -296,7 +298,7 @@ CREATE TABLE `oa_role` (
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   `remark` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_role
@@ -304,6 +306,7 @@ CREATE TABLE `oa_role` (
 INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '1', '1', '0', '1', '1411090286300', '1411090286300', '父级');
 INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '1', '1', '0', '1', '1411090286300', '1411090286300', '');
 INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '1', '1', '0', '1', '1411090286300', '1411090286300', '');
+INSERT INTO `oa_role` VALUES ('6', '角色', '0', '1', '1', '0', '1', '1411715962184', '1411715980111', 'asfasf');
 
 -- ----------------------------
 -- Table structure for `oa_role_menu_rel`

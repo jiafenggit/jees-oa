@@ -6,9 +6,11 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Resource {
-	private Integer id;
-	private String name;
-	private String content;
+	private Integer id; // 主键
+	private String name; // 名称
+	private String module; // 模块名称
+	private String controller; // 控制器名称
+	private String action; // 方法名称
 	private Integer createId; // 创建者
 	private Integer updateId; // 修改者
 	private Integer sort; // 排序（从高到低）
@@ -31,12 +33,28 @@ public class Resource {
 		this.name = name;
 	}
 
-	public String getContent() {
-		return content;
+	public String getModule() {
+		return module;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getController() {
+		return controller;
+	}
+
+	public void setController(String controller) {
+		this.controller = controller;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 	public Integer getCreateId() {

@@ -4,11 +4,10 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("Member", "listView")]<a id="buttonListMember" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-crowd',plain:true">用户列表</a>[/#if]
 </div>
 <script>
 $(function () {
-	$('.js-list-table').treegrid({
+	$('.js-list-table').datagrid({
 		url : '[@url action="list" /]',
 		idField : 'id',
 		treeField : 'name',
@@ -17,10 +16,15 @@ $(function () {
 		fitcolumns : true,
 		fit : true,
 		nowrap : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
 		columns:[[
+			{field:'id',checkbox:true},
 			{field:'name',title:'名称'},
 			{field:'sort',title:'排序'},
-			{field:'status_text',title:'状态'},
+			{field:'module',title:'模块'},
+			{field:'controller',title:'控制器'},
+			{field:'action',title:'方法'},
 			{field:'create_id_text',title:'创建者'},
 			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
@@ -46,24 +50,6 @@ $(function () {
 			});
 			$('.js-list-table').datagrid('autoSizeColumn');
 		}
-	});
-	
-	$('#buttonListMember').bind('click', function () {
-		var rows = $('.listAction').treegrid('getChecked');
-		var ids = '', size = rows.length;
-		if(size < 1) {
-			Web_alertInfo('请选择要查看的角色！');
-			return ;
-		}
-		for(var i = 0; i < size; i++) {
-			var row = rows[i];
-			ids += row.id;
-			if(i + 1 < size) {
-				ids += ',';
-			}
-		}
-		var url = '[@url controller="member" action="listView" /]?rid=' + ids;
-		Web_redirectPage(url);
 	});
 });
 </script>
