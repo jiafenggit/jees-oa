@@ -52,6 +52,7 @@ public class RoleController extends PermitController {
 		Role info;
 		if(DPUtil.empty(id)) {
 			info = new Role();
+			info.setParentId(DPUtil.parseInt(get("parentId")));
 		} else {
 			info = roleService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("您访问的信息不存在，请刷新后再试", null);

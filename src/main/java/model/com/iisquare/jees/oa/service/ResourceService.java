@@ -58,6 +58,8 @@ public class ResourceService extends ServiceBase {
 		int total = resourceDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = resourceDao.npJdbcTemplate().queryForList(sql, paramMap);
+		rows = ServiceUtil.fillTextMap(memberDao, rows,
+				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
