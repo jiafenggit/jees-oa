@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
 import com.iisquare.jees.oa.domain.Resource;
@@ -55,6 +56,7 @@ public class ResourceService extends ServiceBase {
 		}
 		String sql = sb.toString();
 		int total = resourceDao.getCount(sql, paramMap, true);
+		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = resourceDao.npJdbcTemplate().queryForList(sql, paramMap);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}

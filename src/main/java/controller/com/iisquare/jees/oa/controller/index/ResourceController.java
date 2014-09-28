@@ -31,7 +31,7 @@ public class ResourceController extends PermitController {
 	
 	public String listAction () throws Exception {
 		int page = DPUtil.parseInt(get("page"));
-		int pageSize = DPUtil.parseInt(get("pageSize"));
+		int pageSize = DPUtil.parseInt(get("rows"));
 		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));

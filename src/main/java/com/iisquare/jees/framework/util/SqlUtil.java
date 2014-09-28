@@ -91,18 +91,23 @@ public class SqlUtil {
 		return map;
 	}
 	
+	public static String buildLimit(int page, int pageSize) {
+		StringBuilder sb = new StringBuilder();
+		if(pageSize > 0) {
+			if(page < 1) page = 1;
+			page = (page - 1) * pageSize;
+			sb.append(" limit ").append(page).append(", ").append(pageSize);
+		}
+		return sb.toString();
+	}
+	
 	public static String buildSelect(String tableName,
 			String fields, String where, String append, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select ").append(fields).append(" from ").append(tableName);
 		if(!DPUtil.empty(where)) {
 			sb.append(" where ").append(where);
 		}
-		if(null != append) sb.append(" ").append(append);
-		if(pageSize > 0) {
-			if(page < 1) page = 1;
-			page = (page - 1) * pageSize;
-			sb.append(" limit ").append(page).append(", ").append(pageSize);
-		}
+		if(null != append) sb.append(" ").append(append).append(buildLimit(page, pageSize));
 		return sb.toString();
 	}
 	
