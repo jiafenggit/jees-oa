@@ -61,6 +61,7 @@ public class DPUtil {
 	 * 毫秒转换为格式化日期
 	 */
 	public static String millisToDateTime(long millis, String format) {
+		if(empty(millis)) return null;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		return dateFormat.format(new Date(millis));
 	}

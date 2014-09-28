@@ -4,6 +4,7 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
 </div>
 <script>
 $(function () {
@@ -20,11 +21,15 @@ $(function () {
 		selectOnCheck : false,
 		columns:[[
 			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
 			{field:'name',title:'名称'},
 			{field:'sort',title:'排序'},
 			{field:'module',title:'模块'},
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
+			{field:'refer_id',title:'引用'},
 			{field:'create_id_text',title:'创建者'},
 			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
@@ -39,9 +44,7 @@ $(function () {
 					+ '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("editPower")]<a href="[@url action="editPower" /]?id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-key\'">编辑权限</a>[/#if]';
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
 		onLoadSuccess : function (data) {
@@ -50,6 +53,24 @@ $(function () {
 			});
 			$('.js-list-table').datagrid('autoSizeColumn');
 		}
+	});
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要删除的记录！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '[@url action="delete" /]?ids=' + ids;
+		Web_redirectPage(url);
 	});
 });
 </script>

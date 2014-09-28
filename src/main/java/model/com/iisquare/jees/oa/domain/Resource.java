@@ -11,9 +11,10 @@ public class Resource {
 	private String module; // 模块名称
 	private String controller; // 控制器名称
 	private String action; // 方法名称
+	private Integer referId; // 引用主键（该记录的权限设置采用被引用记录的权限设置）
+	private Integer sort; // 排序（从高到低）
 	private Integer createId; // 创建者
 	private Integer updateId; // 修改者
-	private Integer sort; // 排序（从高到低）
 	private Long createTime; // 添加时间
 	private Long updateTime; // 修改时间
 
@@ -57,6 +58,22 @@ public class Resource {
 		this.action = action;
 	}
 
+	public Integer getReferId() {
+		return referId;
+	}
+
+	public void setReferId(Integer referId) {
+		this.referId = referId;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
 	public Integer getCreateId() {
 		return createId;
 	}
@@ -71,14 +88,6 @@ public class Resource {
 
 	public void setUpdateId(Integer updateId) {
 		this.updateId = updateId;
-	}
-
-	public Integer getSort() {
-		return sort;
-	}
-
-	public void setSort(Integer sort) {
-		this.sort = sort;
 	}
 
 	public Long getCreateTime() {

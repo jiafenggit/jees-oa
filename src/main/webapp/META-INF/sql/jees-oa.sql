@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-26 15:36:16
+Date: 2014-09-28 09:37:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -270,17 +270,19 @@ CREATE TABLE `oa_resource` (
   `module` varchar(64) NOT NULL DEFAULT '',
   `controller` varchar(64) NOT NULL DEFAULT '',
   `action` varchar(64) NOT NULL DEFAULT '',
+  `refer_id` int(11) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
-  `sort` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
+INSERT INTO `oa_resource` VALUES ('2', '测试按时发', 'index', 'resource', 'list', '0', '1', '1', '1', '1411867810171', '1411867810171');
 
 -- ----------------------------
 -- Table structure for `oa_role`
