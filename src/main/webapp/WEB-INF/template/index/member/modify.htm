@@ -11,25 +11,25 @@
 	<tr>
 		<th class="width130">账号</th>
 		<td>
-			<input class="easyui-validatebox input-text length200" type="text" name="member.serial" data-options="required:true" value="${(member.serial)!""}" />
+			<input class="easyui-validatebox input-text width200" type="text" name="member.serial" data-options="required:true" value="${(member.serial)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>姓名</th>
 		<td>
-			<input class="easyui-validatebox input-text length200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
+			<input class="easyui-validatebox input-text width200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
 		</td>
 	</tr>
 	<tr>
 		<th>密码</th>
 		<td>
-			<input class="easyui-validatebox input-text length200" type="text" name="member.password" value="[#if empty((member.id)!0)]${_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD}[/#if]" />
+			<input class="easyui-validatebox input-text width200" type="text" name="member.password" value="[#if empty((member.id)!0)]${_GLOBAL_PARAMETERS_.DEFAULT_PASSWORD}[/#if]" />
 		</td>
 	</tr>
 	<tr>
 		<th>排序</th>
 		<td>
-			<input class="easyui-numberspinner input-text length-percent50" type="text" name="member.sort" data-options="required:true,min:0" value="${(member.sort)!0}" />
+			<input class="easyui-numberspinner input-text width-percent50" type="text" name="member.sort" data-options="required:true,min:0" value="${(member.sort)!0}" />
 		</td>
 	</tr>
 	<tr>

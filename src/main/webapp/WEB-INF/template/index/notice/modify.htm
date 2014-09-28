@@ -12,7 +12,7 @@
 	<tr>
 		<th class="width130">标题</th>
 		<td>
-			<input class="easyui-validatebox input-text length430" type="text" name="notice.title" data-options="required:true" value="${(notice.title)!""}" />
+			<input class="easyui-validatebox input-text width430" type="text" name="notice.title" data-options="required:true" value="${(notice.title)!""}" />
 		</td>
 	</tr>
 	<tr>
@@ -24,7 +24,7 @@
 	<tr>
 		<th>类型</th>
 		<td>
-			<select id="role" class="easyui-combobox length200" data-options="editable:false" name="notice.type.id">
+			<select id="role" class="easyui-combobox width200" data-options="editable:false" name="notice.type.id">
 				[@getOptionList seq=type default=tid!0 tips="请选择类型" /]
 			</select>
 		</td>

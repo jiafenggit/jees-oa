@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -497,5 +498,17 @@ public class DPUtil {
 		Object[] objects = new Object[length];
 		Arrays.fill(objects, object);
 		return objects;
+	}
+	
+	/**
+	 * 创建HashMap
+	 */
+	public static Map<Object, Object> buildMap(Object[] keys, Object[] values) {
+		int length = keys.length;
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		for (int i = 0; i < length; i++) {
+			map.put(keys[i], values[i]);
+		}
+		return map;
 	}
 }

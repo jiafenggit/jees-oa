@@ -18,6 +18,14 @@ public class ServletUtil {
 	
 	public static final String cookieEncoding = "UTF-8";
 
+	public static Map<String, Object> singleParameterMap(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+			map.put(entry.getKey(), DPUtil.getByIndex(entry.getValue(), 0));
+		}
+		return map;
+	}
+	
 	public static void addCookie(HttpServletRequest request, HttpServletResponse response, String key, String value, int maxAge) throws UnsupportedEncodingException {
 		if(null != value) value = URLEncoder.encode(value, cookieEncoding);
 		Cookie cookie = new Cookie(key, value);

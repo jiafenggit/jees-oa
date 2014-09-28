@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iisquare.jees.framework.model.ServiceBase;
+import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
@@ -21,6 +23,41 @@ public class ResourceService extends ServiceBase {
 	public MemberDao memberDao;
 	
 	public ResourceService() {}
+	
+	public Map<Object, Object> search(Map<String, Object> map, int page, int pageSize) {
+		StringBuilder sb = new StringBuilder("select * from ")
+			.append(resourceDao.tableName()).append(" where 1 = 1");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		Object name = map.get("name");
+		if(!DPUtil.empty(name)) {
+			sb.append(" and name like :name");
+			paramMap.put("name", DPUtil.stringConcat("%", name, "%"));
+		}
+		Object module = map.get("module");
+		if(!DPUtil.empty(module)) {
+			sb.append(" and module = :module");
+			paramMap.put("module", module);
+		}
+		Object controller = map.get("controller");
+		if(!DPUtil.empty(controller)) {
+			sb.append(" and controller = :controller");
+			paramMap.put("controller", controller);
+		}
+		Object action = map.get("action");
+		if(!DPUtil.empty(action)) {
+			sb.append(" and action = :action");
+			paramMap.put("action", action);
+		}
+		Object referId = map.get("referId");
+		if(null != referId && !"".equals(referId)) {
+			sb.append(" and refer_id = :referId");
+			paramMap.put("referId", DPUtil.parseInt(referId));
+		}
+		String sql = sb.toString();
+		int total = resourceDao.getCount(sql, paramMap, true);
+		List<Map<String, Object>> rows = resourceDao.npJdbcTemplate().queryForList(sql, paramMap);
+		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
+	}
 	
 	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
 		return resourceDao.getCount(where, operators, append);

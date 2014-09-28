@@ -431,7 +431,15 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
 		String count = "COUNT(*)";
 		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(where, operators), append, 1, 1);
-		Number number = npJdbcTemplate().queryForObject(sql, where, Integer.class);
+		return getCount(sql, where, false);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount(String sql, Map<String, Object> paramMap, boolean bConvert) {
+		if(bConvert) sql = SqlUtil.convertForCount(sql);
+		Number number = npJdbcTemplate().queryForObject(sql, paramMap, Integer.class);
 		return (number != null ? number.intValue() : 0);
 	}
 	
@@ -441,7 +449,15 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int getCount(String[] whereFields, Object[] whereValues, String[] operators, String append) {
 		String count = "COUNT(*)";
 		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(whereFields, operators, true), append, 1, 1);
-		Number number = queryForObject(sql, whereValues, Integer.class);
+		return getCount(sql, whereValues, false);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount(String sql, Object[] paramValues, boolean bConvert) {
+		if(bConvert) sql = SqlUtil.convertForCount(sql);
+		Number number = queryForObject(sql, paramValues, Integer.class);
 		return (number != null ? number.intValue() : 0);
 	}
 }

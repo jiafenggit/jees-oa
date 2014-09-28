@@ -1,6 +1,6 @@
 package com.iisquare.jees.oa.controller.index;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.oa.domain.Resource;
 import com.iisquare.jees.oa.service.ResourceService;
 
@@ -31,10 +32,9 @@ public class ResourceController extends PermitController {
 	public String listAction () throws Exception {
 		int page = DPUtil.parseInt(get("page"));
 		int pageSize = DPUtil.parseInt(get("pageSize"));
-		int count = resourceService.getCount(null, null, null);
-		List<Map<String, Object>> list = resourceService.getList("*", null, null, "sort", page, pageSize);
-		assign("total", count);
-		assign("rows", DPUtil.collectionToArray(list));
+		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
+		assign("total", map.get("total"));
+		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
 	}
 	
