@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
+import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Resource;
 import com.iisquare.jees.oa.service.ResourceService;
 
@@ -30,8 +31,8 @@ public class ResourceController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		int page = DPUtil.parseInt(get("page"));
-		int pageSize = DPUtil.parseInt(get("rows"));
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
 		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
@@ -39,51 +40,51 @@ public class ResourceController extends PermitController {
 	}
 	
 	public String showAction() throws Exception {
-		Object id = get("id");
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
 		Map<String, Object> info = resourceService.getById(id, true);
 		if(null == info) {
-			return displayInfo("您访问的信息不存在，请刷新后再试", null);
+			return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
 		return displayTemplate();
 	}
 	
 	public String editAction() throws Exception {
-		Object id = get("id");
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
 		Resource info;
 		if(DPUtil.empty(id)) {
 			info = new Resource();
 		} else {
 			info = resourceService.getById(id);
-			if(DPUtil.empty(info)) return displayInfo("您访问的信息不存在，请刷新后再试", null);
+			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
 		return displayTemplate();
 	}
 	
 	public String saveAction() throws Exception {
-		Object id = get("id");
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
 		Resource persist;
 		if(DPUtil.empty(id)) {
 			persist = new Resource();
 		} else {
 			persist = resourceService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "您访问的信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
-		String name = DPUtil.trim(get("name"));
-		if(DPUtil.empty(name)) return displayMessage(3002, "请输入名称");
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
+		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		String module = DPUtil.trim(get("module"));
-		if(DPUtil.empty(module)) return displayMessage(3003, "请模块名称");
+		String module = ValidateUtil.filterSimpleString(get("module"), true, 1, 64);
+		if(DPUtil.empty(module)) return displayMessage(3003, "模块参数错误");
 		persist.setModule(module);
-		String controller = DPUtil.trim(get("controller"));
-		if(DPUtil.empty(controller)) return displayMessage(3004, "请输入控制器名称");
+		String controller = ValidateUtil.filterSimpleString(get("controller"), true, 1, 64);
+		if(DPUtil.empty(controller)) return displayMessage(3004, "控制器参数错误");
 		persist.setController(controller);
-		String action = DPUtil.trim(get("action"));
-		if(DPUtil.empty(action)) return displayMessage(3005, "请输入方法名称");
+		String action = ValidateUtil.filterSimpleString(get("action"), true, 1, 64);
+		if(DPUtil.empty(action)) return displayMessage(3005, "方法参数错误");
 		persist.setAction(action);
-		persist.setReferId(DPUtil.parseInt(get("referId")));
-		persist.setSort(DPUtil.parseInt(get("sort")));
+		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null));
+		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-28 09:37:18
+Date: 2014-09-29 13:36:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -45,7 +45,7 @@ CREATE TABLE `oa_icon` (
   `type_id` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
-  `url` tinytext NOT NULL,
+  `url` tinytext,
   `sort` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
@@ -87,8 +87,8 @@ CREATE TABLE `oa_log` (
   `module` varchar(32) NOT NULL DEFAULT '',
   `controller` varchar(32) NOT NULL DEFAULT '',
   `action` varchar(32) NOT NULL DEFAULT '',
-  `request` tinytext NOT NULL,
-  `result` text NOT NULL,
+  `request` tinytext,
+  `result` text,
   `create_id` int(11) NOT NULL DEFAULT '0',
   `create_ip` varchar(64) NOT NULL DEFAULT '',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
@@ -166,18 +166,19 @@ CREATE TABLE `oa_menu` (
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
   `icon` varchar(128) NOT NULL DEFAULT '',
-  `url` tinytext NOT NULL,
+  `url` tinytext,
   `target` varchar(8) NOT NULL DEFAULT '',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_menu
 -- ----------------------------
+INSERT INTO `oa_menu` VALUES ('1', '测试', '0', '1', '1', '', '', '', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `oa_notice`
@@ -189,7 +190,7 @@ CREATE TABLE `oa_notice` (
   `type_id` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
-  `content` text NOT NULL,
+  `content` text,
   `sort` bigint(20) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
@@ -277,12 +278,13 @@ CREATE TABLE `oa_resource` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('2', '测试按时发', 'index', 'resource', 'list', '0', '1', '1', '1', '1411867810171', '1411867810171');
+INSERT INTO `oa_resource` VALUES ('2', '测试按时发', 'index', 'resource', 'list', '2', '1', '1', '1', '1411867810171', '1411869123921');
+INSERT INTO `oa_resource` VALUES ('7', 'asf', 'asf', 'asf', 'asf', '0', '0', '1', '1', '1411887872308', '1411887872308');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -298,7 +300,7 @@ CREATE TABLE `oa_role` (
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
-  `remark` text NOT NULL,
+  `remark` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -346,8 +348,8 @@ CREATE TABLE `oa_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
   `type` varchar(64) NOT NULL DEFAULT '',
-  `content` tinytext NOT NULL,
-  `remark` tinytext NOT NULL,
+  `content` tinytext,
+  `remark` tinytext,
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
@@ -369,8 +371,8 @@ DROP TABLE IF EXISTS `oa_upload`;
 CREATE TABLE `oa_upload` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `create_id` int(11) NOT NULL DEFAULT '0',
-  `url` tinytext NOT NULL,
-  `file` tinytext NOT NULL,
+  `url` tinytext,
+  `file` tinytext,
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

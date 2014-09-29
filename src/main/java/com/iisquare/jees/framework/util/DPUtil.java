@@ -201,7 +201,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String trim(String str, String trimStr) {
-		if(empty(str)) return "";
+		if(null == str) return "";
 		String regexLeft = "^(" + trimStr + ")*";
 		str = str.replaceFirst(regexLeft, "");
 		String regexRight = "(" + trimStr + ")*$";
@@ -220,7 +220,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String trimLeft(String str, String trimStr) {
-		if(empty(str)) return "";
+		if(null == str) return "";
 		String regexLeft = "^(" + trimStr + ")*";
 		str = str.replaceFirst(regexLeft, "");
 		return str;
@@ -237,7 +237,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String trimRight(String str, String trimStr) {
-		if(empty(str)) return "";
+		if(null == str) return "";
 		String regexRight = "(" + trimStr + ")*$";
 		str = str.replaceFirst(regexRight, "");
 		return str;
@@ -252,11 +252,11 @@ public class DPUtil {
 	 */
 	public static String[] explode(String string, String splitRegex, String trimStr) {
 		List<String> list = new ArrayList<String>(0);
-		if(DPUtil.empty(string)) {
+		if(empty(string)) {
 			return new String[]{};
 		}
 		for (String str : string.split(splitRegex)) {
-			if(!DPUtil.empty(str)) {
+			if(!empty(str)) {
 				if(null != trimStr) {
 					list.add(DPUtil.trim(str));
 				} else {

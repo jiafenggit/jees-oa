@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Member;
 
 /**
@@ -28,10 +29,10 @@ public class MemberController extends PermitController {
 	}
 	
 	public String logonAction() throws Exception {
-		String serial = get("serial");
-		String password = get("password");
+		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64);
+		String password = ValidateUtil.filterSimpleString(get("password"), true, 1, null);
 		if(DPUtil.empty(serial) || DPUtil.empty(password)) {
-			return displayMessage(1, "请输入账号和密码！");
+			return displayMessage(1, "请输入正确的账号和密码！");
 		}
 		Member member = memberService.getBySerial(serial);
 		if(null == member || 1 != member.getStatus()
