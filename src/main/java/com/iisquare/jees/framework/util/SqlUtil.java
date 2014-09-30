@@ -57,11 +57,23 @@ public class SqlUtil {
 			if(i > 0) {
 				sb.append(" and ");
 			}
-			sb.append(keys[i]).append(operators[i]);
-			if(bPlaceholder) {
-				sb.append("?");
+			sb.append(keys[i]);
+			String operator = DPUtil.trim(DPUtil.parseString(operators[i]).toLowerCase());
+			if("in".equals(operator)) {
+				sb.append(" in (");
+				if(bPlaceholder) {
+					sb.append("?");
+				} else {
+					sb.append(":").append(keys[i]);
+				}
+				sb.append(")");
 			} else {
-				sb.append(":").append(keys[i]);
+				sb.append(operator);
+				if(bPlaceholder) {
+					sb.append("?");
+				} else {
+					sb.append(":").append(keys[i]);
+				}
 			}
 		}
 		return sb.toString();

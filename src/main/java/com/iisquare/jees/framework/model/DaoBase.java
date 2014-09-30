@@ -292,7 +292,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 根据单个字段获取Entity对象
 	 */
-	public T getByField(String field, String value, String operator, String append) {
+	public T getByField(String field, Object value, String operator, String append) {
 		Map<String, Object> where = new HashMap<String, Object>(2);
 		where.put(field, value);
 		Map<String, String> operators = null;
@@ -307,7 +307,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据单个字段获取Map对象
 	 */
 	public Map<String, Object> getByField(String columns,
-			String field, String value, String operator, String append) {
+			String field, Object value, String operator, String append) {
 		Map<String, Object> where = new HashMap<String, Object>(2);
 		where.put(field, value);
 		Map<String, String> operators = null;

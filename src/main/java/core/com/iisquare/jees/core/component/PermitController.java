@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.oa.domain.Log;
 import com.iisquare.jees.oa.domain.Member;
+import com.iisquare.jees.oa.service.LogService;
 import com.iisquare.jees.oa.service.MemberService;
 import com.iisquare.jees.oa.service.SettingService;
 
@@ -18,6 +20,8 @@ import com.iisquare.jees.oa.service.SettingService;
 public abstract class PermitController extends CoreController {
 	@Autowired
 	public MemberService memberService;
+	@Autowired
+	public LogService logService;
 	@Autowired
 	public SettingService settingService;
 	
@@ -91,6 +95,10 @@ public abstract class PermitController extends CoreController {
 			modelAndView.addObject("_PAGE_SIZE_", settingService.get("system", "pageSize"));
 		}
 		super.destroy(request, response, handler, modelAndView);
+		/* 日志处理 */
+		Log log = new Log();
+		
+		//logService.insert(log);
 	}
 	
 	/**

@@ -90,12 +90,12 @@ public class ResourceService extends ServiceBase {
 		return map;
 	}
 	
-	public int insert(Resource role) {
-		return resourceDao.insert(role);
+	public int insert(Resource resource) {
+		return resourceDao.insert(resource);
 	}
 	
-	public int update(Resource role) {
-		return resourceDao.update(role);
+	public int update(Resource resource) {
+		return resourceDao.update(resource);
 	}
 	
 	public int delete(Object... ids) {

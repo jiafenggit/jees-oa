@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iisquare.jees.framework.Configuration;
+import com.iisquare.jees.framework.controller.ControllerBase;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
@@ -16,6 +18,7 @@ import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.LogDao;
 import com.iisquare.jees.oa.dao.LogSettingDao;
 import com.iisquare.jees.oa.dao.MemberDao;
+import com.iisquare.jees.oa.domain.Log;
 
 @Service
 public class LogService extends ServiceBase {
@@ -30,6 +33,39 @@ public class LogService extends ServiceBase {
 	public Configuration configuration;
 	
 	public LogService() {}
+	
+	public int record(ControllerBase controllerBase, String name, String type, String content) {
+		Log log = new Log();
+		log.setName(name);
+		log.setType(type);
+		log.setModule(controllerBase._MODULE_);
+		log.setController(controllerBase._CONTROLLER_);
+		log.setAction(controllerBase._ACTION_);
+		log.setRequestUrl(controllerBase._REQUEST_.getRequestURI());
+		return insert(log);
+	}
+	
+	public int insert(Log log) {
+		return logDao.insert(log);
+	}
+	
+	public List<Map<String, Object>> fillSetting(List<Map<String, Object>> list, String relationField) {
+		relationField = ValidateUtil.filterItem(relationField,
+				false, new String[]{"id", "resource_id"}, "resource_id");
+		List<Object> idList = ServiceUtil.getFieldValues(list, "id");
+		List<Map<String, Object>> settingList;
+		if(DPUtil.empty(idList)) {
+			settingList = new ArrayList<Map<String, Object>>(0);
+		} else {
+			settingList = logSettingDao.getAll("*", new String[]{relationField},
+					new Object[]{DPUtil.implode(",", idList)}, new String[]{"in"}, null);
+		}
+		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, relationField);
+		for (Map<String, Object> item : list) {
+			item.put("log_setting", indexMap.get(item.get("id")));
+		}
+		return list;
+	}
 	
 	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
