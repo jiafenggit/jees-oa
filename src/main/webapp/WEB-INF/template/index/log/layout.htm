@@ -1,127 +1,61 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="false" nowrap="true" checkonselect="true" selectoncheck="true">
-	<thead>
-		<tr>
-			<th checkbox="true"></th>
-			<th field="id">ID</th>
-			<th field="name">名称</th>
-			<th field="type">类型</th>
-			<th field="module">模块</th>
-			<th field="controller">控制器</th>
-			<th field="action">方法</th>
-			<th field="member">操作者</th>
-			<th field="ip">IP</th>
-			<th field="createTime">操作时间</th>
-			<th field="result">操作结果</th>
-			<th field="request">请求参数</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
-	[#if _BASE_.hasPermit("delete")]<a id="buttonDelete" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("truncate")]<a id="buttonTruncate" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a>[/#if]
-	[#if _BASE_.hasPermit("editSetting")]<a href="[@url action="editSetting" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">参数设置</a>[/#if]
-	<a id="searchAction" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">搜索</a>
-</div>
-<div class="searchActionDialog" style="width:230px;height:308px" data-options="buttons:'#actionButton',modal:true,resizable:true">
-<table align="center" class="table-horizontal tr-height25">
-	<tr>
-		<th>开始日期</th>
-		<td>
-			<input type="text" class="easyui-datebox width130" id="timeStart" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>结束日期</th>
-		<td>
-			<input type="text" class="easyui-datebox width130" id="timeEnd" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>类型</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="type" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>模块</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="module" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>控制器</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="controller" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>方法</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="action" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>用户</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="member" value="" />
-		</td>
-	</tr>
-	<tr>
-		<th>IP</th>
-		<td>
-			<input class="easyui-validatebox input-text width130" type="text" name="ip" value="" />
-		</td>
-	</tr>
-</table>
-</div>
-<div id="actionButton">
-	<a href="javascript:void(0);" class="easyui-linkbutton searchActionOK" data-options="iconCls:'icon-search'">搜索</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton searchActionCancel" data-options="iconCls:'icon-cancel'">取消</a>
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
+	[#if _BASE_.hasPermit("truncate")]<a href="[@url action="truncate" /]" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a>[/#if]
+	[#if _BASE_.hasPermit("editSetting")]<a href="[@url action="editSetting" /]" class="easyui-linkbutton" iconcls="icon-setting" plain="true">设置参数</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
-	$('#searchAction').bind('click', function () {
-		$('.searchActionDialog').dialog({
-			title : '筛选条件',
-			iconCls : 'icon-search',
-			onOpen : function () {}
-		});
+	$('.js-list-table').datagrid({
+		url : '[@url action="list" /]',
+		pagination : true,
+		idField : 'id',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
+			{field:'name',title:'名称'},
+			{field:'type',title:'类型'},
+			{field:'module',title:'模块'},
+			{field:'controller',title:'控制器'},
+			{field:'action',title:'方法'},
+			{field:'session_id',title:'会话ID'},
+			{field:'create_id',title:'创建者ID'},
+			{field:'create_id_text',title:'创建账号'},
+			{field:'create_ip',title:'IP'},
+			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '<a href="[@url action="show" /]?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		}
 	});
-		
-	$('.searchActionOK').unbind('click.action').bind('click.action' ,function () {
-		$('.listAction').datagrid('load', {
-			timeStart : $('#timeStart').datebox('getValue'),
-			timeEnd : $('#timeEnd').datebox('getValue'),
-			type : $('input[name="type"]').val(),
-			module : $('input[name="module"]').val(),
-			controller : $('input[name="controller"]').val(),
-			action : $('input[name="action"]').val(),
-			member : $('input[name="member"]').val(),
-			ip : $('input[name="ip"]').val()
-		});
-		$('.searchActionDialog').dialog('close');
-	})
-	$('.searchActionCancel').unbind('click.action').bind('click.action' ,function () {
-		$('.searchActionDialog').dialog('close');
-	});
-	$('.listAction').datagrid({
-		onSelectAll : function (rows) {
-			for(i = 0; i < rows.length; i++) {
-				$(this).datagrid('selectRecord', rows[i].id);
-			}
-		},
-		onUnselectAll : function (rows) {
-			for(i = rows.length - 1; i >= 0; i--) {
-				$(this).datagrid('unselectRow', $(this).datagrid('getRowIndex', rows[i]));
-			}
-		},
-		onDblClickRow : function (rowIndex, rowData) {}
-	});
-	$('#buttonDelete').bind('click', function () {
-		var rows = $('.listAction').treegrid('getChecked');
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
 		var ids = '', size = rows.length;
 		if(size < 1) {
 			Web_alertInfo('请选择要删除的记录！');
@@ -135,29 +69,81 @@ $(function () {
 			}
 		}
 		var url = '[@url action="delete" /]?ids=' + ids;
-		$.getJSON(url, function(data) {
-			if(0 == data.status) {
-				Web_confirm(data.message + '重新载入当前页面......', function (result) {
-					$('.listAction').datagrid('reload');
-					$('.listAction').datagrid('unselectAll');
-				});
-			} else {
-				Web_alertInfo(data.message);
-			}
+		Web_redirectPage(url);
+	});
+});
+</script>
+<div id="js-search-dialog" style="width:255px;height:372px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<table align="center" class="table-horizontal tr-height25">
+	<tr>
+		<th>开始时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStart" value="" /></td>
+	</tr>
+	<tr>
+		<th>结束时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEnd" value="" /></td>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
+	</tr>
+	<tr>
+		<th>类型</th>
+		<td><input class="easyui-textbox width150" type="text" name="type" value="" /></td>
+	</tr>
+	<tr>
+		<th>模块</th>
+		<td><input class="easyui-textbox width150" type="text" name="module" value="" /></td>
+	</tr>
+	<tr>
+		<th>控制器</th>
+		<td><input class="easyui-textbox width150" type="text" name="controller" value="" /></td>
+	</tr>
+	<tr>
+		<th>方法</th>
+		<td><input class="easyui-textbox width150" type="text" name="action" value="" /></td>
+	</tr>
+	<tr>
+		<th>会话ID</th>
+		<td><input class="easyui-textbox width150" type="text" name="sessionId" value="" /></td>
+	</tr>
+	<tr>
+		<th>创建者ID</th>
+		<td><input class="easyui-numberspinner width150" type="text" name="createId" data-options="min:0" value="" /></td>
+	</tr>
+	<tr>
+		<th>IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="createIp" value="" /></td>
+	</tr>
+</table>
+</div>
+<div id="js-search-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<script>
+$(function () {
+	var $searchDialog = $('#js-search-dialog');
+	$('.js-control-search').bind('click', function () {
+		$searchDialog.dialog({
+			title : '筛选条件',
+			iconCls : 'icon-search',
+			onOpen : function () {}
 		});
 	});
-	$('#buttonTruncate').bind('click', function () {
-		var url = '[@url action="truncate" /]';
-		$.getJSON(url, function(data) {
-			if(0 == data.status) {
-				Web_confirm(data.message + '重新载入当前页面......', function (result) {
-					$('.listAction').datagrid('reload');
-					$('.listAction').datagrid('unselectAll');
-				});
-			} else {
-				Web_alertInfo(data.message);
-			}
+		
+	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-list-table').datagrid('load', {
+			name : $searchDialog.find('input[name="name"]').val(),
+			module : $searchDialog.find('input[name="module"]').val(),
+			controller : $searchDialog.find('input[name="controller"]').val(),
+			action : $searchDialog.find('input[name="action"]').val(),
+			referId : $searchDialog.find('input[name="referId"]').val()
 		});
+		$searchDialog.dialog('close');
+	});
+	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$searchDialog.dialog('close');
 	});
 });
 </script>

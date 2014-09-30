@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-29 13:36:44
+Date: 2014-09-30 09:51:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,8 +87,14 @@ CREATE TABLE `oa_log` (
   `module` varchar(32) NOT NULL DEFAULT '',
   `controller` varchar(32) NOT NULL DEFAULT '',
   `action` varchar(32) NOT NULL DEFAULT '',
-  `request` tinytext,
-  `result` text,
+  `referer` tinytext,
+  `request_url` tinytext,
+  `request_param` tinytext,
+  `session_id` varchar(255) DEFAULT NULL,
+  `session_value` tinytext,
+  `response_type` varchar(255) DEFAULT NULL,
+  `response_data` tinytext,
+  `content` tinytext,
   `create_id` int(11) NOT NULL DEFAULT '0',
   `create_ip` varchar(64) NOT NULL DEFAULT '',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
@@ -97,6 +103,29 @@ CREATE TABLE `oa_log` (
 
 -- ----------------------------
 -- Records of oa_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `oa_log_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_log_setting`;
+CREATE TABLE `oa_log_setting` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `resource_id` int(11) NOT NULL DEFAULT '0',
+  `referer` tinyint(4) NOT NULL DEFAULT '0',
+  `request_url` tinyint(4) NOT NULL DEFAULT '0',
+  `request_param` tinyint(4) NOT NULL DEFAULT '0',
+  `session_id` tinyint(4) NOT NULL DEFAULT '0',
+  `session_value` tinyint(4) NOT NULL DEFAULT '0',
+  `response_type` tinyint(4) NOT NULL DEFAULT '0',
+  `response_data` tinyint(4) NOT NULL DEFAULT '0',
+  `operate_id` int(11) NOT NULL DEFAULT '0',
+  `operate_time` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_log_setting
 -- ----------------------------
 
 -- ----------------------------

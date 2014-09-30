@@ -25,7 +25,7 @@ public class MenuService extends ServiceBase {
 	
 	public MenuService() {}
 	
-	public Map<Object, Object> search(Map<String, Object> map, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(menuDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();

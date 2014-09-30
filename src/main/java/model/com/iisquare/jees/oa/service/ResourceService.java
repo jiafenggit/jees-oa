@@ -25,7 +25,7 @@ public class ResourceService extends ServiceBase {
 	
 	public ResourceService() {}
 	
-	public Map<Object, Object> search(Map<String, Object> map, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(resourceDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();

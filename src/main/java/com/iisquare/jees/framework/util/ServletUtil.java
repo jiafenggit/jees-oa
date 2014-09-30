@@ -18,10 +18,10 @@ public class ServletUtil {
 	
 	public static final String cookieEncoding = "UTF-8";
 
-	public static Map<String, Object> singleParameterMap(HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public static Map<String, String> singleParameterMap(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
 		for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-			map.put(entry.getKey(), DPUtil.getByIndex(entry.getValue(), 0));
+			map.put(entry.getKey(), DPUtil.parseString(DPUtil.getByIndex(entry.getValue(), 0)));
 		}
 		return map;
 	}

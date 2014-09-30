@@ -12,11 +12,17 @@ public class Log {
 	private String module; // 模块名称
 	private String controller; // 控制器名称
 	private String action; // 方法名称
-	private String request; // 请求参数
-	private String result; // 操作结果
+	private String referer; // 来源地址
+	private String requestUrl; // 请求地址
+	private String requestParam; // 请求参数
+	private String sessionId; // 会话ID
+	private String sessionValue; // 会话值
+	private String responseType; // 响应类型
+	private String responseData; // 响应数据
+	private String content; // 自定义内容
 	private Integer createId; // 创建者
-	private String createIp; // 注册IP
-	private Long createTime; // 注册时间
+	private String createIp; // 创建IP
+	private Long createTime; // 创建时间
 
 	public Integer getId() {
 		return id;
@@ -66,20 +72,68 @@ public class Log {
 		this.action = action;
 	}
 
-	public String getRequest() {
-		return request;
+	public String getReferer() {
+		return referer;
 	}
 
-	public void setRequest(String request) {
-		this.request = request;
+	public void setReferer(String referer) {
+		this.referer = referer;
 	}
 
-	public String getResult() {
-		return result;
+	public String getRequestUrl() {
+		return requestUrl;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setRequestUrl(String requestUrl) {
+		this.requestUrl = requestUrl;
+	}
+
+	public String getRequestParam() {
+		return requestParam;
+	}
+
+	public void setRequestParam(String requestParam) {
+		this.requestParam = requestParam;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getSessionValue() {
+		return sessionValue;
+	}
+
+	public void setSessionValue(String sessionValue) {
+		this.sessionValue = sessionValue;
+	}
+
+	public String getResponseType() {
+		return responseType;
+	}
+
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
+	}
+
+	public String getResponseData() {
+		return responseData;
+	}
+
+	public void setResponseData(String responseData) {
+		this.responseData = responseData;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Integer getCreateId() {

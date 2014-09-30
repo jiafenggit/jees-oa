@@ -195,4 +195,12 @@ public class ValidateUtil {
 		if(!isPostCode(object)) return null;
 		return filterLength(object, min, max);
 	}
+	
+	public static String filterDateTime(String object, boolean bTrim, String format) {
+		if(null == object) return null;
+		if(bTrim) object = DPUtil.trim(object);
+		long millis = DPUtil.dateTimeToMillis(object, format);
+		if(-1 == millis) return null;
+		return DPUtil.millisToDateTime(millis, format);
+	}
 }

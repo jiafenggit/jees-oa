@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
+	<tr>
+		<th class="width130">名称</th>
+		<td>${info.name}</td>
+	</tr>
+	<tr>
+		<th class="width130">类型</th>
+		<td>${info.type}</td>
+	</tr>
+	<tr>
+		<th class="width130">模块</th>
+		<td>${info.module}</td>
+	</tr>
+	<tr>
+		<th class="width130">控制器</th>
+		<td>${info.controller}</td>
+	</tr>
+	<tr>
+		<th class="width130">方法</th>
+		<td>${info.action}</td>
+	</tr>
+	<tr>
+		<th class="width130">来源地址</th>
+		<td>${info.referer!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">请求地址</th>
+		<td>${info.request_url!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">请求参数</th>
+		<td>${info.request_param!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">会话ID</th>
+		<td>${info.session_id!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">会话值</th>
+		<td>${info.session_value!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">响应类型</th>
+		<td>${info.response_type!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">响应数据</th>
+		<td>${info.response_data!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">自定义内容</th>
+		<td>${info.content!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">创建者ID</th>
+		<td>${info.create_id}</td>
+	</tr>
+	<tr>
+		<th class="width130">创建者账号</th>
+		<td>${info.create_id_text!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">IP</th>
+		<td>${info.create_ip!""}</td>
+	</tr>
+	<tr>
+		<th class="width130">创建时间</th>
+		<td>${millisToDateTime(info.create_time)!""}</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>[/#if]
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
+		</td>
+	</tr>
+</table>
