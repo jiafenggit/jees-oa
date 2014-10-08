@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-08 12:01:38
+Date: 2014-10-08 15:53:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -92,7 +92,7 @@ CREATE TABLE `oa_log` (
   `request_param` tinytext,
   `session_id` varchar(255) DEFAULT NULL,
   `session_value` tinytext,
-  `response_type` varchar(255) DEFAULT NULL,
+  `response_view` varchar(255) DEFAULT NULL,
   `response_data` tinytext,
   `content` tinytext,
   `create_id` int(11) NOT NULL DEFAULT '0',
@@ -116,7 +116,7 @@ CREATE TABLE `oa_log_setting` (
   `request_param` tinyint(4) NOT NULL DEFAULT '0',
   `session_id` tinyint(4) NOT NULL DEFAULT '0',
   `session_value` tinyint(4) NOT NULL DEFAULT '0',
-  `response_type` tinyint(4) NOT NULL DEFAULT '0',
+  `response_view` tinyint(4) NOT NULL DEFAULT '0',
   `response_data` tinyint(4) NOT NULL DEFAULT '0',
   `operate_id` int(11) NOT NULL DEFAULT '0',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
@@ -126,6 +126,8 @@ CREATE TABLE `oa_log_setting` (
 -- ----------------------------
 -- Records of oa_log_setting
 -- ----------------------------
+INSERT INTO `oa_log_setting` VALUES ('2', '0', '1', '1', '0', '0', '0', '0', '1', '1412746470808');
+INSERT INTO `oa_log_setting` VALUES ('7', '1', '0', '0', '0', '1', '0', '0', '1', '1412746471221');
 
 -- ----------------------------
 -- Table structure for `oa_member`

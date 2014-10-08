@@ -90,6 +90,11 @@ public class ResourceService extends ServiceBase {
 		return map;
 	}
 	
+	public Resource getByRouter(String module, String controller, String action) {
+		return resourceDao.getByFields(new String[]{"module", "controller", "action"},
+				new Object[]{module, controller, action}, null, null);
+	}
+	
 	public int insert(Resource resource) {
 		return resourceDao.insert(resource);
 	}

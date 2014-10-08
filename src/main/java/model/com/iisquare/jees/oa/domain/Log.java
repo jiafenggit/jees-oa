@@ -17,7 +17,7 @@ public class Log {
 	private String requestParam; // 请求参数
 	private String sessionId; // 会话ID
 	private String sessionValue; // 会话值
-	private String responseType; // 响应类型
+	private String responseView; // 响应视图
 	private String responseData; // 响应数据
 	private String content; // 自定义内容
 	private Integer createId; // 创建者
@@ -112,12 +112,12 @@ public class Log {
 		this.sessionValue = sessionValue;
 	}
 
-	public String getResponseType() {
-		return responseType;
+	public String getResponseView() {
+		return responseView;
 	}
 
-	public void setResponseType(String responseType) {
-		this.responseType = responseType;
+	public void setResponseView(String responseView) {
+		this.responseView = responseView;
 	}
 
 	public String getResponseData() {

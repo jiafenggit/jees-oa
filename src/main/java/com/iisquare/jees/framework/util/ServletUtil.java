@@ -76,6 +76,17 @@ public class ServletUtil {
 		return session.getAttribute(key);
 	}
 	
+	public static Map<String, Object> getSessionMap(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Enumeration<String> enumeration = session.getAttributeNames();
+		Map<String, Object> map = new HashMap<String, Object>();
+		while (enumeration.hasMoreElements()) {
+			String name = enumeration.nextElement().toString();
+			map.put(name, session.getAttribute(name));
+		}
+		return map;
+	}
+	
 	public static void invalidateSession(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();

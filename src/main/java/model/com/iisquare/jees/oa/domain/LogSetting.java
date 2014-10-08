@@ -7,12 +7,13 @@ package com.iisquare.jees.oa.domain;
  */
 public class LogSetting {
 	private Integer id; // 资源主键
+	private Integer enable; // 是否启用
 	private Integer referer; // 是否记录来源地址
 	private Integer requestUrl; // 是否记录请求地址
 	private Integer requestParam; // 是否记录请求参数
 	private Integer sessionId; // 是否记录会话ID
 	private Integer sessionValue; // 是否记录会话值
-	private Integer responseType; // 是否记录响应类型
+	private Integer responseView; // 是否记录响应视图
 	private Integer responseData; // 是否记录响应数据
 	private Integer operateId; // 操作者主键
 	private Long operateTime; // 操作时间
@@ -23,6 +24,14 @@ public class LogSetting {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Integer enable) {
+		this.enable = enable;
 	}
 
 	public Integer getReferer() {
@@ -65,12 +74,12 @@ public class LogSetting {
 		this.sessionValue = sessionValue;
 	}
 
-	public Integer getResponseType() {
-		return responseType;
+	public Integer getResponseView() {
+		return responseView;
 	}
 
-	public void setResponseType(Integer responseType) {
-		this.responseType = responseType;
+	public void setResponseView(Integer responseView) {
+		this.responseView = responseView;
 	}
 
 	public Integer getResponseData() {

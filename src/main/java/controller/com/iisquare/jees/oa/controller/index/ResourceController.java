@@ -3,7 +3,6 @@ package com.iisquare.jees.oa.controller.index;
 import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -12,7 +11,6 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Resource;
-import com.iisquare.jees.oa.service.ResourceService;
 
 /**
  * 资源管理
@@ -22,9 +20,6 @@ import com.iisquare.jees.oa.service.ResourceService;
 @Controller
 @Scope("prototype")
 public class ResourceController extends PermitController {
-	
-	@Autowired
-	public ResourceService resourceService;
 	
 	public String layoutAction() throws Exception {
 		return displayTemplate();
@@ -83,6 +78,9 @@ public class ResourceController extends PermitController {
 		String action = ValidateUtil.filterSimpleString(get("action"), true, 1, 64);
 		if(DPUtil.empty(action)) return displayMessage(3005, "方法参数错误");
 		persist.setAction(action);
+		if(null != resourceService.getByRouter(module, controller, action)) {
+			return displayMessage(3006, "对应资源已存在");
+		}
 		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null));
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
 		long time = System.currentTimeMillis();

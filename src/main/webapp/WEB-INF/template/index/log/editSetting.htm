@@ -36,6 +36,9 @@ $(function () {
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
 			{field:'refer_id',title:'引用'},
+			{field:'enable',title:'启用',align:'center',formatter:function (value, row, index) {
+				return formatter('enable', value, row, index);
+			}},
 			{field:'referer',title:'来源地址',align:'center',formatter:function (value, row, index) {
 				return formatter('referer', value, row, index);
 			}},
@@ -51,8 +54,8 @@ $(function () {
 			{field:'session_value',title:'会话值',align:'center',formatter:function (value, row, index) {
 				return formatter('session_value', value, row, index);
 			}},
-			{field:'response_type',title:'响应类型',align:'center',formatter:function (value, row, index) {
-				return formatter('response_type', value, row, index);
+			{field:'response_view',title:'响应视图',align:'center',formatter:function (value, row, index) {
+				return formatter('response_view', value, row, index);
 			}},
 			{field:'response_data',title:'响应数据',align:'center',formatter:function (value, row, index) {
 				return formatter('response_data', value, row, index);
@@ -170,12 +173,13 @@ $(function () {
 		var row = rows[index];
 		$.post('[@url action="saveSetting" /]', {
 			id : row.id,
+			enable : $('input[name="enable"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			referer : $('input[name="referer"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			request_url : $('input[name="request_url"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			request_param : $('input[name="request_param"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			session_id : $('input[name="session_id"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			session_value : $('input[name="session_value"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			response_type : $('input[name="response_type"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
+			response_view : $('input[name="response_view"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			response_data : $('input[name="response_data"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0
 		}, function (data) {
 			index++;

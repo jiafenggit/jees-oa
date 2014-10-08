@@ -45,12 +45,13 @@ public class LogController extends PermitController {
 	public String saveSettingAction() throws Exception {
 		LogSetting persist = new LogSetting();
 		persist.setId(ValidateUtil.filterInteger(get("id"), true, 0, null));
+		persist.setEnable(ValidateUtil.filterInteger(get("enable"), true, 0, 1));
 		persist.setReferer(ValidateUtil.filterInteger(get("referer"), true, 0, 1));
 		persist.setRequestUrl(ValidateUtil.filterInteger(get("request_url"), true, 0, 1));
 		persist.setRequestParam(ValidateUtil.filterInteger(get("request_param"), true, 0, 1));
 		persist.setSessionId(ValidateUtil.filterInteger(get("session_id"), true, 0, 1));
 		persist.setSessionValue(ValidateUtil.filterInteger(get("session_value"), true, 0, 1));
-		persist.setResponseType(ValidateUtil.filterInteger(get("response_type"), true, 0, 1));
+		persist.setResponseView(ValidateUtil.filterInteger(get("response_view"), true, 0, 1));
 		persist.setResponseData(ValidateUtil.filterInteger(get("response_data"), true, 0, 1));
 		long time = System.currentTimeMillis();
 		persist.setOperateId(currentMember.getId());
@@ -97,11 +98,7 @@ public class LogController extends PermitController {
 	}
 	
 	public String truncateAction() throws Exception {
-		int result = logService.truncate();
-		if(result > 0) {
-			return displayInfo("操作成功", url("layout"));
-		} else {
-			return displayInfo("操作失败，请刷新后再试", null);
-		}
+		logService.truncate();
+		return displayInfo("操作已执行", url("layout"));
 	}
 }

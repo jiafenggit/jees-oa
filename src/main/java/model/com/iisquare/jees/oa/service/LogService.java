@@ -123,6 +123,10 @@ public class LogService extends ServiceBase {
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
+	public LogSetting getSettingById(Object id) {
+		return logSettingDao.getById(id);
+	}
+	
 	public int saveSetting(LogSetting logSetting) {
 		if(null == logSettingDao.getById(logSetting.getId())) {
 			return logSettingDao.insert(logSetting);
@@ -144,8 +148,8 @@ public class LogService extends ServiceBase {
 		return logDao.deleteByIds(ids);
 	}
 	
-	public int truncate() {
+	public void truncate() {
 		String sql = DPUtil.stringConcat("truncate table ", logDao.tableName());
-		return logDao.update(sql);
+		logDao.update(sql);
 	}
 }
