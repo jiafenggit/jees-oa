@@ -1,6 +1,5 @@
 package com.iisquare.jees.oa.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import com.iisquare.jees.oa.dao.LogDao;
 import com.iisquare.jees.oa.dao.LogSettingDao;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.domain.Log;
+import com.iisquare.jees.oa.domain.LogSetting;
 
 @Service
 public class LogService extends ServiceBase {
@@ -49,20 +49,13 @@ public class LogService extends ServiceBase {
 		return logDao.insert(log);
 	}
 	
-	public List<Map<String, Object>> fillSetting(List<Map<String, Object>> list, String relationField) {
-		relationField = ValidateUtil.filterItem(relationField,
-				false, new String[]{"id", "resource_id"}, "resource_id");
-		List<Object> idList = ServiceUtil.getFieldValues(list, "id");
-		List<Map<String, Object>> settingList;
-		if(DPUtil.empty(idList)) {
-			settingList = new ArrayList<Map<String, Object>>(0);
-		} else {
-			settingList = logSettingDao.getAll("*", new String[]{relationField},
-					new Object[]{DPUtil.implode(",", idList)}, new String[]{"in"}, null);
-		}
-		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, relationField);
+	public List<Map<String, Object>> fillSetting(List<Map<String, Object>> list) {
+		String primaryKey = logSettingDao.getPrimaryKey();
+		List<Object> idList = ServiceUtil.getFieldValues(list, primaryKey);
+		List<Map<String, Object>> settingList = logSettingDao.getByIds("*", DPUtil.collectionToArray(idList));
+		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, primaryKey);
 		for (Map<String, Object> item : list) {
-			item.put("log_setting", indexMap.get(item.get("id")));
+			item.put("log_setting", indexMap.get(item.get(primaryKey)));
 		}
 		return list;
 	}
@@ -128,6 +121,14 @@ public class LogService extends ServiceBase {
 		rows = ServiceUtil.fillTextMap(memberDao, rows,
 				new String[]{"create_id"}, new String[]{"name"});
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
+	}
+	
+	public int saveSetting(LogSetting logSetting) {
+		if(null == logSettingDao.getById(logSetting.getId())) {
+			return logSettingDao.insert(logSetting);
+		} else {
+			return logSettingDao.update(logSetting);
+		}
 	}
 	
 	public Map<String, Object> getById(Object id, boolean bFill) {

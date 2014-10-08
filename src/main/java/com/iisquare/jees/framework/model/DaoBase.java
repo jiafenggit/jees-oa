@@ -122,7 +122,8 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		int result = npJdbcTemplate().update(SqlUtil.buildInsert(tableName(), values)
 				, new MapSqlParameterSource(values), keyHolder);
-		return result > 0 ? keyHolder.getKey().intValue() : result;
+		Number number = keyHolder.getKey();
+		return result > 0 && null != number ? number.intValue() : result;
 	}
 	
 	/**
@@ -131,7 +132,8 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int insert(String[] fields, Object[] values) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		int result = update(SqlUtil.buildInsert(tableName(), fields, true) , values, keyHolder);
-		return result > 0 ? keyHolder.getKey().intValue() : result;
+		Number number = keyHolder.getKey();
+		return result > 0 && null != number ? number.intValue() : result;
 	}
 	
 	/**

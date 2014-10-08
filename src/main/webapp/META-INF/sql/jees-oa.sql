@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-09-30 09:51:57
+Date: 2014-10-08 12:01:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -110,8 +110,7 @@ CREATE TABLE `oa_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `oa_log_setting`;
 CREATE TABLE `oa_log_setting` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `resource_id` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL,
   `referer` tinyint(4) NOT NULL DEFAULT '0',
   `request_url` tinyint(4) NOT NULL DEFAULT '0',
   `request_param` tinyint(4) NOT NULL DEFAULT '0',

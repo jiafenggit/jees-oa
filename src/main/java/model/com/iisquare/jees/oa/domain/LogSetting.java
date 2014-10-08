@@ -6,8 +6,7 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class LogSetting {
-	private Integer id; // 主键
-	private Integer resource_id; // 资源主键
+	private Integer id; // 资源主键
 	private Integer referer; // 是否记录来源地址
 	private Integer requestUrl; // 是否记录请求地址
 	private Integer requestParam; // 是否记录请求参数
@@ -24,14 +23,6 @@ public class LogSetting {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getResource_id() {
-		return resource_id;
-	}
-
-	public void setResource_id(Integer resource_id) {
-		this.resource_id = resource_id;
 	}
 
 	public Integer getReferer() {

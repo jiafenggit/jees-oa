@@ -12,6 +12,7 @@ import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
+import com.iisquare.jees.oa.domain.LogSetting;
 import com.iisquare.jees.oa.service.ResourceService;
 
 /**
@@ -31,7 +32,7 @@ public class LogController extends PermitController {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
 		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
-		map.put("rows", logService.fillSetting((List<Map<String, Object>>) map.get("rows"), null));
+		map.put("rows", logService.fillSetting((List<Map<String, Object>>) map.get("rows")));
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -42,7 +43,24 @@ public class LogController extends PermitController {
 	}
 	
 	public String saveSettingAction() throws Exception {
-		return displayTemplate();
+		LogSetting persist = new LogSetting();
+		persist.setId(ValidateUtil.filterInteger(get("id"), true, 0, null));
+		persist.setReferer(ValidateUtil.filterInteger(get("referer"), true, 0, 1));
+		persist.setRequestUrl(ValidateUtil.filterInteger(get("request_url"), true, 0, 1));
+		persist.setRequestParam(ValidateUtil.filterInteger(get("request_param"), true, 0, 1));
+		persist.setSessionId(ValidateUtil.filterInteger(get("session_id"), true, 0, 1));
+		persist.setSessionValue(ValidateUtil.filterInteger(get("session_value"), true, 0, 1));
+		persist.setResponseType(ValidateUtil.filterInteger(get("response_type"), true, 0, 1));
+		persist.setResponseData(ValidateUtil.filterInteger(get("response_data"), true, 0, 1));
+		long time = System.currentTimeMillis();
+		persist.setOperateId(currentMember.getId());
+		persist.setOperateTime(time);
+		int result = logService.saveSetting(persist);
+		if(result > 0) {
+			return displayMessage(0, "操作成功");
+		} else {
+			return displayMessage(500, "操作失败");
+		}
 	}
 	
 	public String layoutAction() throws Exception {
