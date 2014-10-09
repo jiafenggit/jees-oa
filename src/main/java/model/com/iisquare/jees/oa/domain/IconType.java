@@ -8,6 +8,7 @@ package com.iisquare.jees.oa.domain;
 public class IconType {
 	private Integer id; // 主键
 	private String name; // 名称
+	private Integer parentId; // 父级
 	private Integer createId; // 创建者
 	private Integer updateId; // 修改者
 	private Integer sort; // 排序（从高到低）
@@ -29,6 +30,14 @@ public class IconType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public Integer getCreateId() {

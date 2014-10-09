@@ -1,65 +1,129 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
-	<thead>
-		<tr>
-			<th field="id">ID</th>
-			<th field="name">名称</th>
-			<th field="type">类型</th>
-			<th field="icon">图标</th>
-			<th field="url">地址</th>
-			<th field="sort">排序</th>
-			<th field="author">作者</th>
-			<th field="createTime">添加时间</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
-	[#if _BASE_.hasPermit("show")]<a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a>[/#if]
-	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("IconType", "layout")]<a href="[@url controller="iconType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
-	[#if _BASE_.hasPermit("renderCss")]<a href="javascript:void(0);" class="easyui-linkbutton renderCss" iconcls="icon-reload" plain="true">生成样式</a>[/#if]
-	<div class="float-right margin-right5">
-		<input id="searchBox"></input>
-	</div>
-	<div id="searchMenu">
-		[@getSearchOptionList seq=iconType tips="全部类型" /]
-	</div>
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
+	[#if _BASE_.hasPermit("iconType", "layout")]<a href="[@url controller="iconType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
-	$('.renderCss').bind('click', function () {
-		$.getJSON('[@url action="renderCss" /]', function (data) {
-			Web_alertInfo(data.message);
+	$('.js-list-table').datagrid({
+		url : '[@url action="list" /]',
+		pagination : true,
+		idField : 'id',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
+			{field:'name',title:'名称'},
+			{field:'sort',title:'排序'},
+			{field:'module',title:'分类'},
+			{field:'controller',title:'地址'},
+			{field:'create_id_text',title:'创建者'},
+			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'update_id_text',title:'修改者'},
+			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		}
+	});
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要删除的记录！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '[@url action="delete" /]?ids=' + ids;
+		Web_redirectPage(url);
+	});
+});
+</script>
+<div id="js-search-dialog" style="width:230px;height:228px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<table align="center" class="table-horizontal tr-height25">
+	<tr>
+		<th>名称</th>
+		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
+	</tr>
+	<tr>
+		<th>模块</th>
+		<td><input class="easyui-textbox width150" type="text" name="module" value="" /></td>
+	</tr>
+	<tr>
+		<th>控制器</th>
+		<td><input class="easyui-textbox width150" type="text" name="controller" value="" /></td>
+	</tr>
+	<tr>
+		<th>方法</th>
+		<td><input class="easyui-textbox width150" type="text" name="action" value="" /></td>
+	</tr>
+	<tr>
+		<th>引用</th>
+		<td><input class="easyui-numberspinner width150" type="text" name="referId" data-options="min:0" value="" /></td>
+	</tr>
+</table>
+</div>
+<div id="js-search-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<script>
+$(function () {
+	var $searchDialog = $('#js-search-dialog');
+	$('.js-control-search').bind('click', function () {
+		$searchDialog.dialog({
+			title : '筛选条件',
+			iconCls : 'icon-search',
+			onOpen : function () {}
 		});
 	});
-	$('#searchBox').searchbox({ 
-		searcher:function(value, name){ 
-			$('.listAction').datagrid('load', {
-				id : name,
-				name : value
-			});
-		}, 
-		menu:'#searchMenu', 
-		prompt:'请输入搜索内容'
+		
+	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-list-table').datagrid('load', {
+			name : $searchDialog.find('input[name="name"]').val(),
+			module : $searchDialog.find('input[name="module"]').val(),
+			controller : $searchDialog.find('input[name="controller"]').val(),
+			action : $searchDialog.find('input[name="action"]').val(),
+			referId : $searchDialog.find('input[name="referId"]').val()
+		});
+		$searchDialog.dialog('close');
 	});
-	$('.listAction').datagrid({
-		onDblClickRow : function (rowIndex, rowData) {}
-	});
-	$('#buttonShow').bind('click', function () {
-		var id = Web_getDataGridRowId($('.listAction'));
-		if(-1 == id) return ;
-		var url = '[@url action="show" /]?back=1&id=' + id;
-		Web_redirectPage(url);
-	});
-	$('#buttonModify').bind('click', function () {
-		var id = Web_getDataGridRowId($('.listAction'));
-		if(-1 == id) return ;
-		var url = '[@url action="modify" /]?id=' + id;
-		Web_redirectPage(url);
+	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$searchDialog.dialog('close');
 	});
 });
 </script>

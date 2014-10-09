@@ -1,6 +1,6 @@
 package com.iisquare.jees.oa.controller.index;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,43 +9,43 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
-import com.iisquare.jees.framework.util.ServletUtil;
+import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
-import com.iisquare.jees.oa.domain.Resource;
-import com.iisquare.jees.oa.service.IconService;
+import com.iisquare.jees.oa.domain.IconType;
+import com.iisquare.jees.oa.service.IconTypeService;
 
 /**
- * 图标管理
+ * 图标类型管理
  * @author Ouyang <iisquare@163.com>
  *
  */
 @Controller
 @Scope("prototype")
-public class IconController extends PermitController {
+public class IconTypeController extends PermitController {
 	
 	@Autowired
-	public IconService iconService;
+	public IconTypeService iconTypeService;
 	
 	public String layoutAction() throws Exception {
 		return displayTemplate();
 	}
 	
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
-		Map<Object, Object> map = iconService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
-		assign("total", map.get("total"));
-		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
+		List<Map<String, Object>> list = iconTypeService.getList("*", null, null, "sort", 1, 0);
+		list = ServiceUtil.formatRelation(list, 0);
+		assign("total", list.size());
+		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
 	}
 	
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
-		Resource info;
+		IconType info;
 		if(DPUtil.empty(id)) {
-			info = new Resource();
+			info = new IconType();
+			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null));
 		} else {
-			info = resourceService.getById(id);
+			info = iconTypeService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
@@ -54,30 +54,20 @@ public class IconController extends PermitController {
 	
 	public String saveAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
-		Resource persist;
+		IconType persist;
 		if(DPUtil.empty(id)) {
-			persist = new Resource();
+			persist = new IconType();
 		} else {
-			persist = resourceService.getById(id);
+			persist = iconTypeService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
+		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		String module = ValidateUtil.filterSimpleString(get("module"), true, 1, 64);
-		if(DPUtil.empty(module)) return displayMessage(3003, "模块参数错误");
-		persist.setModule(module);
-		String controller = ValidateUtil.filterSimpleString(get("controller"), true, 1, 64);
-		if(DPUtil.empty(controller)) return displayMessage(3004, "控制器参数错误");
-		persist.setController(controller);
-		String action = ValidateUtil.filterSimpleString(get("action"), true, 1, 64);
-		if(DPUtil.empty(action)) return displayMessage(3005, "方法参数错误");
-		persist.setAction(action);
-		if(null != resourceService.getByRouter(module, controller, action)) {
-			return displayMessage(3006, "对应资源已存在");
-		}
-		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null));
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
+		if(ValidateUtil.isNull(get("status"), true)) return displayMessage(3003, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(get("status"), true, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);
@@ -85,9 +75,9 @@ public class IconController extends PermitController {
 		if(DPUtil.empty(persist.getId())) {
 			persist.setCreateId(currentMember.getId());
 			persist.setCreateTime(time);
-			result = resourceService.insert(persist);
+			result = iconTypeService.insert(persist);
 		} else {
-			result = resourceService.update(persist);
+			result = iconTypeService.update(persist);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));
@@ -98,7 +88,8 @@ public class IconController extends PermitController {
 	
 	public String deleteAction() throws Exception {
 		Object[] idArray = DPUtil.explode(get("ids"), ",", " ");
-		int result = iconService.delete(idArray);
+		int result = iconTypeService.delete(idArray);
+		if(-1 == result) return displayInfo("该信息拥有下级节点，不允许删除", null);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
 		} else {
