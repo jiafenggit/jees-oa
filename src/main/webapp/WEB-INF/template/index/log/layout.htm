@@ -33,10 +33,12 @@ $(function () {
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
 			{field:'session_id',title:'会话ID'},
-			{field:'create_id',title:'创建者ID'},
-			{field:'create_id_text',title:'创建账号'},
-			{field:'create_ip',title:'IP'},
-			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
+				if(!row.operate_id_rel) return '';
+				return '[' + row.operate_id_rel.serial + ']' + row.operate_id_rel.name;
+			}},
+			{field:'operate_ip',title:'IP'},
+			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {

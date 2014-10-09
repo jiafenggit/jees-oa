@@ -55,20 +55,16 @@
 		<td>${info.content!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建者ID</th>
-		<td>${info.create_id}</td>
-	</tr>
-	<tr>
-		<th class="width130">创建者账号</th>
-		<td>${info.create_id_text!""}</td>
+		<th class="width130">操作者</th>
+		<td>[#if !empty(info.operate_id_rel)][${info.operate_id_rel.serial}]${info.operate_id_rel.name}[/#if]</td>
 	</tr>
 	<tr>
 		<th class="width130">IP</th>
-		<td>${info.create_ip!""}</td>
+		<td>${info.operate_ip!""}</td>
 	</tr>
 	<tr>
 		<th class="width130">创建时间</th>
-		<td>${millisToDateTime(info.create_time)!""}</td>
+		<td>${millisToDateTime(info.operate_time)!""}</td>
 	</tr>
 	<tr>
 		<th>操作</th>

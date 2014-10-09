@@ -15,14 +15,57 @@ import com.iisquare.jees.framework.model.DaoBase;
 public class ServiceUtil {
 
 	/**
+	 * 填充关联记录
+	 */
+	public static Map<String, Object> fillRelations(Map<String, Object> map,
+			DaoBase<?> relationDao, String[] relationFields, Object[] fillFields, String fieldPostfix) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(1);
+		list.add(map);
+		list = fillRelations(list, relationDao, relationFields, fillFields, fieldPostfix);
+		return list.get(0);
+	}
+	
+	/**
+	 * 填充关联记录
+	 */
+	public static List<Map<String, Object>> fillRelations(List<Map<String, Object>> list,
+			DaoBase<?> relationDao, String[] relationFields, Object[] fillFields, String fieldPostfix) {
+		String primaryKey = relationDao.getPrimaryKey();
+		List<Object> idList = ServiceUtil.getFieldValues(list, relationFields);
+		if(DPUtil.empty(fillFields)) {
+			fillFields = new String[]{"*"};
+		} else {
+			if(!DPUtil.isItemExist(fillFields, primaryKey)) {
+				fillFields = DPUtil.arrayPush(fillFields, primaryKey);
+			}
+		}
+		List<Map<String, Object>> settingList = relationDao.getByIds(
+				DPUtil.implode(",", fillFields), DPUtil.collectionToArray(idList));
+		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, primaryKey);
+		if(null == fieldPostfix) fieldPostfix = "_rel";
+		for (Map<String, Object> item : list) {
+			for (String field : relationFields) {
+				item.put(DPUtil.stringConcat(field, fieldPostfix), indexMap.get(item.get(field)));
+			}
+		}
+		return list;
+	}
+	
+	/**
 	 * 填充属性信息
 	 */
-	public static Map<String, Object> fillPropertyText(Map<String, Object> map, Object entity, String... fields) {
-		for (String field : fields) {
-			String property = DPUtil.upUnderscores(field);
-			ReflectUtil.setPropertyValue(entity, property, null, new Object[]{map.get(field)});
-			String key = DPUtil.stringConcat(field, "_text");
-			Object value = ReflectUtil.getPropertyValue(entity, DPUtil.stringConcat(property, "Text"));
+	public static Map<String, Object> fillProperties(Map<String, Object> map,
+			Object entity, String[] referProperties, String[] fillProperties, boolean bUnderscores) {
+		int length = referProperties.length;
+		for (int i = 0; i < length; i++) {
+			String referProperty = referProperties[i];
+			if(null != referProperty) { // 注入引用属性
+				ReflectUtil.setPropertyValue(entity, referProperty, null,
+						new Object[]{map.get(bUnderscores ? DPUtil.addUnderscores(referProperty) : referProperty)});
+			}
+			String fillProperty = fillProperties[i];
+			String key = bUnderscores ? DPUtil.addUnderscores(fillProperty) : fillProperty;
+			Object value = ReflectUtil.getPropertyValue(entity, fillProperty);
 			map.put(key, value);
 		}
 		return map;
@@ -31,9 +74,10 @@ public class ServiceUtil {
 	/**
 	 * 填充属性信息
 	 */
-	public static List<Map<String, Object>> fillPropertyText(List<Map<String, Object>> list, Object entity, String... fields) {
+	public static List<Map<String, Object>> fillProperties(List<Map<String, Object>> list,
+			Object entity, String[] referProperties, String[] fillProperties, boolean bUnderscores) {
 		for (Map<String, Object> map : list) {
-			fillPropertyText(map, entity, fields); // 此处map为内存地址（传址）
+			fillProperties(map, entity, referProperties, fillProperties, bUnderscores); // 此处map为内存地址（传址）
 		}
 		return list;
 	}
@@ -41,19 +85,19 @@ public class ServiceUtil {
 	/**
 	 * 填充关联记录对应的字段值
 	 */
-	public static Map<String, Object> fillTextMap(DaoBase<?> daoBase,
-			Map<String, Object> map, String[] relFields, String[] fields) {
+	public static Map<String, Object> fillFields(Map<String, Object> map,
+			DaoBase<?> daoBase, String[] relFields, String[] fields) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(1);
 		list.add(map);
-		list = fillTextMap(daoBase, list, relFields, fields);
+		list = fillFields(list, daoBase, relFields, fields);
 		return list.get(0);
 	}
 	
 	/**
 	 * 填充关联记录对应的字段值
 	 */
-	public static List<Map<String, Object>> fillTextMap(DaoBase<?> daoBase,
-			List<Map<String, Object>> list, String[] relFields, String[] fields) {
+	public static List<Map<String, Object>> fillFields(List<Map<String, Object>> list,
+			DaoBase<?> daoBase, String[] relFields, String[] fields) {
 		List<Object> ids = getFieldValues(list, relFields);
 		if(DPUtil.empty(ids)) return list;
 		/* 避免在循环中查询数据库 */
@@ -64,7 +108,7 @@ public class ServiceUtil {
 			for (int i = 0; i < length; i++) {
 				String relField = relFields[i];
 				String field = fields[i];
-				String key = DPUtil.stringConcat(relField, "_text");
+				String key = DPUtil.stringConcat(relField, "_", field);
 				Object value = null;
 				Map<String, Object> map = indexMap.get(item.get(relField));
 				if(null != map) {

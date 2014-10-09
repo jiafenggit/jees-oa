@@ -10,9 +10,7 @@ import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.oa.dao.IconTypeDao;
 import com.iisquare.jees.oa.dao.MemberDao;
-import com.iisquare.jees.oa.domain.Icon;
 import com.iisquare.jees.oa.domain.IconType;
-import com.iisquare.jees.oa.domain.Role;
 
 @Service
 public class IconTypeService extends ServiceBase {
@@ -28,9 +26,8 @@ public class IconTypeService extends ServiceBase {
 			Map<String, String> operators, String orderBy, int page, int pageSize) {
 		String append = "order by " + orderBy;
 		List<Map<String, Object>> list = iconTypeDao.getPage(columns, where, operators, append, page, pageSize);
-		list = ServiceUtil.fillPropertyText(list, new Role(), "status");
-		list = ServiceUtil.fillTextMap(memberDao, list,
-				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		list = ServiceUtil.fillProperties(list, new IconType(), new String[]{"status"}, new String[]{"statusText"}, true);
+		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
 	
@@ -41,9 +38,8 @@ public class IconTypeService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = iconTypeDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillPropertyText(map, new Icon(), "status");
-			map = ServiceUtil.fillTextMap(memberDao, map,
-					new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+			map = ServiceUtil.fillProperties(map, new IconType(), new String[]{"status"}, new String[]{"statusText"}, true);
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
 	}

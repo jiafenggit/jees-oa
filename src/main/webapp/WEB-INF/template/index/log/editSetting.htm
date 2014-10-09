@@ -61,9 +61,13 @@ $(function () {
 			{field:'response_data',title:'响应数据',align:'center',formatter:function (value, row, index) {
 				return formatter('response_data', value, row, index);
 			}},
-			{field:'operate_id_text',title:'操作者'},
+			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
+				if(!row.log_setting || !row.log_setting.operate_id_rel) return '';
+				return '[' + row.log_setting.operate_id_rel.serial + ']' + row.log_setting.operate_id_rel.name;
+			}},
 			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
-				return Web_formatDateTime(value);
+				if(!row.log_setting) return '';
+				return Web_formatDateTime(row.log_setting.operate_time);
 			}}
 		]],
 		onLoadSuccess : function (data) {

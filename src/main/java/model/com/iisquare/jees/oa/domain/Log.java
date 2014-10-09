@@ -20,9 +20,9 @@ public class Log {
 	private String responseView; // 响应视图
 	private String responseData; // 响应数据
 	private String content; // 自定义内容
-	private Integer createId; // 创建者
-	private String createIp; // 创建IP
-	private Long createTime; // 创建时间
+	private Integer operateId; // 操作者主键
+	private String operateIp; // 创建IP
+	private Long operateTime; // 操作时间
 
 	public Integer getId() {
 		return id;
@@ -136,28 +136,28 @@ public class Log {
 		this.content = content;
 	}
 
-	public Integer getCreateId() {
-		return createId;
+	public Integer getOperateId() {
+		return operateId;
 	}
 
-	public void setCreateId(Integer createId) {
-		this.createId = createId;
+	public void setOperateId(Integer operateId) {
+		this.operateId = operateId;
 	}
 
-	public String getCreateIp() {
-		return createIp;
+	public String getOperateIp() {
+		return operateIp;
 	}
 
-	public void setCreateIp(String createIp) {
-		this.createIp = createIp;
+	public void setOperateIp(String operateIp) {
+		this.operateIp = operateIp;
 	}
 
-	public Long getCreateTime() {
-		return createTime;
+	public Long getOperateTime() {
+		return operateTime;
 	}
 
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
+	public void setOperateTime(Long operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	public Log() {}

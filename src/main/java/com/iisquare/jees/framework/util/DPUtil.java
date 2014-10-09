@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -435,34 +436,58 @@ public class DPUtil {
 	/**
 	 * 判断下标是否在数组范围内
 	 */
-	public static boolean isInArray(Object[] objects, int index) {
+	public static boolean isIndexExist(Object[] objects, int index) {
 		if(null == objects) return false;
 		if(index < 0) return false;
 		return objects.length >= index;
 	}
 	
 	/**
-	 * 安全获取数组中对应下标的值
-	 */
-	public static Object getByIndex(Object[] objects, int index) {
-		if(isInArray(objects, index)) return objects[index];
-		return null;
-	}
-	
-	/**
 	 * 判断下标是否在集合范围内
 	 */
-	public static boolean isInCollection(Collection<?> collection, int index) {
+	public static boolean isIndexExist(Collection<?> collection, int index) {
 		if(null == collection) return false;
 		if(index < 0) return false;
 		return collection.size() >= index;
 	}
 	
 	/**
+	 * 判断元素是否包含在数组中
+	 */
+	public static boolean isItemExist(Object[] objects, Object item) {
+		if(null == objects) return false;
+		for (Object object : objects) {
+			if(DPUtil.equals(item, object)) return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断元素是否包含在集合中
+	 */
+	public static boolean isItemExist(Collection<?> collection, Object item) {
+		if(null == collection) return false;
+		Iterator<?> iterator = collection.iterator();
+		while (iterator.hasNext()) {
+			Object object = iterator.next();
+			if(DPUtil.equals(item, object)) return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 安全获取数组中对应下标的值
+	 */
+	public static Object getByIndex(Object[] objects, int index) {
+		if(isIndexExist(objects, index)) return objects[index];
+		return null;
+	}
+	
+	/**
 	 * 安全获取集合中对应下标的值
 	 */
 	public static Object getByIndex(Collection<?> collection, int index) {
-		if(isInCollection(collection, index)) {
+		if(isIndexExist(collection, index)) {
 			return collection.iterator().next();
 		}
 		return null;
@@ -476,6 +501,26 @@ public class DPUtil {
 		for (Object[] array : arrays) {
 			if(null == array) continue ;
 			list.addAll(Arrays.asList(array));
+		}
+		return collectionToArray(list);
+	}
+	
+	/**
+	 * 将元素添加到数组中
+	 */
+	public static Object[] arrayPush(Object[] objects, Object item) {
+		if(null == objects) return null;
+		return arrayMerge(objects, new Object[]{item});
+	}
+	
+	/**
+	 * 将元素从数组中移除
+	 */
+	public static Object[] arrayRemove(Object[] objects, Object item) {
+		if(null == objects) return null;
+		List<Object> list = new ArrayList<Object>(objects.length);
+		for (Object object : objects) {
+			if(!equals(item, object)) list.add(object);
 		}
 		return collectionToArray(list);
 	}

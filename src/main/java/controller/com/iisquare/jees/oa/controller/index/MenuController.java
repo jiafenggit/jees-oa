@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
-import com.iisquare.jees.oa.domain.Menu;
 import com.iisquare.jees.oa.service.MenuService;
 
 /**

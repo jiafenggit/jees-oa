@@ -58,8 +58,7 @@ public class IconService extends ServiceBase {
 		int total = iconDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = iconDao.npJdbcTemplate().queryForList(sql, paramMap);
-		rows = ServiceUtil.fillTextMap(memberDao, rows,
-				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
@@ -70,9 +69,8 @@ public class IconService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = iconDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillPropertyText(map, new Icon(), "status");
-			map = ServiceUtil.fillTextMap(memberDao, map,
-					new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+			map = ServiceUtil.fillProperties(map, new Icon(), new String[]{"status"}, new String[]{"statusText"}, true);
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
 	}

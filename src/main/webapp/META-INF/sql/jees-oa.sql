@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-09 10:53:26
+Date: 2014-10-09 16:19:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -72,11 +72,13 @@ CREATE TABLE `oa_icon_type` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_icon_type
 -- ----------------------------
+INSERT INTO `oa_icon_type` VALUES ('2', '类型', '0', '1', '1', '0', '0', '1412823937563', '1412824598882');
+INSERT INTO `oa_icon_type` VALUES ('3', '子类型', '2', '1', '1', '0', '1', '1412823957848', '1412824752251');
 
 -- ----------------------------
 -- Table structure for `oa_log`
@@ -97,11 +99,11 @@ CREATE TABLE `oa_log` (
   `response_view` varchar(255) DEFAULT NULL,
   `response_data` tinytext,
   `content` tinytext,
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `create_ip` varchar(64) NOT NULL DEFAULT '',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `operate_id` int(11) NOT NULL DEFAULT '0',
+  `operate_ip` varchar(64) NOT NULL DEFAULT '',
+  `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
@@ -113,6 +115,7 @@ INSERT INTO `oa_log` VALUES ('4', '日志设置', 'system', 'index', 'log', 'sav
 INSERT INTO `oa_log` VALUES ('5', '日志设置', 'system', 'index', 'log', 'saveSetting', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1412757698993');
 INSERT INTO `oa_log` VALUES ('6', '日志设置', 'system', 'index', 'log', 'saveSetting', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1412757700014');
 INSERT INTO `oa_log` VALUES ('7', '日志设置', 'system', 'index', 'log', 'saveSetting', 'http://127.0.0.1:8080/jees-oa/index/log/editSetting', 'http://127.0.0.1:8080/jees-oa/index/log/saveSetting', '{\"id\":[\"10\"],\"session_id\":[\"1\"],\"request_param\":[\"1\"],\"enable\":[\"1\"],\"response_data\":[\"1\"],\"referer\":[\"1\"],\"response_view\":[\"1\"],\"request_url\":[\"1\"],\"session_value\":[\"1\"]}', '73AB54ED8DACBA9F52F614823AEA3BC8', '{\"mid\":1}', '', '{}', null, '1', '127.0.0.1', '1412757700846');
+INSERT INTO `oa_log` VALUES ('8', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', 'FD9ADC7A8D63509993E43AC1113F89CD', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412823874711');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`

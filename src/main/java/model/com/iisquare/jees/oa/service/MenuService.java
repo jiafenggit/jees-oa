@@ -58,8 +58,7 @@ public class MenuService extends ServiceBase {
 		int total = menuDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = menuDao.npJdbcTemplate().queryForList(sql, paramMap);
-		rows = ServiceUtil.fillTextMap(memberDao, rows,
-				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
@@ -71,8 +70,7 @@ public class MenuService extends ServiceBase {
 			Map<String, String> operators, String orderBy, int page, int pageSize) {
 		String append = "order by " + orderBy;
 		List<Map<String, Object>> list = menuDao.getPage(columns, where, operators, append, page, pageSize);
-		list = ServiceUtil.fillTextMap(memberDao, list,
-				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
 	
@@ -83,9 +81,8 @@ public class MenuService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = menuDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillPropertyText(map, new Menu(), "status");
-			map = ServiceUtil.fillTextMap(memberDao, map,
-					new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+			map = ServiceUtil.fillProperties(map, new Menu(), new String[]{"status"}, new String[]{"statusText"}, true);
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
 	}

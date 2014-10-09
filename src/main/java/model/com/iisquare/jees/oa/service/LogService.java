@@ -53,6 +53,7 @@ public class LogService extends ServiceBase {
 		String primaryKey = logSettingDao.getPrimaryKey();
 		List<Object> idList = ServiceUtil.getFieldValues(list, primaryKey);
 		List<Map<String, Object>> settingList = logSettingDao.getByIds("*", DPUtil.collectionToArray(idList));
+		settingList = ServiceUtil.fillRelations(settingList, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
 		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, primaryKey);
 		for (Map<String, Object> item : list) {
 			item.put("log_setting", indexMap.get(item.get(primaryKey)));
@@ -118,8 +119,7 @@ public class LogService extends ServiceBase {
 		int total = logDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = logDao.npJdbcTemplate().queryForList(sql, paramMap);
-		rows = ServiceUtil.fillTextMap(memberDao, rows,
-				new String[]{"create_id"}, new String[]{"name"});
+		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
@@ -138,8 +138,7 @@ public class LogService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = logDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillTextMap(memberDao, map,
-					new String[]{"create_id"}, new String[]{"name"});
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
 	}

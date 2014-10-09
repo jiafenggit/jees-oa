@@ -30,9 +30,8 @@ public class RoleService extends ServiceBase {
 			Map<String, String> operators, String orderBy, int page, int pageSize) {
 		String append = "order by " + orderBy;
 		List<Map<String, Object>> list = roleDao.getPage(columns, where, operators, append, page, pageSize);
-		list = ServiceUtil.fillPropertyText(list, new Role(), "status");
-		list = ServiceUtil.fillTextMap(memberDao, list,
-				new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+		list = ServiceUtil.fillProperties(list, new Role(), new String[]{"status"}, new String[]{"statusText"}, true);
+		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
 	
@@ -43,9 +42,8 @@ public class RoleService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = roleDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillPropertyText(map, new Role(), "status");
-			map = ServiceUtil.fillTextMap(memberDao, map,
-					new String[]{"create_id", "update_id"}, new String[]{"name", "name"});
+			map = ServiceUtil.fillProperties(map, new Role(), new String[]{"status"}, new String[]{"statusText"}, true);
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
 	}

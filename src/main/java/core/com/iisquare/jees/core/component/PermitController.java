@@ -128,9 +128,9 @@ public abstract class PermitController extends CoreController {
 				JSONObject.fromObject(ServletUtil.getSessionMap(_REQUEST_)).toString());
 		if(1 == logSetting.getResponseView()) log.setResponseView(viewName);
 		if(1 == logSetting.getResponseData()) log.setResponseData(JSONObject.fromObject(_ASSIGN_).toString());
-		log.setCreateId(null == currentMember ? 0 : currentMember.getId());
-		log.setCreateIp(ServletUtil.getRemoteAddr(_REQUEST_));
-		log.setCreateTime(System.currentTimeMillis());
+		log.setOperateId(null == currentMember ? 0 : currentMember.getId());
+		log.setOperateIp(ServletUtil.getRemoteAddr(_REQUEST_));
+		log.setOperateTime(System.currentTimeMillis());
 		logService.insert(log);
 	}
 	
