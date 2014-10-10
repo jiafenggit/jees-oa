@@ -14,7 +14,7 @@
 	</tr>
 	<tr>
 		<th class="width130">类型</th>
-		<td><input name="typeId" class="js-select-type width300" value="${info.typeId!0}" /></td>
+		<td><input name="typeId" class="js-select-type width250" value="${info.typeId!0}" /></td>
 	</tr>
 	
 	<tr>
@@ -26,7 +26,7 @@
 	</tr>
 	<tr>
 		<th class="width130">地址</th>
-		<td><textarea name="icon.url" class="w300h50 iconImageUrl">${(icon.url)!""}</textarea></td>
+		<td><textarea name="icon.url" class="easyui-textbox width250 iconImageUrl" data-options="required:true,multiline:true,height:60">${(icon.url)!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
@@ -42,9 +42,9 @@
 $(function () {
 	$('input[name="typeId"]').combotree({
 		checkbox : true,
-		url : '[@url action="list" /]?nototal=1',
+		url : '[@url controller="iconType" action="list" /]?nototal=1',
 		loadFilter : function (data, parent) {
-			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
+			return Web_formatComboTree(data.rows, [], '请选择所属类型', 'name');
 		}
 	});
 	var $submitForm = $('#submitForm');

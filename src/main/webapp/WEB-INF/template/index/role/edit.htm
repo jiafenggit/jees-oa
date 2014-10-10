@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<script src="${_WEB_URL_}/api/KindEditor/kindeditor-all-min.js" language="javascript"></script>
 <form id="submitForm" method="post" action="[@url action="save" /]">
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
@@ -29,7 +28,7 @@
 	</tr>
 	<tr>
 		<th class="width130">备注</th>
-		<td class="clear-padding"><textarea name="remark" class="w668h280">${info.remark!""}</textarea></td>
+		<td><textarea name="remark" class="easyui-textbox width300 iconImageUrl" data-options="required:true,multiline:true,height:80">${info.remark!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
@@ -50,7 +49,6 @@ $(function () {
 			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
 		}
 	});
-	var editor = KindEditor.create('textarea[name="remark"]');
 	var $submitForm = $('#submitForm');
 	$submitForm.form({
 		success : function (data) {
@@ -63,7 +61,6 @@ $(function () {
 		}
 	});
 	$('#buttonOk').bind('click', function () {
-		$('textarea[name="remark"]').val(editor.html());
 		if($submitForm.form('validate')) {
 			$submitForm.form('submit');
 		}
