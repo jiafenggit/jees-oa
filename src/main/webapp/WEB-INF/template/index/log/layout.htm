@@ -110,12 +110,12 @@ $(function () {
 		<td><input class="easyui-textbox width150" type="text" name="sessionId" value="" /></td>
 	</tr>
 	<tr>
-		<th>创建者ID</th>
-		<td><input class="easyui-numberspinner width150" type="text" name="createId" data-options="min:0" value="" /></td>
+		<th>操作账号</th>
+		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
 	</tr>
 	<tr>
-		<th>IP</th>
-		<td><input class="easyui-textbox width150" type="text" name="createIp" value="" /></td>
+		<th>操作IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="operateIp" value="" /></td>
 	</tr>
 </table>
 </div>
@@ -136,11 +136,16 @@ $(function () {
 		
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
 		$('.js-list-table').datagrid('load', {
+			timeStart : $searchDialog.find('input[name="timeStart"]').val(),
+			timeEnd : $searchDialog.find('input[name="timeEnd"]').val(),
 			name : $searchDialog.find('input[name="name"]').val(),
 			module : $searchDialog.find('input[name="module"]').val(),
 			controller : $searchDialog.find('input[name="controller"]').val(),
 			action : $searchDialog.find('input[name="action"]').val(),
-			referId : $searchDialog.find('input[name="referId"]').val()
+			referId : $searchDialog.find('input[name="referId"]').val(),
+			sessionId : $searchDialog.find('input[name="sessionId"]').val(),
+			serial : $searchDialog.find('input[name="serial"]').val(),
+			operateIp : $searchDialog.find('input[name="operateIp"]').val()
 		});
 		$searchDialog.dialog('close');
 	});

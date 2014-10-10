@@ -25,7 +25,7 @@ public class ResourceService extends ServiceBase {
 	
 	public ResourceService() {}
 	
-	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(resourceDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -54,24 +54,13 @@ public class ResourceService extends ServiceBase {
 			sb.append(" and refer_id = :referId");
 			paramMap.put("referId", DPUtil.parseInt(referId));
 		}
+		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
 		int total = resourceDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = resourceDao.npJdbcTemplate().queryForList(sql, paramMap);
 		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
-	}
-	
-	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
-		return resourceDao.getCount(where, operators, append);
-	}
-	
-	public List<Map<String, Object>> getList(String columns, Map<String, Object> where,
-			Map<String, String> operators, String orderBy, int page, int pageSize) {
-		String append = "order by " + orderBy;
-		List<Map<String, Object>> list = resourceDao.getPage(columns, where, operators, append, page, pageSize);
-		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
-		return list;
 	}
 	
 	public Resource getById(Object id) {

@@ -1,5 +1,5 @@
 [#-- This page can be include only --]
-<script src="${Web_projectHome}/api/SWFUpload/swfupload.js" language="javascript"></script>
+<script src="${_WEB_URL_}/api/SWFUpload/swfupload.js" language="javascript"></script>
 <script>
 var isSWFUploading = false;
 var swfUploadFunction = {
@@ -49,13 +49,13 @@ var swfUploadFunction = {
 	uploadError : function (file, errorCode, message) {},
 	uploadComplete : function (file) {},
 	queueComplete : function (numFilesUploaded) {}
-}
+};
 
 
 var swfUploadSettings = {
-	upload_url: '[@url controller="Upload" action="uploadJson" /]',
+	upload_url: '[@url controller="upload" action="uploadJson" /]',
 	file_post_name : 'files',
-	post_params: {'${_GLOBAL_PARAMETERS_.SESSION_NAME}' : '${_REQUEST_.getSession().getId()}'},
+	post_params: {'${_CONFIG_.sessionName}' : '${_REQUEST_.getSession().getId()}'},
 	file_size_limit : "1 MB",
 	file_types : "*.jpg;*.jpeg;*.bmp;*.png;*.gif",
 	file_types_description : "Picture Files",
@@ -65,16 +65,16 @@ var swfUploadSettings = {
 	debug: false,
 	
 	button_image_url: "",
-	button_width: "58",
+	button_width: "55",
 	button_height: "16",
-	button_placeholder_id: "swfUpload",
-	button_text: '本地上传',
+	button_placeholder_id: "js-swf-upload",
+	button_text: "本地上传",
 	button_text_style: "",
 	button_text_left_padding: 0,
 	button_text_top_padding: 0,
 	button_cursor: SWFUpload.CURSOR.HAND,
 	button_window_mode:'transparent',
-	flash_url : "${Web_projectHome}/api/SWFUpload/Flash/swfupload.swf",
+	flash_url : "${_WEB_URL_}/api/SWFUpload/Flash/swfupload.swf",
 	prevent_swf_caching : false,
 	
 	file_queued_handler : swfUploadFunction.fileQueued,

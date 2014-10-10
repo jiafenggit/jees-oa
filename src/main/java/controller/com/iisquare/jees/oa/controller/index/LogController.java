@@ -31,7 +31,7 @@ public class LogController extends PermitController {
 	public String listSettingAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
-		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
+		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), "sort desc", page, pageSize);
 		map.put("rows", logService.fillSetting((List<Map<String, Object>>) map.get("rows")));
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
@@ -71,7 +71,7 @@ public class LogController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
-		Map<Object, Object> map = logService.search(ServletUtil.singleParameterMap(_REQUEST_), page, pageSize);
+		Map<Object, Object> map = logService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();

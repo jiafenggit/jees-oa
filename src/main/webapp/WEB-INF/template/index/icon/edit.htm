@@ -20,13 +20,13 @@
 	<tr>
 		<th class="width130">图标</th>
 		<td>
-			效果预览[<img src="${(icon.url)!""}" class="img iconImageShow" width="16px" height="16px" />]16*16
-			<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-upload" plain="true"><span id="swfUpload"></span></a>
+			效果预览[<img src="[#if empty((icon.url)!0)]${_WEB_URL_}/api/jQuery/themes/icons/large_picture.png[#else]${icon.url}[/#if]" class="img js-icon-image-show" width="16px" height="16px" />]16*16
+			<a href="javascript:void(0);" class="easyui-linkbutton js-swf-upload-button" data-options="iconCls:'icon-upload',plain:'true'"><span id="js-swf-upload"></span></a>
 		</td>
 	</tr>
 	<tr>
 		<th class="width130">地址</th>
-		<td><textarea name="icon.url" class="easyui-textbox width250 iconImageUrl" data-options="required:true,multiline:true,height:60">${(icon.url)!""}</textarea></td>
+		<td><textarea name="icon.url" class="easyui-textbox width250 js-icon-image-url" data-options="required:true,multiline:true,height:60">${(icon.url)!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
@@ -38,8 +38,28 @@
 	</tr>
 </table>
 </form>
+[#include "../upload/swfUpload.htm"]
 <script>
 $(function () {
+	swfUploadSettings.post_params['dir'] = 'icon';
+	swfUploadSettings.upload_success_handler = function (file, serverData) {
+		isSWFUploading = false;
+		try {
+			var data = $.parseJSON(serverData);
+			if(0 == data.error) {
+				$('.js-icon-image-url').val(data.url).trigger('change');
+			} else {
+				Web_alertInfo(data.message);
+			}
+		} catch (ex) {
+			Web_alertInfo('上传失败！');
+		}
+	};
+	new SWFUpload(swfUploadSettings);
+	
+	$('.js-icon-image-url').bind('change', function () {
+		$('.js-icon-image-show').attr('src', $(this).val());
+	});
 	$('input[name="typeId"]').combotree({
 		checkbox : true,
 		url : '[@url controller="iconType" action="list" /]?nototal=1',

@@ -8,10 +8,11 @@ package com.iisquare.jees.oa.domain;
 public class Upload {
 	
 	private Integer id;
-	private Integer createId; // 创建者
 	private String url;
-	private String file;
-	private Long createTime; // 添加时间
+	private String uri;
+	private Integer operateId; // 操作者
+	private Integer operateIp; // 操作者IP
+	private Long operateTime; // 操作时间
 
 	public Integer getId() {
 		return id;
@@ -19,14 +20,6 @@ public class Upload {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getCreateId() {
-		return createId;
-	}
-
-	public void setCreateId(Integer createId) {
-		this.createId = createId;
 	}
 
 	public String getUrl() {
@@ -37,20 +30,36 @@ public class Upload {
 		this.url = url;
 	}
 
-	public String getFile() {
-		return file;
+	public String getUri() {
+		return uri;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
-	public Long getCreateTime() {
-		return createTime;
+	public Integer getOperateId() {
+		return operateId;
 	}
 
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
+	public void setOperateId(Integer operateId) {
+		this.operateId = operateId;
+	}
+
+	public Integer getOperateIp() {
+		return operateIp;
+	}
+
+	public void setOperateIp(Integer operateIp) {
+		this.operateIp = operateIp;
+	}
+
+	public Long getOperateTime() {
+		return operateTime;
+	}
+
+	public void setOperateTime(Long operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	public Upload() {}

@@ -92,6 +92,10 @@ form { width:100%; height:100%;}
 #platform-center {}
 /* Style for platform End */
 
+/* Style for swfUpload */
+.js-swf-upload-button .l-btn-text { height: 24px;}
+.js-swf-upload-button object { margin: 4px 0px 0px 0px;}
+
 /* Style for easyUI */
 .icon-logout { background:url('../images/icons/logout.png') no-repeat center center;}
 .icon-shutdown { background:url('../images/icons/shutdown.png') no-repeat center center;}

@@ -25,7 +25,7 @@ public class IconService extends ServiceBase {
 	
 	public IconService() {}
 	
-	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(iconDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -54,6 +54,7 @@ public class IconService extends ServiceBase {
 			sb.append(" and refer_id = :referId");
 			paramMap.put("referId", DPUtil.parseInt(referId));
 		}
+		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
 		int total = iconDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));

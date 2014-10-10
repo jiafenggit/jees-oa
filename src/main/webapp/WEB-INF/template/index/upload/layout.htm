@@ -1,27 +1,130 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="easyui-datagrid listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
-	<thead>
-		<tr>
-			<th field="href">文件</th>
-			<th field="file">位置</th>
-			<th field="author">作者</th>
-			<th field="createTime">创建时间</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
-	<a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a>
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
-	$('#buttonShow').bind('click', function () {
-		var id = Web_getDataGridRowId($('.listAction'));
-		if(-1 == id) return ;
-		var row = $('.listAction').datagrid('getSelected');
-		Web_openPage(row.url);
+	$('.js-list-table').datagrid({
+		url : '[@url action="list" /]',
+		pagination : true,
+		idField : 'id',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
+			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
+				if(!row.operate_id_rel) return '';
+				return '[' + row.operate_id_rel.serial + ']' + row.operate_id_rel.name;
+			}},
+			{field:'operate_ip',title:'IP'},
+			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'url',title:'地址'},
+			{field:'uri',title:'位置'},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '<a href="[@url action="show" /]?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		}
+	});
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要删除的记录！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '[@url action="delete" /]?ids=' + ids;
+		Web_redirectPage(url);
+	});
+});
+</script>
+<div id="js-search-dialog" style="width:255px;height:255px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<table align="center" class="table-horizontal tr-height25">
+	<tr>
+		<th>开始时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStart" value="" /></td>
+	</tr>
+	<tr>
+		<th>结束时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEnd" value="" /></td>
+	</tr>
+	<tr>
+		<th>URL</th>
+		<td><input class="easyui-textbox width150" type="text" name="url" value="" /></td>
+	</tr>
+	<tr>
+		<th>URI</th>
+		<td><input class="easyui-textbox width150" type="text" name="uri" value="" /></td>
+	</tr>
+	<tr>
+		<th>操作账号</th>
+		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
+	</tr>
+	<tr>
+		<th>操作IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="operateIp" value="" /></td>
+	</tr>
+</table>
+</div>
+<div id="js-search-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<script>
+$(function () {
+	var $searchDialog = $('#js-search-dialog');
+	$('.js-control-search').bind('click', function () {
+		$searchDialog.dialog({
+			title : '筛选条件',
+			iconCls : 'icon-search',
+			onOpen : function () {}
+		});
+	});
+		
+	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-list-table').datagrid('load', {
+			timeStart : $searchDialog.find('input[name="timeStart"]').val(),
+			timeEnd : $searchDialog.find('input[name="timeEnd"]').val(),
+			url : $searchDialog.find('input[name="url"]').val(),
+			uri : $searchDialog.find('input[name="uri"]').val(),
+			serial : $searchDialog.find('input[name="serial"]').val(),
+			operateIp : $searchDialog.find('input[name="operateIp"]').val()
+		});
+		$searchDialog.dialog('close');
+	});
+	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$searchDialog.dialog('close');
 	});
 });
 </script>

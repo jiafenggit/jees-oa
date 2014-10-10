@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-09 16:19:06
+Date: 2014-10-10 12:05:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -72,13 +72,14 @@ CREATE TABLE `oa_icon_type` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_icon_type
 -- ----------------------------
 INSERT INTO `oa_icon_type` VALUES ('2', '类型', '0', '1', '1', '0', '0', '1412823937563', '1412824598882');
 INSERT INTO `oa_icon_type` VALUES ('3', '子类型', '2', '1', '1', '0', '1', '1412823957848', '1412824752251');
+INSERT INTO `oa_icon_type` VALUES ('4', '第二类型', '0', '1', '1', '0', '1', '1412848164048', '1412848164048');
 
 -- ----------------------------
 -- Table structure for `oa_log`
@@ -103,7 +104,7 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
@@ -116,6 +117,7 @@ INSERT INTO `oa_log` VALUES ('5', '日志设置', 'system', 'index', 'log', 'sav
 INSERT INTO `oa_log` VALUES ('6', '日志设置', 'system', 'index', 'log', 'saveSetting', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1412757700014');
 INSERT INTO `oa_log` VALUES ('7', '日志设置', 'system', 'index', 'log', 'saveSetting', 'http://127.0.0.1:8080/jees-oa/index/log/editSetting', 'http://127.0.0.1:8080/jees-oa/index/log/saveSetting', '{\"id\":[\"10\"],\"session_id\":[\"1\"],\"request_param\":[\"1\"],\"enable\":[\"1\"],\"response_data\":[\"1\"],\"referer\":[\"1\"],\"response_view\":[\"1\"],\"request_url\":[\"1\"],\"session_value\":[\"1\"]}', '73AB54ED8DACBA9F52F614823AEA3BC8', '{\"mid\":1}', '', '{}', null, '1', '127.0.0.1', '1412757700846');
 INSERT INTO `oa_log` VALUES ('8', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', 'FD9ADC7A8D63509993E43AC1113F89CD', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412823874711');
+INSERT INTO `oa_log` VALUES ('9', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '79443F8B58F136DCB583F1124E160F18', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412848157177');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -419,10 +421,11 @@ INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小'
 DROP TABLE IF EXISTS `oa_upload`;
 CREATE TABLE `oa_upload` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_id` int(11) NOT NULL DEFAULT '0',
   `url` tinytext,
-  `file` tinytext,
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `uri` tinytext,
+  `operate_id` int(11) NOT NULL DEFAULT '0',
+  `operate_ip` varchar(64) NOT NULL DEFAULT '',
+  `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

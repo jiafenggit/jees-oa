@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iisquare.jees.framework.model.ServiceBase;
+import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.oa.dao.IconTypeDao;
 import com.iisquare.jees.oa.dao.MemberDao;
@@ -24,7 +25,8 @@ public class IconTypeService extends ServiceBase {
 	
 	public List<Map<String, Object>> getList(String columns, Map<String, Object> where,
 			Map<String, String> operators, String orderBy, int page, int pageSize) {
-		String append = "order by " + orderBy;
+		String append = null;
+		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list = iconTypeDao.getPage(columns, where, operators, append, page, pageSize);
 		list = ServiceUtil.fillProperties(list, new IconType(), new String[]{"status"}, new String[]{"statusText"}, true);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);

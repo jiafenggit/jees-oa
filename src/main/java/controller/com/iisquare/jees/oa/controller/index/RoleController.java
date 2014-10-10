@@ -31,7 +31,7 @@ public class RoleController extends PermitController {
 	}
 	
 	public String listAction() throws Exception {
-		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort", 1, 0);
+		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort desc", 1, 0);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));

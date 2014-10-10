@@ -13,7 +13,6 @@ import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
-import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.LogDao;
 import com.iisquare.jees.oa.dao.LogSettingDao;
 import com.iisquare.jees.oa.dao.MemberDao;
@@ -61,7 +60,7 @@ public class LogService extends ServiceBase {
 		return list;
 	}
 	
-	public Map<Object, Object> search(Map<String, String> map, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(logDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -95,26 +94,28 @@ public class LogService extends ServiceBase {
 			sb.append(" and session_id = :sessionId");
 			paramMap.put("sessionId", sessionId);
 		}
-		String createId = map.get("createId");
-		if(!DPUtil.empty(createId)) {
-			sb.append(" and create_id = :createId");
-			paramMap.put("createId", ValidateUtil.filterInteger(createId, true, 0, null));
+		String serial = map.get("serial");
+		if(!DPUtil.empty(serial)) {
+			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
+				.append(" from ").append(memberDao.tableName()).append(" where serial = :serial)");
+			paramMap.put("serial", serial);
 		}
-		Object createIp = map.get("createIp");
-		if(!DPUtil.empty(createIp)) {
-			sb.append(" and create_ip = :createIp");
-			paramMap.put("createIp", createIp);
+		Object operateIp = map.get("operateIp");
+		if(!DPUtil.empty(operateIp)) {
+			sb.append(" and operate_ip = :operateIp");
+			paramMap.put("operateIp", operateIp);
 		}
 		String timeStart = map.get("timeStart");
 		if(!DPUtil.empty(timeStart)) {
-			sb.append(" and create_time >= :timeStart");
+			sb.append(" and operate_time >= :timeStart");
 			paramMap.put("timeStart", DPUtil.dateTimeToMillis(timeStart, configuration.getDateTimeFormat()));
 		}
 		String timeEnd = map.get("timeEnd");
 		if(!DPUtil.empty(timeStart)) {
-			sb.append(" and create_time <= :timeEnd");
+			sb.append(" and operate_time <= :timeEnd");
 			paramMap.put("timeEnd", DPUtil.dateTimeToMillis(timeEnd, configuration.getDateTimeFormat()));
 		}
+		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
 		int total = logDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
