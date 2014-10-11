@@ -40,9 +40,7 @@ $(function () {
 				return '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("editPower")]<a href="[@url controller="icon" action="layout" /]?parent_id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-key\'">下属列表</a>[/#if]';
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
 		onLoadSuccess : function (data) {

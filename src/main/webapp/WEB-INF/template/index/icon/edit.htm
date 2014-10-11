@@ -20,13 +20,13 @@
 	<tr>
 		<th class="width130">图标</th>
 		<td>
-			效果预览[<img src="[#if empty((icon.url)!0)]${_WEB_URL_}/api/jQuery/themes/icons/large_picture.png[#else]${icon.url}[/#if]" class="img js-icon-image-show" width="16px" height="16px" />]16*16
+			效果预览[<img src="[#if empty(fullUrl)]${_WEB_URL_}/api/jQuery/themes/icons/large_picture.png[#else]${fullUrl}[/#if]" class="img js-icon-image-show" width="16px" height="16px" />]16*16
 			<a href="javascript:void(0);" class="easyui-linkbutton js-swf-upload-button" data-options="iconCls:'icon-upload',plain:'true'"><span id="js-swf-upload"></span></a>
 		</td>
 	</tr>
 	<tr>
 		<th class="width130">地址</th>
-		<td><textarea name="icon.url" class="easyui-textbox width250 js-icon-image-url" data-options="required:true,multiline:true,height:60">${(icon.url)!""}</textarea></td>
+		<td><textarea name="url" class="easyui-textbox width250 js-icon-image-url" data-options="required:true,multiline:true,height:60">${(info.url)!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
@@ -47,7 +47,7 @@ $(function () {
 		try {
 			var data = $.parseJSON(serverData);
 			if(0 == data.error) {
-				$('.js-icon-image-url').val(data.uri).trigger('change');
+				$('.js-icon-image-url').textbox('setValue', data.uri).trigger('change');
 			} else {
 				Web_alertInfo(data.message);
 			}
@@ -58,7 +58,7 @@ $(function () {
 	new SWFUpload(swfUploadSettings);
 	
 	$('.js-icon-image-url').bind('change', function () {
-		$('.js-icon-image-show').attr('src', Web_projectUrl + '/' + $(this).val());
+		$('.js-icon-image-show').attr('src', Web_projectUrl + '/' + $(this).textbox('getValue'));
 	});
 	$('input[name="typeId"]').combotree({
 		checkbox : true,

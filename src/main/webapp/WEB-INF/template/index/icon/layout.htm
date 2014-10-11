@@ -6,6 +6,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
 	[#if _BASE_.hasPermit("iconType", "layout")]<a href="[@url controller="iconType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
+	[#if _BASE_.hasPermit("renderCss")]<a href="javascript:void(0);" class="easyui-linkbutton js-render-css" iconcls="icon-reload" plain="true">生成样式</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
@@ -29,8 +30,15 @@ $(function () {
 			}},
 			{field:'name',title:'名称'},
 			{field:'sort',title:'排序'},
-			{field:'module',title:'分类'},
-			{field:'controller',title:'地址'},
+			{field:'type_id',title:'分类',formatter:function (value, row, index) {
+				return row.type_id_rel ? row.type_id_rel.name : row.type_id;
+			}},
+			{field:'fullUrl',title:'效果预览',align:'center',formatter:function (value, row, index) {
+				return '<a href="'
+					+ value + '" class="js-list-button" data-options="iconCls:\'icon-auto'
+					+ row.id + '\'" target="_blank" title="点击查看大图"></a>';
+			}},
+			{field:'url',title:'地址'},
 			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
 				if(!row.create_id_rel) return '';
 				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;
@@ -77,29 +85,34 @@ $(function () {
 		var url = '[@url action="delete" /]?ids=' + ids;
 		Web_redirectPage(url);
 	});
+	
+	var isRendering = false;
+	$('.js-render-css').bind('click', function () {
+		if(isRendering) {
+			Web_alertInfo("正在执行中，请稍后......");
+			return false;
+		}
+		isRendering = true;
+		$.getJSON('[@url action="renderCss" /]', function (data) {
+			isRendering = false;
+			Web_alertInfo(data.message);
+		});
+	});
 });
 </script>
-<div id="js-search-dialog" style="width:230px;height:228px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<div id="js-search-dialog" style="width:230px;height:168px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
 		<th>名称</th>
 		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
 	</tr>
 	<tr>
-		<th>模块</th>
-		<td><input class="easyui-textbox width150" type="text" name="module" value="" /></td>
+		<th>分类</th>
+		<td><input class="easyui-textbox width150" type="text" name="type" value="" /></td>
 	</tr>
 	<tr>
-		<th>控制器</th>
-		<td><input class="easyui-textbox width150" type="text" name="controller" value="" /></td>
-	</tr>
-	<tr>
-		<th>方法</th>
-		<td><input class="easyui-textbox width150" type="text" name="action" value="" /></td>
-	</tr>
-	<tr>
-		<th>引用</th>
-		<td><input class="easyui-numberspinner width150" type="text" name="referId" data-options="min:0" value="" /></td>
+		<th>地址</th>
+		<td><input class="easyui-textbox width150" type="text" name="url" value="" /></td>
 	</tr>
 </table>
 </div>
@@ -121,10 +134,8 @@ $(function () {
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
 		$('.js-list-table').datagrid('load', {
 			name : $searchDialog.find('input[name="name"]').val(),
-			module : $searchDialog.find('input[name="module"]').val(),
-			controller : $searchDialog.find('input[name="controller"]').val(),
-			action : $searchDialog.find('input[name="action"]').val(),
-			referId : $searchDialog.find('input[name="referId"]').val()
+			type : $searchDialog.find('input[name="type"]').val(),
+			url : $searchDialog.find('input[name="url"]').val()
 		});
 		$searchDialog.dialog('close');
 	});

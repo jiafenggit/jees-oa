@@ -1,6 +1,9 @@
 package com.iisquare.jees.oa.controller.index;
 
-import java.util.Collection;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +11,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
+import com.iisquare.jees.core.util.UrlUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
-import com.iisquare.jees.oa.domain.Resource;
+import com.iisquare.jees.oa.domain.Icon;
 import com.iisquare.jees.oa.service.IconService;
 
 /**
@@ -30,53 +34,52 @@ public class IconController extends PermitController {
 		return displayTemplate();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
 		Map<Object, Object> map = iconService.search(ServletUtil.singleParameterMap(_REQUEST_), "sort desc", page, pageSize);
+		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
+		for (Map<String, Object> row : rows) {
+			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
+		}
 		assign("total", map.get("total"));
-		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
+		assign("rows", DPUtil.collectionToArray(rows));
 		return displayJSON();
 	}
 	
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
-		Resource info;
+		Icon info;
 		if(DPUtil.empty(id)) {
-			info = new Resource();
+			info = new Icon();
 		} else {
-			info = resourceService.getById(id);
+			info = iconService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		assign("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(info.getUrl())));
 		return displayTemplate();
 	}
 	
 	public String saveAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
-		Resource persist;
+		Icon persist;
 		if(DPUtil.empty(id)) {
-			persist = new Resource();
+			persist = new Icon();
 		} else {
-			persist = resourceService.getById(id);
+			persist = iconService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		String module = ValidateUtil.filterSimpleString(get("module"), true, 1, 64);
-		if(DPUtil.empty(module)) return displayMessage(3003, "模块参数错误");
-		persist.setModule(module);
-		String controller = ValidateUtil.filterSimpleString(get("controller"), true, 1, 64);
-		if(DPUtil.empty(controller)) return displayMessage(3004, "控制器参数错误");
-		persist.setController(controller);
-		String action = ValidateUtil.filterSimpleString(get("action"), true, 1, 64);
-		if(DPUtil.empty(action)) return displayMessage(3005, "方法参数错误");
-		persist.setAction(action);
-		if(null != resourceService.getByRouter(module, controller, action)) {
-			return displayMessage(3006, "对应资源已存在");
-		}
-		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null));
+		Integer typeId = ValidateUtil.filterInteger(get("typeId"), true, 0, null);
+		if(DPUtil.empty(typeId)) return displayMessage(3003, "类型参数错误");
+		persist.setTypeId(typeId);
+		String url = DPUtil.trim(get("url"));
+		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
+		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
@@ -85,9 +88,9 @@ public class IconController extends PermitController {
 		if(DPUtil.empty(persist.getId())) {
 			persist.setCreateId(currentMember.getId());
 			persist.setCreateTime(time);
-			result = resourceService.insert(persist);
+			result = iconService.insert(persist);
 		} else {
-			result = resourceService.update(persist);
+			result = iconService.update(persist);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));
@@ -104,5 +107,31 @@ public class IconController extends PermitController {
 		} else {
 			return displayInfo("操作失败，请刷新后再试", null);
 		}
+	}
+	
+	public String renderCssAction() throws Exception {
+		String cssPath = DPUtil.stringConcat(_WEB_ROOT_, "/", "files/work/icon.auto.css");
+		File cssFile = new File(cssPath);
+		//检查文件
+		if(!cssFile.exists()) return displayMessage(3001, "样式文件不存在");
+		//检查目录写权限
+		if(!cssFile.canWrite()) return displayMessage(3002, "样式文件没有操作权限");
+		try {
+			OutputStream os = new FileOutputStream(cssFile);
+			for (Icon icon : iconService.getList(null, null, null, 1, 0)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(".icon-auto");
+				sb.append(icon.getId());
+				sb.append(" {background:url('");
+				sb.append(UrlUtil.concat(_WEB_URL_, icon.getUrl()));
+				sb.append("') no-repeat center center;}\r\n");
+				os.write(sb.toString().getBytes());
+			}
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			return displayMessage(3003, "操作失败");
+		}
+		return displayMessage(0, "操作成功");
 	}
 }

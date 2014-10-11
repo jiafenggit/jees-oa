@@ -12,6 +12,7 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.IconDao;
+import com.iisquare.jees.oa.dao.IconTypeDao;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.domain.Icon;
 
@@ -22,6 +23,8 @@ public class IconService extends ServiceBase {
 	public MemberDao memberDao;
 	@Autowired
 	public IconDao iconDao;
+	@Autowired
+	public IconTypeDao iconTypeDao;
 	
 	public IconService() {}
 	
@@ -34,33 +37,32 @@ public class IconService extends ServiceBase {
 			sb.append(" and name like :name");
 			paramMap.put("name", DPUtil.stringConcat("%", name, "%"));
 		}
-		Object module = map.get("module");
-		if(!DPUtil.empty(module)) {
-			sb.append(" and module = :module");
-			paramMap.put("module", module);
+		String type = map.get("type");
+		if(!DPUtil.empty(type)) {
+			sb.append(" and type_id in (select ").append(iconTypeDao.getPrimaryKey())
+				.append(" from ").append(iconTypeDao.tableName()).append(" where name = :type)");
+			paramMap.put("type", type);
 		}
-		Object controller = map.get("controller");
-		if(!DPUtil.empty(controller)) {
-			sb.append(" and controller = :controller");
-			paramMap.put("controller", controller);
-		}
-		Object action = map.get("action");
-		if(!DPUtil.empty(action)) {
-			sb.append(" and action = :action");
-			paramMap.put("action", action);
-		}
-		Object referId = map.get("referId");
-		if(null != referId && !"".equals(referId)) {
-			sb.append(" and refer_id = :referId");
-			paramMap.put("referId", DPUtil.parseInt(referId));
+		Object url = map.get("url");
+		if(!DPUtil.empty(url)) {
+			sb.append(" and url like :url");
+			paramMap.put("url", DPUtil.stringConcat("%", url, "%"));
 		}
 		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
 		int total = iconDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = iconDao.npJdbcTemplate().queryForList(sql, paramMap);
+		rows = ServiceUtil.fillRelations(rows, iconTypeDao, new String[]{"type_id"}, new String[]{"name"}, null);
 		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
+	}
+	
+	public List<Icon> getList(Map<String, Object> where, Map<String, String> operators, String orderBy, int page, int pageSize) {
+		String append = null;
+		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
+		List<Icon> list = iconDao.getPage(where, operators, append, page, pageSize);
+		return list;
 	}
 	
 	public Icon getById(Object id) {
