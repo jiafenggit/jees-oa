@@ -41,13 +41,13 @@
 [#include "../upload/swfUpload.htm"]
 <script>
 $(function () {
-	swfUploadSettings.post_params['dir'] = 'icon';
+	swfUploadSettings.post_params['type'] = 'icon';
 	swfUploadSettings.upload_success_handler = function (file, serverData) {
 		isSWFUploading = false;
 		try {
 			var data = $.parseJSON(serverData);
 			if(0 == data.error) {
-				$('.js-icon-image-url').val(data.url).trigger('change');
+				$('.js-icon-image-url').val(data.uri).trigger('change');
 			} else {
 				Web_alertInfo(data.message);
 			}
@@ -58,7 +58,7 @@ $(function () {
 	new SWFUpload(swfUploadSettings);
 	
 	$('.js-icon-image-url').bind('change', function () {
-		$('.js-icon-image-show').attr('src', $(this).val());
+		$('.js-icon-image-show').attr('src', Web_projectUrl + '/' + $(this).val());
 	});
 	$('input[name="typeId"]').combotree({
 		checkbox : true,

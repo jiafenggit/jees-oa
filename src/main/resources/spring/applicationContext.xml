@@ -92,4 +92,10 @@
 		<property name="configuration" ref="configuration" />
 		<property name="freeMarkerConfigurer" ref="freeMarkerConfigurer" />
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- set the max upload size256MB -->
+		<property name="maxUploadSize" value="268435456" />
+		<property name="maxInMemorySize" value="4096" />
+	</bean>
 </beans>

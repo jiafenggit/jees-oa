@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public class SqlUtil {
 	
-	private static final String regexSelectFrom = "^((?i)select)(.*?)((?i)from)";
+	private static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
 	private static final String sqlCountName = "COUNT(*)";
-	
+
 	public static String convertForCount(String sql) {
 		return convertForCount(sql, null);
 	}

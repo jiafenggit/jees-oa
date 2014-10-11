@@ -14,6 +14,7 @@ import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.UploadDao;
+import com.iisquare.jees.oa.domain.Upload;
 
 @Service
 public class UploadService extends ServiceBase {
@@ -31,10 +32,10 @@ public class UploadService extends ServiceBase {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(uploadDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		Object url = map.get("url");
-		if(!DPUtil.empty(url)) {
-			sb.append(" and url like :url");
-			paramMap.put("url", DPUtil.stringConcat("%", url, "%"));
+		Object name = map.get("name");
+		if(!DPUtil.empty(name)) {
+			sb.append(" and name like :name");
+			paramMap.put("name", DPUtil.stringConcat("%", name, "%"));
 		}
 		Object uri = map.get("uri");
 		if(!DPUtil.empty(uri)) {
@@ -69,5 +70,13 @@ public class UploadService extends ServiceBase {
 		List<Map<String, Object>> rows = uploadDao.npJdbcTemplate().queryForList(sql, paramMap);
 		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
+	}
+	
+	public int insert(Upload upload) {
+		return uploadDao.insert(upload);
+	}
+	
+	public int delete(Object... ids) {
+		return uploadDao.deleteByIds(ids);
 	}
 }

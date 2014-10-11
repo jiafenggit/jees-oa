@@ -169,7 +169,8 @@ public class DPUtil {
 		Matcher matcher = pattern.matcher(str);
 		while(matcher.find()) {
 			if(bGroup) {
-				for(int i = 0; i < matcher.groupCount(); i++) {
+				int count = matcher.groupCount();
+				for(int i = 0; i < count; i++) {
 					list.add(matcher.group(i));
 				}
 			} else {
@@ -534,6 +535,39 @@ public class DPUtil {
 			if(null != object) sb.append(object);
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * 安全截取字符串，正向从下标0开始，逆向从-1开始
+	 */
+	public static String subString(String str, int start) {
+		if(null == str) return "";
+		int length = str.length();
+		if(start < 0) start += length; // 转换开始下标到正向位置
+		if(start < 0) start = 0; // 处理开始下标正向最小范围溢出
+		if(start > length - 1) return ""; // 处理开始下标正向最大范围溢出
+		return new String(str.substring(start));
+	}
+	
+	/**
+	 * 安全截取字符串，正向从下标0开始，逆向从-1开始
+	 */
+	public static String subString(String str, int start, int size) {
+		if(null == str) return "";
+		int length = str.length();
+		if(start < 0) start += length; // 转换开始下标到正向位置
+		int end = start + size; // 转换结束下标到正向位置
+		if(end < start) {
+			int temp = start;
+			start = end;
+			end = temp;
+		}
+		if(start < 0) start = 0; // 处理开始下标正向最小范围溢出
+		if(start > length - 1) return ""; // 处理开始下标正向最大范围溢出
+		if(end < 0) return ""; // 处理结束下标正向最小范围溢出
+		if(end > length) end = length; // 处理结束下标正向最大范围溢出
+		/* beginIndex - 起始索引（包括），endIndex - 结束索引（不包括） */
+		return new String(str.substring(start, end));
 	}
 	
 	/**

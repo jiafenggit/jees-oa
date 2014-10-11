@@ -33,7 +33,7 @@ $(function () {
 			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
 			}},
-			{field:'url',title:'地址'},
+			{field:'name',title:'名称'},
 			{field:'uri',title:'位置'},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
 				return '<a href="[@url action="show" /]?id='
@@ -80,7 +80,7 @@ $(function () {
 		<td><input class="easyui-datetimebox width150" type="text" name="timeEnd" value="" /></td>
 	</tr>
 	<tr>
-		<th>URL</th>
+		<th>名称</th>
 		<td><input class="easyui-textbox width150" type="text" name="url" value="" /></td>
 	</tr>
 	<tr>
@@ -116,7 +116,7 @@ $(function () {
 		$('.js-list-table').datagrid('load', {
 			timeStart : $searchDialog.find('input[name="timeStart"]').val(),
 			timeEnd : $searchDialog.find('input[name="timeEnd"]').val(),
-			url : $searchDialog.find('input[name="url"]').val(),
+			name : $searchDialog.find('input[name="name"]').val(),
 			uri : $searchDialog.find('input[name="uri"]').val(),
 			serial : $searchDialog.find('input[name="serial"]').val(),
 			operateIp : $searchDialog.find('input[name="operateIp"]').val()

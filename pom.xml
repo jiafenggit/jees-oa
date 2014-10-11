@@ -45,6 +45,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
+		<!-- fileupload -->
+		<dependency>
+			<groupId>com.liferay</groupId>
+			<artifactId>org.apache.commons.fileupload</artifactId>
+			<version>1.2.2.LIFERAY-PATCHED-1</version>
+		</dependency>
 		<!-- FreeMarker -->
 		<dependency>
 			<groupId>org.freemarker</groupId>

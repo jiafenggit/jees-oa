@@ -15,6 +15,12 @@ public class FileUtil {
 	
 	public static final String encoding = "UTF-8";
 	
+	public static boolean mkdirs(String filePath) {
+		File file = new File(filePath);
+		if(file.exists()) return true;
+		return file.mkdirs();
+	}
+	
 	public static boolean isExists(String filePath) {
 		File file = new File(filePath);
 		return file.exists();

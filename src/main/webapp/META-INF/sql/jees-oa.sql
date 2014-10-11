@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-10 12:05:21
+Date: 2014-10-10 17:21:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -421,7 +421,7 @@ INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小'
 DROP TABLE IF EXISTS `oa_upload`;
 CREATE TABLE `oa_upload` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` tinytext,
+  `name` tinytext,
   `uri` tinytext,
   `operate_id` int(11) NOT NULL DEFAULT '0',
   `operate_ip` varchar(64) NOT NULL DEFAULT '',

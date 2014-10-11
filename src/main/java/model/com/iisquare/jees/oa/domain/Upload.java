@@ -7,11 +7,11 @@ package com.iisquare.jees.oa.domain;
  */
 public class Upload {
 	
-	private Integer id;
-	private String url;
-	private String uri;
+	private Integer id; // 主键
+	private String name; // 上传文件名
+	private String uri; // 上传路径
 	private Integer operateId; // 操作者
-	private Integer operateIp; // 操作者IP
+	private String operateIp; // 操作者IP
 	private Long operateTime; // 操作时间
 
 	public Integer getId() {
@@ -22,12 +22,12 @@ public class Upload {
 		this.id = id;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getName() {
+		return name;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUri() {
@@ -46,11 +46,11 @@ public class Upload {
 		this.operateId = operateId;
 	}
 
-	public Integer getOperateIp() {
+	public String getOperateIp() {
 		return operateIp;
 	}
 
-	public void setOperateIp(Integer operateIp) {
+	public void setOperateIp(String operateIp) {
 		this.operateIp = operateIp;
 	}
 
