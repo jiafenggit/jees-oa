@@ -11,11 +11,9 @@ public class Setting {
 	private String type; // 分类
 	private String content; // 内容
 	private String remark; // 备注
-	private Integer createId; // 创建者
-	private Integer updateId; // 修改者
-	private Integer sort; // 排序（从高到低）
-	private Long createTime; // 添加时间
-	private Long updateTime; // 修改时间
+	private Integer operateId; // 操作者主键
+	private String operateIp; // 创建IP
+	private Long operateTime; // 操作时间
 
 	public Integer getId() {
 		return id;
@@ -57,44 +55,28 @@ public class Setting {
 		this.remark = remark;
 	}
 
-	public Integer getCreateId() {
-		return createId;
+	public Integer getOperateId() {
+		return operateId;
 	}
 
-	public void setCreateId(Integer createId) {
-		this.createId = createId;
+	public void setOperateId(Integer operateId) {
+		this.operateId = operateId;
 	}
 
-	public Integer getUpdateId() {
-		return updateId;
+	public String getOperateIp() {
+		return operateIp;
 	}
 
-	public void setUpdateId(Integer updateId) {
-		this.updateId = updateId;
+	public void setOperateIp(String operateIp) {
+		this.operateIp = operateIp;
 	}
 
-	public Integer getSort() {
-		return sort;
+	public Long getOperateTime() {
+		return operateTime;
 	}
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
-
-	public Long getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Long updateTime) {
-		this.updateTime = updateTime;
+	public void setOperateTime(Long operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	public Setting() {}

@@ -46,12 +46,12 @@ public class IconTypeService extends ServiceBase {
 		return map;
 	}
 	
-	public int insert(IconType resource) {
-		return iconTypeDao.insert(resource);
+	public int insert(IconType persist) {
+		return iconTypeDao.insert(persist);
 	}
 	
-	public int update(IconType resource) {
-		return iconTypeDao.update(resource);
+	public int update(IconType persist) {
+		return iconTypeDao.update(persist);
 	}
 	
 	public int delete(Object... ids) {

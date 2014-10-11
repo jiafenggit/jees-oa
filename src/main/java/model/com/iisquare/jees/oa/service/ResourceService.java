@@ -81,12 +81,12 @@ public class ResourceService extends ServiceBase {
 				new Object[]{module, controller, action}, null, null);
 	}
 	
-	public int insert(Resource resource) {
-		return resourceDao.insert(resource);
+	public int insert(Resource persist) {
+		return resourceDao.insert(persist);
 	}
 	
-	public int update(Resource resource) {
-		return resourceDao.update(resource);
+	public int update(Resource persist) {
+		return resourceDao.update(persist);
 	}
 	
 	public int delete(Object... ids) {

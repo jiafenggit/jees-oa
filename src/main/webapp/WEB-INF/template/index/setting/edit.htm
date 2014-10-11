@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<form id="submitForm" method="post" action="[@url action="save" /]">
+<input type="hidden" name="id" value="${info.id!0}" />
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
+	<tr>
+		<th class="width130">名称</th>
+		<td><input class="easyui-textbox width300" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
+	</tr>
+	<tr>
+		<th class="width130">类型</th>
+		<td><input class="easyui-textbox width300" type="text" name="type" data-options="required:true" value="${(info.type)!""}" /></td>
+	</tr>
+	<tr>
+		<th class="width130">内容</th>
+		<td><textarea name="content" class="easyui-textbox width300 iconImageUrl" data-options="required:true,multiline:true,height:80">${info.content!""}</textarea></td>
+	</tr>
+	<tr>
+		<th class="width130">备注</th>
+		<td><textarea name="remark" class="easyui-textbox width300 iconImageUrl" data-options="required:true,multiline:true,height:80">${info.remark!""}</textarea></td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">重置</a>
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
+		</td>
+	</tr>
+</table>
+</form>
+<script>
+$(function () {
+	var $submitForm = $('#submitForm');
+	$submitForm.form({
+		success : function (data) {
+			data = $.parseJSON(data);
+			if(data.status) {
+				Web_alertInfo(data.message);
+			} else {
+				Web_redirectPage(data.message);
+			}
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		if($submitForm.form('validate')) {
+			$submitForm.form('submit');
+		}
+	});
+	$('#buttonCancel').bind('click', function () {
+		$submitForm.form('reset');
+	});
+});
+</script>

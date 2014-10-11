@@ -50,12 +50,12 @@ public class RoleService extends ServiceBase {
 		return map;
 	}
 	
-	public int insert(Role role) {
-		return roleDao.insert(role);
+	public int insert(Role persist) {
+		return roleDao.insert(persist);
 	}
 	
-	public int update(Role role) {
-		return roleDao.update(role);
+	public int update(Role persist) {
+		return roleDao.update(persist);
 	}
 	
 	public int delete(Object... ids) {

@@ -128,11 +128,11 @@ public class LogService extends ServiceBase {
 		return logSettingDao.getById(id);
 	}
 	
-	public int saveSetting(LogSetting logSetting) {
-		if(null == logSettingDao.getById(logSetting.getId())) {
-			return logSettingDao.insert(logSetting);
+	public int saveSetting(LogSetting persist) {
+		if(null == logSettingDao.getById(persist.getId())) {
+			return logSettingDao.insert(persist);
 		} else {
-			return logSettingDao.update(logSetting);
+			return logSettingDao.update(persist);
 		}
 	}
 	

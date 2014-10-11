@@ -1,44 +1,143 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="easyui-datagrid listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
-	<thead>
-		<tr>
-			<th field="name">名称</th>
-			<th field="content">内容</th>
-			<th field="updateTime">修改时间</th>
-			<th field="createTime">创建时间</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
-	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
-
-<div class="createActionDialog modifyActionDialog" style="width:265px;height:210px" data-options="buttons:'#actionButton',modal:true,resizable:true">
-	<form class="createActionForm modifyActionForm" method="post" action=""></form>
-</div>
-<div id="actionButton">
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionOK modifyActionOK" data-options="iconCls:'icon-ok'">确定</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionCancel modifyActionCancel" data-options="iconCls:'icon-cancel'">取消</a>
-</div>
-<textarea id="Template-List" class="hidden">
-{#template MAIN}
+<script>
+$(function () {
+	$('.js-list-table').datagrid({
+		url : '[@url action="list" /]',
+		pagination : true,
+		idField : 'id',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
+			{field:'name',title:'名称'},
+			{field:'type',title:'类型'},
+			{field:'content',title:'内容'},
+			{field:'remark',title:'备注'},
+			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
+				if(!row.operate_id_rel) return '';
+				return '[' + row.operate_id_rel.serial + ']' + row.operate_id_rel.name;
+			}},
+			{field:'operate_ip',title:'IP'},
+			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '<a href="[@url action="edit" /]?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		}
+	});
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要删除的记录！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '[@url action="delete" /]?ids=' + ids;
+		Web_redirectPage(url);
+	});
+});
+</script>
+<div id="js-search-dialog" style="width:255px;height:312px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
+		<th>开始时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStart" value="" /></td>
+	</tr>
+	<tr>
+		<th>结束时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEnd" value="" /></td>
+	</tr>
+	<tr>
 		<th>名称</th>
-		<td>
-			<input class="easyui-validatebox input-text width196" type="text" name="setting.name" data-options="required:true" value="{$T.name}" />
-		</td>
+		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
+	</tr>
+	<tr>
+		<th>类型</th>
+		<td><input class="easyui-textbox width150" type="text" name="type" value="" /></td>
 	</tr>
 	<tr>
 		<th>内容</th>
-		<td>
-			&lt;textarea class="w195h100" name="setting.content"&gt;{$T.content}&lt;/textarea&gt;
-		</td>
+		<td><input class="easyui-textbox width150" type="text" name="content" value="" /></td>
+	</tr>
+	<tr>
+		<th>备注</th>
+		<td><input class="easyui-textbox width150" type="text" name="remark" value="" /></td>
+	</tr>
+	<tr>
+		<th>操作账号</th>
+		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
+	</tr>
+	<tr>
+		<th>操作IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="operateIp" value="" /></td>
 	</tr>
 </table>
-{#/template MAIN}
-</textarea>
+</div>
+<div id="js-search-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<script>
+$(function () {
+	var $searchDialog = $('#js-search-dialog');
+	$('.js-control-search').bind('click', function () {
+		$searchDialog.dialog({
+			title : '筛选条件',
+			iconCls : 'icon-search',
+			onOpen : function () {}
+		});
+	});
+		
+	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-list-table').datagrid('load', {
+			timeStart : $searchDialog.find('input[name="timeStart"]').val(),
+			timeEnd : $searchDialog.find('input[name="timeEnd"]').val(),
+			name : $searchDialog.find('input[name="name"]').val(),
+			type : $searchDialog.find('input[name="type"]').val(),
+			content : $searchDialog.find('input[name="content"]').val(),
+			remark : $searchDialog.find('input[name="remark"]').val(),
+			serial : $searchDialog.find('input[name="serial"]').val(),
+			operateIp : $searchDialog.find('input[name="operateIp"]').val()
+		});
+		$searchDialog.dialog('close');
+	});
+	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$searchDialog.dialog('close');
+	});
+});
+</script>
