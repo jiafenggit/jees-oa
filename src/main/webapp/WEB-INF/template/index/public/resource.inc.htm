@@ -13,17 +13,6 @@
 	var Web_dateTimeFormat = '${_CONFIG_.dateTimeFormat}';
 	Web_dateTimeFormat = Web_dateTimeFormat.replace('HH', 'hh');
 	
-	function Web_url(action, controller, module) {
-		var url = Web_projectUrl;
-		url += '/';
-		url += module ? module : '${_MODULE_}';
-		url += '/';
-		url += controller ? controller : '${_CONTROLLER_}';
-		url += '/';
-		url += action ? action : '${_ACTION_}';
-		return url;
-	}
-	
 	function Web_formatDateTime(dateVal) {
 		if(!dateVal) return '';
 		var dateObj = new Date(dateVal);

@@ -280,7 +280,7 @@ $(function () {
 		}
 	});
 	/* Events for Platform End */
-	$('#platform-west').load(Web_url('memberMenuList', 'Menu'), function () { // Trigger Events
+	$('#platform-west').load(Web_projectUrl + '/index/menu/memberMenuList', function () { // Trigger Events
 		$.parser.parse($(this)); // 渲染easyUI元素
 		$('.platformMenuTree').each(function(index, element) {
 			$(this).tree({ // bind menu tree clicked

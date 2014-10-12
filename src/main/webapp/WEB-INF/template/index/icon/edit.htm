@@ -41,7 +41,7 @@
 [#include "../upload/swfUpload.htm"]
 <script>
 $(function () {
-	swfUploadSettings.post_params['type'] = 'icon';
+	swfUploadSettings.post_params['dir'] = 'icon';
 	swfUploadSettings.upload_success_handler = function (file, serverData) {
 		isSWFUploading = false;
 		try {

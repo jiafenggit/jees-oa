@@ -1,9 +1,15 @@
 package com.iisquare.jees.oa.controller.index;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 
@@ -85,11 +91,11 @@ public class UploadController extends PermitController {
 		if(!tempFile.isDirectory() || !tempFile.canWrite()) return displayError(3001, "上传目录不存在或无访问权限");
 		
 		/* 上传类别检查 */
-		String type = ValidateUtil.filterItem(multiRequest.getParameter("type"), false, DPUtil.collectionToStringArray(extMap.keySet()), null);
-		if(DPUtil.empty(type)) return displayError(3002, "暂不支持该类别的文件");
+		String dirName = ValidateUtil.filterItem(multiRequest.getParameter("dir"), false, DPUtil.collectionToStringArray(extMap.keySet()), null);
+		if(DPUtil.empty(dirName)) return displayError(3002, "暂不支持该类别的文件");
 		
 		/* 生成上传目录 */
-		uploadFolder = DPUtil.stringConcat(uploadFolder, type, "/", DPUtil.getCurrentDateTime("yyyyMMdd"), "/");
+		uploadFolder = DPUtil.stringConcat(uploadFolder, dirName, "/", DPUtil.getCurrentDateTime("yyyyMMdd"), "/");
 		if(!FileUtil.mkdirs(DPUtil.stringConcat(_WEB_ROOT_, "/", uploadFolder))) return displayError(500, "生成上传目录失败");
 		
 		Iterator<String> iterator = multiRequest.getFileNames();
@@ -97,7 +103,7 @@ public class UploadController extends PermitController {
 		while (iterator.hasNext()) {
 			MultipartFile file = multiRequest.getFile(iterator.next());
 			if(file.getSize() > maxSize) return displayError(3003, "上传文件大小超过限制");
-			String typeStr = extMap.get(type);
+			String typeStr = extMap.get(dirName);
 			String originalFilename = file.getOriginalFilename();
 			String fileSuffix = DPUtil.subString(originalFilename, originalFilename.lastIndexOf(".") + 1).toLowerCase();
 			if(!DPUtil.isItemExist(DPUtil.explode(typeStr, ",", " "), fileSuffix)) return displayError(3004, DPUtil.stringConcat("仅支持以下文件类型\n", typeStr));
@@ -120,17 +126,162 @@ public class UploadController extends PermitController {
 			JSONObject obj = new JSONObject();
 			obj.put("error", 0);
 			obj.put("uri", uri);
+			obj.put("url", DPUtil.stringConcat(_WEB_URL_, "/", uri));
 			sb.append(obj.toString() + "\r\n");
 		}
 		return displayText(sb.toString());
 	}
 	
+	public String editorAction() throws Exception {
+		return displayTemplate();
+	}
 	
+	public String fileManagerJsonAction() throws Exception {
+		String uploadFolder = "files/attached/"; // 文件上传目录
+		//根目录路径，可以指定绝对路径
+		String rootPath = DPUtil.stringConcat(_WEB_ROOT_, "/", uploadFolder);
+		//根目录URL，可以指定绝对路径
+		String rootUrl  = DPUtil.stringConcat(_WEB_URL_, "/", uploadFolder);
+		//图片扩展名
+		String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
+		
+		String dirName = DPUtil.parseString(get("dir"));
+		if (dirName != null) {
+			if(!Arrays.<String>asList(new String[]{"image", "flash", "media", "file"}).contains(dirName)){
+				return displayText("无效的目录名称");
+			}
+			rootPath = DPUtil.stringConcat(rootPath, dirName, "/");
+			rootUrl = DPUtil.stringConcat(rootUrl, dirName, "/");
+			File saveDirFile = new File(rootPath);
+			if (!saveDirFile.exists()) saveDirFile.mkdirs();
+		}
+		//根据path参数，设置各路径和URL
+		String path = DPUtil.parseString(get("path"));
+		String currentPath = DPUtil.stringConcat(rootPath, path);
+		String currentUrl = DPUtil.stringConcat(rootUrl, path);
+		String currentDirPath = path;
+		String moveupDirPath = "";
+		if (!"".equals(path)) {
+			String str = DPUtil.subString(currentDirPath, 0, currentDirPath.length() - 1);
+			moveupDirPath = str.lastIndexOf("/") >= 0 ? DPUtil.subString(str, 0, str.lastIndexOf("/") + 1) : "";
+		}
+		
+		//排序形式，name or size or type
+		String order = DPUtil.parseString(get("order"));
+		if(DPUtil.empty(order)) {
+			order = order.toLowerCase();
+		} else {
+			order = "name";
+		}
+		
+		//不允许使用..移动到上一级目录
+		if (path.indexOf("..") >= 0) {
+			return displayText("访问被拒绝");
+		}
+		//最后一个字符不是/
+		if (!"".equals(path) && !path.endsWith("/")) {
+			return displayText("无效的参数");
+		}
+		//目录不存在或不是目录
+		File currentPathFile = new File(currentPath);
+		if(!currentPathFile.isDirectory()){
+			return displayText("目录不存在");
+		}
+		
+		//遍历目录取的文件信息
+		List<Hashtable<?, ?>> fileList = new ArrayList<Hashtable<?, ?>>();
+		if(currentPathFile.listFiles() != null) {
+			for (File file : currentPathFile.listFiles()) {
+				Hashtable<String, Object> hash = new Hashtable<String, Object>();
+				String fileName = file.getName();
+				if(file.isDirectory()) {
+					hash.put("is_dir", true);
+					hash.put("has_file", (file.listFiles() != null));
+					hash.put("filesize", 0L);
+					hash.put("is_photo", false);
+					hash.put("filetype", "");
+				} else if(file.isFile()){
+					String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+					hash.put("is_dir", false);
+					hash.put("has_file", false);
+					hash.put("filesize", file.length());
+					hash.put("is_photo", Arrays.<String>asList(fileTypes).contains(fileExt));
+					hash.put("filetype", fileExt);
+				}
+				hash.put("filename", fileName);
+				hash.put("datetime", DPUtil.millisToDateTime(file.lastModified(), configuration.getDateTimeFormat()));
+				fileList.add(hash);
+			}
+		}
+		
+		if ("size".equals(order)) {
+			Collections.sort(fileList, new SizeComparator());
+		} else if ("type".equals(order)) {
+			Collections.sort(fileList, new TypeComparator());
+		} else {
+			Collections.sort(fileList, new NameComparator());
+		}
+		JSONObject result = new JSONObject();
+		result.put("moveup_dir_path", moveupDirPath);
+		result.put("current_dir_path", currentDirPath);
+		result.put("current_url", currentUrl);
+		result.put("total_count", fileList.size());
+		result.put("file_list", fileList);
+		return displayJSON(result);
+	}
 	
 	private String displayError(int error, String message) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>(2);
 		map.put("error", error);
 		map.put("message", message);
 		return displayJSON(map);
+	}
+}
+
+class NameComparator implements Comparator<Object> {
+	public int compare(Object a, Object b) {
+		Hashtable<?, ?> hashA = (Hashtable<?, ?>)a;
+		Hashtable<?, ?> hashB = (Hashtable<?, ?>)b;
+		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {
+			return -1;
+		} else if (!((Boolean)hashA.get("is_dir")) && ((Boolean)hashB.get("is_dir"))) {
+			return 1;
+		} else {
+			return ((String)hashA.get("filename")).compareTo((String)hashB.get("filename"));
+		}
+	}
+}
+
+class SizeComparator implements Comparator<Object> {
+	public int compare(Object a, Object b) {
+		Hashtable<?, ?> hashA = (Hashtable<?, ?>)a;
+		Hashtable<?, ?> hashB = (Hashtable<?, ?>)b;
+		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {
+			return -1;
+		} else if (!((Boolean)hashA.get("is_dir")) && ((Boolean)hashB.get("is_dir"))) {
+			return 1;
+		} else {
+			if (((Long)hashA.get("filesize")) > ((Long)hashB.get("filesize"))) {
+				return 1;
+			} else if (((Long)hashA.get("filesize")) < ((Long)hashB.get("filesize"))) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	}
+}
+
+class TypeComparator implements Comparator<Object> {
+	public int compare(Object a, Object b) {
+		Hashtable<?, ?> hashA = (Hashtable<?, ?>)a;
+		Hashtable<?, ?> hashB = (Hashtable<?, ?>)b;
+		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {
+			return -1;
+		} else if (!((Boolean)hashA.get("is_dir")) && ((Boolean)hashB.get("is_dir"))) {
+			return 1;
+		} else {
+			return ((String)hashA.get("filetype")).compareTo((String)hashB.get("filetype"));
+		}
 	}
 }
