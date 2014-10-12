@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-11 17:11:23
+Date: 2014-10-12 12:34:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -323,6 +323,7 @@ DROP TABLE IF EXISTS `oa_resource`;
 CREATE TABLE `oa_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `module` varchar(64) NOT NULL DEFAULT '',
   `controller` varchar(64) NOT NULL DEFAULT '',
   `action` varchar(64) NOT NULL DEFAULT '',
@@ -338,11 +339,11 @@ CREATE TABLE `oa_resource` (
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('2', '测试按时发', 'index', 'resource', 'list', '2', '1', '1', '1', '1411867810171', '1411869123921');
-INSERT INTO `oa_resource` VALUES ('7', 'asf', 'asf', 'asf', 'asf', '0', '0', '1', '1', '1411887872308', '1411887872308');
-INSERT INTO `oa_resource` VALUES ('8', '用户登录', 'index', 'member', 'logon', '0', '0', '1', '1', '1412754896836', '1412754896836');
-INSERT INTO `oa_resource` VALUES ('9', '日志管理', 'index', 'log', 'layout', '0', '0', '1', '1', '1412755223211', '1412755223211');
-INSERT INTO `oa_resource` VALUES ('10', '日志设置', 'index', 'log', 'saveSetting', '0', '0', '1', '1', '1412757644532', '1412757644532');
+INSERT INTO `oa_resource` VALUES ('2', '测试按时发', '0', 'index', 'resource', 'list', '2', '1', '1', '1', '1411867810171', '1411869123921');
+INSERT INTO `oa_resource` VALUES ('7', 'asf', '0', 'asf', 'asf', 'asf', '0', '0', '1', '1', '1411887872308', '1411887872308');
+INSERT INTO `oa_resource` VALUES ('8', '用户登录', '0', 'index', 'member', 'logon', '0', '0', '1', '1', '1412754896836', '1412754896836');
+INSERT INTO `oa_resource` VALUES ('9', '日志管理', '0', 'index', 'log', 'layout', '0', '0', '1', '1', '1412755223211', '1412755223211');
+INSERT INTO `oa_resource` VALUES ('10', '日志设置', '0', 'index', 'log', 'saveSetting', '0', '0', '1', '1', '1412757644532', '1412757644532');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -417,8 +418,8 @@ CREATE TABLE `oa_setting` (
 -- ----------------------------
 -- Records of oa_setting
 -- ----------------------------
-INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '0', '', '0');
-INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '0', '', '0');
+INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '1', '127.0.0.1', '1413018957263');
+INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '1', '127.0.0.1', '1413018859640');
 
 -- ----------------------------
 -- Table structure for `oa_upload`

@@ -36,10 +36,7 @@ $(function () {
 			{field:'name',title:'名称'},
 			{field:'uri',title:'位置'},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '<a href="[@url action="show" /]?id='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
-					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+				return '<a href="' + Web_projectUrl + '/' + row.uri + '" class="js-list-button" data-options="iconCls:\'icon-detail\'" target="_blank">查看</a>';
 			}}
 		]],
 		onLoadSuccess : function (data) {
@@ -48,24 +45,6 @@ $(function () {
 			});
 			$('.js-list-table').datagrid('autoSizeColumn');
 		}
-	});
-	
-	$('.js-control-delete').bind('click', function () {
-		var rows = $('.js-list-table').datagrid('getChecked');
-		var ids = '', size = rows.length;
-		if(size < 1) {
-			Web_alertInfo('请选择要删除的记录！');
-			return ;
-		}
-		for(var i = 0; i < size; i++) {
-			var row = rows[i];
-			ids += row.id;
-			if(i + 1 < size) {
-				ids += ',';
-			}
-		}
-		var url = '[@url action="delete" /]?ids=' + ids;
-		Web_redirectPage(url);
 	});
 });
 </script>
@@ -125,6 +104,68 @@ $(function () {
 	});
 	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
 		$searchDialog.dialog('close');
+	});
+});
+</script>
+<div id="js-process-dialog" style="width:405px;height:250px" data-options="toolbar:'#js-process-toolbar',modal:true,resizable:true">
+	<table class="easyui-datagrid js-process-list" data-options="rownumbers:true,fitcolumns:true">
+	<thead>
+		<tr>
+			<th data-options="field:'id'">ID</th>
+			<th data-options="field:'message'">结果</th>
+		</tr>
+	</thead>
+	</table>
+</div>
+<div id="js-process-toolbar">
+	<div class="easyui-progressbar js-process-bar" data-options="value:0" style="width:380px"></div>
+</div>
+<script>
+$(function () {
+	var $processDialog = $('#js-process-dialog');
+	var $processList = $('.js-process-list');
+	var $processBar = $('.js-process-bar');
+	
+	var bProcessing = false;
+	function process(index, rows) {
+		if(!bProcessing) return false;
+		var length = rows.length;
+		if(index >= length) return true;
+		var row = rows[index];
+		$.post('[@url action="delete" /]', {
+			id : row.id
+		}, function (data) {
+			index++;
+			$processList.datagrid('appendRow', {
+				id : row.id,
+				message : data.message
+			});
+			$processList.datagrid('autoSizeColumn');
+			$processBar.progressbar('setValue', index / length * 100);
+			process(index, rows);
+		}, 'json');
+	}
+	
+	$('.js-control-delete').bind('click', function () {
+		$processList.datagrid('loadData', []);
+		$processBar.progressbar('setValue', 0);
+		var rows = $('.js-list-table').datagrid('getChecked');
+		if(rows.length < 1) {
+			Web_alertInfo('请选择需要操作的记录');
+			return false;
+		}
+		$processDialog.dialog({
+			title : '处理进度',
+			iconCls : 'icon-tip',
+			onOpen : function () {
+				bProcessing = true;
+				process(0, rows);
+			},
+			onClose : function () {
+				bProcessing = false;
+				$('.js-list-table').datagrid('reload');
+			}
+		});
 	});
 });
 </script>

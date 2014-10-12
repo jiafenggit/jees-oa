@@ -47,6 +47,23 @@ public class UploadController extends PermitController {
 		return displayJSON();
 	}
 	
+	public String deleteAction() throws Exception {
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Upload info = uploadService.getById(id);
+		if(null == info) return displayMessage(3001, "记录不存在");
+		String filePath = DPUtil.stringConcat(_WEB_ROOT_, "/", info.getUri());
+		File file = new File(filePath);
+		if(file.exists()) {
+			if(!file.delete()) return displayMessage(3002, "文件删除失败");
+		}
+		int result = uploadService.delete(id);
+		if(result > 0) {
+			return displayMessage(0, "操作成功");
+		} else {
+			return displayMessage(500, "操作失败");
+		}
+	}
+	
 	public String uploadJsonAction() throws Exception {
 		/* 各项参数待配置 */
 		String uploadFolder = "files/attached/"; // 文件上传目录
@@ -107,6 +124,8 @@ public class UploadController extends PermitController {
 		}
 		return displayText(sb.toString());
 	}
+	
+	
 	
 	private String displayError(int error, String message) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>(2);

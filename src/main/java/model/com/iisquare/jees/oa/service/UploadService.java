@@ -72,6 +72,10 @@ public class UploadService extends ServiceBase {
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
+	public Upload getById(Object id) {
+		return uploadDao.getById(id);
+	}
+	
 	public int insert(Upload persist) {
 		return uploadDao.insert(persist);
 	}

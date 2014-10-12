@@ -8,6 +8,7 @@ package com.iisquare.jees.oa.domain;
 public class Resource {
 	private Integer id; // 主键
 	private String name; // 名称
+	private Integer parentId; // 父级
 	private String module; // 模块名称
 	private String controller; // 控制器名称
 	private String action; // 方法名称
@@ -32,6 +33,14 @@ public class Resource {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getModule() {

@@ -151,8 +151,8 @@ $(function () {
 	});
 });
 </script>
-<div id="js-process-dialog" style="width:400px;height:250px" data-options="modal:true,resizable:true">
-	<table class="easyui-datagrid js-process-list" data-options="toolbar:'#js-process-toolbar',rownumbers:true,fitcolumns:true">
+<div id="js-process-dialog" style="width:405px;height:250px" data-options="toolbar:'#js-process-toolbar',modal:true,resizable:true">
+	<table class="easyui-datagrid js-process-list" data-options="rownumbers:true,fitcolumns:true">
 	<thead>
 		<tr>
 			<th data-options="field:'id'">ID</th>
@@ -203,11 +203,11 @@ $(function () {
 		$processBar.progressbar('setValue', 0);
 		var rows = $('.js-list-table').datagrid('getChecked');
 		if(rows.length < 1) {
-			Web_alertInfo('请选择需要保存的记录');
+			Web_alertInfo('请选择需要操作的记录');
 			return false;
 		}
 		$processDialog.dialog({
-			title : '保存进度',
+			title : '处理进度',
 			iconCls : 'icon-tip',
 			onOpen : function () {
 				bProcessing = true;
