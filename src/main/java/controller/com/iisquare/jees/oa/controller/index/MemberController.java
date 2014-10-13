@@ -29,8 +29,8 @@ public class MemberController extends PermitController {
 	}
 	
 	public String logonAction() throws Exception {
-		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64);
-		String password = ValidateUtil.filterSimpleString(get("password"), true, 1, null);
+		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64, null);
+		String password = ValidateUtil.filterSimpleString(get("password"), true, 1, null, null);
 		if(DPUtil.empty(serial) || DPUtil.empty(password)) {
 			return displayMessage(1, "请输入正确的账号和密码！");
 		}

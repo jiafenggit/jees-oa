@@ -27,11 +27,10 @@ public class RoleService extends ServiceBase {
 		return roleDao.getCount(null, null, null);
 	}
 	
-	public List<Map<String, Object>> getList(String columns, Map<String, Object> where,
-			Map<String, String> operators, String orderBy, int page, int pageSize) {
+	public List<Map<String, Object>> getList(String columns, String orderBy, int page, int pageSize) {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
-		List<Map<String, Object>> list = roleDao.getPage(columns, where, operators, append, page, pageSize);
+		List<Map<String, Object>> list = roleDao.getPage(columns, null, null, append, page, pageSize);
 		list = ServiceUtil.fillProperties(list, new Role(), new String[]{"status"}, new String[]{"statusText"}, true);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
@@ -59,10 +58,10 @@ public class RoleService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		for (Object id : ids) { // 下级不为空时，禁止删除
-			int count = roleDao.getCount(new String[]{"parent_id"}, new Object[]{id}, null, null);
-			if(count > 0) return -1;
-		}
+		int count = roleDao.getCount(new String[]{"parent_id"}, new Object[]{ids}, new String[]{"in"}, null);
+		if(count > 0) return -1;
+		count = memberDao.getCount(new String[]{"role_id"}, new Object[]{ids}, new String[]{"in"}, null);
+		if(count > 0) return -2;
 		return roleDao.deleteByIds(ids);
 	}
 }

@@ -25,8 +25,8 @@ public class SettingController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
 		Map<Object, Object> map = settingService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
@@ -34,7 +34,7 @@ public class SettingController extends PermitController {
 	}
 	
 	public String editAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Setting info;
 		if(DPUtil.empty(id)) {
 			info = new Setting();
@@ -47,7 +47,7 @@ public class SettingController extends PermitController {
 	}
 	
 	public String saveAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Setting persist;
 		if(DPUtil.empty(id)) {
 			persist = new Setting();
@@ -55,10 +55,10 @@ public class SettingController extends PermitController {
 			persist = settingService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
-		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		String type = ValidateUtil.filterSimpleString(get("type"), true, 1, 64);
+		String type = ValidateUtil.filterSimpleString(get("type"), true, 1, 64, null);
 		if(DPUtil.empty(type)) return displayMessage(3003, "类型参数错误");
 		persist.setType(type);
 		persist.setContent(DPUtil.trim(get("content")));

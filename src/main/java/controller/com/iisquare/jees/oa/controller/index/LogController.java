@@ -1,7 +1,6 @@
 package com.iisquare.jees.oa.controller.index;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,32 +26,21 @@ public class LogController extends PermitController {
 	@Autowired
 	public ResourceService resourceService;
 	
-	@SuppressWarnings("unchecked")
-	public String listSettingAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
-		Map<Object, Object> map = resourceService.search(ServletUtil.singleParameterMap(_REQUEST_), "sort desc", page, pageSize);
-		map.put("rows", logService.fillSetting((List<Map<String, Object>>) map.get("rows")));
-		assign("total", map.get("total"));
-		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
-		return displayJSON();
-	}
-	
 	public String editSettingAction() throws Exception {
 		return displayTemplate();
 	}
 	
 	public String saveSettingAction() throws Exception {
 		LogSetting persist = new LogSetting();
-		persist.setId(ValidateUtil.filterInteger(get("id"), true, 0, null));
-		persist.setEnable(ValidateUtil.filterInteger(get("enable"), true, 0, 1));
-		persist.setReferer(ValidateUtil.filterInteger(get("referer"), true, 0, 1));
-		persist.setRequestUrl(ValidateUtil.filterInteger(get("request_url"), true, 0, 1));
-		persist.setRequestParam(ValidateUtil.filterInteger(get("request_param"), true, 0, 1));
-		persist.setSessionId(ValidateUtil.filterInteger(get("session_id"), true, 0, 1));
-		persist.setSessionValue(ValidateUtil.filterInteger(get("session_value"), true, 0, 1));
-		persist.setResponseView(ValidateUtil.filterInteger(get("response_view"), true, 0, 1));
-		persist.setResponseData(ValidateUtil.filterInteger(get("response_data"), true, 0, 1));
+		persist.setId(ValidateUtil.filterInteger(get("id"), true, 0, null, null));
+		persist.setEnable(ValidateUtil.filterInteger(get("enable"), true, 0, 1, null));
+		persist.setReferer(ValidateUtil.filterInteger(get("referer"), true, 0, 1, null));
+		persist.setRequestUrl(ValidateUtil.filterInteger(get("request_url"), true, 0, 1, null));
+		persist.setRequestParam(ValidateUtil.filterInteger(get("request_param"), true, 0, 1, null));
+		persist.setSessionId(ValidateUtil.filterInteger(get("session_id"), true, 0, 1, null));
+		persist.setSessionValue(ValidateUtil.filterInteger(get("session_value"), true, 0, 1, null));
+		persist.setResponseView(ValidateUtil.filterInteger(get("response_view"), true, 0, 1, null));
+		persist.setResponseData(ValidateUtil.filterInteger(get("response_data"), true, 0, 1, null));
 		long time = System.currentTimeMillis();
 		persist.setOperateId(currentMember.getId());
 		persist.setOperateTime(time);
@@ -69,8 +57,8 @@ public class LogController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
 		Map<Object, Object> map = logService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
@@ -78,7 +66,7 @@ public class LogController extends PermitController {
 	}
 	
 	public String showAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Map<String, Object> info = logService.getById(id, true);
 		if(null == info) {
 			return displayInfo("信息不存在，请刷新后再试", null);

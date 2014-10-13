@@ -36,8 +36,8 @@ public class IconController extends PermitController {
 	
 	@SuppressWarnings("unchecked")
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
 		Map<Object, Object> map = iconService.search(ServletUtil.singleParameterMap(_REQUEST_), "sort desc", page, pageSize);
 		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
 		for (Map<String, Object> row : rows) {
@@ -49,7 +49,7 @@ public class IconController extends PermitController {
 	}
 	
 	public String editAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Icon info;
 		if(DPUtil.empty(id)) {
 			info = new Icon();
@@ -63,7 +63,7 @@ public class IconController extends PermitController {
 	}
 	
 	public String saveAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Icon persist;
 		if(DPUtil.empty(id)) {
 			persist = new Icon();
@@ -71,16 +71,16 @@ public class IconController extends PermitController {
 			persist = iconService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
-		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		Integer typeId = ValidateUtil.filterInteger(get("typeId"), true, 0, null);
+		Integer typeId = ValidateUtil.filterInteger(get("typeId"), true, 0, null, null);
 		if(DPUtil.empty(typeId)) return displayMessage(3003, "类型参数错误");
 		persist.setTypeId(typeId);
 		String url = DPUtil.trim(get("url"));
 		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
 		persist.setUrl(url);
-		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
+		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

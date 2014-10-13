@@ -72,32 +72,95 @@ public class ValidateUtil {
 		return null != DPUtil.getFirstMatcher(regexPostCode, object);
 	}
 	
-	public static Integer filterInteger(String object, boolean bBound, Integer min, Integer max) {
+	public static Integer filterInteger(String object, boolean bBound, Integer min, Integer max, Integer defaultValue) {
 		int obj = DPUtil.parseInt(object);
-		if(null != min && obj < min) return bBound ? min : null;
-		if(null != max && obj > max) return bBound ? max : null;
+		if(null != min && obj < min) return bBound ? min : defaultValue;
+		if(null != max && obj > max) return bBound ? max : defaultValue;
 		return obj;
 	}
 	
-	public static Double filterDouble(String object, boolean bBound, Double min, Double max) {
+	public static Double filterDouble(String object, boolean bBound, Double min, Double max, Integer defaultValue) {
 		double obj = DPUtil.parseDouble(object);
-		if(null != min && obj < min) return bBound ? min : null;
-		if(null != max && obj > max) return bBound ? max : null;
+		if(null != min && obj < min) return bBound ? min : defaultValue;
+		if(null != max && obj > max) return bBound ? max : defaultValue;
 		return obj;
 	}
 	
-	public static Float filterFloat(String object, boolean bBound, Float min, Float max) {
+	public static Float filterFloat(String object, boolean bBound, Float min, Float max, Integer defaultValue) {
 		float obj = DPUtil.parseFloat(object);
-		if(null != min && obj < min) return bBound ? min : null;
-		if(null != max && obj > max) return bBound ? max : null;
+		if(null != min && obj < min) return bBound ? min : defaultValue;
+		if(null != max && obj > max) return bBound ? max : defaultValue;
 		return obj;
 	}
 	
-	public static String filterLength(String object, Integer min, Integer max) {
+	public static String filterLength(String object, Integer min, Integer max, String defaultValue) {
 		int obj = object.length();
-		if(null != min && obj < min) return null;
-		if(null != max && obj > max) return null;
+		if(null != min && obj < min) return defaultValue;
+		if(null != max && obj > max) return defaultValue;
 		return object;
+	}
+	
+	public static String filterRegex(String pattener, String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		if(null == object) return defaultValue;
+		if(bTrim) object = DPUtil.trim(object);
+		if(min > 0 && null == DPUtil.getFirstMatcher(pattener, object)) return defaultValue;
+		return filterLength(object, min, max, defaultValue);
+	}
+	
+	public static String filterEnglish(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexEnglish, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterChinese(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexChinese, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterWord(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexWord, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterSimpleString(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexSimpleString, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterEmail(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexEmail, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterDomain(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexDomain, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterUrl(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexUrl, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterIPv4(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexIPv4, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterMobile(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexMobile, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterPhone(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexPhone, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterIdCard(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexIdCard, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterPostCode(String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
+		return filterRegex(regexPostCode, object, bTrim, min, max, defaultValue);
+	}
+	
+	public static String filterDateTime(String object, boolean bTrim, String format, String defaultValue) {
+		if(null == object) return defaultValue;
+		if(bTrim) object = DPUtil.trim(object);
+		long millis = DPUtil.dateTimeToMillis(object, format);
+		if(-1 == millis) return defaultValue;
+		return DPUtil.millisToDateTime(millis, format);
 	}
 	
 	/**
@@ -110,97 +173,5 @@ public class ValidateUtil {
 			if(DPUtil.equals(object, item)) return item;
 		}
 		return defaultItem;
-	}
-	
-	public static String filterEnglish(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isEnglish(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterChinese(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isChinese(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterWord(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isWord(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterSimpleString(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isSimpleString(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterEmail(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isEmail(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterDomain(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isDomain(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterUrl(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isUrl(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterIPv4(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isIPv4(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterMobile(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isMobile(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterPhone(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isPhone(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterIdCard(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isIdCard(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterPostCode(String object, boolean bTrim, Integer min, Integer max) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		if(!isPostCode(object)) return null;
-		return filterLength(object, min, max);
-	}
-	
-	public static String filterDateTime(String object, boolean bTrim, String format) {
-		if(null == object) return null;
-		if(bTrim) object = DPUtil.trim(object);
-		long millis = DPUtil.dateTimeToMillis(object, format);
-		if(-1 == millis) return null;
-		return DPUtil.millisToDateTime(millis, format);
 	}
 }

@@ -45,8 +45,8 @@ public class UploadController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500);
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
 		Map<Object, Object> map = uploadService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
@@ -54,7 +54,7 @@ public class UploadController extends PermitController {
 	}
 	
 	public String deleteAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Upload info = uploadService.getById(id);
 		if(null == info) return displayMessage(3001, "记录不存在");
 		String filePath = DPUtil.stringConcat(_WEB_ROOT_, "/", info.getUri());

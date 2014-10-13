@@ -5,20 +5,24 @@
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
+		<th class="width130">父级</th>
+		<td><input name="parentId" class="js-select-parent width250" value="${info.parentId!0}" /></td>
+	</tr>
+	<tr>
 		<th class="width130">名称</th>
 		<td><input class="easyui-textbox width250" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">模块</th>
-		<td><input class="easyui-textbox width150" type="text" name="module" data-options="required:true" value="${(info.module)!""}" /></td>
+		<td><input class="easyui-textbox width150" type="text" name="module" value="${(info.module)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">控制器</th>
-		<td><input class="easyui-textbox width150" type="text" name="controller" data-options="required:true" value="${(info.controller)!""}" /></td>
+		<td><input class="easyui-textbox width150" type="text" name="controller" value="${(info.controller)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">方法</th>
-		<td><input class="easyui-textbox width150" type="text" name="action" data-options="required:true" value="${(info.action)!""}" /></td>
+		<td><input class="easyui-textbox width150" type="text" name="action" value="${(info.action)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">引用</th>
@@ -40,6 +44,13 @@
 </form>
 <script>
 $(function () {
+	$('input[name="parentId"]').combotree({
+		checkbox : true,
+		url : '[@url action="list" /]?nototal=1',
+		loadFilter : function (data, parent) {
+			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
+		}
+	});
 	var $submitForm = $('#submitForm');
 	$submitForm.form({
 		success : function (data) {

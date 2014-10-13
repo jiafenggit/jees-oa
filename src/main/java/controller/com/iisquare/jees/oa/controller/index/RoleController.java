@@ -31,7 +31,7 @@ public class RoleController extends PermitController {
 	}
 	
 	public String listAction() throws Exception {
-		List<Map<String, Object>> list = roleService.getList("*", null, null, "sort desc", 1, 0);
+		List<Map<String, Object>> list = roleService.getList("*", "sort desc", 1, 0);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
@@ -39,7 +39,7 @@ public class RoleController extends PermitController {
 	}
 	
 	public String showAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Map<String, Object> info = roleService.getById(id, true);
 		if(null == info) {
 			return displayInfo("信息不存在，请刷新后再试", null);
@@ -49,11 +49,11 @@ public class RoleController extends PermitController {
 	}
 	
 	public String editAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Role info;
 		if(DPUtil.empty(id)) {
 			info = new Role();
-			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null));
+			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		} else {
 			info = roleService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
@@ -63,7 +63,7 @@ public class RoleController extends PermitController {
 	}
 	
 	public String saveAction() throws Exception {
-		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null);
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Role persist;
 		if(DPUtil.empty(id)) {
 			persist = new Role();
@@ -71,14 +71,14 @@ public class RoleController extends PermitController {
 			persist = roleService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
-		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null));
-		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64);
+		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null));
+		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		if(ValidateUtil.isNull(get("status"), true)) return displayMessage(3003, "请选择记录状态");
-		persist.setStatus(ValidateUtil.filterInteger(get("status"), true, null, null));
-		persist.setRemark(ValidateUtil.filterSimpleString(get("remark"), false, null, null));
+		persist.setStatus(ValidateUtil.filterInteger(get("status"), true, null, null, null));
+		persist.setRemark(ValidateUtil.filterSimpleString(get("remark"), false, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);
@@ -100,7 +100,8 @@ public class RoleController extends PermitController {
 	public String deleteAction() throws Exception {
 		Object[] idArray = DPUtil.explode(get("ids"), ",", " ");
 		int result = roleService.delete(idArray);
-		if(-1 == result) return displayInfo("该信息拥有下级节点，不允许删除", null);
+		if(-1 == result) return displayInfo("该节点拥有下级节点，不允许删除", null);
+		if(-2 == result) return displayInfo("该节点拥有从属用户，不允许删除", null);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
 		} else {
