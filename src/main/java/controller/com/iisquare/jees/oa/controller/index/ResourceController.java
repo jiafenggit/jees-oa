@@ -26,7 +26,7 @@ public class ResourceController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		boolean bRefer = !DPUtil.empty(get("refer"));
+		boolean bRefer = !DPUtil.empty(get("no_refer"));
 		boolean bLogSetting = !DPUtil.empty(get("log_setting"));
 		List<Map<String, Object>> list = resourceService.getList("*", bRefer, "sort desc", 1, 0);
 		if(bLogSetting) list = logService.fillSetting(list);
