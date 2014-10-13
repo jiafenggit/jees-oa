@@ -152,10 +152,6 @@ public class DPUtil {
 		return false;
 	}
 	
-	public static List<String> getMatcher(String regex, String str) {
-		return getMatcher(regex, str, true);
-	}
-	
 	/**
 	 * 获取正则匹配字符串
 	 * @param regex 正则表达式
@@ -190,6 +186,15 @@ public class DPUtil {
 			return matcher.group();
 		}
 		return null;
+	}
+	
+	/**
+	 * 判断字符串是否与表达式匹配
+	 */
+	public static boolean isMatcher(String regex, String str) {
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		return matcher.find();
 	}
 	
 	public static String trim(String str) {

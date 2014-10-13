@@ -10,8 +10,10 @@ import java.util.Map;
  */
 public class SqlUtil {
 	
-	private static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
 	private static final String sqlCountName = "COUNT(*)";
+	
+	public static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
+	public static final String regexSqlIn = "^\\s*(\\b(?i)not\\b)?\\s*(?i)in\\b\\s*$";
 
 	public static String convertForCount(String sql) {
 		return convertForCount(sql, null);
@@ -59,8 +61,8 @@ public class SqlUtil {
 			}
 			sb.append(keys[i]);
 			String operator = DPUtil.trim(DPUtil.parseString(operators[i]).toLowerCase());
-			if("in".equals(operator)) {
-				sb.append(" in (");
+			if(DPUtil.isMatcher(regexSqlIn, operator)) {
+				sb.append(" ").append(operator).append(" (");
 				if(bPlaceholder) {
 					sb.append("?");
 				} else {
@@ -68,7 +70,7 @@ public class SqlUtil {
 				}
 				sb.append(")");
 			} else {
-				sb.append(operator);
+				sb.append(" ").append(operator).append(" ");
 				if(bPlaceholder) {
 					sb.append("?");
 				} else {

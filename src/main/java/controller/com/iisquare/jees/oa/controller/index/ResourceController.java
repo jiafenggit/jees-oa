@@ -26,9 +26,9 @@ public class ResourceController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		boolean bRefer = !DPUtil.empty(get("no_refer"));
+		boolean bNoRefer = !DPUtil.empty(get("no_refer"));
 		boolean bLogSetting = !DPUtil.empty(get("log_setting"));
-		List<Map<String, Object>> list = resourceService.getList("*", bRefer, "sort desc", 1, 0);
+		List<Map<String, Object>> list = resourceService.getList("*", bNoRefer, "sort desc", 1, 0);
 		if(bLogSetting) list = logService.fillSetting(list);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
@@ -82,7 +82,7 @@ public class ResourceController extends PermitController {
 		String action = ValidateUtil.filterSimpleString(get("action"), true, 0, 64, null);
 		if(null == action) return displayMessage(3002, "方法参数错误");
 		persist.setAction(action);
-		if(null != resourceService.getByRouter(module, controller, action)) {
+		if(null != resourceService.getByRouter(persist.getId(), module, controller, action)) {
 			return displayMessage(3006, "对应资源已存在");
 		}
 		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null, null));

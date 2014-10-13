@@ -25,51 +25,51 @@ public class ValidateUtil {
 	}
 	
 	public static boolean isEnglish(String object) {
-		return null != DPUtil.getFirstMatcher(regexEnglish, object);
+		return DPUtil.isMatcher(regexEnglish, object);
 	}
 	
 	public static boolean isChinese(String object) {
-		return null != DPUtil.getFirstMatcher(regexChinese, object);
+		return DPUtil.isMatcher(regexChinese, object);
 	}
 	
 	public static boolean isWord(String object) {
-		return null != DPUtil.getFirstMatcher(regexWord, object);
+		return DPUtil.isMatcher(regexWord, object);
 	}
 	
 	public static boolean isSimpleString(String object) {
-		return null != DPUtil.getFirstMatcher(regexSimpleString, object);
+		return DPUtil.isMatcher(regexSimpleString, object);
 	}
 	
 	public static boolean isEmail(String object) {
-		return null != DPUtil.getFirstMatcher(regexEmail, object);
+		return DPUtil.isMatcher(regexEmail, object);
 	}
 	
 	public static boolean isDomain(String object) {
-		return null != DPUtil.getFirstMatcher(regexDomain, object);
+		return DPUtil.isMatcher(regexDomain, object);
 	}
 	
 	public static boolean isUrl(String object) {
-		return null != DPUtil.getFirstMatcher(regexUrl, object);
+		return DPUtil.isMatcher(regexUrl, object);
 	}
 	
 	public static boolean isIPv4(String object) {
-		return null != DPUtil.getFirstMatcher(regexIPv4, object);
+		return DPUtil.isMatcher(regexIPv4, object);
 	}
 	
 	public static boolean isMobile(String object) {
-		return null != DPUtil.getFirstMatcher(regexMobile, object);
+		return DPUtil.isMatcher(regexMobile, object);
 	}
 	
 	public static boolean isPhone(String object) {
-		return null != DPUtil.getFirstMatcher(regexPhone, object);
+		return DPUtil.isMatcher(regexPhone, object);
 	}
 	
 	public static boolean isIdCard(String object) {
-		return null != DPUtil.getFirstMatcher(regexIdCard, object);
+		return DPUtil.isMatcher(regexIdCard, object);
 	}
 	
 	public static boolean isPostCode(String object) {
-		return null != DPUtil.getFirstMatcher(regexPostCode, object);
+		return DPUtil.isMatcher(regexPostCode, object);
 	}
 	
 	public static Integer filterInteger(String object, boolean bBound, Integer min, Integer max, Integer defaultValue) {
@@ -103,7 +103,7 @@ public class ValidateUtil {
 	public static String filterRegex(String pattener, String object, boolean bTrim, Integer min, Integer max, String defaultValue) {
 		if(null == object) return defaultValue;
 		if(bTrim) object = DPUtil.trim(object);
-		if(min > 0 && null == DPUtil.getFirstMatcher(pattener, object)) return defaultValue;
+		if(min > 0 && !DPUtil.isMatcher(pattener, object)) return defaultValue;
 		return filterLength(object, min, max, defaultValue);
 	}
 	

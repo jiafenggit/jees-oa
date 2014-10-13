@@ -104,7 +104,7 @@ public abstract class PermitController extends CoreController {
 		}
 		super.destroy(request, response, handler, modelAndView);
 		/* 日志处理 */
-		Resource resource = resourceService.getByRouter(_MODULE_, _CONTROLLER_, _ACTION_);
+		Resource resource = resourceService.getByRouter(0, _MODULE_, _CONTROLLER_, _ACTION_);
 		if(null == resource) return ;
 		LogSetting logSetting = logService.getSettingById(resource.getId());
 		if(null == logSetting || 1 != logSetting.getEnable()) return ;

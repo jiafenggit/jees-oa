@@ -24,12 +24,12 @@ public class ResourceService extends ServiceBase {
 	
 	public ResourceService() {}
 	
-	public List<Map<String, Object>> getList(String columns, boolean bRefer, String orderBy, int page, int pageSize) {
+	public List<Map<String, Object>> getList(String columns, boolean bNoRefer, String orderBy, int page, int pageSize) {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list;
-		if(bRefer) {
-			list = resourceDao.getPage(columns, new String[]{"refer_id"}, new Object[]{0}, new String[]{">"}, append, page, pageSize);
+		if(bNoRefer) {
+			list = resourceDao.getPage(columns, new String[]{"refer_id"}, new Object[]{0}, null, append, page, pageSize);
 		} else {
 			list = resourceDao.getPage(columns, null, null, append, page, pageSize);
 		}
@@ -51,9 +51,9 @@ public class ResourceService extends ServiceBase {
 		return map;
 	}
 	
-	public Resource getByRouter(String module, String controller, String action) {
-		return resourceDao.getByFields(new String[]{"module", "controller", "action"},
-				new Object[]{module, controller, action}, null, null);
+	public Resource getByRouter(int exceptId, String module, String controller, String action) {
+		return resourceDao.getByFields(new String[]{resourceDao.getPrimaryKey(), "module", "controller", "action"},
+				new Object[]{exceptId, module, controller, action}, new String[]{"!=", "=", "=", "="}, null);
 	}
 	
 	public int insert(Resource persist) {
