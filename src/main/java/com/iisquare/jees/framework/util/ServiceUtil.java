@@ -83,6 +83,35 @@ public class ServiceUtil {
 	}
 	
 	/**
+	 * 填充属性信息
+	 */
+	public static Map<String, Object> fillFields(Map<String, Object> map,
+			Object[] referFields, Map<?, ?>[] referMaps, String fieldPostfix) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(1);
+		list.add(map);
+		list = fillFields(list, referFields, referMaps, fieldPostfix);
+		return list.get(0);
+	}
+	
+	/**
+	 * 填充属性信息
+	 */
+	public static List<Map<String, Object>> fillFields(List<Map<String, Object>> list,
+			Object[] referFields, Map<?, ?>[] referMaps, String fieldPostfix) {
+		if(null == fieldPostfix) fieldPostfix = "_text";
+		int length = referFields.length;
+		for (Map<String, Object> map : list) {
+			for (int i = 0; i < length; i++) {
+				Object referProperty = referFields[i];
+				String key = DPUtil.stringConcat(referProperty, fieldPostfix);
+				Object value = referMaps[i].get(map.get(referProperty));
+				map.put(key, value);
+			}
+		}
+		return list;
+	}
+	
+	/**
 	 * 填充关联记录对应的字段值
 	 */
 	public static Map<String, Object> fillFields(Map<String, Object> map,

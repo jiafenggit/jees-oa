@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +25,20 @@ public class IconTypeService extends ServiceBase {
 	@Autowired
 	public IconDao iconDao;
 	
+	public Map<Object, String> getStatusMap() {
+		Map<Object, String> map = new LinkedHashMap<Object, String>();
+		map.put(0, "禁用");
+		map.put(1, "正常");
+		return map;
+	}
+	
 	public IconTypeService() {}
 	
 	public List<Map<String, Object>> getList(String columns, String orderBy, int page, int pageSize) {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list = iconTypeDao.getPage(columns, null, null, append, page, pageSize);
-		list = ServiceUtil.fillProperties(list, new IconType(), new String[]{"status"}, new String[]{"statusText"}, true);
+		list = ServiceUtil.fillFields(list, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
@@ -42,7 +50,7 @@ public class IconTypeService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = iconTypeDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillProperties(map, new IconType(), new String[]{"status"}, new String[]{"statusText"}, true);
+			map = ServiceUtil.fillFields(map, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;

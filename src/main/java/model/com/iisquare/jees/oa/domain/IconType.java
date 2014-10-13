@@ -89,14 +89,6 @@ public class IconType {
 	}
 
 	public IconType() {}
-	
-	public String getStatusText() {
-		switch(this.status) {
-		case 0 : return "禁用";
-		case 1 : return "正常";
-		default : return "未知";
-		}
-	}
 
 	@Override
 	public int hashCode() {

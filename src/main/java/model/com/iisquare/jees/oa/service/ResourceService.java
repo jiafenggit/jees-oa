@@ -12,7 +12,6 @@ import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
 import com.iisquare.jees.oa.domain.Resource;
-import com.iisquare.jees.oa.domain.Role;
 
 @Service
 public class ResourceService extends ServiceBase {
@@ -33,7 +32,6 @@ public class ResourceService extends ServiceBase {
 		} else {
 			list = resourceDao.getPage(columns, null, null, append, page, pageSize);
 		}
-		list = ServiceUtil.fillProperties(list, new Role(), new String[]{"status"}, new String[]{"statusText"}, true);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
@@ -45,7 +43,6 @@ public class ResourceService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = resourceDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillProperties(map, new Resource(), new String[]{"status"}, new String[]{"statusText"}, true);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;

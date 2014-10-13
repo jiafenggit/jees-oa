@@ -10,7 +10,7 @@ import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.oa.dao.MemberDao;
 
 @Service
-public class NoticeService extends ServiceBase {
+public class NoticeTypeService extends ServiceBase {
 	
 	@Autowired
 	public MemberDao memberDao;
@@ -22,6 +22,6 @@ public class NoticeService extends ServiceBase {
 		return map;
 	}
 	
-	public NoticeService() {}
-	
+	public NoticeTypeService() {}
+
 }

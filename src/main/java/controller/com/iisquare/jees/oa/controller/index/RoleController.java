@@ -76,8 +76,9 @@ public class RoleController extends PermitController {
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
-		if(ValidateUtil.isNull(get("status"), true)) return displayMessage(3003, "请选择记录状态");
-		persist.setStatus(ValidateUtil.filterInteger(get("status"), true, null, null, null));
+		String status = get("status");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		persist.setRemark(ValidateUtil.filterSimpleString(get("remark"), false, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());

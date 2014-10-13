@@ -8,7 +8,7 @@
 
 [#macro url module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" params=""]${_WEB_URL_}/${module}/${controller}/${action}${params}[/#macro]
 
-[#macro nameSpace module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" segment="_"]${module}${segment}${controller}${segment}${action}[/#macro]
+
 
 [#macro getOptionList seq=[] default=-1 tips="" prefix="" children=""]
 	[#if !empty(tips)]
@@ -34,9 +34,3 @@
 		<div data-options="name:${object.id}">${object.name}</div>
 	[/#list]
 [/#macro]
-
-[#assign _THEME_URL_="${_WEB_URL_}/${_CONFIG_.skinFolder}"]
-
-[#if !empty(_CONFIG_.themeName)]
-[#assign _THEME_URL_="${_THEME_URL_}/${_CONFIG_.themeName}"]
-[/#if]

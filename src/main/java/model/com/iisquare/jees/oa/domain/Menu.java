@@ -116,21 +116,6 @@ public class Menu {
 	}
 
 	public Menu() {}
-	
-	public String getStatusText() {
-		switch(this.status) {
-		case 0 : return "禁用";
-		case 1 : return "正常";
-		default : return "未知";
-		}
-	}
-	
-	public String getTargetText() {
-		if("_self".equals(this.target)) return "当前页打开";
-		if("_blank".equals(this.target)) return "新窗口打开";
-		if("_tab".equals(this.target)) return "Tab内容打开";
-		return "Tab框架打开";
-	}
 
 	@Override
 	public int hashCode() {

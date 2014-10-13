@@ -107,14 +107,6 @@ public class Role {
 	}
 
 	public Role() {}
-	
-	public String getStatusText() {
-		switch(this.status) {
-		case 0 : return "禁用";
-		case 1 : return "正常";
-		default : return null;
-		}
-	}
 
 	@Override
 	public int hashCode() {
