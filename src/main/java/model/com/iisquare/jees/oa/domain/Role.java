@@ -9,6 +9,7 @@ public class Role {
 	private Integer id; // 主键
 	private String name; // 名称
 	private Integer parentId; // 父级
+	private Integer menuRootId; // 菜单根节点
 	private Integer createId; // 创建者
 	private Integer updateId; // 修改者
 	private Integer sort; // 排序（从高到低）
@@ -39,6 +40,14 @@ public class Role {
 
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
+	}
+
+	public Integer getMenuRootId() {
+		return menuRootId;
+	}
+
+	public void setMenuRootId(Integer menuRootId) {
+		this.menuRootId = menuRootId;
 	}
 
 	public Integer getCreateId() {
