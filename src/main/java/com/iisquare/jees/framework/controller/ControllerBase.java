@@ -25,7 +25,7 @@ import com.iisquare.jees.framework.util.ServletUtil;
 @Scope("prototype")
 public abstract class ControllerBase {
 	
-	public static class ResultType {
+	public static final class ResultType {
 		public static final String _FREEMARKER_ = "_FREEMARKER_";
 		public static final String _REDIRECT_ = "_REDIRECT_";
 		public static final String _TEXT_ = "_TEXT_";
@@ -78,18 +78,20 @@ public abstract class ControllerBase {
 		_ASSIGN_ = new HashMap<String, Object>(0);
 		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
 		_WEB_URL_ = ServletUtil.getWebUrl(request);
-		if(DPUtil.empty(configuration.getSkinFolder())) {
+		String skinFolder = configuration.getSkinFolder();
+		if(DPUtil.empty(skinFolder)) {
 			_SKIN_URL_ = _WEB_URL_;
 		} else {
 			StringBuilder sb = new StringBuilder(_WEB_URL_);
-			sb.append("/").append(configuration.getSkinFolder());
+			sb.append("/").append(skinFolder);
 			_SKIN_URL_ = sb.toString();
 		}
-		if(DPUtil.empty(configuration.getThemeName())) {
+		String themeName = configuration.getThemeName();
+		if(DPUtil.empty(themeName)) {
 			_THEME_URL_ = _SKIN_URL_;
 		} else {
 			StringBuilder sb = new StringBuilder(_SKIN_URL_);
-			sb.append("/").append(configuration.getThemeName());
+			sb.append("/").append(themeName);
 			_THEME_URL_ = sb.toString();
 		}
 		_DIRECTORY_SEPARATOR_ = ServletUtil.getDirectorySeparator(request);
@@ -140,15 +142,15 @@ public abstract class ControllerBase {
 		}
 	}
 	
-	protected String url() {
+	public String url() {
 		return url(_ACTION_);
 	}
 	
-	protected String url(String action) {
+	public String url(String action) {
 		return url(_CONTROLLER_, action);
 	}
 	
-	protected String url(String controller, String action) {
+	public String url(String controller, String action) {
 		return url(_MODULE_, controller, action);
 	}
 	
@@ -159,7 +161,7 @@ public abstract class ControllerBase {
 	 * @param action 方法名称
 	 * @return
 	 */
-	protected String url(String module, String controller, String action) {
+	public String url(String module, String controller, String action) {
 		StringBuilder sb = new StringBuilder(_WEB_URL_)
 			.append("/").append(module).append("/").append(controller).append("/").append(action);
 		return sb.toString();
@@ -186,8 +188,12 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayTemplate(String module, String controller, String action) throws Exception {
-		StringBuilder sb = new StringBuilder("/")
-			.append(module).append("/").append(controller).append("/").append(action);
+		StringBuilder sb = new StringBuilder("/");
+		String themeName = configuration.getThemeName();
+		if(!DPUtil.empty(themeName)) {
+			sb.append(themeName).append("/");
+		}
+		sb.append(module).append("/").append(controller).append("/").append(action);
 		return display(sb.toString(), ResultType._FREEMARKER_);
 	}
 	

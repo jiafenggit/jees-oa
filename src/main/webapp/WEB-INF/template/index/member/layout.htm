@@ -3,7 +3,7 @@
 [#include "../public/resource.inc.htm"]
 <div class="easyui-layout" data-options="fit:true,border:false,plain:true">
 	<div class="width240" data-options="region:'west',split:true,border:false,plain:true" title="组织列表">
-		<ul id="organizeTree" class="menuTree margin5" data-options="url:'[@url controller="organize" action="list" /]',lines:true"></ul>
+		<ul id="organizeTree" class="menuTree margin5" data-options="url:'${_BASE_.url("organize", "list")}',lines:true"></ul>
 	</div>
 	<div data-options="region:'center',split:true,border:false,plain:true" class="padding-left2">
 		<iframe id="memberIFrame" scrolling="auto" frameborder="0" src="" class="full-w-h"></iframe>
@@ -16,10 +16,10 @@ function loadIFrame(url) {
 $(function () {
 	$('#organizeTree').tree({
 		onClick : function (node) {
-			var url = '[@url action="listView" /]?id=' + node.id;
+			var url = '${_BASE_.url("listView")}?id=' + node.id;
 			loadIFrame(url);
 		}
 	});
-	loadIFrame('[@url action="listView" /]');
+	loadIFrame('${_BASE_.url("listView")}');
 });
 </script>

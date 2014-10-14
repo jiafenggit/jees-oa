@@ -6,58 +6,58 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class NoticePublish {
-	private Integer id; // 主键
-	private Integer noticeId; // 通知公告
-	private Integer relId; // 部门、角色、用户
-	private Integer type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
-	private Integer status; // 状态（0拒绝读，1允许读）
-	private Long createTime; // 阅读时间
+	private int id; // 主键
+	private int noticeId; // 通知公告
+	private int relId; // 部门、角色、用户
+	private int type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
+	private int status; // 状态（0拒绝读，1允许读）
+	private long createTime; // 阅读时间
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getNoticeId() {
+	public int getNoticeId() {
 		return noticeId;
 	}
 
-	public void setNoticeId(Integer noticeId) {
+	public void setNoticeId(int noticeId) {
 		this.noticeId = noticeId;
 	}
 
-	public Integer getRelId() {
+	public int getRelId() {
 		return relId;
 	}
 
-	public void setRelId(Integer relId) {
+	public void setRelId(int relId) {
 		this.relId = relId;
 	}
 
-	public Integer getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
@@ -67,7 +67,7 @@ public class NoticePublish {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -80,12 +80,9 @@ public class NoticePublish {
 		if (getClass() != obj.getClass())
 			return false;
 		NoticePublish other = (NoticePublish) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
+
 }

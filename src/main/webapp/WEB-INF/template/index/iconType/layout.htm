@@ -4,12 +4,12 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
-	<a href="[@url controller="icon" action="layout" /]" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
+	<a href="${_BASE_.url("icon", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
 </div>
 <script>
 $(function () {
 	$('.js-list-table').treegrid({
-		url : '[@url action="list" /]',
+		url : '${_BASE_.url("list")}',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -37,9 +37,9 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
+				return '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -57,7 +57,7 @@ $(function () {
 		if(null != row) {
 			parentId = row.id;
 		}
-		var url = '[@url action="edit" /]?parentId=' + parentId;
+		var url = '${_BASE_.url("edit")}?parentId=' + parentId;
 		Web_redirectPage(url);
 	});
 });

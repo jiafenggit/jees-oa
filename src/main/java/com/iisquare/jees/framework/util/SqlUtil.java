@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class SqlUtil {
 	
-	private static final String sqlCountName = "COUNT(*)";
+	public static final String sqlCountName = "COUNT(*)";
 	
 	public static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
 	public static final String regexSqlIn = "^\\s*(\\b(?i)not\\b)?\\s*(?i)in\\b\\s*$";
@@ -32,22 +32,7 @@ public class SqlUtil {
 		sql = sql.replaceFirst(regexSelectFrom, sb.toString());
 		return sql;
 	}
-	
-	/**
-	 * 仅支持占位符方式
-	 */
-	public static String buildWhereIn(String key, Object... values) {
-		if(DPUtil.empty(values)) return null;
-		StringBuilder where = new StringBuilder().append(key);
-		int length = values.length;
-		if(1 == length) {
-			where.append("=?");
-		} else {
-			where.append(" in (").append(DPUtil.implode(",", DPUtil.getFillArray(length, "?"))).append(")");
-		}
-		return where.toString();
-	}
-	
+
 	public static String buildWhere(Object[] keys, Object[] operators, boolean bPlaceholder) {
 		if(DPUtil.empty(keys)) return "";
 		int length = keys.length;

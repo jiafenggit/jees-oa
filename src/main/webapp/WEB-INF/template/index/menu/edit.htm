@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<form id="submitForm" method="post" action="[@url action="save" /]">
+<form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
@@ -54,7 +54,7 @@
 $(function () {
 	$('input[name="parentId"]').combotree({
 		checkbox : true,
-		url : '[@url action="list" /]?nototal=1',
+		url : '${_BASE_.url("list")}?nototal=1',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
 		}

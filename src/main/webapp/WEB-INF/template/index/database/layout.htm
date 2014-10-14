@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="easyui-datagrid listAction" url="[@url action="list" /]" toolbar="#toolbar" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+<table class="easyui-datagrid listAction" url="${_BASE_.url("list")}" toolbar="#toolbar" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
 	<thead>
 		<tr>
 			<th field="fileName">名称</th>
@@ -22,7 +22,7 @@ $(function (){
 		return Web_url('delete') + '?path=' + id; // 获取删除路径
 	}
 	$('#buttonBackup').bind('click', function () {
-		var url = '[@url action="backup" /]';
+		var url = '${_BASE_.url("backup")}';
 		$.getJSON(url, function(data) {
 			Web_alertInfo(data.message, function () {
 				if(!data.status) $('.listAction').datagrid('reload');
@@ -32,7 +32,7 @@ $(function (){
 	$('#buttonRevert').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '[@url action="revert" /]?path=' + id;
+		var url = '${_BASE_.url("revert")}?path=' + id;
 		$.getJSON(url, function(data) {
 			Web_alertInfo(data.message);
 		});

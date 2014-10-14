@@ -1,6 +1,6 @@
 [#include "../public/header.inc.htm"]
 <div id="login" class="easyui-dialog" title="用户登录" minimizable="false" maximizable="false" closable="false" style="width:260px;height:140px" data-options="buttons:'#actionButton',modal:true">
-	<form id="submitForm" method="post" action="[@url action="logon" /]">
+	<form id="submitForm" method="post" action="${_BASE_.url("logon")}">
 	<input type="hidden" name="forward" value="${forward}" />
 		<table align="center" class="table-horizontal tr-height25">
 			<tr>

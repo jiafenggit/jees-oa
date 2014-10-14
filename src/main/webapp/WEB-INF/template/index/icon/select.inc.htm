@@ -1,7 +1,7 @@
 [#-- This page can be include only --]
 <div class="hidden">
 	<div id="selectIconDialog" style="width:320px; height:400px;" data-options="buttons:'#selectIconButton',modal:true,resizable:true">
-		<table id="selectIconTreegrid" class="easyui-treegrid" url="[@url controller="iconType" action="listSelect" /]" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name">
+		<table id="selectIconTreegrid" class="easyui-treegrid" url="${_BASE_.url("iconType", "listSelect")}" pagination="false" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true" idfield="id" treefield="name">
 			<thead>
 				<tr>
 					<th field="name">名称</th>

@@ -6,31 +6,31 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class MemberOrganizeRel {
-	private Integer memberId; // 用户主键
-	private Integer organizeId; // 组织主键
-	private Integer dutyId; // 职务主键
+	private int memberId; // 用户主键
+	private int organizeId; // 组织主键
+	private int dutyId; // 职务主键
 
-	public Integer getMemberId() {
+	public int getMemberId() {
 		return memberId;
 	}
 
-	public void setMemberId(Integer memberId) {
+	public void setMemberId(int memberId) {
 		this.memberId = memberId;
 	}
 
-	public Integer getOrganizeId() {
+	public int getOrganizeId() {
 		return organizeId;
 	}
 
-	public void setOrganizeId(Integer organizeId) {
+	public void setOrganizeId(int organizeId) {
 		this.organizeId = organizeId;
 	}
 
-	public Integer getDutyId() {
+	public int getDutyId() {
 		return dutyId;
 	}
 
-	public void setDutyId(Integer dutyId) {
+	public void setDutyId(int dutyId) {
 		this.dutyId = dutyId;
 	}
 
@@ -40,10 +40,8 @@ public class MemberOrganizeRel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((memberId == null) ? 0 : memberId.hashCode());
-		result = prime * result
-				+ ((organizeId == null) ? 0 : organizeId.hashCode());
+		result = prime * result + memberId;
+		result = prime * result + organizeId;
 		return result;
 	}
 
@@ -56,15 +54,9 @@ public class MemberOrganizeRel {
 		if (getClass() != obj.getClass())
 			return false;
 		MemberOrganizeRel other = (MemberOrganizeRel) obj;
-		if (memberId == null) {
-			if (other.memberId != null)
-				return false;
-		} else if (!memberId.equals(other.memberId))
+		if (memberId != other.memberId)
 			return false;
-		if (organizeId == null) {
-			if (other.organizeId != null)
-				return false;
-		} else if (!organizeId.equals(other.organizeId))
+		if (organizeId != other.organizeId)
 			return false;
 		return true;
 	}

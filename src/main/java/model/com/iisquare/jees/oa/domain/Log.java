@@ -6,7 +6,7 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Log {
-	private Integer id;
+	private int id;
 	private String name; // 记录名称
 	private String type; // 记录类型
 	private String module; // 模块名称
@@ -20,15 +20,15 @@ public class Log {
 	private String responseView; // 响应视图
 	private String responseData; // 响应数据
 	private String content; // 自定义内容
-	private Integer operateId; // 操作者主键
+	private int operateId; // 操作者主键
 	private String operateIp; // 创建IP
-	private Long operateTime; // 操作时间
+	private long operateTime; // 操作时间
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -136,11 +136,11 @@ public class Log {
 		this.content = content;
 	}
 
-	public Integer getOperateId() {
+	public int getOperateId() {
 		return operateId;
 	}
 
-	public void setOperateId(Integer operateId) {
+	public void setOperateId(int operateId) {
 		this.operateId = operateId;
 	}
 
@@ -152,11 +152,11 @@ public class Log {
 		this.operateIp = operateIp;
 	}
 
-	public Long getOperateTime() {
+	public long getOperateTime() {
 		return operateTime;
 	}
 
-	public void setOperateTime(Long operateTime) {
+	public void setOperateTime(long operateTime) {
 		this.operateTime = operateTime;
 	}
 
@@ -166,7 +166,7 @@ public class Log {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -179,12 +179,9 @@ public class Log {
 		if (getClass() != obj.getClass())
 			return false;
 		Log other = (Log) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
+
 }

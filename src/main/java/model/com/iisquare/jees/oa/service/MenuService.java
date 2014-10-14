@@ -44,7 +44,7 @@ public class MenuService extends ServiceBase {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list;
-		list = menuDao.getPage(columns, null, null, append, page, pageSize);
+		list = menuDao.getList(columns, null, new Object[]{}, append, page, pageSize);
 		list = ServiceUtil.fillFields(list, new String[]{"status", "target"}, new Map<?, ?>[]{getStatusMap(), getTargetMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
@@ -72,7 +72,9 @@ public class MenuService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		int count = menuDao.getCount(new String[]{"parent_id"}, new Object[]{ids}, new String[]{"in"}, null);
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return 0;
+		int count = menuDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
 		if(count > 0) return -1;
 		return menuDao.deleteByIds(ids);
 	}

@@ -22,7 +22,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" params="?id=${id}" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if !empty(rid)]<a href="[@url controller="Role" action="layout" /]" class="easyui-linkbutton" iconcls="icon-back" plain="true">返回角色管理</a>[/#if]
+	[#if !empty(rid)]<a href="${_BASE_.url("Role", "layout")}" class="easyui-linkbutton" iconcls="icon-back" plain="true">返回角色管理</a>[/#if]
 	<div class="float-right margin-right5">
 		<input id="searchBox"></input>
 	</div>
@@ -56,13 +56,13 @@ $(function () {
 	$('#buttonShow').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '[@url action="show" /]?back=1&id=' + id;
+		var url = '${_BASE_.url("show")}?back=1&id=' + id;
 		Web_redirectPage(url);
 	});
 	$('#buttonModify').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '[@url action="modify" /]?id=' + id;
+		var url = '${_BASE_.url("modify")}?id=' + id;
 		Web_redirectPage(url);
 	});
 });

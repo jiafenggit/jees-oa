@@ -4,14 +4,14 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
-	[#if _BASE_.hasPermit("truncate")]<a href="[@url action="truncate" /]" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a>[/#if]
-	[#if _BASE_.hasPermit("editSetting")]<a href="[@url action="editSetting" /]" class="easyui-linkbutton" iconcls="icon-setting" plain="true">设置参数</a>[/#if]
+	[#if _BASE_.hasPermit("truncate")]<a href="${_BASE_.url("truncate")}" class="easyui-linkbutton" iconcls="icon-truncate" plain="true">清空</a>[/#if]
+	[#if _BASE_.hasPermit("editSetting")]<a href="${_BASE_.url("editSetting")}" class="easyui-linkbutton" iconcls="icon-setting" plain="true">设置参数</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '[@url action="list" /]',
+		url : '${_BASE_.url("list")}',
 		pagination : true,
 		idField : 'id',
 		toolbar : '#toolbar',
@@ -42,9 +42,9 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '<a href="[@url action="show" /]?id='
+				return '<a href="${_BASE_.url("show")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -70,7 +70,7 @@ $(function () {
 				ids += ',';
 			}
 		}
-		var url = '[@url action="delete" /]?ids=' + ids;
+		var url = '${_BASE_.url("delete")}?ids=' + ids;
 		Web_redirectPage(url);
 	});
 });

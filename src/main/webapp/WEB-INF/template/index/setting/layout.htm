@@ -3,14 +3,14 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("create")]<a href="[@url action="edit" /]" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '[@url action="list" /]',
+		url : '${_BASE_.url("list")}',
 		pagination : true,
 		idField : 'id',
 		toolbar : '#toolbar',
@@ -39,9 +39,9 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '<a href="[@url action="edit" /]?id='
+				return '<a href="${_BASE_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -67,7 +67,7 @@ $(function () {
 				ids += ',';
 			}
 		}
-		var url = '[@url action="delete" /]?ids=' + ids;
+		var url = '${_BASE_.url("delete")}?ids=' + ids;
 		Web_redirectPage(url);
 	});
 });

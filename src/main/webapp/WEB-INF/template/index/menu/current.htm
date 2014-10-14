@@ -6,25 +6,25 @@
 		"text" : "个人信息",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="member" action="self" /]"
+			"url" : "${_BASE_.url("member", "self")}"
 		}
 	}, {
 		"text" : "密码修改",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="member" action="password" /]"
+			"url" : "${_BASE_.url("member", "password")}"
 		}
 	}, {
 		"text" : "通知公告",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="notice" action="layout" /]"
+			"url" : "${_BASE_.url("notice", "layout")}"
 		}
 	}, {
 		"text" : "图标管理",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="icon" action="layout" /]"
+			"url" : "${_BASE_.url("icon", "layout")}"
 		}
 	}]
 },{
@@ -33,19 +33,19 @@
 		"text" : "用户管理",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="member" action="layout" /]"
+			"url" : "${_BASE_.url("member", "layout")}"
 		}
 	}, {
 		"text" : "组织管理",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="organize" action="layout" /]"
+			"url" : "${_BASE_.url("organize", "layout")}"
 		}
 	}, {
 		"text" : "角色管理",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="Role" action="layout" /]"
+			"url" : "${_BASE_.url("Role", "layout")}"
 		}
 	}]
 },{
@@ -54,7 +54,7 @@
 		"text" : "环境状态",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="Server" action="info" /]"
+			"url" : "${_BASE_.url("Server", "info")}"
 		}
 	}, {
 		"text" : "参数设置",
@@ -62,20 +62,20 @@
 			"text" : "默认参数",
 			"attributes" : {
 				"className" : "padding2",
-				"url" : "[@url controller="Setting" action="defaultSetting" /]"
+				"url" : "${_BASE_.url("Setting", "defaultSetting")}"
 			}
 		}, {
 			"text" : "运行参数",
 			"attributes" : {
 				"className" : "padding2",
-				"url" : "[@url controller="Setting" action="layout" /]"
+				"url" : "${_BASE_.url("Setting", "layout")}"
 			}
 		}]
 	}, {
 		"text" : "备份还原",
 		"attributes" : {
 			"className" : "padding2",
-			"url" : "[@url controller="database" action="layout" /]"
+			"url" : "${_BASE_.url("database", "layout")}"
 		}
 	}]
 }]

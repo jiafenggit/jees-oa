@@ -7,10 +7,10 @@
 <script src="${Web_projectHome}/api/jQuery/jquery.json-2.4.min.js" language="javascript"></script>
 <script src="${Web_projectHome}/api/jQuery/jquery.masonry.min.js" language="javascript"></script>
 <div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-<form id="submitForm" method="post" action="[@url action="savePower" /]">
+<form id="submitForm" method="post" action="${_BASE_.url("savePower")}">
 <input type="hidden" name="id" value="${role.id}" />
 	<div data-options="region:'west',split:true,border:false,plain:true" class="width240 padding-left2" title="模块菜单">
-		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'[@url controller="menu" action="roleMenuList" /]?id=${role.id}',lines:true"></ul>
+		<ul id="roleMenuTree" class="easyui-tree menuTree" data-options="checkbox:true,url:'${_BASE_.url("menu", "roleMenuList")}?id=${role.id}',lines:true"></ul>
 	</div>
 	<div data-options="region:'center',split:true,border:false,plain:true">
 		<table cellspacing="1" cellpadding="0" class="table-line td-left">

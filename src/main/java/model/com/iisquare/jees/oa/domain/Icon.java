@@ -6,21 +6,21 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Icon {
-	private Integer id; // 主键
+	private int id; // 主键
 	private String name; // 名称
-	private Integer typeId; // 分类
-	private Integer createId; // 创建者
-	private Integer updateId; // 修改者
+	private int typeId; // 分类
+	private int createId; // 创建者
+	private int updateId; // 修改者
 	private String url; // 图片地址
-	private Integer sort; // 排序（从高到低）
-	private Long createTime; // 添加时间
-	private Long updateTime; // 修改时间
+	private int sort; // 排序（从高到低）
+	private long createTime; // 添加时间
+	private long updateTime; // 修改时间
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -32,27 +32,27 @@ public class Icon {
 		this.name = name;
 	}
 
-	public Integer getTypeId() {
+	public int getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(Integer typeId) {
+	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
 
-	public Integer getCreateId() {
+	public int getCreateId() {
 		return createId;
 	}
 
-	public void setCreateId(Integer createId) {
+	public void setCreateId(int createId) {
 		this.createId = createId;
 	}
 
-	public Integer getUpdateId() {
+	public int getUpdateId() {
 		return updateId;
 	}
 
-	public void setUpdateId(Integer updateId) {
+	public void setUpdateId(int updateId) {
 		this.updateId = updateId;
 	}
 
@@ -64,27 +64,27 @@ public class Icon {
 		this.url = url;
 	}
 
-	public Integer getSort() {
+	public int getSort() {
 		return sort;
 	}
 
-	public void setSort(Integer sort) {
+	public void setSort(int sort) {
 		this.sort = sort;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getUpdateTime() {
+	public long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Long updateTime) {
+	public void setUpdateTime(long updateTime) {
 		this.updateTime = updateTime;
 	}
 
@@ -94,7 +94,7 @@ public class Icon {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -107,12 +107,9 @@ public class Icon {
 		if (getClass() != obj.getClass())
 			return false;
 		Icon other = (Icon) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
+
 }

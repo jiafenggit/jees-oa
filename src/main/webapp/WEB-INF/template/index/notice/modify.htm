@@ -3,9 +3,9 @@
 [#include "../public/resource.inc.htm"]
 <script src="${Web_projectHome}/api/KindEditor/kindeditor-all-min.js" language="javascript"></script>
 [#if empty((notice.id)!0)]
-<form id="submitForm" method="post" action="[@url action="insert" /]">
+<form id="submitForm" method="post" action="${_BASE_.url("insert")}">
 [#else]
-<form id="submitForm" method="post" action="[@url action="update" /]">
+<form id="submitForm" method="post" action="${_BASE_.url("update")}">
 <input type="hidden" name="id" value="${(notice.id)!0}" />
 [/#if]
 <table cellspacing="1" cellpadding="0" class="table-line td-left">

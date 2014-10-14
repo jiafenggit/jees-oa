@@ -6,27 +6,27 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Member {
-	private Integer id; // 主键
+	private int id; // 主键
 	private String serial; // 编号
 	private String name; // 昵称
-	private Integer roleId; // 角色主键
-	private Integer createId; // 创建者
-	private Integer updateId; // 修改者
+	private int roleId; // 角色主键
+	private int createId; // 创建者
+	private int updateId; // 修改者
 	private String password; // 密码
 	private String salt; // 盐
-	private Integer sort; // 排序（从高到低）
-	private Integer status; // 状态（-1删除，0禁用，1正常）
-	private Long createTime; // 注册时间
-	private Long updateTime; // 修改时间
-	private Long activeTime; // 最后活动时间
+	private int sort; // 排序（从高到低）
+	private int status; // 状态（-1删除，0禁用，1正常）
+	private long createTime; // 注册时间
+	private long updateTime; // 修改时间
+	private long activeTime; // 最后活动时间
 	private String createIp; // 注册IP
 	private String activeIp; // 最后活动IP
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -46,27 +46,27 @@ public class Member {
 		this.name = name;
 	}
 
-	public Integer getRoleId() {
+	public int getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
 
-	public Integer getCreateId() {
+	public int getCreateId() {
 		return createId;
 	}
 
-	public void setCreateId(Integer createId) {
+	public void setCreateId(int createId) {
 		this.createId = createId;
 	}
 
-	public Integer getUpdateId() {
+	public int getUpdateId() {
 		return updateId;
 	}
 
-	public void setUpdateId(Integer updateId) {
+	public void setUpdateId(int updateId) {
 		this.updateId = updateId;
 	}
 
@@ -86,43 +86,43 @@ public class Member {
 		this.salt = salt;
 	}
 
-	public Integer getSort() {
+	public int getSort() {
 		return sort;
 	}
 
-	public void setSort(Integer sort) {
+	public void setSort(int sort) {
 		this.sort = sort;
 	}
 
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getUpdateTime() {
+	public long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Long updateTime) {
+	public void setUpdateTime(long updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	public Long getActiveTime() {
+	public long getActiveTime() {
 		return activeTime;
 	}
 
-	public void setActiveTime(Long activeTime) {
+	public void setActiveTime(long activeTime) {
 		this.activeTime = activeTime;
 	}
 
@@ -148,7 +148,7 @@ public class Member {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -161,12 +161,9 @@ public class Member {
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
+
 }

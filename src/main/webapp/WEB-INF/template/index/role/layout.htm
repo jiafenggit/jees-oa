@@ -3,12 +3,12 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("edit")]<a href="[@url action="edit" /]" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
+	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
 </div>
 <script>
 $(function () {
 	$('.js-list-table').treegrid({
-		url : '[@url action="list" /]',
+		url : '${_BASE_.url("list")}',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -36,13 +36,13 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '<a href="[@url action="show" /]?id='
+				return '<a href="${_BASE_.url("show")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
-					+ '[#if _BASE_.hasPermit("modify")]<a href="[@url action="edit" /]?id='
+					+ '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="[@url action="delete" /]?ids='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("editPower")]<a href="[@url action="editPower" /]?id='
+					+ '[#if _BASE_.hasPermit("editPower")]<a href="${_BASE_.url("editPower")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-key\'">编辑权限</a>[/#if]';
 			}}
 		]],
@@ -53,7 +53,7 @@ $(function () {
 			$('.js-list-table').datagrid('autoSizeColumn');
 		},
 		onSelect : function (row) {
-			$('.js-control-add').attr('href', '[@url action="edit" /]?parentId=' + row.id);
+			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
 			$('.js-control-add').linkbutton({text:'添加下级节点'});
 		}
 	});

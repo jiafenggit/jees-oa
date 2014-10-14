@@ -26,6 +26,7 @@ import net.sf.json.JSONObject;
 public class DPUtil {
 	
 	public static final String regexDouble = "^-?\\d+(\\.\\d)*";
+	public static final String regexSafeImplode = "^[\\w_]+$";
 	
 	/**
 	 * null false "" 0 "0" 返回true
@@ -257,21 +258,53 @@ public class DPUtil {
 	 * @param trimStr 对子项进行trim操作
 	 * @return 分隔后的字符串数组
 	 */
-	public static String[] explode(String string, String splitRegex, String trimStr) {
+	public static String[] explode(String string, String splitRegex, String trimStr, boolean filterEmpty) {
 		List<String> list = new ArrayList<String>(0);
 		if(empty(string)) {
 			return new String[]{};
 		}
 		for (String str : string.split(splitRegex)) {
-			if(!empty(str)) {
-				if(null != trimStr) {
-					list.add(DPUtil.trim(str));
-				} else {
-					list.add(str);
-				}
+			if(filterEmpty && empty(str)) continue ;
+			if(null != trimStr) {
+				list.add(DPUtil.trim(str));
+			} else {
+				list.add(str);
 			}
 		}
 		return DPUtil.collectionToStringArray(list);
+	}
+	
+	public static String implode(String split, Object[] objects) {
+		StringBuilder sb = new StringBuilder();
+		if(null == objects) return "";
+		int size = objects.length;
+		if(1 > size) return "";
+		for(int i = 0; i < size; i++) {
+			Object value = objects[i];
+			if(null == value) continue;
+			if(value instanceof Collection) {
+				sb.append(implode(split, collectionToArray((Collection<?>) value)));
+			} else if(value instanceof Map) {
+				sb.append(implode(split, collectionToArray(((Map<?, ?>) value).values())));
+			} else {
+				sb.append(value);
+			}
+			if(i + 1 < size) sb.append(split);
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * 安全方式连接字符串
+	 */
+	public static String safeImplode(String split, Object[] objects) {
+		List<String> list = new ArrayList<String>();
+		for (Object object : objects) {
+			String str = ValidateUtil.filterRegex(regexSafeImplode, DPUtil.parseString(object), true, 1, null, null);
+			if(null == str) continue ;
+			list.add(str);
+		}
+		return implode(split, collectionToArray(list));
 	}
 	
 	/**
@@ -319,54 +352,6 @@ public class DPUtil {
 			intArray[i] = DPUtil.parseInt(objectArray[i]);
 		}
 		return intArray;
-	}
-	
-	public static String implode(String split, Object[] objects) {
-		return implode(split, objects, "", "");
-	}
-	
-	/**
-	 * 采用指定字符拼接数组
-	 * @param split 分隔符
-	 * @param objects 数组
-	 * @param prefix 增加前缀
-	 * @param subffix 增加后缀
-	 * @return
-	 */
-	public static String implode(String split, Object[] objects, String prefix, String subffix) {
-		StringBuilder sb = new StringBuilder();
-		if(null == objects) return "";
-		int size = objects.length;
-		if(1 > size) return "";
-		for(int i = 0; i < size; i++) {
-			Object value = objects[i];
-			if(null == value) continue;
-			if(value instanceof List) {
-				sb.append(implode(split, (List<?>)value));
-			} else if(value instanceof Map) {
-				sb.append(implode(split, (Map<?, ?>)value));
-			} else {
-				sb.append(prefix).append(value).append(subffix);
-			}
-			if(i + 1 < size) sb.append(split);
-		}
-		return sb.toString();
-	}
-	
-	public static String implode(String split, Collection<?> collection) {
-		return implode(split, collection, "", "");
-	}
-	
-	public static String implode(String split, Collection<?> collection, String prefix, String subffix) {
-		return implode(split, collectionToArray(collection), prefix, subffix);
-	}
-	
-	public static String implode(String split, Map<?, ?> map) {
-		return implode(split, map, "", "");
-	}
-	
-	public static String implode(String split, Map<?, ?> map, String prefix, String subffix) {
-		return implode(split, map.values(), prefix, subffix);
 	}
 
 	/**

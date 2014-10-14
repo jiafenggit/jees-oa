@@ -28,9 +28,9 @@ public class ResourceService extends ServiceBase {
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list;
 		if(bNoRefer) {
-			list = resourceDao.getPage(columns, new String[]{"refer_id"}, new Object[]{0}, null, append, page, pageSize);
+			list = resourceDao.getList(columns, new String[]{"refer_id"}, new Object[]{0}, null, append, page, pageSize);
 		} else {
-			list = resourceDao.getPage(columns, null, null, append, page, pageSize);
+			list = resourceDao.getList(columns, null, new Object[]{}, append, page, pageSize);
 		}
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
@@ -62,7 +62,9 @@ public class ResourceService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		int count = resourceDao.getCount(new String[]{"parent_id"}, new Object[]{ids}, new String[]{"in"}, null);
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return 0;
+		int count = resourceDao.getCount(new String[]{"parent_id"}, new Object[]{idStr}, new String[]{"in"}, null);
 		if(count > 0) return -1;
 		return resourceDao.deleteByIds(ids);
 	}

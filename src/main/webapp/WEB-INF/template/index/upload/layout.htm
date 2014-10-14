@@ -9,7 +9,7 @@
 <script>
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '[@url action="list" /]',
+		url : '${_BASE_.url("list")}',
 		pagination : true,
 		idField : 'id',
 		toolbar : '#toolbar',
@@ -132,7 +132,7 @@ $(function () {
 		var length = rows.length;
 		if(index >= length) return true;
 		var row = rows[index];
-		$.post('[@url action="delete" /]', {
+		$.post('${_BASE_.url("delete")}', {
 			id : row.id
 		}, function (data) {
 			index++;

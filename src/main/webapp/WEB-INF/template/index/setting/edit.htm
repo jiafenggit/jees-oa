@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<form id="submitForm" method="post" action="[@url action="save" /]">
+<form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>

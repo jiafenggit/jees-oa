@@ -106,7 +106,7 @@ public class UploadController extends PermitController {
 			String typeStr = extMap.get(dirName);
 			String originalFilename = file.getOriginalFilename();
 			String fileSuffix = DPUtil.subString(originalFilename, originalFilename.lastIndexOf(".") + 1).toLowerCase();
-			if(!DPUtil.isItemExist(DPUtil.explode(typeStr, ",", " "), fileSuffix)) return displayError(3004, DPUtil.stringConcat("仅支持以下文件类型\n", typeStr));
+			if(!DPUtil.isItemExist(DPUtil.explode(typeStr, ",", " ", true), fileSuffix)) return displayError(3004, DPUtil.stringConcat("仅支持以下文件类型\n", typeStr));
 			long time = System.currentTimeMillis();
 			String uri = DPUtil.stringConcat(uploadFolder, time, ".", fileSuffix);
 			Upload persist = new Upload();

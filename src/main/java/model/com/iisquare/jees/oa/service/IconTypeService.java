@@ -37,7 +37,7 @@ public class IconTypeService extends ServiceBase {
 	public List<Map<String, Object>> getList(String columns, String orderBy, int page, int pageSize) {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
-		List<Map<String, Object>> list = iconTypeDao.getPage(columns, null, null, append, page, pageSize);
+		List<Map<String, Object>> list = iconTypeDao.getList(columns, null, new Object[]{}, append, page, pageSize);
 		list = ServiceUtil.fillFields(list, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
@@ -65,10 +65,12 @@ public class IconTypeService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		int count = iconTypeDao.getCount(new String[]{"parent_id"}, new Object[]{ids}, new String[]{"in"}, null);
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return 0;
+		int count = iconTypeDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
 		if(count > 0) return -1;
-		count = iconDao.getCount(new String[]{"type_id"}, new Object[]{ids}, new String[]{"in"}, null);
-		if(count > 0) return -1;
+		count = iconDao.getCount(DPUtil.stringConcat("type_id in (", idStr, " )"), new Object[]{}, null);
+		if(count > 0) return -2;
 		return iconTypeDao.deleteByIds(ids);
 	}
 }

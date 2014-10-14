@@ -6,8 +6,6 @@
 
 [#-- Setting for FreeMarker  End --]
 
-[#macro url module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" params=""]${_WEB_URL_}/${module}/${controller}/${action}${params}[/#macro]
-
 [#macro getMapOption map default tips=""]
 	[#if !empty(tips)]
 		<option value="">${tips}</option>

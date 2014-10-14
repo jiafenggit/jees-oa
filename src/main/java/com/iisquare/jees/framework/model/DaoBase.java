@@ -202,10 +202,9 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据ID更新记录，返回影响行数
 	 */
 	public int updateByIds(String[] fields, Object[] values, Object... ids) {
-		if(DPUtil.empty(ids)) return 0;
-		String where = SqlUtil.buildWhereIn(primaryKey, ids);
-		String sql = SqlUtil.buildUpdate(tableName(), fields, where, true);
-		return update(sql, DPUtil.arrayMerge(values, ids));
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return 0;
+		return update(fields, values, DPUtil.stringConcat(primaryKey, " in (", idStr, " )"));
 	}
 	
 	/**
@@ -245,10 +244,9 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据ID删除记录，返回影响行数
 	 */
 	public int deleteByIds(Object... ids) {
-		if(DPUtil.empty(ids)) return 0;
-		String where = SqlUtil.buildWhereIn(primaryKey, ids);
-		String sql = SqlUtil.buildDelete(tableName(), where);
-		return update(sql, ids);
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return 0;
+		return delete(DPUtil.stringConcat(primaryKey, " in (", idStr, " )"));
 	}
 	
 	/**
@@ -273,22 +271,18 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据ID获取Entity对象列表
 	 */
 	public List<T> getByIds(Object... ids) {
-		if(DPUtil.empty(ids)) return new ArrayList<T>(0);
-		String where = SqlUtil.buildWhereIn(primaryKey, ids);
-		int pageSize = (1 == ids.length) ? 1 : 0;
-		String sql = SqlUtil.buildSelect(tableName(), "*", where, null, 1, pageSize);
-		return query(sql, ids, new BeanPropertyRowMapper<T>(entityClass));
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return new ArrayList<T>(0);
+		return getList(DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
 	}
 	
 	/**
 	 * 根据ID获取Map对象列表
 	 */
 	public List<Map<String, Object>> getByIds(String columns, Object... ids) {
-		if(DPUtil.empty(ids)) return new ArrayList<Map<String, Object>>(0);
-		String where = SqlUtil.buildWhereIn(primaryKey, ids);
-		int pageSize = (1 == ids.length) ? 1 : 0;
-		String sql = SqlUtil.buildSelect(tableName(), columns, where, null, 1, pageSize);
-		return queryForList(sql, ids);
+		String idStr = DPUtil.safeImplode(",", ids);
+		if(DPUtil.empty(idStr)) return new ArrayList<Map<String, Object>>(0);
+		return getList("*", DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
 	}
 	
 	/**
@@ -324,7 +318,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据多个字段获取Entity对象
 	 */
 	public T getByFields(Map<String, Object> where, Map<String, String> operators, String append) {
-		 List<T> list = getPage(where, operators, append, 1, 1);
+		 List<T> list = getList(where, operators, append, 1, 1);
 		 if(list.size() < 1) return null;
 		return list.get(0);
 	}
@@ -333,7 +327,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 根据多个字段获取Entity对象
 	 */
 	public T getByFields(String[] whereFields, Object[] whereValues, String[] operators, String append) {
-		 List<T> list = getPage(whereFields, whereValues, operators, append, 1, 1);
+		 List<T> list = getList(whereFields, whereValues, operators, append, 1, 1);
 		 if(list.size() < 1) return null;
 		return list.get(0);
 	}
@@ -343,7 +337,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public Map<String, Object> getByFields(String columns,
 			Map<String, Object> where, Map<String, String> operators, String append) {
-		 List<Map<String, Object>> list = getPage(columns, where, operators, append, 1, 1);
+		 List<Map<String, Object>> list = getList(columns, where, operators, append, 1, 1);
 		 if(list.size() < 1) return null;
 		return list.get(0);
 	}
@@ -353,7 +347,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 */
 	public Map<String, Object> getByFields(String columns,
 			String[] whereFields, Object[] whereValues, String[] operators, String append) {
-		 List<Map<String, Object>> list = getPage(columns, whereFields, whereValues, operators, append, 1, 1);
+		 List<Map<String, Object>> list = getList(columns, whereFields, whereValues, operators, append, 1, 1);
 		 if(list.size() < 1) return null;
 		return list.get(0);
 	}
@@ -361,79 +355,82 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 获取分页Entity对象
 	 */
-	public List<T> getPage(Map<String, Object> where,
-			Map<String, String> operators, String append, int page, int pageSize) {
-		String sql = SqlUtil.buildSelect(tableName(), "*", SqlUtil.buildWhere(where, operators), append, page, pageSize);
-		return npJdbcTemplate().query(sql, where, new BeanPropertyRowMapper<T>(entityClass));
+	public List<T> getList(String where, Map<String, Object> paramMap, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), "*", where, append, page, pageSize);
+		return npJdbcTemplate().query(sql, paramMap, new BeanPropertyRowMapper<T>(entityClass));
 	}
 	
 	/**
 	 * 获取分页Entity对象
 	 */
-	public List<T> getPage(String[] whereFields,
-			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
-		String sql = SqlUtil.buildSelect(tableName(), "*",
-				SqlUtil.buildWhere(whereFields, operators, true), append, page, pageSize);
+	public List<T> getList(Map<String, Object> where,
+			Map<String, String> operators, String append, int page, int pageSize) {
+		return getList(SqlUtil.buildWhere(where, operators), where, append, page, pageSize);
+	}
+	
+	/**
+	 * 获取分页Entity对象
+	 */
+	public List<T> getList(String where, Object[] whereValues, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), "*", where, append, page, pageSize);
 		return query(sql, whereValues, new BeanPropertyRowMapper<T>(entityClass));
 	}
 	
 	/**
-	 * 获取分页Map对象
+	 * 获取分页Entity对象
 	 */
-	public List<Map<String, Object>> getPage(String columns, Map<String, Object> where,
-			Map<String, String> operators, String append, int page, int pageSize) {
-		String sql = SqlUtil.buildSelect(tableName(), columns,
-				SqlUtil.buildWhere(where, operators), append, page, pageSize);
-		return npJdbcTemplate().queryForList(sql, where);
+	public List<T> getList(String[] whereFields,
+			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
+		return getList(SqlUtil.buildWhere(whereFields, operators, true), whereValues, append, page, pageSize);
 	}
 	
 	/**
 	 * 获取分页Map对象
 	 */
-	public List<Map<String, Object>> getPage(String columns, String[] whereFields,
-			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
-		String sql = SqlUtil.buildSelect(tableName(), columns,
-				SqlUtil.buildWhere(whereFields, operators, true), append, page, pageSize);
+	public List<Map<String, Object>> getList(String columns, String where,
+			Map<String, Object> paramMap, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), columns, where, append, page, pageSize);
+		return npJdbcTemplate().queryForList(sql, paramMap);
+	}
+	
+	/**
+	 * 获取分页Map对象
+	 */
+	public List<Map<String, Object>> getList(String columns, Map<String, Object> where,
+			Map<String, String> operators, String append, int page, int pageSize) {
+		return getList(columns, SqlUtil.buildWhere(where, operators), where, append, page, pageSize);
+	}
+	
+	/**
+	 * 获取分页Map对象
+	 */
+	public List<Map<String, Object>> getList(String columns,
+			String where, Object[] whereValues, String append, int page, int pageSize) {
+		String sql = SqlUtil.buildSelect(tableName(), columns, where, append, page, pageSize);
 		return queryForList(sql, whereValues);
 	}
 	
 	/**
-	 * 获取Entity对象列表
+	 * 获取分页Map对象
 	 */
-	public List<T> getAll(Map<String, Object> where, Map<String, String> operators, String append) {
-		return getPage(where, operators, append, 0, 0);
-	}
-	
-	/**
-	 * 获取Entity对象列表
-	 */
-	public List<T> getAll(String[] whereFields, Object[] whereValues, String[] operators, String append) {
-		return getPage(whereFields, whereValues, operators, append, 0, 0);
-	}
-	
-	/**
-	 * 获取Map对象列表
-	 */
-	public List<Map<String, Object>> getAll(String columns,
-			Map<String, Object> where, Map<String, String> operators, String append) {
-		return getPage(columns, where, operators, append, 0, 0);
-	}
-	
-	/**
-	 * 获取Map对象列表
-	 */
-	public List<Map<String, Object>> getAll(String columns,
-			String[] whereFields, Object[] whereValues, String[] operators, String append) {
-		return getPage(columns, whereFields, whereValues, operators, append, 0, 0);
+	public List<Map<String, Object>> getList(String columns, String[] whereFields,
+			Object[] whereValues, String[] operators, String append, int page, int pageSize) {
+		return getList(columns, SqlUtil.buildWhere(whereFields, operators, true), whereValues, append, page, pageSize);
 	}
 	
 	/**
 	 * 获取查询记录结果条数
 	 */
 	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
-		String count = "COUNT(*)";
-		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(where, operators), append, 1, 1);
-		return getCount(sql, where, false);
+		return getCount(SqlUtil.buildWhere(where, operators), where, append);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount(String where, Map<String, Object> paramMap, String append) {
+		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, where, append, 1, 0);
+		return getCount(sql, paramMap, false);
 	}
 	
 	/**
@@ -449,9 +446,15 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	 * 获取查询记录结果条数
 	 */
 	public int getCount(String[] whereFields, Object[] whereValues, String[] operators, String append) {
-		String count = "COUNT(*)";
-		String sql = SqlUtil.buildSelect(tableName(), count, SqlUtil.buildWhere(whereFields, operators, true), append, 1, 1);
-		return getCount(sql, whereValues, false);
+		return getCount(SqlUtil.buildWhere(whereFields, operators, true), whereValues, append);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount(String where, Object[] paramValues, String append) {
+		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, where, append, 1, 0);
+		return getCount(sql, paramValues, false);
 	}
 	
 	/**
@@ -460,6 +463,15 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int getCount(String sql, Object[] paramValues, boolean bConvert) {
 		if(bConvert) sql = SqlUtil.convertForCount(sql);
 		Number number = queryForObject(sql, paramValues, Integer.class);
+		return (number != null ? number.intValue() : 0);
+	}
+	
+	/**
+	 * 获取查询记录结果条数
+	 */
+	public int getCount() {
+		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, null, null, 1, 0);
+		Number number = queryForObject(sql, null, Integer.class);
 		return (number != null ? number.intValue() : 0);
 	}
 }

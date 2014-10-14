@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="listAction" url="[@url action="list" /]" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
+<table class="listAction" url="${_BASE_.url("list")}" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
 	<thead>
 		<tr>
 			<th field="title">标题</th>
@@ -15,10 +15,10 @@
 </table>
 <div id="toolbar" class="controllerBar">
 	[#if _BASE_.hasPermit("show")]<a id="buttonShow" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-detail" plain="true">查看</a>[/#if]
-	[#if _BASE_.hasPermit("create")]<a href="[@url action="create" /]" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("create")}" class="easyui-linkbutton" iconcls="icon-add" plain="true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("modify")]<a id="buttonModify" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true">修改</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("NoticeType", "layout")]<a href="[@url controller="noticeType" action="layout" /]" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
+	[#if _BASE_.hasPermit("NoticeType", "layout")]<a href="${_BASE_.url("noticeType", "layout")}" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
 	<div class="float-right margin-right5">
 		<div class="leftOfSerchBox">状态：
 		<input type="radio" name="read" value="-1" />全部
@@ -49,14 +49,14 @@ $(function () {
 	$('#buttonShow').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '[@url action="show" /]?back=1&id=' + id;
+		var url = '${_BASE_.url("show")}?back=1&id=' + id;
 		var row = $('.listAction').datagrid('getSelected');
 		parent.platformTab.add(row.titleText, url, 'padding2');
 	});
 	$('#buttonModify').bind('click', function () {
 		var id = Web_getDataGridRowId($('.listAction'));
 		if(-1 == id) return ;
-		var url = '[@url action="modify" /]?id=' + id;
+		var url = '${_BASE_.url("modify")}?id=' + id;
 		Web_redirectPage(url);
 	});
 });

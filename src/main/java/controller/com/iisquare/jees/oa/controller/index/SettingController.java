@@ -81,7 +81,7 @@ public class SettingController extends PermitController {
 	}
 	
 	public String deleteAction() throws Exception {
-		Object[] idArray = DPUtil.explode(get("ids"), ",", " ");
+		Object[] idArray = DPUtil.explode(get("ids"), ",", " ", true);
 		int result = settingService.delete(idArray);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
