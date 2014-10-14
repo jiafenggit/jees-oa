@@ -11,7 +11,6 @@ import java.util.Map;
 public class SqlUtil {
 	
 	public static final String sqlCountName = "COUNT(*)";
-	
 	public static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
 
 	public static String convertForCount(String sql) {
