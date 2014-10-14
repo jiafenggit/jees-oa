@@ -13,7 +13,6 @@ public class SqlUtil {
 	public static final String sqlCountName = "COUNT(*)";
 	
 	public static final String regexSelectFrom = "^((?i)select\\b)(.+?)(\\b(?i)from\\b)";
-	public static final String regexSqlIn = "^\\s*(\\b(?i)not\\b)?\\s*(?i)in\\b\\s*$";
 
 	public static String convertForCount(String sql) {
 		return convertForCount(sql, null);
@@ -46,21 +45,11 @@ public class SqlUtil {
 			}
 			sb.append(keys[i]);
 			String operator = DPUtil.trim(DPUtil.parseString(operators[i]).toLowerCase());
-			if(DPUtil.isMatcher(regexSqlIn, operator)) {
-				sb.append(" ").append(operator).append(" (");
-				if(bPlaceholder) {
-					sb.append("?");
-				} else {
-					sb.append(":").append(keys[i]);
-				}
-				sb.append(")");
+			sb.append(" ").append(operator).append(" ");
+			if(bPlaceholder) {
+				sb.append("?");
 			} else {
-				sb.append(" ").append(operator).append(" ");
-				if(bPlaceholder) {
-					sb.append("?");
-				} else {
-					sb.append(":").append(keys[i]);
-				}
+				sb.append(":").append(keys[i]);
 			}
 		}
 		return sb.toString();
