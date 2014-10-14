@@ -83,7 +83,7 @@ public class ServiceUtil {
 	}
 	
 	/**
-	 * 填充属性信息
+	 * 填充属性信息，referMaps必须是Map<String, String>类型
 	 */
 	public static Map<String, Object> fillFields(Map<String, Object> map,
 			Object[] referFields, Map<?, ?>[] referMaps, String fieldPostfix) {
@@ -94,7 +94,7 @@ public class ServiceUtil {
 	}
 	
 	/**
-	 * 填充属性信息
+	 * 填充属性信息，referMaps必须是Map<String, String>类型
 	 */
 	public static List<Map<String, Object>> fillFields(List<Map<String, Object>> list,
 			Object[] referFields, Map<?, ?>[] referMaps, String fieldPostfix) {
@@ -104,7 +104,7 @@ public class ServiceUtil {
 			for (int i = 0; i < length; i++) {
 				Object referProperty = referFields[i];
 				String key = DPUtil.stringConcat(referProperty, fieldPostfix);
-				Object value = referMaps[i].get(map.get(referProperty));
+				Object value = referMaps[i].get(DPUtil.parseString(map.get(referProperty)));
 				map.put(key, value);
 			}
 		}

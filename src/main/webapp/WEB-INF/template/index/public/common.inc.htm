@@ -8,29 +8,15 @@
 
 [#macro url module="${_MODULE_}" controller="${_CONTROLLER_}" action="${_ACTION_}" params=""]${_WEB_URL_}/${module}/${controller}/${action}${params}[/#macro]
 
-
-
-[#macro getOptionList seq=[] default=-1 tips="" prefix="" children=""]
+[#macro getMapOption map default tips=""]
 	[#if !empty(tips)]
 		<option value="">${tips}</option>
 	[/#if]
-	[#list seq as object]
-		[#if object.id == default]
-			<option value="${object.id}" selected="selected">${prefix}${object.name}</option>
+	[#list map?keys as key]
+		[#if key == default?string]
+			<option value="${key}" selected="selected">${map[key]}</option>
 		[#else]
-			<option value="${object.id}">${prefix}${object.name}</option>
+			<option value="${key}">${map[key]}</option>
 		[/#if]
-		[#if !empty(children)]
-			[@getOptionList seq=object.children default=default prefix="${prefix}|-" children=children /]
-		[/#if]
-	[/#list]
-[/#macro]
-
-[#macro getSearchOptionList seq=[] tips=""]
-	[#if "" != tips]
-		<div data-options="name:'0'">${tips}</div>
-	[/#if]
-	[#list seq as object]
-		<div data-options="name:${object.id}">${object.name}</div>
 	[/#list]
 [/#macro]

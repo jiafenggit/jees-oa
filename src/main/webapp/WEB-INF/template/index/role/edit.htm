@@ -20,9 +20,7 @@
 		<th class="width130">状态</th>
 		<td>
 			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
-				<option value="">请选择记录状态</option>
-				<option value="0"[#if 0 == info.status!-99] selected="selected"[/#if]>禁用</option>
-				<option value="1"[#if 1 == info.status!-99] selected="selected"[/#if]>正常</option>
+				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
 			</select>
 		</td>
 	</tr>

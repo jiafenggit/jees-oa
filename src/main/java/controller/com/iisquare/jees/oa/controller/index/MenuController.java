@@ -62,6 +62,8 @@ public class MenuController extends PermitController {
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		assign("statusMap", menuService.getStatusMap());
+		assign("targetMap", menuService.getTargetMap());
 		return displayTemplate();
 	}
 	

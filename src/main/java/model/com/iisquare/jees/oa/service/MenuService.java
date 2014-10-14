@@ -22,15 +22,15 @@ public class MenuService extends ServiceBase {
 	@Autowired
 	public MemberDao memberDao;
 	
-	public Map<Object, String> getStatusMap() {
-		Map<Object, String> map = new LinkedHashMap<Object, String>();
-		map.put(0, "禁用");
-		map.put(1, "正常");
+	public Map<String, String> getStatusMap() {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("0", "禁用");
+		map.put("1", "正常");
 		return map;
 	}
 	
-	public Map<Object, String> getTargetMap() {
-		Map<Object, String> map = new LinkedHashMap<Object, String>();
+	public Map<String, String> getTargetMap() {
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("_iframe", "Tab框架打开");
 		map.put("_blank", "新窗口打开");
 		map.put("_tab", "Tab内容打开");

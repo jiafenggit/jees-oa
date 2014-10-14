@@ -14,15 +14,19 @@
 	</tr>
 	<tr>
 		<th class="width130">图标</th>
-		<td><input class="easyui-textbox width150" type="text" name="module" value="${(info.module)!""}" /></td>
+		<td><input class="easyui-textbox width150" type="text" name="icon" value="${(info.icon)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">打开方式</th>
-		<td><input class="easyui-textbox width150" type="text" name="controller" value="${(info.controller)!""}" /></td>
+		<td>
+			<select class="easyui-combobox" name="target" data-options="required:true,editable:false">
+				[@getMapOption map=targetMap default=info.target!"" tips="请选择打开方式" /]
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">链接地址</th>
-		<td><input class="easyui-textbox width150" type="text" name="action" value="${(info.action)!""}" /></td>
+		<td><input class="easyui-textbox width150" type="text" name="url" value="${(info.url)!""}" /></td>
 	</tr>
 	<tr>
 		<th class="width130">排序</th>
@@ -30,7 +34,11 @@
 	</tr>
 	<tr>
 		<th class="width130">状态</th>
-		<td><input class="easyui-numberspinner width150" type="text" name="referId" data-options="required:true,min:0" value="${(info.referId)!0}" /></td>
+		<td>
+			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
+				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<th>操作</th>

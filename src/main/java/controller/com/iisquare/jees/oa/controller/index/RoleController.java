@@ -59,6 +59,7 @@ public class RoleController extends PermitController {
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		assign("statusMap", roleService.getStatusMap());
 		return displayTemplate();
 	}
 	
