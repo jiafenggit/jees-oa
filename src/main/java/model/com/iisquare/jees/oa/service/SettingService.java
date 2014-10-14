@@ -110,7 +110,7 @@ public class SettingService extends ServiceBase {
 			setting.setRemark(remark);
 		}
 		setting.setOperateId(member.getId());
-		setting.setOperateIp(ServletUtil.getRemoteAddr(controllerBase._REQUEST_));
+		setting.setOperateIp(ServletUtil.getRemoteAddr(controllerBase.getRequest()));
 		setting.setOperateTime(time);
 		if(DPUtil.empty(setting.getId())) {
 			return insert(setting);

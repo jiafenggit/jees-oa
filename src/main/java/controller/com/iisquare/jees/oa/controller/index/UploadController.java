@@ -47,7 +47,7 @@ public class UploadController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = uploadService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
+		Map<Object, Object> map = uploadService.search(ServletUtil.singleParameterMap(request), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -81,9 +81,9 @@ public class UploadController extends PermitController {
 		extMap.put("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
 		extMap.put("icon", "gif,jpg,jpeg,png,bmp");
 
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(_REQUEST_.getSession().getServletContext());
-		if(!multipartResolver.isMultipart(_REQUEST_)) return displayError(3000, "请选择上传文件");
-		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) _REQUEST_;
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		if(!multipartResolver.isMultipart(request)) return displayError(3000, "请选择上传文件");
+		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 		
 		File tempFile;
 		/* 检查上传目录读写权限 */
@@ -113,7 +113,7 @@ public class UploadController extends PermitController {
 			persist.setName(originalFilename); // 需要做安全验证
 			persist.setUri(uri);
 			persist.setOperateId(currentMember.getId());
-			persist.setOperateIp(ServletUtil.getRemoteAddr(_REQUEST_));
+			persist.setOperateIp(ServletUtil.getRemoteAddr(request));
 			persist.setOperateTime(time);
 			tempFile = new File(DPUtil.stringConcat(_WEB_ROOT_, "/", uri));
 			try {

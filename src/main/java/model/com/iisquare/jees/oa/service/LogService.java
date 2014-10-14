@@ -40,7 +40,7 @@ public class LogService extends ServiceBase {
 		log.setModule(controllerBase._MODULE_);
 		log.setController(controllerBase._CONTROLLER_);
 		log.setAction(controllerBase._ACTION_);
-		log.setRequestUrl(controllerBase._REQUEST_.getRequestURI());
+		log.setRequestUrl(controllerBase.getRequest().getRequestURI());
 		return insert(log);
 	}
 	

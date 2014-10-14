@@ -114,22 +114,22 @@ public abstract class PermitController extends CoreController {
 		log.setModule(resource.getModule());
 		log.setController(resource.getController());
 		log.setAction(resource.getAction());
-		if(1 == logSetting.getReferer()) log.setReferer(_REQUEST_.getHeader("referer"));
-		if(1 == logSetting.getRequestUrl()) log.setRequestUrl(_REQUEST_.getRequestURL().toString());
+		if(1 == logSetting.getReferer()) log.setReferer(request.getHeader("referer"));
+		if(1 == logSetting.getRequestUrl()) log.setRequestUrl(request.getRequestURL().toString());
 		if(1 == logSetting.getRequestParam()) {
 			if("index".equals(_MODULE_) && "member".equals(_CONTROLLER_) && "logon".equals(_ACTION_)) {
 				log.setRequestParam("******");
 			} else {
-				log.setRequestParam(JSONObject.fromObject(_REQUEST_.getParameterMap()).toString());
+				log.setRequestParam(JSONObject.fromObject(request.getParameterMap()).toString());
 			}
 		}
-		if(1 == logSetting.getSessionId()) log.setSessionId(_REQUEST_.getRequestedSessionId());
+		if(1 == logSetting.getSessionId()) log.setSessionId(request.getRequestedSessionId());
 		if(1 == logSetting.getSessionValue()) log.setSessionValue(
-				JSONObject.fromObject(ServletUtil.getSessionMap(_REQUEST_)).toString());
+				JSONObject.fromObject(ServletUtil.getSessionMap(request)).toString());
 		if(1 == logSetting.getResponseView()) log.setResponseView(viewName);
 		if(1 == logSetting.getResponseData()) log.setResponseData(JSONObject.fromObject(_ASSIGN_).toString());
 		log.setOperateId(null == currentMember ? 0 : currentMember.getId());
-		log.setOperateIp(ServletUtil.getRemoteAddr(_REQUEST_));
+		log.setOperateIp(ServletUtil.getRemoteAddr(request));
 		log.setOperateTime(System.currentTimeMillis());
 		logService.insert(log);
 	}

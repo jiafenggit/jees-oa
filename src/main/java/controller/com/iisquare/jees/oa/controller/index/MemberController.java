@@ -44,7 +44,7 @@ public class MemberController extends PermitController {
 	}
 	
 	public String logoutAction() throws Exception {
-		_REQUEST_.getSession().invalidate();
+		request.getSession().invalidate();
 		return redirect(_WEB_URL_);
 	}
 	
@@ -56,13 +56,14 @@ public class MemberController extends PermitController {
 	}
 	
 	private String convertForward(String forward) throws Exception {
+		String platformUrl = DPUtil.stringConcat(_WEB_URL_, "/platform");
 		if(DPUtil.empty(forward)) {
-			return _WEB_URL_ + "/platform";
+			return platformUrl;
 		} else {
 			if("back".equals(forward)) {
-				String backUrl = _REQUEST_.getHeader("Referer");
+				String backUrl = request.getHeader("Referer");
 				if(null == backUrl) {
-					return _WEB_URL_ + "/platform";
+					return platformUrl;
 				} else {
 					return backUrl;
 				}

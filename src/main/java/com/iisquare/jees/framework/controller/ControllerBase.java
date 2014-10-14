@@ -32,15 +32,14 @@ public abstract class ControllerBase {
 		public static final String _STREAM_ = "_STREAM_";
 		public static final String _PLAIN_TEXT_ = "_PLAIN_TEXT_";
 	}
+	public static final String CONTENT_TYPE = "text/html;charset=utf-8";
 	
 	@Autowired
 	protected Configuration configuration;
-	protected static String CONTENT_TYPE = "text/html;charset=utf-8";
-	
-	public ControllerBase _BASE_;
-	public HttpServletRequest _REQUEST_;
-	public HttpServletResponse _RESPONSE_;
-	public String _, _MODULE_, _CONTROLLER_, _ACTION_;
+	protected HttpServletRequest request;
+	protected HttpServletResponse response;
+
+	public String _MODULE_, _CONTROLLER_, _ACTION_;
 	public Map<String, Object> _ASSIGN_;
 	public String _WEB_ROOT_, _WEB_URL_, _SKIN_URL_, _THEME_URL_, _DIRECTORY_SEPARATOR_;
 
@@ -52,15 +51,30 @@ public abstract class ControllerBase {
 		this.configuration = configuration;
 	}
 
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+
+	public HttpServletResponse getResponse() {
+		return response;
+	}
+
+	public void setResponse(HttpServletResponse response) {
+		this.response = response;
+	}
+
 	public ControllerBase() {}
 	
 	/**
 	 * 初始化函数，设置相关参数
 	 */
 	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		_BASE_ = this;
-		_REQUEST_ = request;
-		_RESPONSE_ = response;
+		this.request = request;
+		this.response = response;
 		_ASSIGN_ = new HashMap<String, Object>(0);
 		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
 		_WEB_URL_ = ServletUtil.getWebUrl(request);
@@ -112,19 +126,17 @@ public abstract class ControllerBase {
 		} else if(viewName.startsWith("redirect:")) {
 			modelAndView.addAllObjects(_ASSIGN_);
 		} else {
-			modelAndView.addObject("_BASE_", _BASE_)
-			.addObject("_REQUEST_", _REQUEST_)
-			.addObject("_RESPONSE_", _RESPONSE_)
-			.addObject("_MODULE_", _MODULE_)
-			.addObject("_CONTROLLER_", _CONTROLLER_)
-			.addObject("_ACTION_", _ACTION_)
-			.addObject("_WEB_ROOT_", _WEB_ROOT_)
-			.addObject("_WEB_URL_", _WEB_URL_)
-			.addObject("_SKIN_URL_", _SKIN_URL_)
-			.addObject("_THEME_URL_", _THEME_URL_)
-			.addObject("_CONFIG_", configuration)
-			.addObject("_DIRECTORY_SEPARATOR_", _DIRECTORY_SEPARATOR_)
-			.addAllObjects(_ASSIGN_);
+			modelAndView.addObject("_BASE_", this)
+				.addObject("_CONFIG_", configuration)
+				.addObject("_MODULE_", _MODULE_)
+				.addObject("_CONTROLLER_", _CONTROLLER_)
+				.addObject("_ACTION_", _ACTION_)
+				.addObject("_WEB_ROOT_", _WEB_ROOT_)
+				.addObject("_WEB_URL_", _WEB_URL_)
+				.addObject("_SKIN_URL_", _SKIN_URL_)
+				.addObject("_THEME_URL_", _THEME_URL_)
+				.addObject("_DIRECTORY_SEPARATOR_", _DIRECTORY_SEPARATOR_)
+				.addAllObjects(_ASSIGN_);
 		}
 	}
 	
@@ -197,7 +209,7 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayText(String text, String contentType) throws Exception {
-		_RESPONSE_.setContentType(contentType);
+		response.setContentType(contentType);
 		return display(text, ResultType._TEXT_);
 	}
 	
@@ -236,33 +248,7 @@ public abstract class ControllerBase {
 		}
 		return displayText(result, contentType);
 	}
-	
-	protected String redirect() throws Exception {
-		return redirect(_ACTION_);
-	}
-	
-	protected String redirect(String action, String params) throws Exception {
-		return redirect(_CONTROLLER_, action, params);
-	}
-	
-	protected String redirect(String controller, String action, String params) throws Exception {
-		return redirect(_MODULE_, controller, action, params);
-	}
-	
-	/**
-	 * 重定向至对应控制器
-	 * @param module
-	 * @param controller
-	 * @param action
-	 * @param params
-	 * @return
-	 * @throws Exception
-	 */
-	protected String redirect(String module, String controller, String action, String params) throws Exception {
-		StringBuilder sb = new StringBuilder(url(module, controller, action)).append(params);
-		return redirect(sb.toString());
-	}
-	
+
 	/**
 	 * 重定向自定义URL地址
 	 * @param url
@@ -289,7 +275,7 @@ public abstract class ControllerBase {
 			}
 			return result;
 		} else if(ResultType._TEXT_.equals(type)){
-			PrintWriter out = _RESPONSE_.getWriter();
+			PrintWriter out = response.getWriter();
 			out.print(result);
 			out.flush();
 			return "";
@@ -315,7 +301,7 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String get(String key, Boolean bReturnNull) {
-		String value = _REQUEST_.getParameter(key);
+		String value = request.getParameter(key);
 		if(null == value && !bReturnNull) {
 			return "";
 		}
@@ -333,7 +319,7 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String[] gets(String key, Boolean bReturnNull) {
-		String[] values = _REQUEST_.getParameterValues(key);
+		String[] values = request.getParameterValues(key);
 		if(null == values && !bReturnNull) {
 			String[] temp = {};
 			return temp;

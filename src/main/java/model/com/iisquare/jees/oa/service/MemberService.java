@@ -45,12 +45,12 @@ public class MemberService extends ServiceBase {
 		if(null == member) return false;
 		int mid = member.getId();
 		if(DPUtil.empty(mid)) return false;
-		controller._REQUEST_.getSession().setAttribute("mid", mid);
+		controller.getRequest().getSession().setAttribute("mid", mid);
 		return true;
 	}
 	
 	public Member getCurrent(ControllerBase controller) {
-		int mid = DPUtil.parseInt(controller._REQUEST_.getSession().getAttribute("mid"));
+		int mid = DPUtil.parseInt(controller.getRequest().getSession().getAttribute("mid"));
 		if(DPUtil.empty(mid)) return null;
 		Member member = getById(mid);
 		if(null == member || 1 != member.getId()) return null;

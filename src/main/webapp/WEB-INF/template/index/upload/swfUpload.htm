@@ -55,7 +55,7 @@ var swfUploadFunction = {
 var swfUploadSettings = {
 	upload_url: '[@url controller="upload" action="uploadJson" /]',
 	file_post_name : 'files',
-	post_params: {'${_CONFIG_.sessionName}' : '${_REQUEST_.getSession().getId()}'},
+	post_params: {'${_CONFIG_.sessionName}' : '${sessionId!""}'},
 	file_size_limit : "1 MB",
 	file_types : "*.jpg;*.jpeg;*.bmp;*.png;*.gif",
 	file_types_description : "Picture Files",

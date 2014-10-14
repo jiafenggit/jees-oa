@@ -27,7 +27,7 @@ public class SettingController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = settingService.search(ServletUtil.singleParameterMap(_REQUEST_), "operate_time desc", page, pageSize);
+		Map<Object, Object> map = settingService.search(ServletUtil.singleParameterMap(request), "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -64,7 +64,7 @@ public class SettingController extends PermitController {
 		persist.setContent(DPUtil.trim(get("content")));
 		persist.setRemark(DPUtil.parseString(get("remark")));
 		persist.setOperateId(currentMember.getId());
-		persist.setOperateIp(ServletUtil.getRemoteAddr(_REQUEST_));
+		persist.setOperateIp(ServletUtil.getRemoteAddr(request));
 		long time = System.currentTimeMillis();
 		persist.setOperateTime(time);
 		int result;
