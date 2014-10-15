@@ -82,6 +82,7 @@ $(function () {
 });
 </script>
 <div id="js-search-dialog" style="width:230px;height:168px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<form id="searchForm" method="post" action="">
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
 		<th>标题</th>
@@ -96,6 +97,7 @@ $(function () {
 		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
 	</tr>
 </table>
+</form>
 </div>
 <div id="js-search-button">
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
@@ -105,7 +107,7 @@ $(function () {
 $(function () {
 	$('input[name="typeId"]').combotree({
 		checkbox : true,
-		url : '${_BASE_.url("noticeType", "list")}?nototal=1',
+		url : '${_BASE_.url("noticeType", "list")}',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '请选择所属类型', 'name');
 		}
@@ -118,7 +120,6 @@ $(function () {
 			onOpen : function () {}
 		});
 	});
-		
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
 		$('.js-list-table').datagrid('load', {
 			title : $searchDialog.find('input[name="title"]').val(),
