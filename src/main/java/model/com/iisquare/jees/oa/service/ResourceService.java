@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,13 @@ public class ResourceService extends ServiceBase {
 	@Autowired
 	public MemberDao memberDao;
 	
+	public Map<String, String> getStatusMap() {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("-1", "禁用验证");
+		map.put("0", "启用验证");
+		return map;
+	}
+	
 	public ResourceService() {}
 	
 	public List<Map<String, Object>> getList(String columns, boolean bNoRefer, String orderBy, int page, int pageSize) {
@@ -32,6 +40,7 @@ public class ResourceService extends ServiceBase {
 		} else {
 			list = resourceDao.getList(columns, null, new Object[]{}, append, page, pageSize);
 		}
+		list = ServiceUtil.fillFields(list, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
@@ -43,6 +52,7 @@ public class ResourceService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = resourceDao.getById("*", id);
 		if(null != map && bFill) {
+			map = ServiceUtil.fillFields(map, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;

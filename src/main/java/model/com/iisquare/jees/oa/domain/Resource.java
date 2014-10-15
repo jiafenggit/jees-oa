@@ -10,10 +10,12 @@ public class Resource {
 	private String name; // 名称
 	private Integer parentId; // 父级
 	private Integer referId; // 引用主键（该记录的权限设置采用被引用记录的权限设置）
+	private Integer menuEnable; // 可作为独立菜单访问
 	private String module; // 模块名称
 	private String controller; // 控制器名称
 	private String action; // 方法名称
 	private Integer sort; // 排序（从高到低）
+	private Integer status; // 状态
 	private Integer createId; // 创建者
 	private Long createTime; // 添加时间
 	private Integer updateId; // 修改者
@@ -50,6 +52,14 @@ public class Resource {
 	public void setReferId(Integer referId) {
 		this.referId = referId;
 	}
+	
+	public Integer getMenuEnable() {
+		return menuEnable;
+	}
+
+	public void setMenuEnable(Integer menuEnable) {
+		this.menuEnable = menuEnable;
+	}
 
 	public String getModule() {
 		return module;
@@ -81,6 +91,14 @@ public class Resource {
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Integer getCreateId() {

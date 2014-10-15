@@ -57,6 +57,7 @@ public class ResourceController extends PermitController {
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		assign("statusMap", resourceService.getStatusMap());
 		return displayTemplate();
 	}
 	
@@ -70,6 +71,7 @@ public class ResourceController extends PermitController {
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
 		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
+		persist.setMenuEnable(ValidateUtil.filterInteger(get("menuEnable"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
@@ -87,6 +89,9 @@ public class ResourceController extends PermitController {
 		}
 		persist.setReferId(ValidateUtil.filterInteger(get("referId"), true, 0, null, null));
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
+		String status = get("status");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

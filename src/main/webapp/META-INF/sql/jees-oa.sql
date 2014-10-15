@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-15 14:33:14
+Date: 2014-10-15 15:31:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -318,10 +318,12 @@ CREATE TABLE `oa_resource` (
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `refer_id` int(11) NOT NULL DEFAULT '0',
+  `menu_enable` tinyint(4) NOT NULL DEFAULT '0',
   `module` varchar(64) NOT NULL DEFAULT '',
   `controller` varchar(64) NOT NULL DEFAULT '',
   `action` varchar(64) NOT NULL DEFAULT '',
   `sort` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
@@ -332,14 +334,14 @@ CREATE TABLE `oa_resource` (
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', '0', 'index', '', '', '0', '1', '1413172095468', '1', '1413172111872');
-INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', '0', 'index', 'log', '', '0', '1', '1413172138260', '1', '1413172269291');
-INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', '0', 'index', 'log', 'layout', '0', '1', '1413172230720', '1', '1413172281746');
-INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', 'index', 'log', 'list', '0', '1', '1413172303783', '1', '1413172303783');
-INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', '3', 'index', 'log', 'edit', '0', '1', '1413177000028', '1', '1413177406728');
-INSERT INTO `oa_resource` VALUES ('6', 'fafasf', '0', '0', 'fasf', 'asf', 'asf', '0', '1', '1413343590371', '1', '1413343590371');
-INSERT INTO `oa_resource` VALUES ('7', 'sdsg', '0', '0', 'sdg', 'sdg', 'sdg', '0', '1', '1413343686112', '1', '1413343686112');
-INSERT INTO `oa_resource` VALUES ('8', 'afas', '0', '0', 'index', 'log', 'list', '0', '1', '1413343711628', '1', '1413343711628');
+INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', '0', '0', 'index', '', '', '0', '0', '1', '1413172095468', '1', '1413172111872');
+INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', '0', '0', 'index', 'log', '', '0', '0', '1', '1413172138260', '1', '1413172269291');
+INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', '0', '0', 'index', 'log', 'layout', '0', '0', '1', '1413172230720', '1', '1413172281746');
+INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1413172303783', '1', '1413172303783');
+INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', '3', '0', 'index', 'log', 'edit', '0', '0', '1', '1413177000028', '1', '1413177406728');
+INSERT INTO `oa_resource` VALUES ('6', 'fafasf', '0', '0', '0', 'fasf', 'asf', 'asf', '0', '0', '1', '1413343590371', '1', '1413343590371');
+INSERT INTO `oa_resource` VALUES ('7', 'sdsg', '0', '0', '0', 'sdg', 'sdg', 'sdg', '0', '0', '1', '1413343686112', '1', '1413343686112');
+INSERT INTO `oa_resource` VALUES ('8', 'afas', '0', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1413343711628', '1', '1413343711628');
 
 -- ----------------------------
 -- Table structure for `oa_role`

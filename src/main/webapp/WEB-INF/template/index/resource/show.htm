@@ -27,6 +27,14 @@
 		<td>${info.refer_id}</td>
 	</tr>
 	<tr>
+		<th class="width130">独立菜单</th>
+		<td>[#if !empty(info.menu_enable)]是[#else]否[/#if]</td>
+	</tr>
+	<tr>
+		<th class="width130">状态</th>
+		<td>${info.status_text}</td>
+	</tr>
+	<tr>
 		<th class="width130">创建者</th>
 		<td>[${info.create_id_rel.serial}]${info.create_id_rel.name}</td>
 	</tr>
