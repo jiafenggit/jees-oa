@@ -76,6 +76,7 @@ $(function () {
 });
 </script>
 <div id="js-search-dialog" style="width:255px;height:372px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<form id="searchForm" method="post" action="">
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
 		<th>开始时间</th>
@@ -118,6 +119,7 @@ $(function () {
 		<td><input class="easyui-textbox width150" type="text" name="operateIp" value="" /></td>
 	</tr>
 </table>
+</form>
 </div>
 <div id="js-search-button">
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
@@ -135,18 +137,7 @@ $(function () {
 	});
 		
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
-		$('.js-list-table').datagrid('load', {
-			timeStart : $searchDialog.find('input[name="timeStart"]').val(),
-			timeEnd : $searchDialog.find('input[name="timeEnd"]').val(),
-			name : $searchDialog.find('input[name="name"]').val(),
-			module : $searchDialog.find('input[name="module"]').val(),
-			controller : $searchDialog.find('input[name="controller"]').val(),
-			action : $searchDialog.find('input[name="action"]').val(),
-			referId : $searchDialog.find('input[name="referId"]').val(),
-			sessionId : $searchDialog.find('input[name="sessionId"]').val(),
-			serial : $searchDialog.find('input[name="serial"]').val(),
-			operateIp : $searchDialog.find('input[name="operateIp"]').val()
-		});
+		$('.js-list-table').datagrid('load', $('#searchForm').form('getData'));
 		$searchDialog.dialog('close');
 	});
 	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {

@@ -121,11 +121,7 @@ $(function () {
 		});
 	});
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
-		$('.js-list-table').datagrid('load', {
-			title : $searchDialog.find('input[name="title"]').val(),
-			typeId : $searchDialog.find('input[name="typeId"]').val(),
-			serial : $searchDialog.find('input[name="serial"]').val()
-		});
+		$('.js-list-table').datagrid('load', $('#searchForm').form('getData'));
 		$searchDialog.dialog('close');
 	});
 	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {

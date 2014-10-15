@@ -4,26 +4,47 @@
 
 /* Extend prototype */
 Date.prototype.format = function(format){ 
-	var o = { 
-		"M+" : this.getMonth()+1, // month 
-		"d+" : this.getDate(), // day 
-		"h+" : this.getHours(), // hour 
-		"m+" : this.getMinutes(), // minute 
-		"s+" : this.getSeconds(), // second 
-		"q+" : Math.floor((this.getMonth()+3) / 3), // quarter 
-		"S" : this.getMilliseconds() // millisecond 
-	} 
-	if(/(y+)/.test(format)) { 
-		format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-	} 
-	for(var k in o) { 
-		if(new RegExp("("+ k +")").test(format)) { 
+	var o = {
+		"M+" : this.getMonth()+1, // month
+		"d+" : this.getDate(), // day
+		"h+" : this.getHours(), // hour
+		"m+" : this.getMinutes(), // minute
+		"s+" : this.getSeconds(), // second
+		"q+" : Math.floor((this.getMonth()+3) / 3), // quarter
+		"S" : this.getMilliseconds() // millisecond
+	};
+	if(/(y+)/.test(format)) {
+		format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+	}
+	for(var k in o) {
+		if(new RegExp("("+ k +")").test(format)) {
 			var temp = RegExp.$1.length == 1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length);
-			format = format.replace(RegExp.$1, temp); 
-		} 
-	} 
-	return format; 
-} 
+			format = format.replace(RegExp.$1, temp);
+		}
+	}
+	return format;
+};
+
+$.extend($.fn.form.methods, {
+	/**
+	 * 获取表单数据
+	 * $('#id').form('getData');
+	 */
+	getData: function(jq, params){
+		var formArray = jq.serializeArray();
+		var oRet = {};
+		for (var i in formArray) {
+			if($.type(oRet[formArray[i].name]) == 'undefined') {
+				oRet[formArray[i].name] = formArray[i].value;
+			} else if($.type(oRet[formArray[i].name]) == 'array'){
+				oRet[formArray[i].name].push(formArray[i].value);
+			} else {
+				oRet[formArray[i].name] = [oRet[formArray[i].name], formArray[i].value];
+			}
+		}
+		return oRet;
+	}
+});
 
 /* Global functions Start */
 function Web_alertInfo(msg, callBack) {
@@ -153,7 +174,7 @@ $.fn.datebox.defaults.formatter = function(date){
 	var d = date.getDate();
 	if(10 > d) d = '0' + d;
 	return y + '-' + m + '-' + d;
-}
+};
 /* Global settings End */
 
 /* Comming tools Start */
@@ -220,7 +241,7 @@ $(function () {
 		selectMenuTab : function () {
 			$platformTabs.tabs('select', platformTabsContextMenuIndex);
 		}
-	}
+	};
 	
 	$platformTabs.tabs({ // bind tab context menu
 		onContextMenu : function (e, title, index) {
@@ -250,7 +271,6 @@ $(function () {
 					$platformTabs.tabs('close', platformTabsContextMenuIndex);
 				break;
 				case 'closeLeft' : // 关闭左侧页
-					var length = $platformTabs.tabs('tabs').length;
 					for (var i = platformTabsContextMenuIndex - 1; i > 0; i--) {
 						$platformTabs.tabs('close', i);
 					}
