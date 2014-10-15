@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-15 10:19:10
+Date: 2014-10-15 11:33:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,12 +22,12 @@ DROP TABLE IF EXISTS `oa_duty`;
 CREATE TABLE `oa_duty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
-  `update_time` bigint(20) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
+  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
+  `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -43,12 +43,12 @@ CREATE TABLE `oa_icon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `url` tinytext,
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
@@ -56,34 +56,10 @@ CREATE TABLE `oa_icon` (
 -- ----------------------------
 -- Records of oa_icon
 -- ----------------------------
-INSERT INTO `oa_icon` VALUES ('1', 'asfaf', '2', '1', '1', 'files/attached/icon/20141015/1413339518324.png', '1', '0', '1413280161974', '1413339519272');
-INSERT INTO `oa_icon` VALUES ('2', 'afasf', '0', '1', '1', 'files/attached/icon/20141015/1413339300840.png', '0', '0', '1413339302187', '1413339302187');
-INSERT INTO `oa_icon` VALUES ('4', 'sdgsdg', '0', '1', '1', 'files/attached/icon/20141015/1413339366004.png', '0', '0', '1413339366865', '1413339366865');
-INSERT INTO `oa_icon` VALUES ('5', 'asfafasf', '4', '1', '1', 'files/attached/icon/20141015/1413339470573.png', '0', '0', '1413339471694', '1413339471694');
-
--- ----------------------------
--- Table structure for `oa_icon_type`
--- ----------------------------
-DROP TABLE IF EXISTS `oa_icon_type`;
-CREATE TABLE `oa_icon_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL DEFAULT '',
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
-  `sort` int(11) NOT NULL DEFAULT '0',
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
-  `update_time` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_icon_type
--- ----------------------------
-INSERT INTO `oa_icon_type` VALUES ('2', '系统图标', '0', '1', '1', '0', '0', '1412823937563', '1413006739344');
-INSERT INTO `oa_icon_type` VALUES ('3', '应用图标', '2', '1', '1', '0', '1', '1412823957848', '1413006794422');
-INSERT INTO `oa_icon_type` VALUES ('4', '工作组', '0', '1', '1', '0', '1', '1412848164048', '1413006758881');
+INSERT INTO `oa_icon` VALUES ('1', 'asfaf', '2', 'files/attached/icon/20141015/1413339518324.png', '1', '0', '1', '1413280161974', '1', '1413339519272');
+INSERT INTO `oa_icon` VALUES ('2', 'afasf', '0', 'files/attached/icon/20141015/1413339300840.png', '0', '0', '1', '1413339302187', '1', '1413339302187');
+INSERT INTO `oa_icon` VALUES ('4', 'sdgsdg', '0', 'files/attached/icon/20141015/1413339366004.png', '0', '0', '1', '1413339366865', '1', '1413339366865');
+INSERT INTO `oa_icon` VALUES ('5', 'asfafasf', '4', 'files/attached/icon/20141015/1413339470573.png', '0', '0', '1', '1413339471694', '1', '1413339471694');
 
 -- ----------------------------
 -- Table structure for `oa_log`
@@ -169,24 +145,24 @@ CREATE TABLE `oa_member` (
   `serial` varchar(64) NOT NULL DEFAULT '',
   `name` varchar(64) NOT NULL DEFAULT '',
   `role_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `password` char(32) NOT NULL DEFAULT '',
   `salt` char(6) NOT NULL DEFAULT '',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
-  `update_time` bigint(20) NOT NULL DEFAULT '0',
   `active_time` bigint(20) NOT NULL DEFAULT '0',
-  `create_ip` varchar(64) NOT NULL DEFAULT '',
   `active_ip` varchar(64) NOT NULL DEFAULT '',
+  `create_id` int(11) NOT NULL DEFAULT '0',
+  `create_ip` varchar(64) NOT NULL DEFAULT '',
+  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
+  `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '1', '1', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1411090286300', '1411090286300', '1411090286300', '127.0.0.1', '127.0.0.1');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1411090286300', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1411090286300');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -211,14 +187,14 @@ CREATE TABLE `oa_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `icon` varchar(128) NOT NULL DEFAULT '',
-  `url` tinytext,
   `target` varchar(8) NOT NULL DEFAULT '',
+  `url` tinytext,
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -226,9 +202,9 @@ CREATE TABLE `oa_menu` (
 -- ----------------------------
 -- Records of oa_menu
 -- ----------------------------
-INSERT INTO `oa_menu` VALUES ('2', 'safasf', '0', '1', '1', 'icon-save', 'asf', '_blank', '0', '0', '1413252255813', '1413252255813');
-INSERT INTO `oa_menu` VALUES ('3', 'afasfasf', '2', '1', '1', 'icon-key', 'asfaf', '_tab', '0', '1', '1413252274492', '1413252274492');
-INSERT INTO `oa_menu` VALUES ('4', 'asfasf', '0', '1', '1', 'icon-add', 'asf', '_blank', '0', '1', '1413264061812', '1413264061812');
+INSERT INTO `oa_menu` VALUES ('2', 'safasf', '0', 'icon-save', '_blank', 'asf', '0', '0', '1', '1413252255813', '1', '1413252255813');
+INSERT INTO `oa_menu` VALUES ('3', 'afasfasf', '2', 'icon-key', '_tab', 'asfaf', '0', '1', '1', '1413252274492', '1', '1413252274492');
+INSERT INTO `oa_menu` VALUES ('4', 'asfasf', '0', 'icon-add', '_blank', 'asf', '0', '1', '1', '1413264061812', '1', '1413264061812');
 
 -- ----------------------------
 -- Table structure for `oa_notice`
@@ -238,12 +214,12 @@ CREATE TABLE `oa_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `type_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `content` text,
   `sort` bigint(20) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -251,10 +227,10 @@ CREATE TABLE `oa_notice` (
 -- ----------------------------
 -- Records of oa_notice
 -- ----------------------------
-INSERT INTO `oa_notice` VALUES ('1', '文章标题', '1', '1', '1', 'dsgsdg', '2147483647', '0', '1413337742808', '1413338129516');
-INSERT INTO `oa_notice` VALUES ('2', 'sdgsdgsdg', '2', '1', '1', 'sdgsgd', '2147483647', '0', '1413338224381', '1413338224381');
-INSERT INTO `oa_notice` VALUES ('3', 'sdgsdgsdg', '1', '1', '1', 'fgdfdfhdfhdfh', '2147483647', '0', '1413338244784', '1413338244784');
-INSERT INTO `oa_notice` VALUES ('4', 'sdgsdgsdg', '2', '1', '1', 'sdgsdgsdg', '2147483647', '0', '1413338259932', '1413338259932');
+INSERT INTO `oa_notice` VALUES ('1', '文章标题', '1', 'dsgsdg', '2147483647', '0', '1', '1413337742808', '1', '1413338129516');
+INSERT INTO `oa_notice` VALUES ('2', 'sdgsdgsdg', '2', 'sdgsgd', '2147483647', '0', '1', '1413338224381', '1', '1413338224381');
+INSERT INTO `oa_notice` VALUES ('3', 'sdgsdgsdg', '1', 'fgdfdfhdfhdfh', '2147483647', '0', '1', '1413338244784', '1', '1413338244784');
+INSERT INTO `oa_notice` VALUES ('4', 'sdgsdgsdg', '2', 'sdgsdgsdg', '2147483647', '0', '1', '1413338259932', '1', '1413338259932');
 
 -- ----------------------------
 -- Table structure for `oa_notice_publish`
@@ -263,10 +239,10 @@ DROP TABLE IF EXISTS `oa_notice_publish`;
 CREATE TABLE `oa_notice_publish` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `notice_id` int(11) NOT NULL DEFAULT '0',
-  `rel_id` int(11) NOT NULL DEFAULT '0',
   `type` tinyint(4) NOT NULL DEFAULT '0',
+  `rel_id` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -282,11 +258,11 @@ CREATE TABLE `oa_notice_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -294,9 +270,9 @@ CREATE TABLE `oa_notice_type` (
 -- ----------------------------
 -- Records of oa_notice_type
 -- ----------------------------
-INSERT INTO `oa_notice_type` VALUES ('1', '内部通知', '0', '1', '1', '0', '0', '1413336213384', '1413336213384');
-INSERT INTO `oa_notice_type` VALUES ('2', '公共通知', '0', '1', '1', '0', '0', '1413336695361', '1413336710451');
-INSERT INTO `oa_notice_type` VALUES ('3', '部门通知', '1', '1', '1', '0', '0', '1413336926085', '1413336926085');
+INSERT INTO `oa_notice_type` VALUES ('1', '内部通知', '0', '0', '0', '1', '1413336213384', '1', '1413336213384');
+INSERT INTO `oa_notice_type` VALUES ('2', '公共通知', '0', '0', '0', '1', '1413336695361', '1', '1413336710451');
+INSERT INTO `oa_notice_type` VALUES ('3', '部门通知', '1', '0', '0', '1', '1413336926085', '1', '1413336926085');
 
 -- ----------------------------
 -- Table structure for `oa_organize`
@@ -306,11 +282,11 @@ CREATE TABLE `oa_organize` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -327,26 +303,29 @@ CREATE TABLE `oa_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `refer_id` int(11) NOT NULL DEFAULT '0',
   `module` varchar(64) NOT NULL DEFAULT '',
   `controller` varchar(64) NOT NULL DEFAULT '',
   `action` varchar(64) NOT NULL DEFAULT '',
-  `refer_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', 'index', '', '', '0', '0', '1', '1', '1413172095468', '1413172111872');
-INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', 'index', 'log', '', '0', '0', '1', '1', '1413172138260', '1413172269291');
-INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', 'index', 'log', 'layout', '0', '0', '1', '1', '1413172230720', '1413172281746');
-INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', 'index', 'log', 'list', '0', '0', '1', '1', '1413172303783', '1413172303783');
-INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', 'index', 'log', 'edit', '3', '0', '1', '1', '1413177000028', '1413177406728');
+INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', '0', 'index', '', '', '0', '1', '1413172095468', '1', '1413172111872');
+INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', '0', 'index', 'log', '', '0', '1', '1413172138260', '1', '1413172269291');
+INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', '0', 'index', 'log', 'layout', '0', '1', '1413172230720', '1', '1413172281746');
+INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', 'index', 'log', 'list', '0', '1', '1413172303783', '1', '1413172303783');
+INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', '3', 'index', 'log', 'edit', '0', '1', '1413177000028', '1', '1413177406728');
+INSERT INTO `oa_resource` VALUES ('6', 'fafasf', '0', '0', 'fasf', 'asf', 'asf', '0', '1', '1413343590371', '1', '1413343590371');
+INSERT INTO `oa_resource` VALUES ('7', 'sdsg', '0', '0', 'sdg', 'sdg', 'sdg', '0', '1', '1413343686112', '1', '1413343686112');
+INSERT INTO `oa_resource` VALUES ('8', 'afas', '0', '0', 'index', 'log', 'list', '0', '1', '1413343711628', '1', '1413343711628');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -357,23 +336,23 @@ CREATE TABLE `oa_role` (
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `menu_root_id` int(11) NOT NULL DEFAULT '0',
-  `create_id` int(11) NOT NULL DEFAULT '0',
-  `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `create_time` bigint(20) NOT NULL DEFAULT '0',
-  `update_time` bigint(20) NOT NULL DEFAULT '0',
   `remark` text,
+  `create_id` int(11) NOT NULL DEFAULT '0',
+  `create_time` bigint(20) NOT NULL DEFAULT '0',
+  `update_id` int(11) NOT NULL DEFAULT '0',
+  `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_role
 -- ----------------------------
-INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '0', '1', '1', '0', '1', '1411090286300', '1411090286300', '父级');
-INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '0', '1', '1', '0', '1', '1411090286300', '1411090286300', '');
-INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '0', '1', '1', '0', '1', '1411090286300', '1411090286300', '');
-INSERT INTO `oa_role` VALUES ('6', '角色', '0', '0', '1', '1', '0', '1', '1411715962184', '1411715980111', 'asfasf');
+INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '0', '0', '1', '父级', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '0', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '0', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('6', '角色', '0', '0', '0', '1', 'asfasf', '1', '1411715962184', '1', '1411715980111');
 
 -- ----------------------------
 -- Table structure for `oa_role_menu_rel`

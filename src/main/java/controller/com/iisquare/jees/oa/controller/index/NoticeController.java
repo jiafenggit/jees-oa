@@ -76,7 +76,7 @@ public class NoticeController extends PermitController {
 		persist.setTitle(title);
 		String content = get("content");
 		persist.setContent(content);
-		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
+		persist.setSort(ValidateUtil.filterLong(get("sort"), true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

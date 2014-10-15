@@ -6,103 +6,103 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class LogSetting {
-	private int id; // 资源主键
-	private int enable; // 是否启用
-	private int referer; // 是否记录来源地址
-	private int requestUrl; // 是否记录请求地址
-	private int requestParam; // 是否记录请求参数
-	private int sessionId; // 是否记录会话ID
-	private int sessionValue; // 是否记录会话值
-	private int responseView; // 是否记录响应视图
-	private int responseData; // 是否记录响应数据
-	private int operateId; // 操作者主键
-	private long operateTime; // 操作时间
+	private Integer id; // 资源主键
+	private Integer enable; // 是否启用
+	private Integer referer; // 是否记录来源地址
+	private Integer requestUrl; // 是否记录请求地址
+	private Integer requestParam; // 是否记录请求参数
+	private Integer sessionId; // 是否记录会话ID
+	private Integer sessionValue; // 是否记录会话值
+	private Integer responseView; // 是否记录响应视图
+	private Integer responseData; // 是否记录响应数据
+	private Integer operateId; // 操作者主键
+	private Long operateTime; // 操作时间
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getEnable() {
+	public Integer getEnable() {
 		return enable;
 	}
 
-	public void setEnable(int enable) {
+	public void setEnable(Integer enable) {
 		this.enable = enable;
 	}
 
-	public int getReferer() {
+	public Integer getReferer() {
 		return referer;
 	}
 
-	public void setReferer(int referer) {
+	public void setReferer(Integer referer) {
 		this.referer = referer;
 	}
 
-	public int getRequestUrl() {
+	public Integer getRequestUrl() {
 		return requestUrl;
 	}
 
-	public void setRequestUrl(int requestUrl) {
+	public void setRequestUrl(Integer requestUrl) {
 		this.requestUrl = requestUrl;
 	}
 
-	public int getRequestParam() {
+	public Integer getRequestParam() {
 		return requestParam;
 	}
 
-	public void setRequestParam(int requestParam) {
+	public void setRequestParam(Integer requestParam) {
 		this.requestParam = requestParam;
 	}
 
-	public int getSessionId() {
+	public Integer getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(int sessionId) {
+	public void setSessionId(Integer sessionId) {
 		this.sessionId = sessionId;
 	}
 
-	public int getSessionValue() {
+	public Integer getSessionValue() {
 		return sessionValue;
 	}
 
-	public void setSessionValue(int sessionValue) {
+	public void setSessionValue(Integer sessionValue) {
 		this.sessionValue = sessionValue;
 	}
 
-	public int getResponseView() {
+	public Integer getResponseView() {
 		return responseView;
 	}
 
-	public void setResponseView(int responseView) {
+	public void setResponseView(Integer responseView) {
 		this.responseView = responseView;
 	}
 
-	public int getResponseData() {
+	public Integer getResponseData() {
 		return responseData;
 	}
 
-	public void setResponseData(int responseData) {
+	public void setResponseData(Integer responseData) {
 		this.responseData = responseData;
 	}
 
-	public int getOperateId() {
+	public Integer getOperateId() {
 		return operateId;
 	}
 
-	public void setOperateId(int operateId) {
+	public void setOperateId(Integer operateId) {
 		this.operateId = operateId;
 	}
 
-	public long getOperateTime() {
+	public Long getOperateTime() {
 		return operateTime;
 	}
 
-	public void setOperateTime(long operateTime) {
+	public void setOperateTime(Long operateTime) {
 		this.operateTime = operateTime;
 	}
 
@@ -112,7 +112,7 @@ public class LogSetting {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -125,7 +125,10 @@ public class LogSetting {
 		if (getClass() != obj.getClass())
 			return false;
 		LogSetting other = (LogSetting) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

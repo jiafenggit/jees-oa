@@ -6,22 +6,22 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class RoleMenuRel {
-	private int roleId; // 角色主键
-	private int menuId; // 菜单主键
+	private Integer roleId; // 角色主键
+	private Integer menuId; // 菜单主键
 
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
-	public int getMenuId() {
+	public Integer getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuId(int menuId) {
+	public void setMenuId(Integer menuId) {
 		this.menuId = menuId;
 	}
 
@@ -31,8 +31,8 @@ public class RoleMenuRel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + menuId;
-		result = prime * result + roleId;
+		result = prime * result + ((menuId == null) ? 0 : menuId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -45,9 +45,15 @@ public class RoleMenuRel {
 		if (getClass() != obj.getClass())
 			return false;
 		RoleMenuRel other = (RoleMenuRel) obj;
-		if (menuId != other.menuId)
+		if (menuId == null) {
+			if (other.menuId != null)
+				return false;
+		} else if (!menuId.equals(other.menuId))
 			return false;
-		if (roleId != other.roleId)
+		if (roleId == null) {
+			if (other.roleId != null)
+				return false;
+		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

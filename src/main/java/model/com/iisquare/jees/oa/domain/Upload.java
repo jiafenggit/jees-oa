@@ -7,18 +7,18 @@ package com.iisquare.jees.oa.domain;
  */
 public class Upload {
 	
-	private int id; // 主键
+	private Integer id; // 主键
 	private String name; // 上传文件名
 	private String uri; // 上传路径
-	private int operateId; // 操作者
+	private Integer operateId; // 操作者
 	private String operateIp; // 操作者IP
-	private long operateTime; // 操作时间
+	private Long operateTime; // 操作时间
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -38,11 +38,11 @@ public class Upload {
 		this.uri = uri;
 	}
 
-	public int getOperateId() {
+	public Integer getOperateId() {
 		return operateId;
 	}
 
-	public void setOperateId(int operateId) {
+	public void setOperateId(Integer operateId) {
 		this.operateId = operateId;
 	}
 
@@ -54,11 +54,11 @@ public class Upload {
 		this.operateIp = operateIp;
 	}
 
-	public long getOperateTime() {
+	public Long getOperateTime() {
 		return operateTime;
 	}
 
-	public void setOperateTime(long operateTime) {
+	public void setOperateTime(Long operateTime) {
 		this.operateTime = operateTime;
 	}
 
@@ -68,7 +68,7 @@ public class Upload {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -81,7 +81,10 @@ public class Upload {
 		if (getClass() != obj.getClass())
 			return false;
 		Upload other = (Upload) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

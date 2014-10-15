@@ -6,22 +6,22 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class RoleResourceRel {
-	private int roleId; // 角色主键
-	private int resourceId; // 资源主键
+	private Integer roleId; // 角色主键
+	private Integer resourceId; // 资源主键
 
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
-	public int getResourceId() {
+	public Integer getResourceId() {
 		return resourceId;
 	}
 
-	public void setResourceId(int resourceId) {
+	public void setResourceId(Integer resourceId) {
 		this.resourceId = resourceId;
 	}
 
@@ -31,8 +31,9 @@ public class RoleResourceRel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + resourceId;
-		result = prime * result + roleId;
+		result = prime * result
+				+ ((resourceId == null) ? 0 : resourceId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -45,9 +46,15 @@ public class RoleResourceRel {
 		if (getClass() != obj.getClass())
 			return false;
 		RoleResourceRel other = (RoleResourceRel) obj;
-		if (resourceId != other.resourceId)
+		if (resourceId == null) {
+			if (other.resourceId != null)
+				return false;
+		} else if (!resourceId.equals(other.resourceId))
 			return false;
-		if (roleId != other.roleId)
+		if (roleId == null) {
+			if (other.roleId != null)
+				return false;
+		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

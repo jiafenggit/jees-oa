@@ -6,22 +6,22 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Notice {
-	private int id; // 主键
+	private Integer id; // 主键
 	private String title; // 标题
-	private int typeId; // 类型
-	private int createId; // 添加者
-	private int updateId; // 修改者
+	private Integer typeId; // 类型
 	private String content; // 内容
-	private long sort; // 排序（从高到低）
-	private int status; // 状态（0禁用，1正常）
-	private long createTime; // 添加时间
-	private long updateTime; // 修改时间
+	private Long sort; // 排序（从高到低）
+	private Integer status; // 状态
+	private Integer createId; // 添加者
+	private Long createTime; // 添加时间
+	private Integer updateId; // 修改者
+	private Long updateTime; // 修改时间
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -33,28 +33,12 @@ public class Notice {
 		this.title = title;
 	}
 
-	public int getTypeId() {
+	public Integer getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(int typeId) {
+	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
-	}
-
-	public int getCreateId() {
-		return createId;
-	}
-
-	public void setCreateId(int createId) {
-		this.createId = createId;
-	}
-
-	public int getUpdateId() {
-		return updateId;
-	}
-
-	public void setUpdateId(int updateId) {
-		this.updateId = updateId;
 	}
 
 	public String getContent() {
@@ -65,35 +49,51 @@ public class Notice {
 		this.content = content;
 	}
 
-	public long getSort() {
+	public Long getSort() {
 		return sort;
 	}
 
-	public void setSort(long sort) {
+	public void setSort(Long sort) {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
+	public Integer getCreateId() {
+		return createId;
+	}
+
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
+	}
+
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 
-	public long getUpdateTime() {
+	public Integer getUpdateId() {
+		return updateId;
+	}
+
+	public void setUpdateId(Integer updateId) {
+		this.updateId = updateId;
+	}
+
+	public Long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime) {
+	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
 	}
 
@@ -103,7 +103,7 @@ public class Notice {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -116,7 +116,10 @@ public class Notice {
 		if (getClass() != obj.getClass())
 			return false;
 		Notice other = (Notice) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

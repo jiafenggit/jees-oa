@@ -48,7 +48,8 @@ public class ResourceService extends ServiceBase {
 		return map;
 	}
 	
-	public Resource getByRouter(int exceptId, String module, String controller, String action) {
+	public Resource getByRouter(Integer exceptId, String module, String controller, String action) {
+		if(null == exceptId) exceptId = 0;
 		return resourceDao.getByFields(new String[]{resourceDao.getPrimaryKey(), "module", "controller", "action"},
 				new Object[]{exceptId, module, controller, action}, new String[]{"!=", "=", "=", "="}, null);
 	}

@@ -6,59 +6,59 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class NoticePublish {
-	private int id; // 主键
-	private int noticeId; // 通知公告
-	private int relId; // 部门、角色、用户
-	private int type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
-	private int status; // 状态（0拒绝读，1允许读）
-	private long createTime; // 阅读时间
+	private Integer id; // 主键
+	private Integer noticeId; // 通知公告
+	private Integer type; // 关联对象类型（-1全部,0阅读用户，1部门，2角色，3用户）
+	private Integer relId; // 部门、角色、用户
+	private Integer status; // 状态（0拒绝读，1允许读）
+	private Long operateTime; // 阅读时间
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getNoticeId() {
+	public Integer getNoticeId() {
 		return noticeId;
 	}
 
-	public void setNoticeId(int noticeId) {
+	public void setNoticeId(Integer noticeId) {
 		this.noticeId = noticeId;
 	}
 
-	public int getRelId() {
-		return relId;
-	}
-
-	public void setRelId(int relId) {
-		this.relId = relId;
-	}
-
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
-	public int getStatus() {
+	public Integer getRelId() {
+		return relId;
+	}
+
+	public void setRelId(Integer relId) {
+		this.relId = relId;
+	}
+
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
-		return createTime;
+	public Long getOperateTime() {
+		return operateTime;
 	}
 
-	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
+	public void setOperateTime(Long operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	public NoticePublish() {}
@@ -67,7 +67,7 @@ public class NoticePublish {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -80,7 +80,10 @@ public class NoticePublish {
 		if (getClass() != obj.getClass())
 			return false;
 		NoticePublish other = (NoticePublish) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

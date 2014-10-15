@@ -37,7 +37,7 @@ public class MemberService extends ServiceBase {
 		return CodeUtil.md5(CodeUtil.md5(password) + salt);
 	}
 	
-	public Member getById(int id) {
+	public Member getById(Object id) {
 		return memberDao.getById(id);
 	}
 	

@@ -6,27 +6,27 @@ package com.iisquare.jees.oa.domain;
  *
  */
 public class Member {
-	private int id; // 主键
+	private Integer id; // 主键
 	private String serial; // 编号
 	private String name; // 昵称
-	private int roleId; // 角色主键
-	private int createId; // 创建者
-	private int updateId; // 修改者
+	private Integer roleId; // 角色主键
 	private String password; // 密码
 	private String salt; // 盐
-	private int sort; // 排序（从高到低）
-	private int status; // 状态（-1删除，0禁用，1正常）
-	private long createTime; // 注册时间
-	private long updateTime; // 修改时间
-	private long activeTime; // 最后活动时间
-	private String createIp; // 注册IP
+	private Integer sort; // 排序（从高到低）
+	private Integer status; // 状态
+	private Long activeTime; // 最后活动时间
 	private String activeIp; // 最后活动IP
+	private Integer createId; // 创建者
+	private String createIp; // 注册IP
+	private Long createTime; // 注册时间
+	private Integer updateId; // 修改者
+	private Long updateTime; // 修改时间
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -46,28 +46,12 @@ public class Member {
 		this.name = name;
 	}
 
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
-	}
-
-	public int getCreateId() {
-		return createId;
-	}
-
-	public void setCreateId(int createId) {
-		this.createId = createId;
-	}
-
-	public int getUpdateId() {
-		return updateId;
-	}
-
-	public void setUpdateId(int updateId) {
-		this.updateId = updateId;
 	}
 
 	public String getPassword() {
@@ -86,52 +70,28 @@ public class Member {
 		this.salt = salt;
 	}
 
-	public int getSort() {
+	public Integer getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public long getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
-	}
-
-	public long getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(long updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public long getActiveTime() {
+	public Long getActiveTime() {
 		return activeTime;
 	}
 
-	public void setActiveTime(long activeTime) {
+	public void setActiveTime(Long activeTime) {
 		this.activeTime = activeTime;
-	}
-
-	public String getCreateIp() {
-		return createIp;
-	}
-
-	public void setCreateIp(String createIp) {
-		this.createIp = createIp;
 	}
 
 	public String getActiveIp() {
@@ -142,13 +102,53 @@ public class Member {
 		this.activeIp = activeIp;
 	}
 
+	public Integer getCreateId() {
+		return createId;
+	}
+
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
+	}
+
+	public String getCreateIp() {
+		return createIp;
+	}
+
+	public void setCreateIp(String createIp) {
+		this.createIp = createIp;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getUpdateId() {
+		return updateId;
+	}
+
+	public void setUpdateId(Integer updateId) {
+		this.updateId = updateId;
+	}
+
+	public Long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Long updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public Member() {}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -161,7 +161,10 @@ public class Member {
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
