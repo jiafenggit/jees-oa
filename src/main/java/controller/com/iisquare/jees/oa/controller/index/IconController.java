@@ -72,12 +72,10 @@ public class IconController extends PermitController {
 			persist = iconService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
+		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		Integer typeId = ValidateUtil.filterInteger(get("typeId"), true, 0, null, null);
-		if(DPUtil.empty(typeId)) return displayMessage(3003, "类型参数错误");
-		persist.setTypeId(typeId);
 		String url = DPUtil.trim(get("url"));
 		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
 		persist.setUrl(url);

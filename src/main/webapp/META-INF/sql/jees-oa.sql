@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-13 09:43:47
+Date: 2014-10-15 09:00:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `oa_icon`;
 CREATE TABLE `oa_icon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
-  `type_id` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
   `url` tinytext,
@@ -50,11 +50,12 @@ CREATE TABLE `oa_icon` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_icon
 -- ----------------------------
+INSERT INTO `oa_icon` VALUES ('1', 'asfaf', '2', '1', '1', 'files/attached/icon/20141014/1413280160802.png', '1', '1413280161974', '1413280161974');
 
 -- ----------------------------
 -- Table structure for `oa_icon_type`
@@ -122,7 +123,6 @@ INSERT INTO `oa_log` VALUES ('11', '用户登录', 'system', 'index', 'member', 
 INSERT INTO `oa_log` VALUES ('12', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '1FEA005C17A47355A143321A00FA1D24', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412998114936');
 INSERT INTO `oa_log` VALUES ('13', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', 'EA14879DD28028A1F10431AB9C1E022D', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412999311110');
 INSERT INTO `oa_log` VALUES ('14', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '00508C8D452EABC4EFADED9F41D5652E', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413005216537');
-INSERT INTO `oa_log` VALUES ('15', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', 'B29CFB91448F90CE953A2004CD40E845', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413018643815');
 INSERT INTO `oa_log` VALUES ('16', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '2251D01E360FB64798EE391A2E90DB50', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413089226504');
 
 -- ----------------------------
@@ -147,7 +147,10 @@ CREATE TABLE `oa_log_setting` (
 -- ----------------------------
 -- Records of oa_log_setting
 -- ----------------------------
-INSERT INTO `oa_log_setting` VALUES ('2', '0', '0', '1', '1', '0', '0', '0', '0', '1', '1412757696642');
+INSERT INTO `oa_log_setting` VALUES ('1', '0', '0', '0', '1', '0', '0', '0', '0', '1', '1413173925267');
+INSERT INTO `oa_log_setting` VALUES ('2', '0', '1', '0', '0', '0', '0', '0', '0', '1', '1413173925440');
+INSERT INTO `oa_log_setting` VALUES ('3', '1', '0', '1', '0', '1', '0', '0', '0', '1', '1413173925555');
+INSERT INTO `oa_log_setting` VALUES ('4', '0', '0', '1', '1', '0', '0', '0', '0', '1', '1413173925663');
 INSERT INTO `oa_log_setting` VALUES ('7', '0', '1', '0', '0', '0', '1', '0', '0', '1', '1412757697466');
 INSERT INTO `oa_log_setting` VALUES ('8', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1412757698591');
 INSERT INTO `oa_log_setting` VALUES ('9', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1412757699265');
@@ -214,12 +217,14 @@ CREATE TABLE `oa_menu` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_menu
 -- ----------------------------
-INSERT INTO `oa_menu` VALUES ('1', '测试', '0', '1', '1', '', '', '', '0', '0', '0', '0');
+INSERT INTO `oa_menu` VALUES ('2', 'safasf', '0', '1', '1', 'icon-save', 'asf', '_blank', '0', '0', '1413252255813', '1413252255813');
+INSERT INTO `oa_menu` VALUES ('3', 'afasfasf', '2', '1', '1', 'icon-key', 'asfaf', '_tab', '0', '1', '1413252274492', '1413252274492');
+INSERT INTO `oa_menu` VALUES ('4', 'asfasf', '0', '1', '1', 'icon-add', 'asf', '_blank', '0', '1', '1413264061812', '1413264061812');
 
 -- ----------------------------
 -- Table structure for `oa_notice`
@@ -268,6 +273,7 @@ DROP TABLE IF EXISTS `oa_notice_type`;
 CREATE TABLE `oa_notice_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `create_id` int(11) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
@@ -320,16 +326,16 @@ CREATE TABLE `oa_resource` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('2', '测试按时发', '0', 'index', 'resource', 'list', '2', '1', '1', '1', '1411867810171', '1411869123921');
-INSERT INTO `oa_resource` VALUES ('7', 'asf', '0', 'asf', 'asf', 'asf', '0', '0', '1', '1', '1411887872308', '1411887872308');
-INSERT INTO `oa_resource` VALUES ('8', '用户登录', '0', 'index', 'member', 'logon', '0', '0', '1', '1', '1412754896836', '1412754896836');
-INSERT INTO `oa_resource` VALUES ('9', '日志管理', '0', 'index', 'log', 'layout', '0', '0', '1', '1', '1412755223211', '1412755223211');
-INSERT INTO `oa_resource` VALUES ('10', '日志设置', '0', 'index', 'log', 'saveSetting', '0', '0', '1', '1', '1412757644532', '1412757644532');
+INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', 'index', '', '', '0', '0', '1', '1', '1413172095468', '1413172111872');
+INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', 'index', 'log', '', '0', '0', '1', '1', '1413172138260', '1413172269291');
+INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', 'index', 'log', 'layout', '0', '0', '1', '1', '1413172230720', '1413172281746');
+INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', 'index', 'log', 'list', '0', '0', '1', '1', '1413172303783', '1413172303783');
+INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', 'index', 'log', 'edit', '3', '0', '1', '1', '1413177000028', '1413177406728');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -420,8 +426,9 @@ CREATE TABLE `oa_upload` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_upload
 -- ----------------------------
+INSERT INTO `oa_upload` VALUES ('1', 'key.png', 'files/attached/icon/20141014/1413280160802.png', '1', '127.0.0.1', '1413280160802');

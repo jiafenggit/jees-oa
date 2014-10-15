@@ -1,56 +1,68 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="easyui-datagrid listAction" url="${_BASE_.url("list")}" toolbar="#toolbar" pagination="true" rownumbers="true" fitcolumns="true" fit="true" border="false" singleselect="true" nowrap="true">
-	<thead>
-		<tr>
-			<th field="name">名称</th>
-			<th field="sort">排序</th>
-			<th field="createTime">创建时间</th>
-		</tr>
-	</thead>
-</table>
-<div id="toolbar" class="controllerBar">
-	[#if _BASE_.hasPermit("create")]<a href="javascript:void(0);" class="easyui-linkbutton createAction" iconcls="icon-add" plain="true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("modify")]<a href="javascript:void(0);" class="easyui-linkbutton modifyAction" iconcls="icon-edit" plain="true">修改</a>[/#if]
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton deleteAction" iconcls="icon-remove" plain="true">删除</a>[/#if]
-	[#if _BASE_.hasPermit("Notice", "layout")]<a href="${_BASE_.url("notice", "layout")}" class="easyui-linkbutton" iconcls="icon-type" plain="true">内容管理</a>[/#if]
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
+	<a href="${_BASE_.url("notice", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
 </div>
-
-<div class="createActionDialog modifyActionDialog" style="width:230px;height:140px" data-options="buttons:'#actionButton',modal:true,resizable:true">
-	<form class="createActionForm modifyActionForm" method="post" action=""></form>
-</div>
-<div id="actionButton">
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionOK modifyActionOK" data-options="iconCls:'icon-ok'">确定</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton createActionCancel modifyActionCancel" data-options="iconCls:'icon-cancel'">取消</a>
-</div>
-<textarea id="Template-List" class="hidden">
-{#template MAIN}
-<table align="center" class="table-horizontal tr-height25">
-	<tr>
-		<th>名称</th>
-		<td>
-			<input class="easyui-validatebox input-text width-percent100" type="text" name="noticeType.name" data-options="required:true" value="{$T.name}" />
-		</td>
-	</tr>
-	<tr>
-		<th>排序</th>
-		<td>
-			<input class="easyui-numberspinner input-text width-percent50" type="text" name="noticeType.sort" data-options="required:true,min:0" value="{$T.sort}" />
-		</td>
-	</tr>
-</table>
-{#/template MAIN}
-</textarea>
 <script>
-$(function (){
-	controllerBar.actions.beforeCreate = function (eventObject) {
-		return {
-			status : 0,
-			message : {
-				'sort' : 0
-			}
-		};
-	}
+$(function () {
+	$('.js-list-table').treegrid({
+		url : '${_BASE_.url("list")}',
+		idField : 'id',
+		treeField : 'name',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		columns:[[
+			{field:'id',title:'ID'},
+			{field:'name',title:'名称'},
+			{field:'sort',title:'排序'},
+			{field:'status_text',title:'状态'},
+			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
+				if(!row.create_id_rel) return '';
+				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;
+			}},
+			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'update_id',title:'修改者',formatter:function (value, row, index) {
+				if(!row.update_id_rel) return '';
+				return '[' + row.update_id_rel.serial + ']' + row.update_id_rel.name;
+			}},
+			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		},
+		onSelect : function (row) {
+			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
+			$('.js-control-add').linkbutton({text:'添加下级节点'});
+		}
+	});
+	
+	$('.js-control-add').bind('click', function () {
+		var row = $('.js-list-table').treegrid('getSelected');
+		var parentId = 0;
+		if(null != row) {
+			parentId = row.id;
+		}
+		var url = '${_BASE_.url("edit")}?parentId=' + parentId;
+		Web_redirectPage(url);
+	});
 });
 </script>

@@ -8,7 +8,7 @@ package com.iisquare.jees.oa.domain;
 public class Icon {
 	private int id; // 主键
 	private String name; // 名称
-	private int typeId; // 分类
+	private int parentId; // 父级
 	private int createId; // 创建者
 	private int updateId; // 修改者
 	private String url; // 图片地址
@@ -32,12 +32,12 @@ public class Icon {
 		this.name = name;
 	}
 
-	public int getTypeId() {
-		return typeId;
+	public int getParentId() {
+		return parentId;
 	}
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
 	public int getCreateId() {

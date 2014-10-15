@@ -12,7 +12,7 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.IconDao;
-import com.iisquare.jees.oa.dao.IconTypeDao;
+import com.iisquare.jees.oa.dao.NoticeTypeDao;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.domain.Icon;
 
@@ -24,7 +24,7 @@ public class IconService extends ServiceBase {
 	@Autowired
 	public IconDao iconDao;
 	@Autowired
-	public IconTypeDao iconTypeDao;
+	public NoticeTypeDao iconTypeDao;
 	
 	public IconService() {}
 	

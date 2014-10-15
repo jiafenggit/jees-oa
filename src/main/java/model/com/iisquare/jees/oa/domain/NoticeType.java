@@ -8,6 +8,7 @@ package com.iisquare.jees.oa.domain;
 public class NoticeType {
 	private int id; // 主键
 	private String name; // 名称
+	private int parentId; // 父级
 	private int createId; // 添加者
 	private int updateId; // 修改者
 	private int sort; // 排序（从高到低）
@@ -29,6 +30,14 @@ public class NoticeType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
 	public int getCreateId() {
