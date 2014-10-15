@@ -3,18 +3,17 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
-	[#if _BASE_.hasPermit("iconType", "layout")]<a href="${_BASE_.url("iconType", "layout")}" class="easyui-linkbutton" iconcls="icon-type" plain="true">类型管理</a>[/#if]
 	[#if _BASE_.hasPermit("renderCss")]<a href="javascript:void(0);" class="easyui-linkbutton js-render-css" iconcls="icon-reload" plain="true">生成样式</a>[/#if]
-	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
 $(function () {
-	$('.js-list-table').datagrid({
+	$('.js-list-table').treegrid({
 		url : '${_BASE_.url("list")}',
 		pagination : true,
 		idField : 'id',
+		treeField : 'name',
 		toolbar : '#toolbar',
 		rownumbers : true,
 		fitcolumns : true,
@@ -30,9 +29,6 @@ $(function () {
 			}},
 			{field:'name',title:'名称'},
 			{field:'sort',title:'排序'},
-			{field:'type_id',title:'分类',formatter:function (value, row, index) {
-				return row.type_id_rel ? row.type_id_rel.name : row.type_id;
-			}},
 			{field:'fullUrl',title:'效果预览',align:'center',formatter:function (value, row, index) {
 				return '<a href="'
 					+ value + '" class="js-list-button" data-options="iconCls:\'icon-auto'
@@ -64,12 +60,16 @@ $(function () {
 			$('.js-list-button').linkbutton({
 				plain : true
 			});
-			$('.js-list-table').datagrid('autoSizeColumn');
+			$('.js-list-table').treegrid('autoSizeColumn');
+		},
+		onSelect : function (row) {
+			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
+			$('.js-control-add').linkbutton({text:'添加下级节点'});
 		}
 	});
 	
 	$('.js-control-delete').bind('click', function () {
-		var rows = $('.js-list-table').datagrid('getChecked');
+		var rows = $('.js-list-table').treegrid('getChecked');
 		var ids = '', size = rows.length;
 		if(size < 1) {
 			Web_alertInfo('请选择要删除的记录！');
@@ -97,50 +97,6 @@ $(function () {
 			isRendering = false;
 			Web_alertInfo(data.message);
 		});
-	});
-});
-</script>
-<div id="js-search-dialog" style="width:230px;height:168px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
-<table align="center" class="table-horizontal tr-height25">
-	<tr>
-		<th>名称</th>
-		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
-	</tr>
-	<tr>
-		<th>分类</th>
-		<td><input class="easyui-textbox width150" type="text" name="type" value="" /></td>
-	</tr>
-	<tr>
-		<th>地址</th>
-		<td><input class="easyui-textbox width150" type="text" name="url" value="" /></td>
-	</tr>
-</table>
-</div>
-<div id="js-search-button">
-	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
-</div>
-<script>
-$(function () {
-	var $searchDialog = $('#js-search-dialog');
-	$('.js-control-search').bind('click', function () {
-		$searchDialog.dialog({
-			title : '筛选条件',
-			iconCls : 'icon-search',
-			onOpen : function () {}
-		});
-	});
-		
-	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
-		$('.js-list-table').datagrid('load', {
-			name : $searchDialog.find('input[name="name"]').val(),
-			type : $searchDialog.find('input[name="type"]').val(),
-			url : $searchDialog.find('input[name="url"]').val()
-		});
-		$searchDialog.dialog('close');
-	});
-	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
-		$searchDialog.dialog('close');
 	});
 });
 </script>

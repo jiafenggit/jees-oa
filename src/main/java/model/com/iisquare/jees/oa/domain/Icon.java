@@ -13,6 +13,7 @@ public class Icon {
 	private int updateId; // 修改者
 	private String url; // 图片地址
 	private int sort; // 排序（从高到低）
+	private int status; // 状态（-1删除，0禁用，1正常）
 	private long createTime; // 添加时间
 	private long updateTime; // 修改时间
 
@@ -70,6 +71,14 @@ public class Icon {
 
 	public void setSort(int sort) {
 		this.sort = sort;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public long getCreateTime() {

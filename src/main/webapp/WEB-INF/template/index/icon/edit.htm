@@ -5,6 +5,10 @@
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left">
 	<tr>
+		<th class="width130">父级</th>
+		<td><input name="parentId" class="js-select-parent width300" value="${info.parentId!0}" /></td>
+	</tr>
+	<tr>
 		<th class="width130">名称</th>
 		<td><input class="easyui-textbox width250" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
 	</tr>
@@ -13,10 +17,13 @@
 		<td><input class="easyui-numberspinner width150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">类型</th>
-		<td><input name="typeId" class="js-select-type width250" value="${info.typeId!0}" /></td>
+		<th class="width130">状态</th>
+		<td>
+			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
+				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
+			</select>
+		</td>
 	</tr>
-	
 	<tr>
 		<th class="width130">图标</th>
 		<td>
@@ -60,11 +67,12 @@ $(function () {
 	$('.js-icon-image-url').bind('change', function () {
 		$('.js-icon-image-show').attr('src', Web_projectUrl + '/' + $(this).textbox('getValue'));
 	});
-	$('input[name="typeId"]').combotree({
+	
+	$('input[name="parentId"]').combotree({
 		checkbox : true,
-		url : '${_BASE_.url("iconType", "list")}?nototal=1',
+		url : '${_BASE_.url("list")}?nototal=1',
 		loadFilter : function (data, parent) {
-			return Web_formatComboTree(data.rows, [], '请选择所属类型', 'name');
+			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
 		}
 	});
 	var $submitForm = $('#submitForm');

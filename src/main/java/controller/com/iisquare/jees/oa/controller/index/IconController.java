@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.core.util.UrlUtil;
 import com.iisquare.jees.framework.util.DPUtil;
-import com.iisquare.jees.framework.util.ServletUtil;
+import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Icon;
 import com.iisquare.jees.oa.service.IconService;
@@ -33,18 +33,15 @@ public class IconController extends PermitController {
 	public String layoutAction() throws Exception {
 		return displayTemplate();
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public String listAction () throws Exception {
-		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
-		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = iconService.search(ServletUtil.singleParameterMap(request), "sort desc", page, pageSize);
-		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
-		for (Map<String, Object> row : rows) {
+		List<Map<String, Object>> list = iconService.getList("*", "sort desc", 1, 0);
+		for (Map<String, Object> row : list) {
 			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
 		}
-		assign("total", map.get("total"));
-		assign("rows", DPUtil.collectionToArray(rows));
+		list = ServiceUtil.formatRelation(list, 0);
+		assign("total", list.size());
+		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
 	}
 	
@@ -53,11 +50,13 @@ public class IconController extends PermitController {
 		Icon info;
 		if(DPUtil.empty(id)) {
 			info = new Icon();
+			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		} else {
 			info = iconService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		assign("statusMap", iconService.getStatusMap());
 		assign("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(info.getUrl())));
 		assign("sessionId", request.getSession().getId());
 		return displayTemplate();
@@ -80,6 +79,9 @@ public class IconController extends PermitController {
 		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
 		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
+		String status = get("status");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);
@@ -101,6 +103,7 @@ public class IconController extends PermitController {
 	public String deleteAction() throws Exception {
 		Object[] idArray = DPUtil.explode(get("ids"), ",", " ", true);
 		int result = iconService.delete(idArray);
+		if(-1 == result) return displayInfo("该节点拥有下级节点，不允许删除", null);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
 		} else {

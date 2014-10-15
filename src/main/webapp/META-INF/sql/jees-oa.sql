@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-15 09:00:43
+Date: 2014-10-15 10:19:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,15 +47,19 @@ CREATE TABLE `oa_icon` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `url` tinytext,
   `sort` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_icon
 -- ----------------------------
-INSERT INTO `oa_icon` VALUES ('1', 'asfaf', '2', '1', '1', 'files/attached/icon/20141014/1413280160802.png', '1', '1413280161974', '1413280161974');
+INSERT INTO `oa_icon` VALUES ('1', 'asfaf', '2', '1', '1', 'files/attached/icon/20141015/1413339518324.png', '1', '0', '1413280161974', '1413339519272');
+INSERT INTO `oa_icon` VALUES ('2', 'afasf', '0', '1', '1', 'files/attached/icon/20141015/1413339300840.png', '0', '0', '1413339302187', '1413339302187');
+INSERT INTO `oa_icon` VALUES ('4', 'sdgsdg', '0', '1', '1', 'files/attached/icon/20141015/1413339366004.png', '0', '0', '1413339366865', '1413339366865');
+INSERT INTO `oa_icon` VALUES ('5', 'asfafasf', '4', '1', '1', 'files/attached/icon/20141015/1413339470573.png', '0', '0', '1413339471694', '1413339471694');
 
 -- ----------------------------
 -- Table structure for `oa_icon_type`
@@ -242,11 +246,15 @@ CREATE TABLE `oa_notice` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_notice
 -- ----------------------------
+INSERT INTO `oa_notice` VALUES ('1', '文章标题', '1', '1', '1', 'dsgsdg', '2147483647', '0', '1413337742808', '1413338129516');
+INSERT INTO `oa_notice` VALUES ('2', 'sdgsdgsdg', '2', '1', '1', 'sdgsgd', '2147483647', '0', '1413338224381', '1413338224381');
+INSERT INTO `oa_notice` VALUES ('3', 'sdgsdgsdg', '1', '1', '1', 'fgdfdfhdfhdfh', '2147483647', '0', '1413338244784', '1413338244784');
+INSERT INTO `oa_notice` VALUES ('4', 'sdgsdgsdg', '2', '1', '1', 'sdgsdgsdg', '2147483647', '0', '1413338259932', '1413338259932');
 
 -- ----------------------------
 -- Table structure for `oa_notice_publish`
@@ -281,11 +289,14 @@ CREATE TABLE `oa_notice_type` (
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_notice_type
 -- ----------------------------
+INSERT INTO `oa_notice_type` VALUES ('1', '内部通知', '0', '1', '1', '0', '0', '1413336213384', '1413336213384');
+INSERT INTO `oa_notice_type` VALUES ('2', '公共通知', '0', '1', '1', '0', '0', '1413336695361', '1413336710451');
+INSERT INTO `oa_notice_type` VALUES ('3', '部门通知', '1', '1', '1', '0', '0', '1413336926085', '1413336926085');
 
 -- ----------------------------
 -- Table structure for `oa_organize`
@@ -426,9 +437,15 @@ CREATE TABLE `oa_upload` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_upload
 -- ----------------------------
 INSERT INTO `oa_upload` VALUES ('1', 'key.png', 'files/attached/icon/20141014/1413280160802.png', '1', '127.0.0.1', '1413280160802');
+INSERT INTO `oa_upload` VALUES ('2', 'crowd.png', 'files/attached/icon/20141015/1413339264450.png', '1', '127.0.0.1', '1413339264450');
+INSERT INTO `oa_upload` VALUES ('3', 'home.png', 'files/attached/icon/20141015/1413339300840.png', '1', '127.0.0.1', '1413339300840');
+INSERT INTO `oa_upload` VALUES ('4', 'select.png', 'files/attached/icon/20141015/1413339351286.png', '1', '127.0.0.1', '1413339351286');
+INSERT INTO `oa_upload` VALUES ('5', 'setting.png', 'files/attached/icon/20141015/1413339366004.png', '1', '127.0.0.1', '1413339366004');
+INSERT INTO `oa_upload` VALUES ('6', 'key.png', 'files/attached/icon/20141015/1413339470573.png', '1', '127.0.0.1', '1413339470573');
+INSERT INTO `oa_upload` VALUES ('7', 'detail.png', 'files/attached/icon/20141015/1413339518324.png', '1', '127.0.0.1', '1413339518324');
