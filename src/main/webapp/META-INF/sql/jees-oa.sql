@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-15 11:33:49
+Date: 2014-10-15 14:33:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,7 +84,7 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
@@ -104,6 +104,7 @@ INSERT INTO `oa_log` VALUES ('12', '用户登录', 'system', 'index', 'member', 
 INSERT INTO `oa_log` VALUES ('13', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', 'EA14879DD28028A1F10431AB9C1E022D', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1412999311110');
 INSERT INTO `oa_log` VALUES ('14', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '00508C8D452EABC4EFADED9F41D5652E', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413005216537');
 INSERT INTO `oa_log` VALUES ('16', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '2251D01E360FB64798EE391A2E90DB50', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413089226504');
+INSERT INTO `oa_log` VALUES ('17', '信息管理', 'system', 'index', 'log', 'layout', null, 'http://127.0.0.1:8080/jees-oa/index/log/layout', null, '3004EC0E20BF25B1B4FE7E99FBA2617E', null, null, null, null, '0', '127.0.0.1', '1413350567861');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -144,7 +145,6 @@ CREATE TABLE `oa_member` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serial` varchar(64) NOT NULL DEFAULT '',
   `name` varchar(64) NOT NULL DEFAULT '',
-  `role_id` int(11) NOT NULL DEFAULT '0',
   `password` char(32) NOT NULL DEFAULT '',
   `salt` char(6) NOT NULL DEFAULT '',
   `sort` int(11) NOT NULL DEFAULT '0',
@@ -162,7 +162,7 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1411090286300', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '超极管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1411090286300', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1411090286300');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -177,6 +177,20 @@ CREATE TABLE `oa_member_organize_rel` (
 
 -- ----------------------------
 -- Records of oa_member_organize_rel
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `oa_member_role_rel`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_member_role_rel`;
+CREATE TABLE `oa_member_role_rel` (
+  `member_id` int(11) NOT NULL DEFAULT '0',
+  `role_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_member_role_rel
 -- ----------------------------
 
 -- ----------------------------
@@ -335,7 +349,6 @@ CREATE TABLE `oa_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `menu_root_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `remark` text,
@@ -349,10 +362,10 @@ CREATE TABLE `oa_role` (
 -- ----------------------------
 -- Records of oa_role
 -- ----------------------------
-INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '0', '0', '1', '父级', '1', '1411090286300', '1', '1411090286300');
-INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '0', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
-INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '0', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
-INSERT INTO `oa_role` VALUES ('6', '角色', '0', '0', '0', '1', 'asfasf', '1', '1411715962184', '1', '1411715980111');
+INSERT INTO `oa_role` VALUES ('1', '后台管理员', '0', '0', '1', '父级', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('2', '超极管理员', '1', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('3', '普通管理员', '1', '0', '1', '', '1', '1411090286300', '1', '1411090286300');
+INSERT INTO `oa_role` VALUES ('6', '角色', '0', '0', '1', 'asfasf', '1', '1411715962184', '1', '1411715980111');
 
 -- ----------------------------
 -- Table structure for `oa_role_menu_rel`

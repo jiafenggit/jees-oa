@@ -9,7 +9,6 @@ public class Member {
 	private Integer id; // 主键
 	private String serial; // 编号
 	private String name; // 昵称
-	private Integer roleId; // 角色主键
 	private String password; // 密码
 	private String salt; // 盐
 	private Integer sort; // 排序（从高到低）
@@ -44,14 +43,6 @@ public class Member {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
 	}
 
 	public String getPassword() {
