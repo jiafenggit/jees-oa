@@ -497,11 +497,19 @@ public class DPUtil {
 	}
 	
 	/**
-	 * 将元素添加到数组中
+	 * 将元素添加到数组末尾
 	 */
 	public static Object[] arrayPush(Object[] objects, Object item) {
 		if(null == objects) return null;
 		return arrayMerge(objects, new Object[]{item});
+	}
+
+	/**
+	 * 将元素添加到数组开头
+	 */
+	public static Object[] arrayUnShift(Object[] objects, Object item) {
+		if(null == objects) return null;
+		return arrayMerge(new Object[]{item}, objects);
 	}
 	
 	/**

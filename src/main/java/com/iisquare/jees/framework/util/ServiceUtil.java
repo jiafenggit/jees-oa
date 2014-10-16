@@ -36,7 +36,7 @@ public class ServiceUtil {
 			fillFields = new String[]{"*"};
 		} else {
 			if(!DPUtil.isItemExist(fillFields, primaryKey)) {
-				fillFields = DPUtil.arrayPush(fillFields, primaryKey);
+				fillFields = DPUtil.arrayUnShift(fillFields, primaryKey);
 			}
 		}
 		List<Map<String, Object>> settingList = relationDao.getByIds(
