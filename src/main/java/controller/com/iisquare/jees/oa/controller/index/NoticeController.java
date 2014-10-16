@@ -34,7 +34,7 @@ public class NoticeController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = noticeService.search(ServletUtil.singleParameterMap(request), "sort desc", page, pageSize);
+		Map<Object, Object> map = noticeService.search(ServletUtil.singleParameterMap(request, null), "sort desc", page, pageSize);
 		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
 		for (Map<String, Object> row : rows) {
 			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));

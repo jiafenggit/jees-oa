@@ -40,7 +40,7 @@ public class NoticeService extends ServiceBase {
 	
 	public NoticeService() {}
 	
-	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, Object> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(noticeDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -49,12 +49,12 @@ public class NoticeService extends ServiceBase {
 			sb.append(" and title like :title");
 			paramMap.put("title", DPUtil.stringConcat("%", title, "%"));
 		}
-		int typeId = ValidateUtil.filterInteger(map.get("typeId"), true, 0, null, 0);
+		int typeId = ValidateUtil.filterInteger(DPUtil.parseString(map.get("typeId")), true, 0, null, 0);
 		if(!DPUtil.empty(typeId)) {
 			sb.append(" and type_id = :typeId");
 			paramMap.put("typeId", typeId);
 		}
-		String serial = map.get("serial");
+		Object serial = map.get("serial");
 		if(!DPUtil.empty(serial)) {
 			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
 				.append(" from ").append(memberDao.tableName()).append(" where serial = :serial)");

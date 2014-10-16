@@ -28,7 +28,7 @@ public class ResourceController extends PermitController {
 	
 	public String listAction () throws Exception {
 		boolean bLogSetting = !DPUtil.empty(get("log_setting"));
-		List<Map<String, Object>> list = resourceService.getList(ServletUtil.singleParameterMap(request), "sort desc", 1, 0);
+		List<Map<String, Object>> list = resourceService.getList(ServletUtil.singleParameterMap(request, null), "sort desc", 1, 0);
 		if(bLogSetting) list = logService.fillSetting(list);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());

@@ -43,10 +43,10 @@ public class IconService extends ServiceBase {
 		return list;
 	}
 	
-	public List<Icon> getList(Map<String, Object> where, Map<String, String> operators, String orderBy, int page, int pageSize) {
+	public List<Icon> getList(String orderBy, int page, int pageSize) {
 		String append = null;
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
-		List<Icon> list = iconDao.getList(where, operators, append, page, pageSize);
+		List<Icon> list = iconDao.getList(null, new Object[]{}, append, page, pageSize);
 		return list;
 	}
 	

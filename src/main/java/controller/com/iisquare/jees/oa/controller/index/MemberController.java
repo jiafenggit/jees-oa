@@ -29,7 +29,7 @@ public class MemberController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = memberService.search(ServletUtil.singleParameterMap(request), "sort desc", page, pageSize);
+		Map<Object, Object> map = memberService.search(ServletUtil.singleParameterMap(request, new String[]{"organizeIds", "roleIds"}), "sort desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -58,16 +58,40 @@ public class MemberController extends PermitController {
 			persist = memberService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
+		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64, null);
+		if(DPUtil.empty(serial)) return displayMessage(3002, "账号参数错误");
+		if(null != memberService.getBySerial(serial)) return displayMessage(3003, "账号已存在");
+		persist.setSerial(serial);
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
+		if(DPUtil.empty(name)) return displayMessage(3004, "名称参数错误");
+		if(null != memberService.getByName(name)) return displayMessage(3005, "名称已存在");
+		persist.setName(name);
+		String password = DPUtil.trim(get("password"));
+		if(!DPUtil.empty(password)) {
+			if(6 > password.length()) return displayMessage(3006, "密码参数错误");
+			String salt = DPUtil.random(6);
+			persist.setSalt(salt);
+			persist.setPassword(memberService.encodePassword(password, salt));
+		}
+		String[] organizeIds = gets("organizeIds"); // 职务信息待处理
+		if(DPUtil.empty(organizeIds)) return displayMessage(3007, "部门参数错误");
+		String[] roleIds = gets("roleIds");
+		if(DPUtil.empty(roleIds)) return displayMessage(3008, "角色参数错误");
+		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
+		String status = get("status");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3009, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);
 		int result;
 		if(DPUtil.empty(persist.getId())) {
 			persist.setCreateId(currentMember.getId());
+			persist.setCreateIp(ServletUtil.getRemoteAddr(request));
 			persist.setCreateTime(time);
-			result = memberService.insert(persist);
+			result = memberService.insert(persist, organizeIds, roleIds);
 		} else {
-			result = memberService.update(persist);
+			result = memberService.update(persist, organizeIds, roleIds);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));

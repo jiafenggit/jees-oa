@@ -72,10 +72,10 @@ public class DPUtil {
 	/**
 	 * 格式化日期转换为毫秒
 	 */
-	public static long dateTimeToMillis(String dateTime, String format) {
+	public static long dateTimeToMillis(Object dateTime, String format) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		try {
-			return dateFormat.parse(dateTime).getTime();
+			return dateFormat.parse(parseString(dateTime)).getTime();
 		} catch (ParseException e) {
 			return -1;
 		}

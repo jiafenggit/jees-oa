@@ -60,7 +60,7 @@ public class LogService extends ServiceBase {
 		return list;
 	}
 	
-	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, Object> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(logDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -94,7 +94,7 @@ public class LogService extends ServiceBase {
 			sb.append(" and session_id = :sessionId");
 			paramMap.put("sessionId", sessionId);
 		}
-		String serial = map.get("serial");
+		Object serial = map.get("serial");
 		if(!DPUtil.empty(serial)) {
 			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
 				.append(" from ").append(memberDao.tableName()).append(" where serial = :serial)");
@@ -105,12 +105,12 @@ public class LogService extends ServiceBase {
 			sb.append(" and operate_ip = :operateIp");
 			paramMap.put("operateIp", operateIp);
 		}
-		String timeStart = map.get("timeStart");
+		Object timeStart = map.get("timeStart");
 		if(!DPUtil.empty(timeStart)) {
 			sb.append(" and operate_time >= :timeStart");
 			paramMap.put("timeStart", DPUtil.dateTimeToMillis(timeStart, configuration.getDateTimeFormat()));
 		}
-		String timeEnd = map.get("timeEnd");
+		Object timeEnd = map.get("timeEnd");
 		if(!DPUtil.empty(timeStart)) {
 			sb.append(" and operate_time <= :timeEnd");
 			paramMap.put("timeEnd", DPUtil.dateTimeToMillis(timeEnd, configuration.getDateTimeFormat()));

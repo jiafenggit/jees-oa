@@ -33,7 +33,7 @@ public class ResourceService extends ServiceBase {
 	
 	public ResourceService() {}
 	
-	public List<Map<String, Object>> getList(Map<String, String> map, String orderBy, int page, int pageSize) {
+	public List<Map<String, Object>> getList(Map<String, Object> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(resourceDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();

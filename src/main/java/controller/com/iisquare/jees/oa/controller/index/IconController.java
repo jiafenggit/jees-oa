@@ -120,7 +120,7 @@ public class IconController extends PermitController {
 		if(!cssFile.canWrite()) return displayMessage(3002, "样式文件没有操作权限");
 		try {
 			OutputStream os = new FileOutputStream(cssFile);
-			for (Icon icon : iconService.getList(null, null, null, 1, 0)) {
+			for (Icon icon : iconService.getList(null, 1, 0)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(".icon-auto");
 				sb.append(icon.getId());

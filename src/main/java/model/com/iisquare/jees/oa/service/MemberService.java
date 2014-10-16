@@ -16,13 +16,21 @@ import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
+import com.iisquare.jees.oa.dao.MemberOrganizeRelDao;
+import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.domain.Member;
+import com.iisquare.jees.oa.domain.MemberOrganizeRel;
+import com.iisquare.jees.oa.domain.MemberRoleRel;
 
 @Service
 public class MemberService extends ServiceBase {
 	
 	@Autowired
 	public MemberDao memberDao;
+	@Autowired
+	public MemberOrganizeRelDao memberOrganizeRelDao;
+	@Autowired
+	public MemberRoleRelDao memberRoleRelDao;
 	
 	public Map<String, String> getStatusMap(boolean bAll) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -36,7 +44,7 @@ public class MemberService extends ServiceBase {
 	
 	public MemberService() {}
 	
-	public Map<Object, Object> search(Map<String, String> map, String orderBy, int page, int pageSize) {
+	public Map<Object, Object> search(Map<String, Object> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(memberDao.tableName()).append(" where 1 = 1");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -45,12 +53,12 @@ public class MemberService extends ServiceBase {
 			sb.append(" and title like :title");
 			paramMap.put("title", DPUtil.stringConcat("%", title, "%"));
 		}
-		int typeId = ValidateUtil.filterInteger(map.get("typeId"), true, 0, null, 0);
+		int typeId = ValidateUtil.filterInteger(DPUtil.parseString(map.get("typeId")), true, 0, null, 0);
 		if(!DPUtil.empty(typeId)) {
 			sb.append(" and type_id = :typeId");
 			paramMap.put("typeId", typeId);
 		}
-		String serial = map.get("serial");
+		Object serial = map.get("serial");
 		if(!DPUtil.empty(serial)) {
 			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
 				.append(" from ").append(memberDao.tableName()).append(" where serial = :serial)");
@@ -81,12 +89,39 @@ public class MemberService extends ServiceBase {
 		return map;
 	}
 	
-	public int insert(Member persist) {
-		return memberDao.insert(persist);
+	public int insert(Member persist, Object[] organizeIds, Object[] roleIds) {
+		int result =  memberDao.insert(persist);
+		if(result > 0) updateRel(result, organizeIds, roleIds);
+		return result;
 	}
 	
-	public int update(Member persist) {
-		return memberDao.update(persist);
+	public int update(Member persist, Object[] organizeIds, Object[] roleIds) {
+		int result =  memberDao.update(persist);
+		if(result >= 0) updateRel(persist.getId(), organizeIds, roleIds);
+		return result;
+	}
+	
+	public void updateRel(Object id, Object[] organizeIds, Object[] roleIds) {
+		if(DPUtil.empty(id)) return ;
+		if(null != organizeIds) {
+			memberOrganizeRelDao.delete(new String[]{"member_id"}, new Object[]{id}, null);
+			for (Object organizeId : organizeIds) {
+				MemberOrganizeRel persis = new MemberOrganizeRel();
+				persis.setMemberId(DPUtil.parseInt(id));
+				persis.setOrganizeId(DPUtil.parseInt(organizeId));
+				persis.setDutyId(0);
+				memberOrganizeRelDao.insert(persis);
+			}
+		}
+		if(null != roleIds) {
+			memberRoleRelDao.delete(new String[]{"member_id"}, new Object[]{id}, null);
+			for (Object roleId : roleIds) {
+				MemberRoleRel persis = new MemberRoleRel();
+				persis.setMemberId(DPUtil.parseInt(id));
+				persis.setRoleId(DPUtil.parseInt(roleId));
+				memberRoleRelDao.insert(persis);
+			}
+		}
 	}
 	
 	public int delete(Object... ids) {
@@ -95,6 +130,10 @@ public class MemberService extends ServiceBase {
 	
 	public Member getBySerial(String serial) {
 		return memberDao.getByField("serial", serial, null, null);
+	}
+	
+	public Member getByName(String name) {
+		return memberDao.getByField("name", name, null, null);
 	}
 	
 	public String encodePassword(String password, String salt) {

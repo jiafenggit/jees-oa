@@ -18,10 +18,21 @@ public class ServletUtil {
 	
 	public static final String cookieEncoding = "UTF-8";
 
-	public static Map<String, String> singleParameterMap(HttpServletRequest request) {
-		Map<String, String> map = new HashMap<String, String>();
+	/**
+	 * 将parameterMap转换为单值
+	 * @param request
+	 * @param multipleFields 该数组指定的字段为多值
+	 * @return
+	 */
+	public static Map<String, Object> singleParameterMap(HttpServletRequest request, String[] multipleFields) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-			map.put(entry.getKey(), DPUtil.parseString(DPUtil.getByIndex(entry.getValue(), 0)));
+			String key = entry.getKey();
+			if(DPUtil.isItemExist(multipleFields, key)) {
+				map.put(key, DPUtil.parseString(DPUtil.getByIndex(entry.getValue(), 0)));
+			} else {
+				map.put(key, entry.getValue());
+			}
 		}
 		return map;
 	}
