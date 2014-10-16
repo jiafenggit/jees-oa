@@ -14,7 +14,10 @@
 	</tr>
 	<tr>
 		<th class="width130">图标</th>
-		<td><input class="easyui-textbox width150" type="text" name="icon" value="${(info.icon)!""}" /></td>
+		<td>
+			<input class="easyui-textbox width150 js-pick-icon" type="text" name="icon" data-options="buttonText:'选取',buttonIcon:'icon-pick'" value="${(info.icon)!""}" />
+			[#include "../icon/pick.inc.htm"]
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">打开方式</th>
@@ -26,7 +29,10 @@
 	</tr>
 	<tr>
 		<th class="width130">链接地址</th>
-		<td><input class="easyui-textbox width150" type="text" name="url" value="${(info.url)!""}" /></td>
+		<td>
+			<textarea name="url" class="easyui-textbox width250 js-pick-url" data-options="required:true,multiline:true,height:50,buttonText:'选取',buttonIcon:'icon-pick'">${info.url!""}</textarea>
+			[#include "../resource/pick.inc.htm"]
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">排序</th>
