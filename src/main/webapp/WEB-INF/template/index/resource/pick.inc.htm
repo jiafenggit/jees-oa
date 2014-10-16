@@ -1,0 +1,59 @@
+<div class="hidden">
+<div id="js-pick-url-dialog" style="width:600px;height:400px" data-options="buttons:'#js-pick-url-button',modal:true,resizable:true">
+<table class="js-icon-list-table"></table>
+</div>
+<div id="js-pick-url-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-ok'">确定</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<div id="js-url-toolbar">
+	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true">当前选择：</a>
+	<span class="js-url-content"></span>
+</div>
+</div>
+<script>
+$(function () {
+	var $pickUrlDialog = $('#js-pick-url-dialog');
+	$('.js-pick-url').textbox({
+		onClickButton : function () {
+			$pickUrlDialog.dialog({
+				title : '选取链接',
+				iconCls : 'icon-pick',
+				onOpen : function () {
+					$('.js-icon-list-table').treegrid({
+						url : '${_BASE_.url("resource", "list")}?menu_enable=1',
+						idField : 'id',
+						treeField : 'name',
+						toolbar : '#js-url-toolbar',
+						rownumbers : true,
+						fitcolumns : true,
+						fit : true,
+						nowrap : true,
+						singleSelect : true,
+						checkOnSelect : false,
+						selectOnCheck : false,
+						columns:[[
+							{field:'name',title:'名称'},
+							{field:'module',title:'模块'},
+							{field:'controller',title:'控制器'},
+							{field:'action',title:'方法'},
+							{field:'menu_url',title:'链接地址'}
+						]],
+						onSelect : function (row) {
+							$('.js-url-content').html(row.menu_url);
+						}
+					});
+				}
+			});
+		}
+	});
+		
+	$('#js-pick-url-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-pick-url').textbox('setValue', $('.js-url-content').html());
+		$pickUrlDialog.dialog('close');
+	});
+	$('#js-pick-url-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$pickUrlDialog.dialog('close');
+	});
+});
+</script>

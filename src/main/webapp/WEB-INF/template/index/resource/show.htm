@@ -27,8 +27,12 @@
 		<td>${info.refer_id}</td>
 	</tr>
 	<tr>
-		<th class="width130">独立菜单</th>
-		<td>[#if !empty(info.menu_enable)]是[#else]否[/#if]</td>
+		<th class="width130">菜单项</th>
+		<td>
+			在菜单管理中可被选取：[#if !empty(info.menu_list_enable) && !empty(info.menu_pick_enable)]是[#else]否[/#if]<br/>
+			<input disabled="disabled" name="menu_list_enable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menu_list_enable)] checked="checked"[/#if] />允许在菜单列表中显示<br/>
+			<input disabled="disabled" name="menu_pick_enable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menu_pick_enable)] checked="checked"[/#if] />允许作为独立菜单被选取<br/>
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">状态</th>

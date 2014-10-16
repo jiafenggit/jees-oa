@@ -27,8 +27,14 @@ $(function () {
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
 			{field:'refer_id',title:'引用'},
-			{field:'menu_enable',title:'独立菜单',align:'center',formatter:function (value, row, index) {
+			{field:'menu_list_enable',title:'菜单列',align:'center',formatter:function (value, row, index) {
 				return 1 == value ? '是' : '否';
+ 			}},
+ 			{field:'menu_pick_enable',title:'可选取',align:'center',formatter:function (value, row, index) {
+				return 1 == value ? '是' : '否';
+ 			}},
+ 			{field:'menu_enable',title:'菜单项',align:'center',formatter:function (value, row, index) {
+				return 1 == row.menu_list_enable && 1 == row.menu_pick_enable ? '是' : '否';
  			}},
 			{field:'status_text',title:'状态'},
 			{field:'create_id',title:'创建者',formatter:function (value, row, index) {

@@ -1,0 +1,58 @@
+<div class="hidden">
+<div id="js-pick-icon-dialog" style="width:300px;height:400px" data-options="buttons:'#js-pick-icon-button',modal:true,resizable:true">
+<table class="js-icon-list-table"></table>
+</div>
+<div id="js-pick-icon-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-ok'">确定</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<div id="js-icon-toolbar">
+	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true">当前选择：</a>
+	<span class="js-icon-content"></span>
+</div>
+</div>
+<script>
+$(function () {
+	var $pickIconDialog = $('#js-pick-icon-dialog');
+	$('.js-pick-icon').textbox({
+		onClickButton : function () {
+			$pickIconDialog.dialog({
+				title : '选取图标',
+				iconCls : 'icon-pick',
+				onOpen : function () {
+					$('.js-icon-list-table').treegrid({
+						url : '${_BASE_.url("icon", "list")}',
+						idField : 'id',
+						treeField : 'name',
+						toolbar : '#js-icon-toolbar',
+						rownumbers : true,
+						fitcolumns : true,
+						fit : true,
+						nowrap : true,
+						singleSelect : true,
+						checkOnSelect : false,
+						selectOnCheck : false,
+						columns:[[
+							{field:'name',title:'名称'},
+							{field:'icon',title:'图标',formatter:function (value, row, index) {
+								return 'icon-auto' + row.id;
+							}}
+						]],
+						onSelect : function (row) {
+							$('.js-icon-content').html('icon-auto' + row.id);
+						}
+					});
+				}
+			});
+		}
+	});
+		
+	$('#js-pick-icon-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-pick-icon').textbox('setValue', $('.js-icon-content').html());
+		$pickIconDialog.dialog('close');
+	});
+	$('#js-pick-icon-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$pickIconDialog.dialog('close');
+	});
+});
+</script>

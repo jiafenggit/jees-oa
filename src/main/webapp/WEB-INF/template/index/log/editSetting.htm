@@ -38,8 +38,8 @@ $(function () {
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
 			{field:'refer_id',title:'引用'},
-			{field:'menu_enable',title:'独立菜单',align:'center',formatter:function (value, row, index) {
-				return 1 == value ? '是' : '否';
+			{field:'menu_enable',title:'菜单项',align:'center',formatter:function (value, row, index) {
+				return 1 == row.menu_list_enable && 1 == row.menu_pick_enable ? '是' : '否';
  			}},
 			{field:'enable',title:'启用',align:'center',formatter:function (value, row, index) {
 				return formatter('enable', value, row, index);

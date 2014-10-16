@@ -10,7 +10,8 @@ public class Resource {
 	private String name; // 名称
 	private Integer parentId; // 父级
 	private Integer referId; // 引用主键（该记录的权限设置采用被引用记录的权限设置）
-	private Integer menuEnable; // 可作为独立菜单访问
+	private Integer menuListEnable; // 在菜单列表中显示
+	private Integer menuPickEnable; // 作为独立菜单被选取
 	private String module; // 模块名称
 	private String controller; // 控制器名称
 	private String action; // 方法名称
@@ -52,13 +53,21 @@ public class Resource {
 	public void setReferId(Integer referId) {
 		this.referId = referId;
 	}
-	
-	public Integer getMenuEnable() {
-		return menuEnable;
+
+	public Integer getMenuListEnable() {
+		return menuListEnable;
 	}
 
-	public void setMenuEnable(Integer menuEnable) {
-		this.menuEnable = menuEnable;
+	public void setMenuListEnable(Integer menuListEnable) {
+		this.menuListEnable = menuListEnable;
+	}
+
+	public Integer getMenuPickEnable() {
+		return menuPickEnable;
+	}
+
+	public void setMenuPickEnable(Integer menuPickEnable) {
+		this.menuPickEnable = menuPickEnable;
 	}
 
 	public String getModule() {

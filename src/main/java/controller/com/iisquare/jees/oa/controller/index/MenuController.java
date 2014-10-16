@@ -87,8 +87,7 @@ public class MenuController extends PermitController {
 				new String[]{"_self", "_blank", "_tab", "_iframe"}, null);
 		if(null == target) return displayMessage(3002, "打开方式参数错误");
 		persist.setTarget(target);
-		String url = ValidateUtil.filterSimpleString(get("url"), true, 1, 64, null);
-		if(null == url) return displayMessage(3002, "链接地址参数错误");
+		String url = DPUtil.trim(get("url"));
 		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");

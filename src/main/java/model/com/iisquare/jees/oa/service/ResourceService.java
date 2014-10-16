@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
 import com.iisquare.jees.oa.domain.Resource;
@@ -31,14 +33,34 @@ public class ResourceService extends ServiceBase {
 	
 	public ResourceService() {}
 	
-	public List<Map<String, Object>> getList(String columns, boolean bNoRefer, String orderBy, int page, int pageSize) {
-		String append = null;
-		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
-		List<Map<String, Object>> list;
-		if(bNoRefer) {
-			list = resourceDao.getList(columns, new String[]{"refer_id"}, new Object[]{0}, null, append, page, pageSize);
-		} else {
-			list = resourceDao.getList(columns, null, new Object[]{}, append, page, pageSize);
+	public List<Map<String, Object>> getList(Map<String, String> map, String orderBy, int page, int pageSize) {
+		StringBuilder sb = new StringBuilder("select * from ")
+			.append(resourceDao.tableName()).append(" where 1 = 1");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		if(!DPUtil.empty(map.get("no_refer"))) { // 排除非独立设置的权限
+			sb.append(" and refer_id = 0");
+		}
+		boolean menuEnable = !DPUtil.empty(map.get("menu_enable"));
+		if(menuEnable) { // 读取菜单项
+			sb.append(" and menu_list_enable = 1");
+		}
+		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
+		String sql = sb.toString();
+		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
+		List<Map<String, Object>> list = resourceDao.npJdbcTemplate().queryForList(sql, paramMap);
+		if(menuEnable) { // 组合菜单地址
+			for (Map<String, Object> row : list) {
+				StringBuilder menuUrl = new StringBuilder();
+				if(!DPUtil.empty(row.get("menu_pick_enable"))) {
+					Object module = row.get("module");
+					if(!DPUtil.empty(module)) menuUrl.append(module).append("/");
+					Object controller = row.get("controller");
+					if(!DPUtil.empty(controller)) menuUrl.append(controller).append("/");
+					Object action = row.get("action");
+					if(!DPUtil.empty(action)) menuUrl.append(action);
+				}
+				row.put("menu_url", menuUrl.toString());
+			}
 		}
 		list = ServiceUtil.fillFields(list, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);

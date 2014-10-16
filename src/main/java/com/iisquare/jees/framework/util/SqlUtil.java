@@ -79,12 +79,11 @@ public class SqlUtil {
 	}
 	
 	public static String buildLimit(int page, int pageSize) {
+		if(pageSize < 1) return "";
 		StringBuilder sb = new StringBuilder();
-		if(pageSize > 0) {
-			if(page < 1) page = 1;
-			page = (page - 1) * pageSize;
-			sb.append(" limit ").append(page).append(", ").append(pageSize);
-		}
+		if(page < 1) page = 1;
+		page = (page - 1) * pageSize;
+		sb.append(" limit ").append(page).append(", ").append(pageSize);
 		return sb.toString();
 	}
 	

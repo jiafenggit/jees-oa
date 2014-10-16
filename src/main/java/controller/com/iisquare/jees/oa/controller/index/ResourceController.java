@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Resource;
 
@@ -26,9 +27,8 @@ public class ResourceController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
-		boolean bNoRefer = !DPUtil.empty(get("no_refer"));
 		boolean bLogSetting = !DPUtil.empty(get("log_setting"));
-		List<Map<String, Object>> list = resourceService.getList("*", bNoRefer, "sort desc", 1, 0);
+		List<Map<String, Object>> list = resourceService.getList(ServletUtil.singleParameterMap(request), "sort desc", 1, 0);
 		if(bLogSetting) list = logService.fillSetting(list);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
@@ -71,7 +71,8 @@ public class ResourceController extends PermitController {
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
 		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
-		persist.setMenuEnable(ValidateUtil.filterInteger(get("menuEnable"), true, 0, null, null));
+		persist.setMenuListEnable(ValidateUtil.filterInteger(get("menuListEnable"), true, 0, null, null));
+		persist.setMenuPickEnable(ValidateUtil.filterInteger(get("menuPickEnable"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);

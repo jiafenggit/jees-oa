@@ -9,8 +9,11 @@
 		<td><input name="parentId" class="js-select-parent width250" value="${info.parentId!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">独立菜单</th>
-		<td><input name="menuEnable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menuEnable)] checked="checked"[/#if] />允许在菜单管理中选择</td>
+		<th class="width130">菜单项</th>
+		<td>
+			<input name="menuListEnable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menuListEnable)] checked="checked"[/#if] />允许在菜单列表中显示<br/>
+			<input name="menuPickEnable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menuPickEnable)] checked="checked"[/#if] />允许作为独立菜单被选取<br/>
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">名称</th>
