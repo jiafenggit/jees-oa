@@ -1,25 +1,122 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-	<div class="width240" data-options="region:'west',split:true,border:false,plain:true" title="组织列表">
-		<ul id="organizeTree" class="menuTree margin5" data-options="url:'${_BASE_.url("organize", "list")}',lines:true"></ul>
-	</div>
-	<div data-options="region:'center',split:true,border:false,plain:true" class="padding-left2">
-		<iframe id="memberIFrame" scrolling="auto" frameborder="0" src="" class="full-w-h"></iframe>
-	</div>
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
 <script>
-function loadIFrame(url) {
-	$('#memberIFrame').attr('src', url);
-}
 $(function () {
-	$('#organizeTree').tree({
-		onClick : function (node) {
-			var url = '${_BASE_.url("listView")}?id=' + node.id;
-			loadIFrame(url);
+	$('.js-list-table').datagrid({
+		url : '${_BASE_.url("list")}',
+		pagination : true,
+		idField : 'id',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
+			{field:'serial',title:'账号'},
+			{field:'name',title:'名称'},
+			{field:'sort',title:'排序'},
+			{field:'status_text',title:'状态'},
+			{field:'organize',title:'所在部门'},
+			{field:'role',title:'拥有角色'},
+			{field:'active_time',title:'最后活动时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'active_ip',title:'最后活动IP'},
+			{field:'create_ip',title:'注册IP'},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
+			});
+			$('.js-list-table').datagrid('autoSizeColumn');
 		}
 	});
-	loadIFrame('${_BASE_.url("listView")}');
+	
+	$('.js-control-delete').bind('click', function () {
+		var rows = $('.js-list-table').datagrid('getChecked');
+		var ids = '', size = rows.length;
+		if(size < 1) {
+			Web_alertInfo('请选择要删除的记录！');
+			return ;
+		}
+		for(var i = 0; i < size; i++) {
+			var row = rows[i];
+			ids += row.id;
+			if(i + 1 < size) {
+				ids += ',';
+			}
+		}
+		var url = '${_BASE_.url("delete")}?ids=' + ids;
+		Web_redirectPage(url);
+	});
+});
+</script>
+<div class="hidden">
+<div id="js-search-dialog" style="width:230px;height:168px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<form id="searchForm" method="post" action="">
+<table align="center" class="table-horizontal tr-height25">
+	<tr>
+		<th>标题</th>
+		<td><input class="easyui-textbox width150" type="text" name="title" value="" /></td>
+	</tr>
+	<tr>
+		<th>分类</th>
+		<td><input name="typeId" class="js-select-type width150" value="" /></td>
+	</tr>
+	<tr>
+		<th>作者</th>
+		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
+	</tr>
+</table>
+</form>
+</div>
+<div id="js-search-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-search'">搜索</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+</div>
+<script>
+$(function () {
+	$('input[name="typeId"]').combotree({
+		checkbox : true,
+		url : '${_BASE_.url("noticeType", "list")}',
+		loadFilter : function (data, parent) {
+			return Web_formatComboTree(data.rows, [], '请选择所属类型', 'name');
+		}
+	});
+	var $searchDialog = $('#js-search-dialog');
+	$('.js-control-search').bind('click', function () {
+		$searchDialog.dialog({
+			title : '筛选条件',
+			iconCls : 'icon-search',
+			onOpen : function () {}
+		});
+	});
+	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		$('.js-list-table').datagrid('load', $('#searchForm').form('getData'));
+		$searchDialog.dialog('close');
+	});
+	$('#js-search-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$searchDialog.dialog('close');
+	});
 });
 </script>
