@@ -282,7 +282,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public List<Map<String, Object>> getByIds(String columns, Object... ids) {
 		String idStr = DPUtil.safeImplode(",", ids);
 		if(DPUtil.empty(idStr)) return new ArrayList<Map<String, Object>>(0);
-		return getList("*", DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
+		return getList(columns, DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
 	}
 	
 	/**
