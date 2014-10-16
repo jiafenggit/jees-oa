@@ -59,7 +59,6 @@
 <script>
 $(function () {
 	$('input[name="parentId"]').combotree({
-		checkbox : true,
 		url : '${_BASE_.url("list")}',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');

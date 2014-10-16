@@ -42,7 +42,6 @@
 <script>
 $(function () {
 	$('input[name="typeId"]').combotree({
-		checkbox : true,
 		url : '${_BASE_.url("noticeType", "list")}',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '请选择所属类型', 'name');
