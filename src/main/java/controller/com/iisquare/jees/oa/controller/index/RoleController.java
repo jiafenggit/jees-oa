@@ -80,7 +80,7 @@ public class RoleController extends PermitController {
 		String status = get("status");
 		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
 		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
-		persist.setRemark(ValidateUtil.filterSimpleString(get("remark"), false, null, null, null));
+		persist.setRemark(DPUtil.parseString(get("remark")));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

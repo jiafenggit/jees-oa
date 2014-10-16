@@ -1,127 +1,59 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<div class="easyui-layout" data-options="fit:true,border:false,plain:true">
-	<div class="width240" data-options="region:'west',split:true,border:false,plain:true" title="组织列表">
-		<ul id="organizeTree" class="margin5" data-options="url:'${_BASE_.url("list")}',lines:true"></ul>
-	</div>
-	<div data-options="region:'center',split:true,border:false,plain:true" class="padding-left2">
-		<iframe id="organizeIFrame" scrolling="auto" frameborder="0" src="" class="full-w-h"></iframe>
-	</div>
-</div>
-<div id="organizeMenu">
-	[#if _BASE_.hasPermit("create")]<div data-options="name:'1'">添&nbsp;&nbsp;加</div>[/#if]
-	[#if _BASE_.hasPermit("modify")]<div data-options="name:'2'">修&nbsp;&nbsp;改</div>[/#if]
-	[#if _BASE_.hasPermit("delete")]<div data-options="name:'3'">删&nbsp;&nbsp;除</div>[/#if]
-	<div class="menu-sep"></div>
-	[#if _BASE_.hasPermit("move")]<div data-options="name:'4'">移&nbsp;&nbsp;动</div>[/#if]
-	<div class="menu-sep"></div>
-	<div data-options="name:'5'">取&nbsp;&nbsp;消</div>
-</div>
-<div class="moveActionDialog" style="width:320px; height:400px;" data-options="buttons:'#actionButton',modal:true,resizable:true">
-	<ul id="organizeMoveTree" class="margin5" data-options="lines:true"></ul>
-</div>
-<div id="actionButton">
-	<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
-	<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</a>
+<table class="js-list-table"></table>
+<div id="toolbar">
+	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
 </div>
 <script>
-function loadIFrame(url) {
-	$('#organizeIFrame').attr('src', url);
-}
-var contextMenuNode = null;
-var romoveToNode = null;
 $(function () {
-	$('#organizeTree').tree({
-		onClick : function (node) {
-			var url = '${_BASE_.url("show")}?id=' + node.id;
-			loadIFrame(url);
-		},
-		onContextMenu : function (e, node) {
-			contextMenuNode = node;
-			e.preventDefault();
-			$('#organizeTree').tree('select', node.target);
-			$('#organizeMenu').menu('show', {
-				left: e.pageX,
-				top: e.pageY
+	$('.js-list-table').treegrid({
+		url : '${_BASE_.url("list")}',
+		idField : 'id',
+		treeField : 'name',
+		toolbar : '#toolbar',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		columns:[[
+			{field:'id',title:'ID'},
+			{field:'name',title:'名称'},
+			{field:'sort',title:'排序'},
+			{field:'status_text',title:'状态'},
+			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
+				if(!row.create_id_rel) return '';
+				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;
+			}},
+			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'update_id',title:'修改者',formatter:function (value, row, index) {
+				if(!row.update_id_rel) return '';
+				return '[' + row.update_id_rel.serial + ']' + row.update_id_rel.name;
+			}},
+			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
+				return Web_formatDateTime(value);
+			}},
+			{field:'operate',title:'操作',formatter:function (value, row, index) {
+				return '<a href="${_BASE_.url("show")}?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>'
+					+ '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
+					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
+			}}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-button').linkbutton({
+				plain : true
 			});
+			$('.js-list-table').datagrid('autoSizeColumn');
+		},
+		onSelect : function (row) {
+			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
+			$('.js-control-add').linkbutton({text:'添加下级节点'});
 		}
-	});
-	
-	$('#organizeMoveTree').tree({
-		onClick : function (node) {
-			romoveToNode = node;
-		}
-	});
-	
-	$('#organizeMenu').menu({
-		onClick : function (item) {
-			var menuClickedIndex = item.name;
-			switch (menuClickedIndex) {
-				case '1' : // 添加
-					var url = '${_BASE_.url("create")}?id=' + contextMenuNode.id;
-					loadIFrame(url);
-				break;
-				case '2' : // 修改
-					var url = '${_BASE_.url("modify")}?id=' + contextMenuNode.id;
-					loadIFrame(url);
-				break;
-				case '3' : // 删除
-					var url = '${_BASE_.url("delete")}?id=' + contextMenuNode.id;
-					$.getJSON(url, function (data) {
-						if(data.status) {
-							Web_alertInfo(data.message);
-						} else {
-							var tab = window.parent.$('#platformTabs').tabs('getSelected');
-							tab.panel('refresh');
-						}
-					});
-				break;
-				case '4' : // 移动
-					romoveToNode = null;
-					var rootNode = $('#organizeTree').tree('getRoot');
-					if(rootNode.id == contextMenuNode.id) {
-						Web_alertInfo('该组织不允许移动！');
-						return ;
-					}
-					var data = new Array(1);
-					data[0] = $('#organizeTree').tree('getData', rootNode.target);
-					$('#organizeMoveTree').tree('loadData', data);
-					var currentNode = $('#organizeMoveTree').tree('find', contextMenuNode.id);
-					if(null == currentNode) {
-						Web_alertInfo('请选择需要移动的组织！');
-						return ;
-					} else {
-						$('#organizeMoveTree').tree('remove', currentNode.target);
-						$('.moveActionDialog').dialog({
-							title : '将[' + contextMenuNode.text + ']移动至：',
-							iconCls : 'icon-edit'
-						});
-					}
-				break;
-			}
-		}
-	});
-
-	$('#buttonOk').bind('click', function () {
-		if(null == romoveToNode) {
-			Web_alertInfo('请选择组织！');
-			return ;
-		}
-		var url = '${_BASE_.url("move")}?id=' + contextMenuNode.id + '&pid=' + romoveToNode.id;
-		$(this).linkbutton('disable');
-		$.getJSON(url, function (data) {
-			if(data.status) {
-				$('#buttonOk').linkbutton('enable');
-				Web_alertInfo(data.message);
-			} else {
-				var tab = window.parent.$('#platformTabs').tabs('getSelected');
-				tab.panel('refresh');
-			}
-		});
-	});
-	$('#buttonCancel').bind('click', function () {
-		$('.moveActionDialog').dialog('close');
 	});
 });
 </script>

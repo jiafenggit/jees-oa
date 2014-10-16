@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-16 11:37:36
+Date: 2014-10-16 14:16:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,7 +84,7 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
@@ -106,6 +106,7 @@ INSERT INTO `oa_log` VALUES ('14', '用户登录', 'system', 'index', 'member', 
 INSERT INTO `oa_log` VALUES ('16', '用户登录', 'system', 'index', 'member', 'logon', 'http://127.0.0.1:8080/jees-oa/login', 'http://127.0.0.1:8080/jees-oa/index/member/logon', '******', '2251D01E360FB64798EE391A2E90DB50', '{\"mid\":1}', '', '{}', null, '0', '127.0.0.1', '1413089226504');
 INSERT INTO `oa_log` VALUES ('17', '信息管理', 'system', 'index', 'log', 'layout', null, 'http://127.0.0.1:8080/jees-oa/index/log/layout', null, '3004EC0E20BF25B1B4FE7E99FBA2617E', null, null, null, null, '0', '127.0.0.1', '1413350567861');
 INSERT INTO `oa_log` VALUES ('18', '信息管理', 'system', 'index', 'log', 'layout', null, 'http://127.0.0.1:8080/jees-oa/index/log/layout', null, 'E02D06E9259348E7696ED0D3833F0F0C', null, null, null, null, '1', '127.0.0.1', '1413367036348');
+INSERT INTO `oa_log` VALUES ('19', '信息管理', 'system', 'index', 'log', 'layout', null, 'http://127.0.0.1:8080/jees-oa/index/log/layout', null, '09A1E4CEDF342716CA9D59E2D42C735A', null, null, null, null, '1', '127.0.0.1', '1413431700736');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -218,8 +219,8 @@ CREATE TABLE `oa_menu` (
 -- Records of oa_menu
 -- ----------------------------
 INSERT INTO `oa_menu` VALUES ('2', 'safasf', '0', 'icon-save', '_blank', 'asf', '0', '0', '1', '1413252255813', '1', '1413252255813');
-INSERT INTO `oa_menu` VALUES ('3', 'afasfasf', '2', 'icon-key', '_tab', 'asfaf', '0', '1', '1', '1413252274492', '1', '1413252274492');
-INSERT INTO `oa_menu` VALUES ('4', 'asfasf', '0', 'icon-add', '_blank', 'asf', '0', '1', '1', '1413264061812', '1', '1413264061812');
+INSERT INTO `oa_menu` VALUES ('3', 'afasfasf', '2', 'icon-auto2', '_tab', 'asf/asfsss/asf', '0', '1', '1', '1413252274492', '1', '1413433030405');
+INSERT INTO `oa_menu` VALUES ('4', 'asfasf', '0', 'icon-auto4', '_blank', 'index/log/layout', '0', '1', '1', '1413264061812', '1', '1413433011125');
 
 -- ----------------------------
 -- Table structure for `oa_notice`
@@ -299,6 +300,7 @@ CREATE TABLE `oa_organize` (
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `remark` text,
   `create_id` int(11) NOT NULL DEFAULT '0',
   `create_time` bigint(20) NOT NULL DEFAULT '0',
   `update_id` int(11) NOT NULL DEFAULT '0',
@@ -331,20 +333,21 @@ CREATE TABLE `oa_resource` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', '0', '0', '0', 'index', '', '', '0', '0', '1', '1413172095468', '1', '1413172111872');
-INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', '0', '0', '0', 'index', 'log', '', '0', '0', '1', '1413172138260', '1', '1413172269291');
-INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', '0', '0', '0', 'index', 'log', 'layout', '0', '0', '1', '1413172230720', '1', '1413172281746');
+INSERT INTO `oa_resource` VALUES ('1', '默认模块', '0', '0', '1', '0', 'index', '', '', '0', '0', '1', '1413172095468', '1', '1413431628590');
+INSERT INTO `oa_resource` VALUES ('2', '日志管理', '1', '0', '1', '0', 'index', 'log', '', '0', '0', '1', '1413172138260', '1', '1413431641472');
+INSERT INTO `oa_resource` VALUES ('3', '信息管理', '2', '0', '1', '1', 'index', 'log', 'layout', '0', '0', '1', '1413172230720', '1', '1413431687430');
 INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1413172303783', '1', '1413172303783');
-INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', '3', '0', '0', 'index', 'log', 'edit', '0', '0', '1', '1413177000028', '1', '1413177406728');
+INSERT INTO `oa_resource` VALUES ('5', '信息编辑', '2', '3', '1', '0', 'index', 'log', 'edit', '0', '0', '1', '1413177000028', '1', '1413431675044');
 INSERT INTO `oa_resource` VALUES ('6', 'fafasf', '0', '0', '1', '0', 'fasf', 'asf', 'asf', '0', '0', '1', '1413343590371', '1', '1413362116778');
 INSERT INTO `oa_resource` VALUES ('7', 'sdsg', '0', '0', '0', '0', 'sdg', 'sdg', 'sdg', '0', '0', '1', '1413343686112', '1', '1413343686112');
 INSERT INTO `oa_resource` VALUES ('8', 'afas', '0', '0', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1413343711628', '1', '1413343711628');
 INSERT INTO `oa_resource` VALUES ('9', 'fsfaasf', '0', '0', '1', '0', 'asf', 'asf', 'asf', '0', '-1', '1', '1413361649960', '1', '1413361817521');
+INSERT INTO `oa_resource` VALUES ('10', 'asfasf', '0', '0', '1', '1', 'asf', 'asfsss', 'asf', '0', '0', '1', '1413431559776', '1', '1413431559776');
 
 -- ----------------------------
 -- Table structure for `oa_role`

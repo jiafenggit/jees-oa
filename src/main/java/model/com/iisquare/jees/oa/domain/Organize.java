@@ -11,6 +11,7 @@ public class Organize {
 	private Integer parentId; // 父级
 	private Integer sort; // 排序（从高到低）
 	private Integer status; // 状态
+	private String remark; // 备注
 	private Integer createId; // 创建者
 	private Long createTime; // 添加时间
 	private Integer updateId; // 修改者
@@ -54,6 +55,14 @@ public class Organize {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Integer getCreateId() {
