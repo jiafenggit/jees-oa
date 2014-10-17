@@ -14,7 +14,7 @@
 	</tr>
 	<tr>
 		<th class="width130">密码</th>
-		<td><input class="easyui-textbox width200" type="password" name="password" data-options="required:true" value="${(info.password)!""}" /></td>
+		<td><input class="easyui-textbox width200" type="password" name="password"[#if empty(info.password)] data-options="required:true"[/#if] value="" /></td>
 	</tr>
 	<tr>
 		<th class="width130">部门</th>
