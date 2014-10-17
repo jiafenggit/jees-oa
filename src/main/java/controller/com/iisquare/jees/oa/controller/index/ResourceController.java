@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
-import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Resource;
 
@@ -28,7 +27,7 @@ public class ResourceController extends PermitController {
 	
 	public String listAction () throws Exception {
 		boolean bLogSetting = !DPUtil.empty(get("log_setting"));
-		List<Map<String, Object>> list = resourceService.getList(ServletUtil.singleParameterMap(request, null), "sort desc", 1, 0);
+		List<Map<String, Object>> list = resourceService.getList(parameterMap, "sort desc", 1, 0);
 		if(bLogSetting) list = logService.fillSetting(list);
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());

@@ -71,20 +71,54 @@ $(function () {
 });
 </script>
 <div class="hidden">
-<div id="js-search-dialog" style="width:230px;height:168px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
+<div id="js-search-dialog" style="width:462px;height:282px" data-options="buttons:'#js-search-button',modal:true,resizable:true">
 <form id="searchForm" method="post" action="">
 <table align="center" class="table-horizontal tr-height25">
 	<tr>
-		<th>标题</th>
-		<td><input class="easyui-textbox width150" type="text" name="title" value="" /></td>
-	</tr>
-	<tr>
-		<th>分类</th>
-		<td><input name="typeId" class="js-select-type width150" value="" /></td>
-	</tr>
-	<tr>
-		<th>作者</th>
+		<th>账号</th>
 		<td><input class="easyui-textbox width150" type="text" name="serial" value="" /></td>
+		<th>名称</th>
+		<td><input class="easyui-textbox width150" type="text" name="name" value="" /></td>
+	</tr>
+	<tr>
+		<th>创建时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStartCreate" value="" /></td>
+		<th>～</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEndCreate" value="" /></td>
+	</tr>
+	<tr>
+		<th>修改时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStartModify" value="" /></td>
+		<th>～</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEndModify" value="" /></td>
+	</tr>
+	<tr>
+		<th>活动时间</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeStartActive" value="" /></td>
+		<th>～</th>
+		<td><input class="easyui-datetimebox width150" type="text" name="timeEndActive" value="" /></td>
+	</tr>
+	<tr>
+		<th>注册IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="createIp" value="" /></td>
+		<th>活动IP</th>
+		<td><input class="easyui-textbox width150" type="text" name="activeIp" value="" /></td>
+	</tr>
+	<tr>
+		<th>部门</th>
+		<td><input class="width150" type="text" name="organizeIds[]" multiple value="" /></td>
+		<th>职务</th>
+		<td><input class="width150" type="text" name="dutyId" value="" /></td>
+	</tr>
+	<tr>
+		<th>角色</th>
+		<td><input class="width150" type="text" name="roleIds[]" multiple value="" /></td>
+		<th>状态</th>
+		<td>
+			<select class="easyui-combobox" name="status" data-options="editable:false">
+				[@getMapOption map=statusMap default="" tips="全部" /]
+			</select>
+		</td>
 	</tr>
 </table>
 </form>
@@ -104,10 +138,35 @@ $(function () {
 		}
 	});
 	var $searchDialog = $('#js-search-dialog');
+	var bSearchLoaded = false;
 	$('.js-control-search').bind('click', function () {
 		$searchDialog.dialog({
 			title : '筛选条件',
-			iconCls : 'icon-search'
+			iconCls : 'icon-search',
+			onOpen : function () {
+				if(bSearchLoaded) return ;
+				bSearchLoaded = true;
+				$('input[name="organizeIds[]"]').combotree({
+					cascadeCheck : false,
+					url : '${_BASE_.url("organize", "list")}',
+					loadFilter : function (data, parent) {
+						return Web_formatComboTree(data.rows, [], null, 'name');
+					}
+				});
+				$('input[name="roleIds[]"]').combotree({
+					cascadeCheck : false,
+					url : '${_BASE_.url("role", "list")}',
+					loadFilter : function (data, parent) {
+						return Web_formatComboTree(data.rows, [], null, 'name');
+					}
+				});
+				$('input[name="dutyId"]').combotree({
+					url : '${_BASE_.url("duty", "list")}',
+					loadFilter : function (data, parent) {
+						return Web_formatComboTree(data.rows, [], null, 'name');
+					}
+				});
+			}
 		});
 	});
 	$('#js-search-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {

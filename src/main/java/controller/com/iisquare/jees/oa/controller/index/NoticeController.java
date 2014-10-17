@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.core.util.UrlUtil;
 import com.iisquare.jees.framework.util.DPUtil;
-import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Notice;
 import com.iisquare.jees.oa.service.NoticeService;
@@ -34,7 +33,7 @@ public class NoticeController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = noticeService.search(ServletUtil.singleParameterMap(request, null), "sort desc", page, pageSize);
+		Map<Object, Object> map = noticeService.search(parameterMap, "sort desc", page, pageSize);
 		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
 		for (Map<String, Object> row : rows) {
 			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));

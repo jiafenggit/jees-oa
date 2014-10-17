@@ -23,13 +23,14 @@ import com.iisquare.jees.oa.domain.Member;
 public class MemberController extends PermitController {
 	
 	public String layoutAction() throws Exception {
+		assign("statusMap", memberService.getStatusMap(false));
 		return displayTemplate();
 	}
 	
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = memberService.search(ServletUtil.singleParameterMap(request, new String[]{"organizeIds", "roleIds"}), "sort desc", page, pageSize);
+		Map<Object, Object> map = memberService.search(parameterMap, "sort desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -60,11 +61,11 @@ public class MemberController extends PermitController {
 		}
 		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64, null);
 		if(DPUtil.empty(serial)) return displayMessage(3002, "账号参数错误");
-		if(null != memberService.getBySerial(serial)) return displayMessage(3003, "账号已存在");
+		if(null != memberService.getBySerial(persist.getId(), serial)) return displayMessage(3003, "账号已存在");
 		persist.setSerial(serial);
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3004, "名称参数错误");
-		if(null != memberService.getByName(name)) return displayMessage(3005, "名称已存在");
+		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在");
 		persist.setName(name);
 		String password = DPUtil.trim(get("password"));
 		if(!DPUtil.empty(password)) {
@@ -126,7 +127,7 @@ public class MemberController extends PermitController {
 		if(DPUtil.empty(serial) || DPUtil.empty(password)) {
 			return displayMessage(1, "请输入正确的账号和密码！");
 		}
-		Member member = memberService.getBySerial(serial);
+		Member member = memberService.getBySerial(0, serial);
 		if(null == member || 1 != member.getStatus()
 				|| !memberService.encodePassword(password, member.getSalt()).equals(member.getPassword())) {
 			return displayMessage(2, "账号或密码错误，请重新输入！");

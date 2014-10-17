@@ -1,6 +1,8 @@
 package com.iisquare.jees.framework.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +33,30 @@ public class SqlUtil {
 		return sql;
 	}
 
+	/**
+	 * 创建安全where查询语句
+	 */
+	public static String buildSafeWhere(String split, String field, Object[] values, String operator) {
+		String[] strs = DPUtil.filterArray(values, "'", true, true, true, true);
+		if(DPUtil.empty(strs)) return "";
+		if(DPUtil.empty(operator)) operator = "=";
+		split = DPUtil.stringConcat(" ", split, " ");
+		operator = DPUtil.stringConcat(" ", operator, " ");
+		List<String> list = new ArrayList<String>(strs.length);
+		for (Object str : strs) {
+			list.add(DPUtil.stringConcat(field, operator, str));
+		}
+		return DPUtil.implode(split, DPUtil.collectionToArray(list));
+	}
+	
+	/**
+	 * 创建安全where查询语句
+	 */
+	public static String buildSafeWhere(String split, Object[] values) {
+		String[] strs = DPUtil.filterArray(values, "'", true, true, true, true);
+		return DPUtil.implode(split, strs);
+	}
+	
 	public static String buildWhere(Object[] keys, Object[] operators, boolean bPlaceholder) {
 		if(DPUtil.empty(keys)) return "";
 		int length = keys.length;

@@ -14,12 +14,15 @@
 <script>
 $(function () {
 	var $pickUrlDialog = $('#js-pick-url-dialog');
+	var bPickResourceLoaded = false;
 	$('.js-pick-url').textbox({
 		onClickButton : function () {
 			$pickUrlDialog.dialog({
 				title : '选取链接',
 				iconCls : 'icon-pick',
 				onOpen : function () {
+					if(bPickResourceLoaded) return ;
+					bPickResourceLoaded = true;
 					$('.js-icon-list-table').treegrid({
 						url : '${_BASE_.url("resource", "list")}?menu_enable=1',
 						idField : 'id',

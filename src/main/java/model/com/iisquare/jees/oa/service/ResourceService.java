@@ -95,7 +95,7 @@ public class ResourceService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		String idStr = DPUtil.safeImplode(",", ids);
+		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
 		int count = resourceDao.getCount(new String[]{"parent_id"}, new Object[]{idStr}, new String[]{"in"}, null);
 		if(count > 0) return -1;

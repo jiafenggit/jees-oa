@@ -17,21 +17,19 @@ import javax.servlet.http.HttpSession;
 public class ServletUtil {
 	
 	public static final String cookieEncoding = "UTF-8";
-
+	
 	/**
-	 * 将parameterMap转换为单值
-	 * @param request
-	 * @param multipleFields 该数组指定的字段为多值
-	 * @return
+	 * 将parameterMap转换为单值，数组方式通过在key后添加[]提交
 	 */
-	public static Map<String, Object> singleParameterMap(HttpServletRequest request, String[] multipleFields) {
+	public static Map<String, Object> singleParameterMap(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
 			String key = entry.getKey();
-			if(DPUtil.isItemExist(multipleFields, key)) {
-				map.put(key, DPUtil.parseString(DPUtil.getByIndex(entry.getValue(), 0)));
+			String[] value = entry.getValue();
+			if(key.endsWith("[]")) {
+				map.put(key.substring(0, key.length() - 2), value);
 			} else {
-				map.put(key, entry.getValue());
+				map.put(key, value[0]);
 			}
 		}
 		return map;

@@ -119,6 +119,7 @@ public class DPUtil {
 		String str = object.toString();
 		if("".equals(str)) return 0.0;
 		str = getFirstMatcher(regexDouble, str);
+		if(null == str) return 0.0;
 		return Double.parseDouble(str);
 	}
 	
@@ -130,6 +131,7 @@ public class DPUtil {
 		String str = object.toString();
 		if("".equals(str)) return 0.0f;
 		str = getFirstMatcher(regexDouble, str);
+		if(null == str) return 0.0f;
 		return Float.parseFloat(str);
 	}
 	
@@ -275,10 +277,10 @@ public class DPUtil {
 	}
 	
 	public static String implode(String split, Object[] objects) {
-		StringBuilder sb = new StringBuilder();
 		if(null == objects) return "";
 		int size = objects.length;
 		if(1 > size) return "";
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < size; i++) {
 			Object value = objects[i];
 			if(null == value) continue;
@@ -295,16 +297,25 @@ public class DPUtil {
 	}
 	
 	/**
-	 * 安全方式连接字符串
+	 * 过滤数组
+	 * @param objects 数组
+	 * @param bTrim 去除空格
+	 * @param bEmpty 去除空值
+	 * @param bDuplicate 去重
+	 * @return 字符串数组
 	 */
-	public static String safeImplode(String split, Object[] objects) {
-		List<String> list = new ArrayList<String>();
+	public static String[] filterArray(Object[] objects, String wrap, boolean bTrim, boolean bEmpty, boolean bSafe, boolean bDuplicate) {
+		if(empty(objects)) return new String[]{};
+		List<Object> list = new ArrayList<Object>();
 		for (Object object : objects) {
-			String str = ValidateUtil.filterRegex(regexSafeImplode, DPUtil.parseString(object), true, 1, null, null);
-			if(null == str) continue ;
-			list.add(str);
+			String str = parseString(object);
+			if(bTrim) str = trim(str);
+			if(bEmpty && empty(str)) continue ;
+			if(bSafe && null == ValidateUtil.filterRegex(regexSafeImplode, str, bTrim, 0, null, null)) continue ;
+			if(bDuplicate && list.contains(str)) continue ;
+			list.add(null == wrap ? str : DPUtil.stringConcat(wrap, str, wrap));
 		}
-		return implode(split, collectionToArray(list));
+		return collectionToStringArray(list);
 	}
 	
 	/**

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iisquare.jees.framework.Configuration;
 import com.iisquare.jees.framework.controller.ControllerBase;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.CodeUtil;
@@ -31,6 +32,8 @@ public class MemberService extends ServiceBase {
 	public MemberOrganizeRelDao memberOrganizeRelDao;
 	@Autowired
 	public MemberRoleRelDao memberRoleRelDao;
+	@Autowired
+	public Configuration configuration;
 	
 	public Map<String, String> getStatusMap(boolean bAll) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -47,22 +50,78 @@ public class MemberService extends ServiceBase {
 	public Map<Object, Object> search(Map<String, Object> map, String orderBy, int page, int pageSize) {
 		StringBuilder sb = new StringBuilder("select * from ")
 			.append(memberDao.tableName()).append(" where 1 = 1");
+		String primaryKey = memberDao.getPrimaryKey();
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		Object title = map.get("title");
-		if(!DPUtil.empty(title)) {
-			sb.append(" and title like :title");
-			paramMap.put("title", DPUtil.stringConcat("%", title, "%"));
-		}
-		int typeId = ValidateUtil.filterInteger(DPUtil.parseString(map.get("typeId")), true, 0, null, 0);
-		if(!DPUtil.empty(typeId)) {
-			sb.append(" and type_id = :typeId");
-			paramMap.put("typeId", typeId);
-		}
 		Object serial = map.get("serial");
 		if(!DPUtil.empty(serial)) {
-			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
-				.append(" from ").append(memberDao.tableName()).append(" where serial = :serial)");
+			sb.append(" and serial = :serial");
 			paramMap.put("serial", serial);
+		}
+		Object name = map.get("name");
+		if(!DPUtil.empty(name)) {
+			sb.append(" and name = :name");
+			paramMap.put("name", name);
+		}
+		Object createIp = map.get("createIp");
+		if(!DPUtil.empty(createIp)) {
+			sb.append(" and create_ip = :createIp");
+			paramMap.put("createIp", createIp);
+		}
+		Object activeIp = map.get("activeIp");
+		if(!DPUtil.empty(activeIp)) {
+			sb.append(" and active_ip = :activeIp");
+			paramMap.put("activeIp", activeIp);
+		}
+		String organizeIds = SqlUtil.buildSafeWhere(",", (Object[]) map.get("organizeIds"));
+		if(!DPUtil.empty(organizeIds)) {
+			sb.append(" and ").append(primaryKey).append(" in (select member_id from ")
+				.append(memberOrganizeRelDao.tableName()).append(" where organize_id in (").append(organizeIds).append("))");
+		}
+		int dutyId = ValidateUtil.filterInteger(DPUtil.parseString(map.get("dutyId")), true, 0, null, 0);
+		if(!DPUtil.empty(dutyId)) {
+			sb.append(" and ").append(primaryKey).append(" in (select member_id from ")
+				.append(memberOrganizeRelDao.tableName()).append(" where duty_id = :dutyId)");
+			paramMap.put("dutyId", dutyId);
+		}
+		String roleIds = SqlUtil.buildSafeWhere(",", (Object[]) map.get("roleIds"));
+		if(!DPUtil.empty(roleIds)) {
+			sb.append(" and ").append(primaryKey).append(" in (select member_id from ")
+				.append(memberRoleRelDao.tableName()).append(" where role_id in (").append(roleIds).append("))");
+		}
+		String status = DPUtil.parseString(map.get("status"));
+		if(!ValidateUtil.isNull(status, true)) {
+			sb.append(" and status = :status");
+			paramMap.put("status", DPUtil.parseInt(status));
+		}
+		Object timeStartCreate = map.get("timeStartCreate");
+		if(!DPUtil.empty(timeStartCreate)) {
+			sb.append(" and create_time >= :timeStartCreate");
+			paramMap.put("timeStartCreate", DPUtil.dateTimeToMillis(timeStartCreate, configuration.getDateTimeFormat()));
+		}
+		Object timeEndCreate = map.get("timeEndCreate");
+		if(!DPUtil.empty(timeEndCreate)) {
+			sb.append(" and create_time <= :timeEndCreate");
+			paramMap.put("timeEndCreate", DPUtil.dateTimeToMillis(timeEndCreate, configuration.getDateTimeFormat()));
+		}
+		Object timeStartModify = map.get("timeStartModify");
+		if(!DPUtil.empty(timeStartModify)) {
+			sb.append(" and modify_time >= :timeStartModify");
+			paramMap.put("timeStartModify", DPUtil.dateTimeToMillis(timeStartModify, configuration.getDateTimeFormat()));
+		}
+		Object timeEndModify = map.get("timeEndModify");
+		if(!DPUtil.empty(timeEndModify)) {
+			sb.append(" and modify_time <= :timeEndModify");
+			paramMap.put("timeEndModify", DPUtil.dateTimeToMillis(timeEndModify, configuration.getDateTimeFormat()));
+		}
+		Object timeStartActive = map.get("timeStartActive");
+		if(!DPUtil.empty(timeStartActive)) {
+			sb.append(" and active_time >= :timeStartActive");
+			paramMap.put("timeStartActive", DPUtil.dateTimeToMillis(timeStartActive, configuration.getDateTimeFormat()));
+		}
+		Object timeEndActive = map.get("timeEndActive");
+		if(!DPUtil.empty(timeEndActive)) {
+			sb.append(" and active_time <= :timeEndActive");
+			paramMap.put("timeEndActive", DPUtil.dateTimeToMillis(timeEndActive, configuration.getDateTimeFormat()));
 		}
 		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
@@ -128,12 +187,16 @@ public class MemberService extends ServiceBase {
 		return memberDao.deleteByIds(ids);
 	}
 	
-	public Member getBySerial(String serial) {
-		return memberDao.getByField("serial", serial, null, null);
+	public Member getBySerial(Integer exceptId, String serial) {
+		if(null == exceptId) exceptId = 0;
+		return memberDao.getByFields(new String[]{memberDao.getPrimaryKey(), "serial"},
+				new Object[]{exceptId, serial}, new String[]{"!=", "="}, null);
 	}
 	
-	public Member getByName(String name) {
-		return memberDao.getByField("name", name, null, null);
+	public Member getByName(Integer exceptId, String name) {
+		if(null == exceptId) exceptId = 0;
+		return memberDao.getByFields(new String[]{memberDao.getPrimaryKey(), "name"},
+				new Object[]{exceptId, name}, new String[]{"!=", "="}, null);
 	}
 	
 	public String encodePassword(String password, String salt) {

@@ -18,11 +18,11 @@
 	</tr>
 	<tr>
 		<th class="width130">部门</th>
-		<td><input name="organizeIds" class="js-select-organizes width200" value="" multiple /></td>
+		<td><input name="organizeIds[]" class="width200" value="" multiple /></td>
 	</tr>
 	<tr>
 		<th class="width130">角色</th>
-		<td><input name="roleIds" class="js-select-organizes width200" value="" multiple /></td>
+		<td><input name="roleIds[]" class="width200" value="" multiple /></td>
 	</tr>
 	<tr>
 		<th class="width130">排序</th>
@@ -48,7 +48,7 @@
 </form>
 <script>
 $(function () {
-	$('input[name="organizeIds"]').combotree({
+	$('input[name="organizeIds[]"]').combotree({
 		cascadeCheck : false,
 		required : true,
 		url : '${_BASE_.url("organize", "list")}',
@@ -56,7 +56,7 @@ $(function () {
 			return Web_formatComboTree(data.rows, [], null, 'name');
 		}
 	});
-	$('input[name="roleIds"]').combotree({
+	$('input[name="roleIds[]"]').combotree({
 		cascadeCheck : false,
 		required : true,
 		url : '${_BASE_.url("role", "list")}',

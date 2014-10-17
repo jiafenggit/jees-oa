@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.IconDao;
 import com.iisquare.jees.oa.dao.NoticeTypeDao;
 import com.iisquare.jees.oa.dao.MemberDao;
@@ -71,7 +72,7 @@ public class IconService extends ServiceBase {
 	}
 	
 	public int delete(Object... ids) {
-		String idStr = DPUtil.safeImplode(",", ids);
+		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
 		int count = iconDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
 		if(count > 0) return -1;

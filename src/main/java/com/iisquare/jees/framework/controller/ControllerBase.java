@@ -38,6 +38,7 @@ public abstract class ControllerBase {
 	protected Configuration configuration;
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
+	protected Map<String, Object> parameterMap;
 
 	public String _MODULE_, _CONTROLLER_, _ACTION_;
 	public Map<String, Object> _ASSIGN_;
@@ -67,6 +68,14 @@ public abstract class ControllerBase {
 		this.response = response;
 	}
 
+	public Map<String, Object> getParameterMap() {
+		return parameterMap;
+	}
+
+	public void setParameterMap(Map<String, Object> parameterMap) {
+		this.parameterMap = parameterMap;
+	}
+
 	public ControllerBase() {}
 	
 	/**
@@ -75,6 +84,7 @@ public abstract class ControllerBase {
 	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		this.request = request;
 		this.response = response;
+		parameterMap = ServletUtil.singleParameterMap(request);
 		_ASSIGN_ = new HashMap<String, Object>(0);
 		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
 		_WEB_URL_ = ServletUtil.getWebUrl(request);
@@ -306,16 +316,8 @@ public abstract class ControllerBase {
 	 * @param bReturnNull 当参数不存在时返回NULL或空字符串
 	 * @return
 	 */
-	protected String get(String key, Boolean bReturnNull) {
-		String value = request.getParameter(key);
-		if(null == value && !bReturnNull) {
-			return "";
-		}
-		return value;
-	}
-	
 	protected String get(String key) {
-		return get(key, false);
+		return DPUtil.parseString(parameterMap.get(key));
 	}
 	
 	/**
@@ -324,16 +326,9 @@ public abstract class ControllerBase {
 	 * @param bReturnNull 当参数不存在时返回NULL或空字符串数组
 	 * @return
 	 */
-	protected String[] gets(String key, Boolean bReturnNull) {
-		String[] values = request.getParameterValues(key);
-		if(null == values && !bReturnNull) {
-			String[] temp = {};
-			return temp;
-		}
-		return values;
-	}
-	
 	protected String[] gets(String key) {
-		return gets(key, false);
+		Object value = parameterMap.get(key);
+		if(null == value || !value.getClass().isArray()) return new String[]{};
+		return (String[]) value;
 	}
 }

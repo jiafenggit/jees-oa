@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
-import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.LogSetting;
 import com.iisquare.jees.oa.service.ResourceService;
@@ -59,7 +58,7 @@ public class LogController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = logService.search(ServletUtil.singleParameterMap(request, null), "operate_time desc", page, pageSize);
+		Map<Object, Object> map = logService.search(parameterMap, "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
