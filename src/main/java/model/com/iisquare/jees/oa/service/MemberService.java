@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,26 +9,35 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iisquare.jees.core.component.CoreService;
 import com.iisquare.jees.framework.Configuration;
 import com.iisquare.jees.framework.controller.ControllerBase;
-import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.CodeUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
+import com.iisquare.jees.oa.dao.DutyDao;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.MemberOrganizeRelDao;
 import com.iisquare.jees.oa.dao.MemberRoleRelDao;
+import com.iisquare.jees.oa.dao.OrganizeDao;
+import com.iisquare.jees.oa.dao.RoleDao;
 import com.iisquare.jees.oa.domain.Member;
 import com.iisquare.jees.oa.domain.MemberOrganizeRel;
 import com.iisquare.jees.oa.domain.MemberRoleRel;
 
 @Service
-public class MemberService extends ServiceBase {
+public class MemberService extends CoreService {
 	
 	@Autowired
 	public MemberDao memberDao;
+	@Autowired
+	public OrganizeDao organizeDao;
+	@Autowired
+	public RoleDao roleDao;
+	@Autowired
+	public DutyDao dutyDao;
 	@Autowired
 	public MemberOrganizeRelDao memberOrganizeRelDao;
 	@Autowired
@@ -127,10 +137,69 @@ public class MemberService extends ServiceBase {
 		String sql = sb.toString();
 		int total = memberDao.getCount(sql, paramMap, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
-		List<Map<String, Object>> rows = memberDao.npJdbcTemplate().queryForList(sql, paramMap);
-		rows = ServiceUtil.fillFields(rows, new String[]{"status"}, new Map<?, ?>[]{getStatusMap(true)}, null);
-		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
-		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
+		List<Map<String, Object>> list = fillList(memberDao.npJdbcTemplate().queryForList(sql, paramMap));
+		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, list});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String formatOrganizeRelText(List<Map<String, Object>> list) {
+		if(DPUtil.empty(list)) return "";
+		List<String> returnList = new ArrayList<String>();
+		for (Map<String, Object> map : list) {
+			Object orgRel = map.get("organize_id_rel");
+			if(DPUtil.empty(orgRel)) continue ;
+			Object dutyRel = map.get("duty_id_rel");
+			returnList.add(DPUtil.stringConcat(
+					((Map<String, Object>) orgRel).get("name"), "[",
+					DPUtil.empty(dutyRel) ? "--" : ((Map<String, Object>) dutyRel).get("name"), "]"));
+		}
+		return DPUtil.implode(",", DPUtil.collectionToArray(returnList));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String formatRoleRelText(List<Map<String, Object>> list) {
+		if(DPUtil.empty(list)) return "";
+		List<Object> returnList = new ArrayList<Object>();
+		for (Map<String, Object> map : list) {
+			Object roleRel = map.get("role_id_rel");
+			if(DPUtil.empty(roleRel)) continue ;
+			returnList.add(((Map<String, Object>) roleRel).get("name"));
+		}
+		return DPUtil.implode(",", DPUtil.collectionToArray(returnList));
+	}
+	
+	@Override
+	public List<Map<String, Object>> fillList(List<Map<String, Object>> list) {
+		String primaryKey = memberDao.getPrimaryKey();
+		String ids = SqlUtil.buildSafeWhere(",", DPUtil.collectionToArray(ServiceUtil.getFieldValues(list, primaryKey)));
+		if(!DPUtil.empty(ids)) {
+			List<Map<String, Object>> organizeRelList = memberOrganizeRelDao.getList("*", DPUtil.stringConcat("member_id in (", ids, ")"), new Object[]{}, null, 0, 0);
+			organizeRelList = ServiceUtil.fillRelations(organizeRelList, organizeDao, new String[]{"organize_id"}, new String[]{"name"}, null);
+			organizeRelList = ServiceUtil.fillRelations(organizeRelList, dutyDao, new String[]{"duty_id"}, new String[]{"name"}, null);
+			Map<Object, List<Map<String, Object>>> organizeIndexMapList = ServiceUtil.indexesMapList(organizeRelList, "member_id");
+			
+			List<Map<String, Object>> roleRelList = memberRoleRelDao.getList("*", DPUtil.stringConcat("member_id in (", ids, ")"), new Object[]{}, null, 0, 0);
+			roleRelList = ServiceUtil.fillRelations(roleRelList, roleDao, new String[]{"role_id"}, new String[]{"name"}, null);
+			Map<Object, List<Map<String, Object>>> roleIndexMapList = ServiceUtil.indexesMapList(roleRelList, "member_id");
+			
+			String organizeRelKey = DPUtil.stringConcat("organize", ServiceUtil.relPostfix);
+			String organizeRelKeyText = DPUtil.stringConcat(organizeRelKey, "_text");
+			String roleRelKey = DPUtil.stringConcat("role", ServiceUtil.relPostfix);
+			String roleRelKeyText = DPUtil.stringConcat(roleRelKey, "_text");
+			List<Map<String, Object>> tempList;
+			for (Map<String, Object> map : list) {
+				map.remove("password");
+				tempList = organizeIndexMapList.get(map.get(primaryKey));
+				map.put(organizeRelKey, tempList);
+				map.put(organizeRelKeyText, formatOrganizeRelText(tempList));
+				tempList = roleIndexMapList.get(map.get(primaryKey));
+				map.put(roleRelKey, tempList);
+				map.put(roleRelKeyText, formatRoleRelText(tempList));
+			}
+		}
+		list = ServiceUtil.fillFields(list, new String[]{"status"}, new Map<?, ?>[]{getStatusMap(true)}, null);
+		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
+		return list;
 	}
 	
 	public List<Member> getList(Map<String, Object> where, Map<String, String> operators, String orderBy, int page, int pageSize) {
@@ -142,9 +211,7 @@ public class MemberService extends ServiceBase {
 	
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = memberDao.getById("*", id);
-		if(null != map && bFill) {
-			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
-		}
+		if(null != map && bFill) map = fillMap(map);
 		return map;
 	}
 	
