@@ -6808,7 +6808,7 @@ KindEditor.plugin('filemanager', function(K) {
 KindEditor.plugin('flash', function(K) {
 	var self = this, name = 'flash', lang = self.lang(name + '.'),
 		allowFlashUpload = K.undef(self.allowFlashUpload, true),
-		allowFileManager = K.undef(self.allowFileManager, false),
+		allowFileManager = K.undef(self.allowFileManager, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		extraParams = K.undef(self.extraFileUploadParams, {}),
 		filePostName = K.undef(self.filePostName, 'imgFile'),
@@ -6971,7 +6971,7 @@ KindEditor.plugin('image', function(K) {
 		allowImageUpload = K.undef(self.allowImageUpload, true),
 		allowImageRemote = K.undef(self.allowImageRemote, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
-		allowFileManager = K.undef(self.allowFileManager, false),
+		allowFileManager = K.undef(self.allowFileManager, true),
 		uploadJson = K.undef(self.uploadJson, Web_projectUrl + '/index/upload/uploadJson'),
 		imageTabIndex = K.undef(self.imageTabIndex, 0),
 		imgPath = self.pluginsPath + 'image/images/',
@@ -7297,7 +7297,7 @@ KindEditor.plugin('image', function(K) {
 KindEditor.plugin('insertfile', function(K) {
 	var self = this, name = 'insertfile',
 		allowFileUpload = K.undef(self.allowFileUpload, true),
-		allowFileManager = K.undef(self.allowFileManager, false),
+		allowFileManager = K.undef(self.allowFileManager, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		uploadJson = K.undef(self.uploadJson, Web_projectUrl + '/index/upload/uploadJson'),
 		extraParams = K.undef(self.extraFileUploadParams, {}),
@@ -7676,7 +7676,7 @@ KindEditor.plugin('map', function(K) {
 KindEditor.plugin('media', function(K) {
 	var self = this, name = 'media', lang = self.lang(name + '.'),
 		allowMediaUpload = K.undef(self.allowMediaUpload, true),
-		allowFileManager = K.undef(self.allowFileManager, false),
+		allowFileManager = K.undef(self.allowFileManager, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		extraParams = K.undef(self.extraFileUploadParams, {}),
 		filePostName = K.undef(self.filePostName, 'imgFile'),
