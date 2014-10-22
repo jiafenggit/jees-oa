@@ -215,27 +215,29 @@ public class MemberService extends CoreService {
 		return map;
 	}
 	
-	public int insert(Member persist, Object[] organizeIds, Object[] roleIds) {
+	public int insert(Member persist, Object[] organizeDutyIds, Object[] roleIds) {
 		int result =  memberDao.insert(persist);
-		if(result > 0) updateRel(result, organizeIds, roleIds);
+		if(result > 0) updateRel(result, organizeDutyIds, roleIds);
 		return result;
 	}
 	
-	public int update(Member persist, Object[] organizeIds, Object[] roleIds) {
+	public int update(Member persist, Object[] organizeDutyIds, Object[] roleIds) {
 		int result =  memberDao.update(persist);
-		if(result >= 0) updateRel(persist.getId(), organizeIds, roleIds);
+		if(result >= 0) updateRel(persist.getId(), organizeDutyIds, roleIds);
 		return result;
 	}
 	
-	public void updateRel(Object id, Object[] organizeIds, Object[] roleIds) {
+	public void updateRel(Object id, Object[] organizeDutyIds, Object[] roleIds) {
 		if(DPUtil.empty(id)) return ;
-		if(null != organizeIds) {
+		if(null != organizeDutyIds) {
 			memberOrganizeRelDao.delete(new String[]{"member_id"}, new Object[]{id}, null);
-			for (Object organizeId : organizeIds) {
+			for (Object organizeDutyId : organizeDutyIds) {
+				String[] organizeDuty = DPUtil.explode(DPUtil.parseString(organizeDutyId), "-", " ", true);
+				if(2 != organizeDuty.length) continue ;
 				MemberOrganizeRel persis = new MemberOrganizeRel();
 				persis.setMemberId(DPUtil.parseInt(id));
-				persis.setOrganizeId(DPUtil.parseInt(organizeId));
-				persis.setDutyId(0);
+				persis.setOrganizeId(DPUtil.parseInt(organizeDuty[0]));
+				persis.setDutyId(DPUtil.parseInt(organizeDuty[1]));
 				memberOrganizeRelDao.insert(persis);
 			}
 		}

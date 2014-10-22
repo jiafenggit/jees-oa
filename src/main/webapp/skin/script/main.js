@@ -112,13 +112,6 @@ function Web_trimRight(str, trimStr) {
 	return str;
 }
 
-function Web_inArray(value, array) {
-	for (var i = 0; i < array.length; i++) {
-		if(array[i] == value) return true;
-	}
-	return false;
-}
-
 function Web_formatComboTree(data, valueArray, tips, fieldValue, fieldId, fieldChildren) {
 	if($.isEmptyObject(fieldId)) fieldId = 'id';
 	if($.isEmptyObject(fieldValue)) fieldValue = fieldId;
@@ -136,7 +129,7 @@ function Web_formatComboTree(data, valueArray, tips, fieldValue, fieldId, fieldC
 		rows.push({
 			id : value[fieldId],
 			text : value[fieldValue],
-			checked : -1 != $.inArray(value[fieldId], valueArray),
+			checked : -1 != $.inArray(value[fieldId], valueArray) || -1 != $.inArray(value[fieldId] + '', valueArray),
 			children : Web_formatComboTree(
 				value[fieldChildren], valueArray, null, fieldValue, fieldId, fieldChildren)
 		});

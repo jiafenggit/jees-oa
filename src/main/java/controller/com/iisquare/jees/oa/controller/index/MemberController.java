@@ -1,6 +1,8 @@
 package com.iisquare.jees.oa.controller.index;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Member;
@@ -36,16 +39,24 @@ public class MemberController extends PermitController {
 		return displayJSON();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Member info;
+		Map<String, Object> info;
 		if(DPUtil.empty(id)) {
-			info = new Member();
+			info = new HashMap<String, Object>();
 		} else {
-			info = memberService.getById(id);
+			info = memberService.getById(id, true);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
+		Object roleRel = info.get("role_rel");
+		if(DPUtil.empty(roleRel)) {
+			assign("roleIds", "");
+		} else {
+			assign("roleIds", DPUtil.implode(",", DPUtil.collectionToArray(
+					ServiceUtil.getFieldValues((List<Map<String, Object>>) roleRel, new String[]{"role_id"}))));
+		}
 		assign("statusMap", memberService.getStatusMap(false));
 		return displayTemplate();
 	}
@@ -74,8 +85,8 @@ public class MemberController extends PermitController {
 			persist.setSalt(salt);
 			persist.setPassword(memberService.encodePassword(password, salt));
 		}
-		String[] organizeIds = gets("organizeIds"); // 职务信息待处理
-		if(DPUtil.empty(organizeIds)) return displayMessage(3007, "部门参数错误");
+		String[] organizeDutyIds = gets("organizeDutyIds");
+		if(DPUtil.empty(organizeDutyIds)) return displayMessage(3007, "部门参数错误");
 		String[] roleIds = gets("roleIds");
 		if(DPUtil.empty(roleIds)) return displayMessage(3008, "角色参数错误");
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
@@ -90,9 +101,9 @@ public class MemberController extends PermitController {
 			persist.setCreateId(currentMember.getId());
 			persist.setCreateIp(ServletUtil.getRemoteAddr(request));
 			persist.setCreateTime(time);
-			result = memberService.insert(persist, organizeIds, roleIds);
+			result = memberService.insert(persist, organizeDutyIds, roleIds);
 		} else {
-			result = memberService.update(persist, organizeIds, roleIds);
+			result = memberService.update(persist, organizeDutyIds, roleIds);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));

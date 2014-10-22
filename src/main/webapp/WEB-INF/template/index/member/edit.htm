@@ -14,11 +14,17 @@
 	</tr>
 	<tr>
 		<th class="width130">密码</th>
-		<td><input class="easyui-textbox width200" type="password" name="password"[#if empty(info.password)] data-options="required:true"[/#if] value="" /></td>
+		<td><input class="easyui-textbox width200" type="password" name="password"[#if empty(info.id)] data-options="required:true"[/#if] value="" /></td>
 	</tr>
 	<tr>
 		<th class="width130">部门</th>
-		<td><input name="organizeIds[]" class="width200" value="" multiple /></td>
+		<td>
+			<span class="js-organize-duty-text">${info.organize_rel_text!""}</span>
+			<a href="javascript:void(0);" class="easyui-linkbutton js-organize-duty-pick" data-options="iconCls:'icon-pick',plain:true">选择部门</a>
+			[#list info.organize_rel as organizeDuty]
+			<input type="hidden" name="organizeDutyIds[]" class="js-organize-duty-ids" data-organize="${organizeDuty.organize_id}" data-duty="${organizeDuty.duty_id}" value="${organizeDuty.organize_id}-${organizeDuty.duty_id}" />
+			[/#list]
+		</td>
 	</tr>
 	<tr>
 		<th class="width130">角色</th>
@@ -48,20 +54,12 @@
 </form>
 <script>
 $(function () {
-	$('input[name="organizeIds[]"]').combotree({
-		cascadeCheck : false,
-		required : true,
-		url : '${_BASE_.url("organize", "list")}',
-		loadFilter : function (data, parent) {
-			return Web_formatComboTree(data.rows, [], null, 'name');
-		}
-	});
 	$('input[name="roleIds[]"]').combotree({
 		cascadeCheck : false,
 		required : true,
 		url : '${_BASE_.url("role", "list")}',
 		loadFilter : function (data, parent) {
-			return Web_formatComboTree(data.rows, [], null, 'name');
+			return Web_formatComboTree(data.rows, '${roleIds}'.split(','), null, 'name');
 		}
 	});
 	var $submitForm = $('#submitForm');
@@ -82,6 +80,116 @@ $(function () {
 	});
 	$('#buttonCancel').bind('click', function () {
 		$submitForm.form('reset');
+	});
+});
+</script>
+<div class="hidden">
+<div id="js-organize-duty-dialog" style="width:430px;height:400px" data-options="buttons:'#js-organize-duty-button',modal:true,resizable:true">
+<table class="js-organize-duty-list-table"></table>
+</div>
+<div id="js-organize-duty-button">
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-ok" data-options="iconCls:'icon-ok'">确定</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+<div id="js-organize-duty-toolbar">
+	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true"></a>
+	对已勾选的部门，请设定用户在该部门的职务
+</div>
+</div>
+<script>
+$(function () {
+	var $organizeDutyDialog = $('#js-organize-duty-dialog');
+	var bOrganizeDutyLoaded = false;
+	$('.js-organize-duty-pick').bind('click', function () {
+		var organizeDutyIds = {};
+		$('.js-organize-duty-ids').each(function () {
+			organizeDutyIds[$(this).data('organize')] = $(this).data('duty');
+		});
+		function doOrganizeDutyListCheck() {
+			$('.js-organize-duty-list-table').treegrid('clearChecked');
+			$('.js-pick-duty-id').combotree('setValue', '');
+			for (var key in organizeDutyIds) {
+				$('.js-organize-duty-list-table').treegrid('checkRow', key);
+				$('.js-pick-duty-id[data-id="' + key + '"]').combotree('setValue', organizeDutyIds[key]);
+			}
+		}
+		$organizeDutyDialog.dialog({
+			title : '选择部门',
+			iconCls : 'icon-pick',
+			onOpen : function () {
+				if(bOrganizeDutyLoaded) {
+					doOrganizeDutyListCheck();
+					return ;
+				}
+				bOrganizeDutyLoaded = true;
+				$('.js-organize-duty-list-table').treegrid({
+					url : '${_BASE_.url("organize", "list")}',
+					idField : 'id',
+					treeField : 'name',
+					toolbar : '#js-organize-duty-toolbar',
+					rownumbers : true,
+					fitcolumns : true,
+					fit : true,
+					nowrap : true,
+					singleSelect : true,
+					checkOnSelect : false,
+					selectOnCheck : false,
+					columns:[[
+						{field:'id',checkbox:true},
+						{field:'id_text',title:'ID',formatter:function (value, row, index) {
+							return row.id;
+						}},
+						{field:'name',title:'名称'},
+						{field:'module',title:'职务',formatter:function (value, row, index) {
+							return '<input data-id="' + row.id + '" class="js-pick-duty-id" value="" />';
+						}}
+					]],
+					onLoadSuccess : function (row, data) {
+						$('.js-pick-duty-id').combotree({
+							url : '${_BASE_.url("duty", "list")}',
+							loadFilter : function (data, parent) {
+								return Web_formatComboTree(data.rows, [], '请选择职务', 'name');
+							}
+						});
+						doOrganizeDutyListCheck();
+					}
+				});
+			}
+		});
+	});
+		
+	$('#js-organize-duty-button').find('.js-control-ok').unbind('click.action').bind('click.action' ,function () {
+		var rows = $('.js-organize-duty-list-table').treegrid('getChecked');
+		var length = rows.length;
+		var dutyMap = {};
+		for (var i = 0; i < length; i++) {
+			var row = rows[i];
+			var dutyId = $('.js-pick-duty-id[data-id="' + row.id + '"]').combotree('getValue');
+			var dutyText = $('.js-pick-duty-id[data-id="' + row.id + '"]').combotree('getText');
+			if(!dutyId || "" == dutyId) {
+				Web_alertInfo('请选择ID[' + row.id + ']对应的职务');
+				return false;
+			}
+			dutyMap[row.id] = {
+				name : row.name,
+				dutyId : dutyId,
+				dutyText : dutyText
+			};
+		}
+		$('.js-organize-duty-ids').remove();
+		var str = '';
+		for (var key in dutyMap) {
+			var html = '<input type="hidden" name="organizeDutyIds[]" class="js-organize-duty-ids"'
+				+ ' data-organize="' + key + '" data-duty="' + dutyMap[key]['dutyId']
+				+ '" value="' + key + '-' + dutyMap[key]['dutyId'] + '" />';
+			$('.js-organize-duty-pick').parent().append(html);
+			str += dutyMap[key]['name'] + '[' + dutyMap[key]['dutyText'] + '],';
+		}
+		$('.js-organize-duty-text').text(Web_trim(str, ','));
+		$organizeDutyDialog.dialog('close');
+	});
+	$('#js-organize-duty-button').find('.js-control-cancel').unbind('click.action').bind('click.action' ,function () {
+		$organizeDutyDialog.dialog('close');
 	});
 });
 </script>
