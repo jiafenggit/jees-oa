@@ -2,15 +2,11 @@ package com.iisquare.jees.framework.util;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * 操作系统工具类
  */
 public class OSUtil {
-	static Log log = LogFactory.getLog(OSUtil.class);
-	
+
 	/**
 	 * 操作系统类型
 	 */
@@ -45,7 +41,6 @@ public class OSUtil {
 			}
 			return true;
 		} catch (IOException e) {
-			log.error(e.getMessage());
 			return false;
 		}
 	}

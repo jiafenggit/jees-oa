@@ -7,15 +7,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * 属性文件操作类
  */
 public class PropertiesUtil {
-	
-	static Log log = LogFactory.getLog(PropertiesUtil.class);
 	
 	public static boolean store(ClassLoader classLoader, Properties prop, String comments, String filePath) {
 		try {
@@ -40,7 +35,6 @@ public class PropertiesUtil {
             prop.store(fos, comments);
 			return true;
 		} catch (Exception e) {
-			log.error(e.getMessage());
 			return false;
 		} finally {
 			if(null != fos) {
@@ -58,7 +52,6 @@ public class PropertiesUtil {
 			prop.load(in);
 			return prop;
 		} catch (Exception e) {
-			log.error(e.getMessage());
 			return null;
 		}
 	}
