@@ -11,12 +11,12 @@
 		<td class="td-clear">
 			<div class="easyui-layout height500" data-options="fit:true,border:true,plain:true">
 				<div data-options="region:'west',split:true" class="width460">
-					<table class="js-list-table-menu"></table>
-					<div id="toolbar-menu">菜单</div>
-				</div>
-				<div data-options="region:'center'">
 					<table class="js-list-table-resource"></table>
 					<div id="toolbar-resource">权限</div>
+				</div>
+				<div data-options="region:'center'">
+					<table class="js-list-table-menu"></table>
+					<div id="toolbar-menu">菜单</div>
 				</div>
 			</div>
 		</td>
@@ -32,29 +32,6 @@
 </table>
 <script>
 $(function () {
-	$('.js-list-table-menu').treegrid({
-		url : '${_BASE_.url("menu", "list")}',
-		idField : 'id',
-		treeField : 'name',
-		toolbar : '#toolbar-menu',
-		rownumbers : true,
-		fitcolumns : true,
-		fit : true,
-		nowrap : true,
-		singleSelect : true,
-		checkOnSelect : false,
-		selectOnCheck : false,
-		columns:[[
-			{field:'id',title:'ID'},
-			{field:'name',title:'名称'},
-			{field:'status_text',title:'状态'},
-			{field:'target_text',title:'打开方式'},
-			{field:'url',title:'地址'}
-		]],
-		onLoadSuccess : function (data) {
-			$('.js-list-table-menu').treegrid('autoSizeColumn');
-		}
-	});
 	$('.js-list-table-resource').treegrid({
 		url : '${_BASE_.url("resource", "list")}',
 		idField : 'id',
@@ -77,6 +54,29 @@ $(function () {
 		]],
 		onLoadSuccess : function (data) {
 			$('.js-list-table-resource').treegrid('autoSizeColumn');
+		}
+	});
+	$('.js-list-table-menu').treegrid({
+		url : '${_BASE_.url("menu", "list")}',
+		idField : 'id',
+		treeField : 'name',
+		toolbar : '#toolbar-menu',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',title:'ID'},
+			{field:'name',title:'名称'},
+			{field:'status_text',title:'状态'},
+			{field:'target_text',title:'打开方式'},
+			{field:'url',title:'地址'}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-table-menu').treegrid('autoSizeColumn');
 		}
 	});
 });
