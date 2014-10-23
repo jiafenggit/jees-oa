@@ -26,6 +26,24 @@ public class RoleController extends PermitController {
 	@Autowired
 	public RoleService roleService;
 	
+	public String editPowerAction() throws Exception {
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
+		Role info;
+		if(DPUtil.empty(id)) {
+			info = new Role();
+			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
+		} else {
+			info = roleService.getById(id);
+			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
+	public String savePowerAction() throws Exception {
+		return displayJSON();
+	}
+	
 	public String layoutAction() throws Exception {
 		return displayTemplate();
 	}

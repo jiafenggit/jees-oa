@@ -313,7 +313,6 @@ public abstract class ControllerBase {
 	/**
 	 * 获取请求参数
 	 * @param key 参数名称
-	 * @param bReturnNull 当参数不存在时返回NULL或空字符串
 	 * @return
 	 */
 	protected String get(String key) {
@@ -323,7 +322,6 @@ public abstract class ControllerBase {
 	/**
 	 * 获取请求参数数组
 	 * @param key 参数名称
-	 * @param bReturnNull 当参数不存在时返回NULL或空字符串数组
 	 * @return
 	 */
 	protected String[] gets(String key) {
