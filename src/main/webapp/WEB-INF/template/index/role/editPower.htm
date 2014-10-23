@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table class="js-list-table"></table>
-<div id="toolbar">
-	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton js-control-save" iconcls="icon-ok" plain="true">保存所选</a>
-	<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
-</div>
+<table cellspacing="1" cellpadding="0" class="table-line td-left">
+	<tr>
+		<th class="width130">名称</th>
+		<td>${info.name}</td>
+	</tr>
+	<tr>
+		<th class="width130">设置</th>
+		<td class="td-clear">
+			<div class="easyui-layout height500" data-options="fit:true,border:true,plain:true">
+				<div data-options="region:'west',split:true" class="width460">
+					<table class="js-list-table-menu"></table>
+					<div id="toolbar-menu">菜单</div>
+				</div>
+				<div data-options="region:'center'">
+					<table class="js-list-table-resource"></table>
+					<div id="toolbar-resource">权限</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">重置</a>
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
+		</td>
+	</tr>
+</table>
 <script>
-function formatter(key, value, row, index) {
-	var html = '<input type="checkbox" name="' + key + '" value="1" data-id="' + row.id + '"'
-			+ (row.log_setting && 1 == row.log_setting[key] ? ' checked="checked"' : '') + ' />';
-	return html;
-}
 $(function () {
-	$('.js-list-table').treegrid({
-		url : '${_BASE_.url("resource", "list")}?log_setting=1',
-		pagination : true,
+	$('.js-list-table-menu').treegrid({
+		url : '${_BASE_.url("menu", "list")}',
 		idField : 'id',
 		treeField : 'name',
-		toolbar : '#toolbar',
+		toolbar : '#toolbar-menu',
 		rownumbers : true,
 		fitcolumns : true,
 		fit : true,
@@ -28,128 +45,40 @@ $(function () {
 		checkOnSelect : false,
 		selectOnCheck : false,
 		columns:[[
-			{field:'id',checkbox:true},
-			{field:'show_id',title:'ID',formatter:function (value, row, index) {
-				return row.id;
-			}},
+			{field:'id',title:'ID'},
 			{field:'name',title:'名称'},
-			{field:'sort',title:'排序'},
+			{field:'status_text',title:'状态'},
+			{field:'target_text',title:'打开方式'},
+			{field:'url',title:'地址'}
+		]],
+		onLoadSuccess : function (data) {
+			$('.js-list-table-menu').treegrid('autoSizeColumn');
+		}
+	});
+	$('.js-list-table-resource').treegrid({
+		url : '${_BASE_.url("resource", "list")}',
+		idField : 'id',
+		treeField : 'name',
+		toolbar : '#toolbar-resource',
+		rownumbers : true,
+		fitcolumns : true,
+		fit : true,
+		nowrap : true,
+		singleSelect : true,
+		checkOnSelect : false,
+		selectOnCheck : false,
+		columns:[[
+			{field:'id',title:'ID'},
+			{field:'name',title:'名称'},
 			{field:'module',title:'模块'},
 			{field:'controller',title:'控制器'},
 			{field:'action',title:'方法'},
 			{field:'refer_id',title:'引用'},
-			{field:'menu_enable',title:'菜单项',align:'center',formatter:function (value, row, index) {
-				return 1 == row.menu_list_enable && 1 == row.menu_pick_enable ? '是' : '否';
- 			}},
-			{field:'enable',title:'启用',align:'center',formatter:function (value, row, index) {
-				return formatter('enable', value, row, index);
-			}},
-			{field:'referer',title:'来源地址',align:'center',formatter:function (value, row, index) {
-				return formatter('referer', value, row, index);
-			}},
-			{field:'request_url',title:'请求地址',align:'center',formatter:function (value, row, index) {
-				return formatter('request_url', value, row, index);
-			}},
-			{field:'request_param',title:'请求参数',align:'center',formatter:function (value, row, index) {
-				return formatter('request_param', value, row, index);
-			}},
-			{field:'session_id',title:'会话ID',align:'center',formatter:function (value, row, index) {
-				return formatter('session_id', value, row, index);
-			}},
-			{field:'session_value',title:'会话值',align:'center',formatter:function (value, row, index) {
-				return formatter('session_value', value, row, index);
-			}},
-			{field:'response_view',title:'响应视图',align:'center',formatter:function (value, row, index) {
-				return formatter('response_view', value, row, index);
-			}},
-			{field:'response_data',title:'响应数据',align:'center',formatter:function (value, row, index) {
-				return formatter('response_data', value, row, index);
-			}},
-			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
-				if(!row.log_setting || !row.log_setting.operate_id_rel) return '';
-				return '[' + row.log_setting.operate_id_rel.serial + ']' + row.log_setting.operate_id_rel.name;
-			}},
-			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
-				if(!row.log_setting) return '';
-				return Web_formatDateTime(row.log_setting.operate_time);
-			}}
+			{field:'status_text',title:'状态'}
 		]],
 		onLoadSuccess : function (data) {
-			$('.js-list-button').linkbutton({
-				plain : true
-			});
-			$('.js-list-table').treegrid('autoSizeColumn');
+			$('.js-list-table-resource').treegrid('autoSizeColumn');
 		}
-	});
-});
-</script>
-<div id="js-process-dialog" style="width:405px;height:250px" data-options="toolbar:'#js-process-toolbar',modal:true,resizable:true">
-	<table class="easyui-datagrid js-process-list" data-options="rownumbers:true,fitcolumns:true">
-	<thead>
-		<tr>
-			<th data-options="field:'id'">ID</th>
-			<th data-options="field:'message'">结果</th>
-		</tr>
-	</thead>
-	</table>
-</div>
-<div id="js-process-toolbar">
-	<div class="easyui-progressbar js-process-bar" data-options="value:0" style="width:380px"></div>
-</div>
-<script>
-$(function () {
-	var $processDialog = $('#js-process-dialog');
-	var $processList = $('.js-process-list');
-	var $processBar = $('.js-process-bar');
-	
-	var bProcessing = false;
-	function process(index, rows) {
-		if(!bProcessing) return false;
-		var length = rows.length;
-		if(index >= length) return true;
-		var row = rows[index];
-		$.post('${_BASE_.url("saveSetting")}', {
-			id : row.id,
-			enable : $('input[name="enable"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			referer : $('input[name="referer"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			request_url : $('input[name="request_url"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			request_param : $('input[name="request_param"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			session_id : $('input[name="session_id"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			session_value : $('input[name="session_value"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			response_view : $('input[name="response_view"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
-			response_data : $('input[name="response_data"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0
-		}, function (data) {
-			index++;
-			$processList.datagrid('appendRow', {
-				id : row.id,
-				message : data.message
-			});
-			$processList.datagrid('autoSizeColumn');
-			$processBar.progressbar('setValue', index / length * 100);
-			process(index, rows);
-		}, 'json');
-	}
-	
-	$('.js-control-save').bind('click', function () {
-		$processList.datagrid('loadData', []);
-		$processBar.progressbar('setValue', 0);
-		var rows = $('.js-list-table').treegrid('getChecked');
-		if(rows.length < 1) {
-			Web_alertInfo('请选择需要操作的记录');
-			return false;
-		}
-		$processDialog.dialog({
-			title : '处理进度',
-			iconCls : 'icon-tip',
-			onOpen : function () {
-				bProcessing = true;
-				process(0, rows);
-			},
-			onClose : function () {
-				bProcessing = false;
-				$('.js-list-table').treegrid('reload');
-			}
-		});
 	});
 });
 </script>
