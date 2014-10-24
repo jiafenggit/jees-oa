@@ -272,7 +272,7 @@ public class ServiceUtil {
 		if(null != root) return processFormatRelation(parentMap, primaryKey, childrenKey, root);
 		List<Map<String, Object>> rootList = processRelationRoot(list, primaryKey, parentKey); // 获取所有上级为空的节点
 		for (Map<String, Object> rootMap : rootList) { // 处理下级节点
-			rootMap.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, rootMap.get(parentKey)));
+			rootMap.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, rootMap.get(primaryKey)));
 		}
 		return rootList;
 	}
