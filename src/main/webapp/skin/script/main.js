@@ -137,13 +137,14 @@ function Web_formatComboTree(data, valueArray, tips, fieldValue, fieldId, fieldC
 	return rows;
 }
 
-function Web_getDataGridRowId(object) {
-	var row = object.datagrid('getSelected');
-	if(!row) {
-		Web_alertInfo('请选择要操作的记录！');
-		return -1;
+function Web_getDatagridCheckedIdArray($datagrid) {
+	var rows = $datagrid.datagrid('getChecked');
+	var idField = $datagrid.datagrid('options')['idField'];
+	var idArray = [], size = rows.length;
+	for(var i = 0; i < size; i++) {
+		idArray.push(rows[i][idField]);
 	}
-	return row.id;	
+	return idArray;
 }
 /* Global functions End */
 

@@ -28,20 +28,22 @@ public class RoleController extends PermitController {
 	
 	public String editPowerAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Role info;
-		if(DPUtil.empty(id)) {
-			info = new Role();
-			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
-		} else {
-			info = roleService.getById(id);
-			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
-		}
+		Role info = roleService.getById(id);
+		if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		assign("info", info);
+		assign("resourceIds", DPUtil.implode(",", DPUtil.collectionToArray(
+				ServiceUtil.getFieldValues(roleService.getResourceRelList(id), "resource_id"))));
+		assign("menuIds", DPUtil.implode(",", DPUtil.collectionToArray(
+				ServiceUtil.getFieldValues(roleService.getMenuRelList(id), "menu_id"))));
 		return displayTemplate();
 	}
 	
 	public String savePowerAction() throws Exception {
-		return displayJSON();
+		if(roleService.updatePower(get("id"), gets("resourceIds"), gets("menuIds"))) {
+			return displayMessage(0, url("layout"));
+		} else {
+			return displayMessage(1, "操作失败");
+		}
 	}
 	
 	public String layoutAction() throws Exception {

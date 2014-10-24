@@ -10,7 +10,7 @@
 		<th class="width130">设置</th>
 		<td class="td-clear">
 			<div class="easyui-layout height500" data-options="fit:true,border:true,plain:true">
-				<div data-options="region:'west',split:true" class="width460">
+				<div data-options="region:'west',split:true" class="width480">
 					<table class="js-list-table-resource"></table>
 					<div id="toolbar-resource">权限</div>
 				</div>
@@ -25,7 +25,6 @@
 		<th>操作</th>
 		<td>
 			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">确定</a>
-			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">重置</a>
 			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
 		</td>
 	</tr>
@@ -33,7 +32,7 @@
 <script>
 $(function () {
 	$('.js-list-table-resource').treegrid({
-		url : '${_BASE_.url("resource", "list")}',
+		url : '${_BASE_.url("resource", "list")}?no_refer=1',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar-resource',
@@ -45,15 +44,22 @@ $(function () {
 		checkOnSelect : false,
 		selectOnCheck : false,
 		columns:[[
-			{field:'id',title:'ID'},
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
 			{field:'name',title:'名称'},
+			{field:'status_text',title:'状态'},
 			{field:'module',title:'模块'},
 			{field:'controller',title:'控制器'},
-			{field:'action',title:'方法'},
-			{field:'status_text',title:'状态'}
+			{field:'action',title:'方法'}
 		]],
 		onLoadSuccess : function (data) {
-			$('.js-list-table-resource').treegrid('autoSizeColumn');
+			var ids = '${resourceIds}'.split(',');
+			for (var key in ids) {
+				$(this).treegrid('checkRow', ids[key]);
+			}
+			$(this).treegrid('autoSizeColumn');
 		}
 	});
 	$('.js-list-table-menu').treegrid({
@@ -69,15 +75,36 @@ $(function () {
 		checkOnSelect : false,
 		selectOnCheck : false,
 		columns:[[
-			{field:'id',title:'ID'},
+			{field:'id',checkbox:true},
+			{field:'show_id',title:'ID',formatter:function (value, row, index) {
+				return row.id;
+			}},
 			{field:'name',title:'名称'},
 			{field:'status_text',title:'状态'},
 			{field:'target_text',title:'打开方式'},
 			{field:'url',title:'地址'}
 		]],
 		onLoadSuccess : function (data) {
-			$('.js-list-table-menu').treegrid('autoSizeColumn');
+			var ids = '${menuIds}'.split(',');
+			for (var key in ids) {
+				$(this).treegrid('checkRow', ids[key]);
+			}
+			$(this).treegrid('autoSizeColumn');
 		}
+	});
+	
+	$('#buttonOk').bind('click', function () {
+		$.post('${_BASE_.url("savePower")}', {
+			id : '${info.id}',
+			resourceIds : Web_getDatagridCheckedIdArray($('.js-list-table-resource')),
+			menuIds : Web_getDatagridCheckedIdArray($('.js-list-table-menu'))
+		}, function (data) {
+			if(data.status) {
+				Web_alertInfo(data.message);
+			} else {
+				Web_redirectPage(data.message);
+			}
+		}, 'json');
 	});
 });
 </script>

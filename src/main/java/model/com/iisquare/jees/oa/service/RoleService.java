@@ -11,15 +11,24 @@ import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
+import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.RoleDao;
+import com.iisquare.jees.oa.dao.RoleMenuRelDao;
+import com.iisquare.jees.oa.dao.RoleResourceRelDao;
 import com.iisquare.jees.oa.domain.Role;
+import com.iisquare.jees.oa.domain.RoleMenuRel;
+import com.iisquare.jees.oa.domain.RoleResourceRel;
 
 @Service
 public class RoleService extends ServiceBase {
 	
 	@Autowired
 	public RoleDao roleDao;
+	@Autowired
+	public RoleResourceRelDao roleResourceRelDao;
+	@Autowired
+	public RoleMenuRelDao roleMenuRelDao;
 	@Autowired
 	public MemberDao memberDao;
 	
@@ -70,5 +79,42 @@ public class RoleService extends ServiceBase {
 		count = memberDao.getCount(DPUtil.stringConcat("role_id in (", idStr, " )"), new Object[]{}, null);
 		if(count > 0) return -2;
 		return roleDao.deleteByIds(ids);
+	}
+	
+	public List<Map<String, Object>> getResourceRelList(Object roleId) {
+		return roleResourceRelDao.getList("*", new String[]{"role_id"}, new Object[]{roleId}, null, null, 0, 0);
+	}
+	
+	public List<Map<String, Object>> getMenuRelList(Object roleId) {
+		return roleMenuRelDao.getList("*", new String[]{"role_id"}, new Object[]{roleId}, null, null, 0, 0);
+	}
+	
+	public boolean updatePower(Object id, Object[] resourceIds, Object[] menuIds) {
+		Role persist = getById(id);
+		if(null == persist) return false;
+		Integer roleId = persist.getId();
+		if(null != resourceIds) {
+			roleResourceRelDao.delete(new String[]{"role_id"}, new Object[]{roleId}, null);
+			for (Object object : resourceIds) {
+				Integer resourceId = ValidateUtil.filterInteger(DPUtil.parseString(object), false, 1, null, null);
+				if(null == resourceId) continue ;
+				RoleResourceRel roleResourceRel = new RoleResourceRel();
+				roleResourceRel.setRoleId(roleId);
+				roleResourceRel.setResourceId(resourceId);
+				roleResourceRelDao.insert(roleResourceRel);
+			}
+		}
+		if(null != menuIds) {
+			roleMenuRelDao.delete(new String[]{"role_id"}, new Object[]{roleId}, null);
+			for (Object object : menuIds) {
+				Integer menuId = ValidateUtil.filterInteger(DPUtil.parseString(object), false, 1, null, null);
+				if(null == menuId) continue ;
+				RoleMenuRel roleMenuRel = new RoleMenuRel();
+				roleMenuRel.setRoleId(roleId);
+				roleMenuRel.setMenuId(menuId);
+				roleMenuRelDao.insert(roleMenuRel);
+			}
+		}
+		return true;
 	}
 }
