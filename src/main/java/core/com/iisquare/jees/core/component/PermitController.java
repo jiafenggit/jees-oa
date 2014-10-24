@@ -1,5 +1,7 @@
 package com.iisquare.jees.core.component;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -84,6 +86,13 @@ public abstract class PermitController extends CoreController {
 	 * 判断是否拥有对应Module、Controller、Action的权限
 	 */
 	public boolean hasPermit (String module, String controller, String action) {
+		Resource resource = resourceService.getByRouter(0, module, controller, action);
+		if(null == resource) return false;
+		if(-1 == resource.getStatus()) return true;
+		if(null == currentMember) return false;
+		Integer memberId = currentMember.getId();
+		List<Object> list = resourceService.getIdArrayByMemberId(memberId);
+		if(list.contains(memberId)) return true;
 		return false;
 	}
 	
