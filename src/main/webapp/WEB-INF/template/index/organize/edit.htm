@@ -61,9 +61,7 @@ $(function () {
 	});
 	$('#buttonOk').bind('click', function () {
 		$('textarea[name="remark"]').html(editor.html());
-		if($submitForm.form('validate')) {
-			$submitForm.form('submit');
-		}
+		if($submitForm.form('validate')) $submitForm.form('submit');
 	});
 	$('#buttonCancel').bind('click', function () {
 		$submitForm.form('reset');

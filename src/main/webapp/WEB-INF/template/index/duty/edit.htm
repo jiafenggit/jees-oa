@@ -54,9 +54,7 @@ $(function () {
 		}
 	});
 	$('#buttonOk').bind('click', function () {
-		if($submitForm.form('validate')) {
-			$submitForm.form('submit');
-		}
+		if($submitForm.form('validate')) $submitForm.form('submit');
 	});
 	$('#buttonCancel').bind('click', function () {
 		$submitForm.form('reset');

@@ -45,10 +45,8 @@ $(function () {
 			}}
 		]],
 		onLoadSuccess : function (data) {
-			$('.js-list-button').linkbutton({
-				plain : true
-			});
-			$('.js-list-table').datagrid('autoSizeColumn');
+			$('.js-list-button').linkbutton({plain : true});
+			$(this).datagrid('autoSizeColumn');
 		},
 		onSelect : function (row) {
 			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);

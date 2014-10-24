@@ -55,10 +55,8 @@ $(function () {
 			}}
 		]],
 		onLoadSuccess : function (data) {
-			$('.js-list-button').linkbutton({
-				plain : true
-			});
-			$('.js-list-table').datagrid('autoSizeColumn');
+			$('.js-list-button').linkbutton({plain : true});
+			$(this).datagrid('autoSizeColumn');
 		}
 	});
 	
