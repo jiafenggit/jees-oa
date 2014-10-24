@@ -98,4 +98,6 @@
 		<property name="maxUploadSize" value="268435456" />
 		<property name="maxInMemorySize" value="4096" />
 	</bean>
+	
+	<bean id="exceptionResolver" class="com.iisquare.jees.core.exception.ExceptionHandler" />
 </beans>

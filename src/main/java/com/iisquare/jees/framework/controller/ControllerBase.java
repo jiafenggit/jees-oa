@@ -80,8 +80,9 @@ public abstract class ControllerBase {
 	
 	/**
 	 * 初始化函数，设置相关参数
+	 * @throws Exception 
 	 */
-	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) {
+	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		this.request = request;
 		this.response = response;
 		parameterMap = ServletUtil.singleParameterMap(request);
@@ -284,11 +285,8 @@ public abstract class ControllerBase {
 	 */
 	protected String display(String result, String type) throws Exception {
 		if(ResultType._FREEMARKER_.equals(type)) {
-			if(!DPUtil.empty(configuration.getThemeName())) {
-				StringBuilder sb = new StringBuilder("/");
-				sb.append(configuration.getThemeName()).append(result);
-				return sb.toString();
-			}
+			String themeName = configuration.getThemeName();
+			if(!DPUtil.empty(themeName)) return DPUtil.stringConcat("/", themeName, result);
 			return result;
 		} else if(ResultType._TEXT_.equals(type)){
 			PrintWriter out = response.getWriter();
@@ -296,7 +294,7 @@ public abstract class ControllerBase {
 			out.flush();
 			return "";
 		} else if (ResultType._REDIRECT_.equals(type)) {
-			return "redirect:" + result;
+			return DPUtil.stringConcat("redirect:", result);
 		}
 		return null;
 	}

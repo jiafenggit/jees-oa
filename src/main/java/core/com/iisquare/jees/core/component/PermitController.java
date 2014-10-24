@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.iisquare.jees.core.exception.PermitDediedException;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.oa.domain.Log;
@@ -46,24 +47,17 @@ public abstract class PermitController extends CoreController {
 
 	@Override
 	public void init(HttpServletRequest request, HttpServletResponse response,
-			Object handler) {
+			Object handler) throws Exception {
 		super.init(request, response, handler);
 		currentMember = memberService.getCurrent(this);
 		preCheckPermit();
-		if(isCheckPermit) checkPermit();
+		if(isCheckPermit && !hasPermit()) throw new PermitDediedException();
 	}
 	
 	/**
 	 * 检测权限前执行
 	 */
 	protected void preCheckPermit() {}
-	
-	/**
-	 * 执行权限检测处理
-	 */
-	protected void checkPermit() {
-		
-	}
 	
 	/**
 	 * 判断是否拥有当前Action的权限
@@ -90,7 +84,7 @@ public abstract class PermitController extends CoreController {
 	 * 判断是否拥有对应Module、Controller、Action的权限
 	 */
 	public boolean hasPermit (String module, String controller, String action) {
-		return true;
+		return false;
 	}
 	
 	@Override
