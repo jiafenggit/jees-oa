@@ -37,7 +37,7 @@ public abstract class PermitController extends CoreController {
 	public ResourceService resourceService;
 	
 	public Member currentMember;
-	private boolean isCheckPermit = true; // 是否进行权限验证
+	private boolean isCheckPermit = false; // 是否进行权限验证
 	
 	public boolean isCheckPermit() {
 		return isCheckPermit;
