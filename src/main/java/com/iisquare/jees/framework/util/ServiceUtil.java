@@ -248,9 +248,17 @@ public class ServiceUtil {
 	
 	/**
 	 * 格式化层级关系
+	 * @param list 记录列表
+	 * @param primaryKey 主键名称
+	 * @param parentKey 上级节点外键名称
+	 * @param childrenKey 下级节点列表名称
+	 * @param root 指定根节点（返回信息不含该值对应的记录）
+	 * 		当root为null时，采用所有上级记录为空的节点（含）作为根节点
+	 * @return
 	 */
 	public static List<Map<String, Object>> formatRelation(List<Map<String, Object>> list,
 			String primaryKey, String parentKey, String childrenKey, Object root) {
+		/* 转换为以parentKey为下标的映射关系列表 */
 		Map<Object, List<Map<String, Object>>> parentMap = new HashMap<Object, List<Map<String, Object>>>();
 		for (Map<String, Object> item : list) {
 			Object parentValue = item.get(parentKey);
@@ -261,13 +269,32 @@ public class ServiceUtil {
 			listSub.add(item);
 			parentMap.put(parentValue, listSub);
 		}
-		return processFormatRelation(parentMap, primaryKey, childrenKey, root);
+		if(null != root) return processFormatRelation(parentMap, primaryKey, childrenKey, root);
+		List<Map<String, Object>> rootList = processRelationRoot(list, primaryKey, parentKey); // 获取所有上级为空的节点
+		for (Map<String, Object> rootMap : rootList) { // 处理下级节点
+			rootMap.put(childrenKey, processFormatRelation(parentMap, primaryKey, childrenKey, rootMap.get(parentKey)));
+		}
+		return rootList;
 	}
 	
 	/**
-	 * 层级关系处理方法
+	 * 获取上级记录为空的节点列表
 	 */
-	private static List<Map<String, Object>> processFormatRelation(
+	public static List<Map<String, Object>> processRelationRoot(
+			List<Map<String, Object>> list, String primaryKey, String parentKey) {
+		List<Map<String, Object>> rootList = new ArrayList<Map<String, Object>>();
+		Map<Object, Map<String, Object>> indexMap = indexMapList(list, primaryKey);
+		for (Map<String, Object> item : list) {
+			if(null != indexMap.get(item.get(parentKey))) continue ;
+			rootList.add(item);
+		}
+		return rootList;
+	}
+	
+	/**
+	 * 以root为根节点，逐层向下处理层级关系
+	 */
+	public static List<Map<String, Object>> processFormatRelation(
 			Map<Object, List<Map<String, Object>>> parentMap, String primaryKey, String childrenKey, Object root) {
 		List<Map<String, Object>> list = parentMap.get(root);
 		if(null == list) {

@@ -57,7 +57,7 @@ $(function () {
 		onLoadSuccess : function (data) {
 			var ids = '${resourceIds}'.split(',');
 			for (var key in ids) {
-				$(this).treegrid('checkRow', ids[key]);
+				if(!Web_empty(ids[key])) $(this).treegrid('checkRow', ids[key]);
 			}
 			$(this).treegrid('autoSizeColumn');
 		}
@@ -87,7 +87,7 @@ $(function () {
 		onLoadSuccess : function (data) {
 			var ids = '${menuIds}'.split(',');
 			for (var key in ids) {
-				$(this).treegrid('checkRow', ids[key]);
+				if(!Web_empty(ids[key])) $(this).treegrid('checkRow', ids[key]);
 			}
 			$(this).treegrid('autoSizeColumn');
 		}

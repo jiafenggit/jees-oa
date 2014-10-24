@@ -41,6 +41,18 @@ public class MenuController extends PermitController {
 		return displayJSON();
 	}
 	
+	/**
+	 * 当前登录用户菜单
+	 */
+	public String listSelfAction () throws Exception {
+		List<Map<String, Object>> list = menuService.getListByMemberId(currentMember.getId());
+		for (Map<String, Object> map : list) {
+			map.put("iconCls", map.get("icon"));
+		}
+		list = ServiceUtil.formatRelation(list, null);
+		return displayJSON(DPUtil.collectionToArray(list));
+	}
+	
 	public String showAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Map<String, Object> info = menuService.getById(id, true);

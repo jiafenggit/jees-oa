@@ -15,8 +15,8 @@ import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
-import com.iisquare.jees.oa.dao.RoleMenuRelDao;
 import com.iisquare.jees.oa.dao.RoleResourceRelDao;
+import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.domain.Resource;
 
 @Service
@@ -29,7 +29,7 @@ public class ResourceService extends ServiceBase {
 	@Autowired
 	public RoleResourceRelDao roleResourceRelDao;
 	@Autowired
-	public RoleMenuRelDao roleMenuRelDao;
+	public MemberRoleRelDao memberRoleRelDao;
 	
 	public Map<String, String> getStatusMap() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -77,7 +77,7 @@ public class ResourceService extends ServiceBase {
 	public List<Object> getIdArrayByMemberId(Object memberId) {
 		if(DPUtil.empty(memberId)) return new ArrayList<Object>(0);
 		String sql = DPUtil.stringConcat("select resource_id from ", roleResourceRelDao.tableName(),
-				" where role_id in (select role_id from " + roleMenuRelDao.tableName(), " where member_id = ?)");
+				" where role_id in (select role_id from " + memberRoleRelDao.tableName(), " where member_id = ?)");
 		List<Map<String, Object>> list = roleResourceRelDao.queryForList(sql, memberId);
 		return ServiceUtil.getFieldValues(list, "resource_id");
 	}

@@ -1,5 +1,6 @@
 package com.iisquare.jees.oa.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,9 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
+import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.dao.MenuDao;
+import com.iisquare.jees.oa.dao.RoleMenuRelDao;
 import com.iisquare.jees.oa.domain.Menu;
 
 @Service
@@ -22,6 +25,10 @@ public class MenuService extends ServiceBase {
 	public MenuDao menuDao;
 	@Autowired
 	public MemberDao memberDao;
+	@Autowired
+	public RoleMenuRelDao roleMenuRelDao;
+	@Autowired
+	public MemberRoleRelDao memberRoleRelDao;
 	
 	public Map<String, String> getStatusMap() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -49,6 +56,15 @@ public class MenuService extends ServiceBase {
 		list = ServiceUtil.fillFields(list, new String[]{"status", "target"}, new Map<?, ?>[]{getStatusMap(), getTargetMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
+	}
+	
+	public List<Map<String, Object>> getListByMemberId(Object memberId) {
+		if(DPUtil.empty(memberId)) return new ArrayList<Map<String, Object>>(0);
+		String sql = DPUtil.stringConcat("select * from ", menuDao.tableName(),
+				" where ", menuDao.getPrimaryKey(), " in (select menu_id from ",
+				roleMenuRelDao.tableName(), " where role_id in (select role_id from ",
+				memberRoleRelDao.tableName(), " where member_id = ?)) and status = 1 order by sort desc");
+		return menuDao.queryForList(sql, memberId);
 	}
 	
 	public Map<String, Object> getById(Object id, boolean bFill) {

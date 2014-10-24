@@ -37,7 +37,7 @@ public abstract class PermitController extends CoreController {
 	public ResourceService resourceService;
 	
 	public Member currentMember;
-	private boolean isCheckPermit = false; // 是否进行权限验证
+	private boolean isCheckPermit = true; // 是否进行权限验证
 	
 	public boolean isCheckPermit() {
 		return isCheckPermit;
@@ -86,6 +86,7 @@ public abstract class PermitController extends CoreController {
 	 * 判断是否拥有对应Module、Controller、Action的权限
 	 */
 	public boolean hasPermit (String module, String controller, String action) {
+		if(isCheckPermit) return true; // 调试模式，拥有所有权限
 		Resource resource = resourceService.getByRouter(0, module, controller, action);
 		if(null == resource) return false;
 		if(-1 == resource.getStatus()) return true;
