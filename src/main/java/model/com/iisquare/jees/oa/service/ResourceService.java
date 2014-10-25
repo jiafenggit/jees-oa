@@ -95,6 +95,16 @@ public class ResourceService extends ServiceBase {
 		return map;
 	}
 	
+	/**
+	 * 获取最终引用资源对象
+	 */
+	public Resource getReferRoot(Resource resource) {
+		if(null == resource) return null;
+		Resource refer = resourceDao.getById(resource.getReferId());
+		if(null == refer) return resource;
+		return getReferRoot(refer);
+	}
+	
 	public Resource getByRouter(Integer exceptId, String module, String controller, String action) {
 		if(null == exceptId) exceptId = 0;
 		return resourceDao.getByFields(new String[]{resourceDao.getPrimaryKey(), "module", "controller", "action"},

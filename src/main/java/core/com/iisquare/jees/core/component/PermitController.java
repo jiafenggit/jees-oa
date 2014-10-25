@@ -87,13 +87,14 @@ public abstract class PermitController extends CoreController {
 	 */
 	public boolean hasPermit (String module, String controller, String action) {
 		if(isCheckPermit) return true; // 调试模式，拥有所有权限
-		Resource resource = resourceService.getByRouter(0, module, controller, action);
-		if(null == resource) return false;
-		if(-1 == resource.getStatus()) return true;
-		if(null == currentMember) return false;
+		Resource resource = resourceService.getByRouter(0, module, controller, action); // 获取当前资源对象
+		resource = resourceService.getReferRoot(resource); // 处理引用关系
+		if(null == resource) return false; // 资源不存在
+		if(-1 == resource.getStatus()) return true; // 禁用验证
+		if(null == currentMember) return false; // 用户未登录
 		Integer memberId = currentMember.getId();
-		List<Object> list = resourceService.getIdArrayByMemberId(memberId);
-		if(list.contains(memberId)) return true;
+		List<Object> list = resourceService.getIdArrayByMemberId(memberId); // 获取登录用户全部可用资源
+		if(list.contains(memberId)) return true; // 验证登录用户是否拥有当前资源
 		return false;
 	}
 	
