@@ -47,6 +47,7 @@ public class MenuController extends PermitController {
 	public String listSelfAction () throws Exception {
 		List<Map<String, Object>> list = menuService.getListByMemberId(currentMember.getId());
 		for (Map<String, Object> map : list) {
+			map.put("text", map.get("name"));
 			map.put("iconCls", map.get("icon"));
 		}
 		list = ServiceUtil.formatRelation(list, null);

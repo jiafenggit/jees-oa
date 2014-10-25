@@ -3,7 +3,10 @@
 */
 
 /* Extend prototype */
-Date.prototype.format = function(format){ 
+/**
+ * 为Date对象拓展format格式化日期函数
+ */
+Date.prototype.format = function(format){
 	var o = {
 		"M+" : this.getMonth()+1, // month
 		"d+" : this.getDate(), // day
@@ -47,21 +50,36 @@ $.extend($.fn.form.methods, {
 });
 
 /* Global functions Start */
+/**
+ * 消息提示
+ */
 function Web_alertInfo(msg, callBack) {
 	$.messager.alert('提示' , msg, 'info', callBack);
 }
+/**
+ * 消息确认
+ */
 function Web_confirm(msg, callBack) {
 	$.messager.confirm('提示' , msg, callBack);
 }
 
+/**
+ * 刷新当前页面
+ */
 function Web_refreshCurrentPage() {
 	window.location.reload();
 }
 
+/**
+ * 打开新页面
+ */
 function Web_openPage(url) {
 	window.open(url);
 }
 
+/**
+ * 页面跳转，若url为整数则前进或后退历史记录
+ */
 function Web_redirectPage(url) {
 	if(isNaN(url)) {
 		window.location.href = url;
@@ -70,6 +88,9 @@ function Web_redirectPage(url) {
 	}
 }
 
+/**
+ * 判断对象是否为空
+ */
 function Web_empty(object) {
 	if(typeof object == "undefined") return true;
 	if(null == object) return true;
@@ -80,6 +101,9 @@ function Web_empty(object) {
 	return false;
 }
 
+/**
+ * 去除字符串两边指定的字符串
+ */
 function Web_trim(str, trimStr) {
 	if(Web_empty(str)) return "";
 	if(typeof trimStr == "undefined" || null == trimStr) {
@@ -91,7 +115,9 @@ function Web_trim(str, trimStr) {
 	str = str.replace(regexRight, "");
 	return str;
 }
-
+/**
+ * 去除字符串左边指定的字符串
+ */
 function Web_trimLeft(str, trimStr) {
 	if(Web_empty(str)) return "";
 	if(typeof trimStr == "undefined" || null == trimStr) {
@@ -101,7 +127,9 @@ function Web_trimLeft(str, trimStr) {
 	str = str.replace(regexLeft, "");
 	return str;
 }
-
+/**
+ * 去除字符串右边指定的字符串
+ */
 function Web_trimRight(str, trimStr) {
 	if(Web_empty(str)) return "";
 	if(typeof trimStr == "undefined" || null == trimStr) {
@@ -112,31 +140,44 @@ function Web_trimRight(str, trimStr) {
 	return str;
 }
 
-function Web_formatComboTree(data, valueArray, tips, fieldValue, fieldId, fieldChildren) {
-	if($.isEmptyObject(fieldId)) fieldId = 'id';
-	if($.isEmptyObject(fieldValue)) fieldValue = fieldId;
-	if($.isEmptyObject(fieldChildren)) fieldChildren = 'children';
+/**
+ * 将数据格式化为combotree需要的格式
+ * @param data 原数据
+ * @param valueArray 已选择项数组
+ * @param tips 提示信息
+ * @param valueField 内容名称
+ * @param idField 值名称
+ * @param childrenField 子节点数据名称
+ * @returns 格式化后的数据
+ */
+function Web_formatComboTree(data, valueArray, tips, valueField, idField, childrenField) {
+	if($.isEmptyObject(idField)) idField = 'id';
+	if($.isEmptyObject(valueField)) valueField = idField;
+	if($.isEmptyObject(childrenField)) childrenField = 'children';
 	var rows = [];
 	if(!$.isEmptyObject(tips)) {
 		var object = {};
-		object[fieldId] = 0;
-		object[fieldValue] = tips;
-		object[fieldChildren] = [];
+		object[idField] = 0;
+		object[valueField] = tips;
+		object[childrenField] = [];
 		data = $.merge([object], data);
 	}
 	for (var key in data) {
 		var value = data[key];
 		rows.push({
-			id : value[fieldId],
-			text : value[fieldValue],
-			checked : -1 != $.inArray(value[fieldId], valueArray) || -1 != $.inArray(value[fieldId] + '', valueArray),
+			id : value[idField],
+			text : value[valueField],
+			checked : -1 != $.inArray(value[idField], valueArray) || -1 != $.inArray(value[idField] + '', valueArray),
 			children : Web_formatComboTree(
-				value[fieldChildren], valueArray, null, fieldValue, fieldId, fieldChildren)
+				value[childrenField], valueArray, null, valueField, idField, childrenField)
 		});
 	}
 	return rows;
 }
 
+/**
+ * 获取datagrid已Checked的主键数组
+ */
 function Web_getDatagridCheckedIdArray($datagrid) {
 	var rows = $datagrid.datagrid('getChecked');
 	var idField = $datagrid.datagrid('options')['idField'];
@@ -149,18 +190,30 @@ function Web_getDatagridCheckedIdArray($datagrid) {
 /* Global functions End */
 
 /* Global settings Start */
-$.extend($.fn.pagination.defaults, {  
+/**
+ * 设置pagination默认值
+ */
+$.extend($.fn.pagination.defaults, {
 	pageSize : Web_pageSize,
 	pageList : [10, 15, 20, 25, 30, 35, 40, 50, 70, 100]
 });
+/**
+ * 设置datagrid默认值
+ */
 $.extend($.fn.datagrid.defaults, {  
 	pageSize : $.fn.pagination.defaults.pageSize,
 	pageList : $.fn.pagination.defaults.pageList
 });
+/**
+ * 设置messager默认值
+ */
 $.extend($.messager.defaults, {  
 	ok : '确定',  
 	cancel : '取消'  
 });
+/**
+ * 设置datebox默认日期格式
+ */
 $.fn.datebox.defaults.formatter = function(date){
 	var y = date.getFullYear();
 	var m = date.getMonth() + 1;
@@ -187,18 +240,18 @@ $(function () {
 			if(0 == url.indexOf('@')) url = Web_projectUrl + '/' + url.substr(1);
 			var bInFrame = true;
 			switch (target) {
-			case '_self' : // 当前页打开
-				window.location.href = url;
-				return ;
-			break;
-			case '_blank' : // 新窗口打开
-				window.open(url);
-				return ;
-			break;
-			case '_tab' : // Tab内容打开
-				bInFrame = false;
-			break;
-			default : // Tab框架打开
+				case '_self' : // 当前页打开
+					window.location.href = url;
+					return ;
+				break;
+				case '_blank' : // 新窗口打开
+					window.open(url);
+					return ;
+				break;
+				case '_tab' : // Tab内容打开
+					bInFrame = false;
+				break;
+				default : // Tab框架打开
 				
 			}
 			var tabs = $platformTabs.tabs('tabs');
@@ -294,7 +347,7 @@ $(function () {
 		}
 	});
 	/* Events for Platform End */
-	$('#platform-west').load(Web_projectUrl + '/index/menu/memberMenuList', function () { // Trigger Events
+	$('#platform-west').load(Web_projectUrl + '/index/menu/listSelf', function () { // Trigger Events
 		$.parser.parse($(this)); // 渲染easyUI元素
 		$('.platformMenuTree').each(function(index, element) {
 			$(this).tree({ // bind menu tree clicked
