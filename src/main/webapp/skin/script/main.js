@@ -347,19 +347,28 @@ $(function () {
 		}
 	});
 	/* Events for Platform End */
-	$('#platform-west').load(Web_projectUrl + '/index/menu/listSelf', function () { // Trigger Events
-		$.parser.parse($(this)); // 渲染easyUI元素
-		$('.platformMenuTree').each(function(index, element) {
-			$(this).tree({ // bind menu tree clicked
-				'data' : platformMenuTreeData[parseInt($(this).attr('index'), 10)],
-				'onClick' : function (node) {
+	$.get(Web_projectUrl + '/index/menu/listSelf', {}, function (data) {
+		var $platformWestAccordion = $('#platform-west-accordion');
+		var length = data.length;
+		for (var i = 0; i < length; i++) {
+			var row = data[i];
+			var html = '<ul class="js-platform-menu-tree" data-id="' + row.id + '" data-options="lines:true"></ul>';
+			$platformWestAccordion.accordion('add', {
+				title : row.text,
+				content : html,
+				selected : false
+			});
+			$('.js-platform-menu-tree[data-id="' + row.id + '"]').tree({
+				data : row.children,
+				onClick : function (node) {
 					if(typeof node.text == "undefined") return ;
 					if(typeof node.attributes == "undefined") return ;
 					platformTab.add(node.text, node.attributes.url, node.attributes.className, node.attributes.target);
 				}
 			});
-		});
-	});
+		}
+		$platformWestAccordion.accordion('select', 0); // 展开第一项
+	}, 'json');
 	//platformTab.add('1', 'http://www.iisquare.com/');
 });
 /* Comming tools End */
