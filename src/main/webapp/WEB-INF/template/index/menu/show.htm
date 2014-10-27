@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">名称</th>
 		<td>${info.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td>${info.sort}</td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>${info.status_text!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">图标</th>
+		<th>图标</th>
 		<td><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${info.icon!""}',plain:true">${info.icon!""}</a></td>
 	</tr>
 	<tr>
-		<th class="width130">打开方式</th>
+		<th>打开方式</th>
 		<td>${info.target_text!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">链接地址</th>
+		<th>链接地址</th>
 		<td>${info.url!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建者</th>
+		<th>创建者</th>
 		<td>[${info.create_id_rel.serial}]${info.create_id_rel.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建时间</th>
+		<th>创建时间</th>
 		<td>${millisToDateTime(info.create_time)!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">修改者</th>
+		<th>修改者</th>
 		<td>[${info.update_id_rel.serial}]${info.update_id_rel.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">修改时间</th>
+		<th>修改时间</th>
 		<td>${millisToDateTime(info.update_time)!""}</td>
 	</tr>
 	<tr>

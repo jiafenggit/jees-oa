@@ -2,7 +2,7 @@
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
 <form id="submitForm" method="post" action="${_BASE_.url("reSelf")}">
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">账号</th>
 		<td>
@@ -10,13 +10,13 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">姓名</th>
+		<th>姓名</th>
 		<td>
 			<input class="easyui-validatebox input-text width200" type="text" name="member.name" data-options="required:true" value="${(member.name)!""}" />
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">组织</th>
+		<th>组织</th>
 		<td>
 			[#list (member.organizes)![] as organize]
 				${organize.name}
@@ -25,7 +25,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">角色</th>
+		<th>角色</th>
 		<td>
 			[#list (member.roles)![] as role]
 				${role.name}

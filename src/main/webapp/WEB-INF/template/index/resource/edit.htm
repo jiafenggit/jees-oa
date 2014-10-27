@@ -3,44 +3,44 @@
 [#include "../public/resource.inc.htm"]
 <form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">父级</th>
 		<td><input name="parentId" class="js-select-parent width250" value="${info.parentId!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">菜单项</th>
+		<th>菜单项</th>
 		<td>
 			<input name="menuListEnable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menuListEnable)] checked="checked"[/#if] />允许在菜单列表中显示<br/>
 			<input name="menuPickEnable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menuPickEnable)] checked="checked"[/#if] />允许作为独立菜单被选取<br/>
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">名称</th>
+		<th>名称</th>
 		<td><input class="easyui-textbox width250" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">模块</th>
+		<th>模块</th>
 		<td><input class="easyui-textbox width150" type="text" name="module" value="${(info.module)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">控制器</th>
+		<th>控制器</th>
 		<td><input class="easyui-textbox width150" type="text" name="controller" value="${(info.controller)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">方法</th>
+		<th>方法</th>
 		<td><input class="easyui-textbox width150" type="text" name="action" value="${(info.action)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">引用</th>
+		<th>引用</th>
 		<td><input class="easyui-numberspinner width150" type="text" name="referId" data-options="required:true,min:0" value="${(info.referId)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td><input class="easyui-numberspinner width150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>
 			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
 				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]

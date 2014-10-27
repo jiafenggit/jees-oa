@@ -3,21 +3,21 @@
 [#include "../public/resource.inc.htm"]
 <form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">父级</th>
 		<td><input name="parentId" class="js-select-parent width300" value="${info.parentId!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">名称</th>
+		<th>名称</th>
 		<td><input class="easyui-textbox width300" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td><input class="easyui-numberspinner width150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>
 			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
 				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
@@ -25,7 +25,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">备注</th>
+		<th>备注</th>
 		<td><textarea name="remark" class="easyui-textbox width300" data-options="required:true,multiline:true,height:80">${info.remark!""}</textarea></td>
 	</tr>
 	<tr>

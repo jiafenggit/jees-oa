@@ -4,21 +4,21 @@
 <script src="${_WEB_URL_}/api/KindEditor/kindeditor.custom.all.min.js" language="javascript"></script>
 <form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">标题</th>
 		<td><input class="easyui-textbox width250" type="text" name="title" data-options="required:true" value="${(info.title)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td><input class="easyui-numberspinner width150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">类型</th>
+		<th>类型</th>
 		<td><input name="typeId" class="js-select-type width250" value="${info.typeId!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>
 			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
 				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
@@ -26,7 +26,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">内容</th>
+		<th>内容</th>
 		<td><textarea name="content" class="w668h280">${(info.content)!""}</textarea></td>
 	</tr>
 	<tr>

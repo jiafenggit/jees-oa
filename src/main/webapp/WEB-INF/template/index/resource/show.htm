@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">名称</th>
 		<td>${info.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td>${info.sort}</td>
 	</tr>
 	<tr>
-		<th class="width130">模块</th>
+		<th>模块</th>
 		<td>${info.module}</td>
 	</tr>
 	<tr>
-		<th class="width130">控制器</th>
+		<th>控制器</th>
 		<td>${info.controller}</td>
 	</tr>
 	<tr>
-		<th class="width130">方法</th>
+		<th>方法</th>
 		<td>${info.action}</td>
 	</tr>
 	<tr>
-		<th class="width130">引用</th>
+		<th>引用</th>
 		<td>${info.refer_id}</td>
 	</tr>
 	<tr>
-		<th class="width130">菜单项</th>
+		<th>菜单项</th>
 		<td>
 			在菜单管理中可被选取：[#if !empty(info.menu_list_enable) && !empty(info.menu_pick_enable)]是[#else]否[/#if]<br/>
 			<input disabled="disabled" name="menu_list_enable" type="checkbox" class="input-checkbox" value="1"[#if !empty(info.menu_list_enable)] checked="checked"[/#if] />允许在菜单列表中显示<br/>
@@ -35,23 +35,23 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>${info.status_text}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建者</th>
+		<th>创建者</th>
 		<td>[${info.create_id_rel.serial}]${info.create_id_rel.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建时间</th>
+		<th>创建时间</th>
 		<td>${millisToDateTime(info.create_time)!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">修改者</th>
+		<th>修改者</th>
 		<td>[${info.update_id_rel.serial}]${info.update_id_rel.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">修改时间</th>
+		<th>修改时间</th>
 		<td>${millisToDateTime(info.update_time)!""}</td>
 	</tr>
 	<tr>

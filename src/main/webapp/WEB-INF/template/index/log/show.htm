@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">名称</th>
 		<td>${info.name}</td>
 	</tr>
 	<tr>
-		<th class="width130">类型</th>
+		<th>类型</th>
 		<td>${info.type}</td>
 	</tr>
 	<tr>
-		<th class="width130">模块</th>
+		<th>模块</th>
 		<td>${info.module}</td>
 	</tr>
 	<tr>
-		<th class="width130">控制器</th>
+		<th>控制器</th>
 		<td>${info.controller}</td>
 	</tr>
 	<tr>
-		<th class="width130">方法</th>
+		<th>方法</th>
 		<td>${info.action}</td>
 	</tr>
 	<tr>
-		<th class="width130">来源地址</th>
+		<th>来源地址</th>
 		<td>${info.referer!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">请求地址</th>
+		<th>请求地址</th>
 		<td>${info.request_url!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">请求参数</th>
+		<th>请求参数</th>
 		<td>${info.request_param!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">会话ID</th>
+		<th>会话ID</th>
 		<td>${info.session_id!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">会话值</th>
+		<th>会话值</th>
 		<td>${info.session_value!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">响应类型</th>
+		<th>响应类型</th>
 		<td>${info.response_type!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">响应数据</th>
+		<th>响应数据</th>
 		<td>${info.response_data!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">自定义内容</th>
+		<th>自定义内容</th>
 		<td>${info.content!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">操作者</th>
+		<th>操作者</th>
 		<td>[#if !empty(info.operate_id_rel)][${info.operate_id_rel.serial}]${info.operate_id_rel.name}[/#if]</td>
 	</tr>
 	<tr>
-		<th class="width130">IP</th>
+		<th>IP</th>
 		<td>${info.operate_ip!""}</td>
 	</tr>
 	<tr>
-		<th class="width130">创建时间</th>
+		<th>创建时间</th>
 		<td>${millisToDateTime(info.operate_time)!""}</td>
 	</tr>
 	<tr>

@@ -3,24 +3,24 @@
 [#include "../public/resource.inc.htm"]
 <form id="submitForm" method="post" action="${_BASE_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
-<table cellspacing="1" cellpadding="0" class="table-line td-left">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">父级</th>
 		<td><input name="parentId" class="js-select-parent width250" value="${info.parentId!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">名称</th>
+		<th>名称</th>
 		<td><input class="easyui-textbox width250" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">图标</th>
+		<th>图标</th>
 		<td>
 			<input class="easyui-textbox width150 js-pick-icon" type="text" name="icon" data-options="buttonText:'选取',buttonIcon:'icon-pick'" value="${(info.icon)!""}" />
 			[#include "../icon/pick.inc.htm"]
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">打开方式</th>
+		<th>打开方式</th>
 		<td>
 			<select class="easyui-combobox" name="target" data-options="required:true,editable:false">
 				[@getMapOption map=targetMap default=info.target!"" tips="请选择打开方式" /]
@@ -28,18 +28,18 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">链接地址</th>
+		<th>链接地址</th>
 		<td>
 			<textarea name="url" class="easyui-textbox width250 js-pick-url" data-options="required:true,multiline:true,height:50,buttonText:'选取',buttonIcon:'icon-pick'">${info.url!""}</textarea>
 			[#include "../resource/pick.inc.htm"]
 		</td>
 	</tr>
 	<tr>
-		<th class="width130">排序</th>
+		<th>排序</th>
 		<td><input class="easyui-numberspinner width150" type="text" name="sort" data-options="required:true,min:0" value="${(info.sort)!0}" /></td>
 	</tr>
 	<tr>
-		<th class="width130">状态</th>
+		<th>状态</th>
 		<td>
 			<select class="easyui-combobox" name="status" data-options="required:true,editable:false">
 				[@getMapOption map=statusMap default=info.status!"" tips="请选择记录状态" /]
