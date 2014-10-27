@@ -58,6 +58,8 @@ public class IconService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = iconDao.getById("*", id);
 		if(null != map && bFill) {
+			map = ServiceUtil.fillRelations(map, iconDao, new String[]{"parent_id"}, new String[]{"name"}, null);
+			map = ServiceUtil.fillFields(map, new String[]{"status"}, new Map<?, ?>[]{getStatusMap()}, null);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;
