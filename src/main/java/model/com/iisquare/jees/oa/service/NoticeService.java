@@ -85,6 +85,8 @@ public class NoticeService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = noticeDao.getById("*", id);
 		if(null != map && bFill) {
+			map = ServiceUtil.fillFields(map, new String[]{"status"}, new Map<?, ?>[]{getStatusMap(true)}, null);
+			map = ServiceUtil.fillRelations(map, noticeTypeDao, new String[]{"type_id"}, new String[]{"name"}, null);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;

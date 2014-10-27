@@ -43,6 +43,16 @@ public class NoticeController extends PermitController {
 		return displayJSON();
 	}
 	
+	public String showAction() throws Exception {
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
+		Map<String, Object> info = noticeService.getById(id, true);
+		if(null == info) {
+			return displayInfo("信息不存在，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Notice info;
