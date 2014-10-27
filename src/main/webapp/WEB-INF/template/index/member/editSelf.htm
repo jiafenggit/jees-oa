@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<form id="submitForm" method="post" action="${_BASE_.url("saveSelf")}">
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
+	<tr>
+		<th class="width130">账号</th>
+		<td>${(info.serial)!""}</td>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<td><input class="easyui-textbox width200" type="text" name="name" data-options="required:true" value="${(info.name)!""}" /></td>
+	</tr>
+	<tr>
+		<th>部门</th>
+		<td>${(info.organize_rel_text)!""}</td>
+	</tr>
+	<tr>
+		<th>角色</th>
+		<td>${(info.role_rel_text)!""}</td>
+	</tr>
+	<tr>
+		<th>活动时间</th>
+		<td>${millisToDateTime(info.active_time)}</td>
+	</tr>
+	<tr>
+		<th>活动IP</th>
+		<td>${(info.active_ip)!""}</td>
+	</tr>
+	<tr>
+		<th>注册时间</th>
+		<td>${millisToDateTime(info.create_time)}</td>
+	</tr>
+	<tr>
+		<th>注册IP</th>
+		<td>${(info.create_ip)!""}</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">确定</a>
+			<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">重置</a>
+			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
+		</td>
+	</tr>
+</table>
+</form>
+<script>
+$(function () {
+	var $submitForm = $('#submitForm');
+	$submitForm.form({
+		success : function (data) {
+			data = $.parseJSON(data);
+			if(data.status) {
+				Web_alertInfo(data.message);
+			} else {
+				Web_redirectPage(data.message);
+			}
+		}
+	});
+	$('#buttonOk').bind('click', function () {
+		if($submitForm.form('validate')) $submitForm.form('submit');
+	});
+	$('#buttonCancel').bind('click', function () {
+		$submitForm.form('reset');
+	});
+});
+</script>

@@ -51,7 +51,6 @@ $(function () {
 	platformTab = {
 		add : function (title, url, className, target) { // add tab page
 			if(Web_empty(url)) return ;
-			if(0 == url.indexOf('@')) url = Web_projectUrl + '/' + url.substr(1);
 			var bInFrame = true;
 			switch (target) {
 				case '_self' : // 当前页打开
@@ -176,8 +175,7 @@ $(function () {
 				data : row.children,
 				onClick : function (node) {
 					if(typeof node.text == "undefined") return ;
-					if(typeof node.attributes == "undefined") return ;
-					platformTab.add(node.text, node.attributes.url, node.attributes.className, node.attributes.target);
+					platformTab.add(node.text, node.fullUrl, 'padding2', node.target);
 				}
 			});
 		}

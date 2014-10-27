@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
+import com.iisquare.jees.core.util.UrlUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
@@ -49,6 +50,7 @@ public class MenuController extends PermitController {
 		for (Map<String, Object> map : list) {
 			map.put("text", map.get("name"));
 			map.put("iconCls", map.get("icon"));
+			map.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(map.get("url"))));
 		}
 		list = ServiceUtil.formatRelation(list, null);
 		return displayJSON(DPUtil.collectionToArray(list));

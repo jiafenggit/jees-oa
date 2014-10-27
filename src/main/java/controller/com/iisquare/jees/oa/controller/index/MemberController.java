@@ -25,6 +25,79 @@ import com.iisquare.jees.oa.domain.Member;
 @Scope("prototype")
 public class MemberController extends PermitController {
 	
+	public String showSelfAction() throws Exception {
+		Integer id = currentMember.getId();
+		Map<String, Object> info = memberService.getById(id, true);
+		if(null == info) {
+			return displayInfo("系统异常，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
+	public String editSelfAction() throws Exception {
+		Integer id = currentMember.getId();
+		Map<String, Object> info = memberService.getById(id, true);
+		if(null == info) {
+			return displayInfo("系统异常，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
+	public String saveSelfAction() throws Exception {
+		Integer id = currentMember.getId();
+		Member persist = memberService.getById(id);
+		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试");
+		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
+		if(DPUtil.empty(name)) return displayMessage(3004, "请输入合理的名称");
+		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在");
+		persist.setName(name);
+		long time = System.currentTimeMillis();
+		persist.setUpdateId(currentMember.getId());
+		persist.setUpdateTime(time);
+		int result = memberService.update(persist, null, null);
+		if(result > 0) {
+			return displayMessage(0, url("showSelf"));
+		} else {
+			return displayMessage(500, "操作失败");
+		}
+	}
+	
+	public String editPasswordAction() throws Exception {
+		Integer id = currentMember.getId();
+		Map<String, Object> info = memberService.getById(id, false);
+		if(null == info) {
+			return displayInfo("系统异常，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
+	public String savePasswordAction() throws Exception {
+		Integer id = currentMember.getId();
+		Member persist = memberService.getById(id);
+		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试");
+		String password = DPUtil.trim(get("password"));
+		String passwordNew = DPUtil.trim(get("passwordNew"));
+		if(6 > passwordNew.length()) return displayMessage(3002, "密码长度不小于6位");
+		if(!memberService.encodePassword(password, persist.getSalt())
+				.equals(persist.getPassword())) return displayMessage(3003, "原密码错误");
+		String salt = DPUtil.random(6);
+		persist.setSalt(salt);
+		persist.setPassword(memberService.encodePassword(passwordNew, salt));
+		long time = System.currentTimeMillis();
+		persist.setUpdateId(currentMember.getId());
+		persist.setUpdateTime(time);
+		int result = memberService.update(persist, null, null);
+		if(result > 0) {
+			request.getSession().invalidate(); // 退出登陆
+			return displayMessage(0, url("logout"));
+		} else {
+			return displayMessage(500, "操作失败");
+		}
+	}
+	
 	public String layoutAction() throws Exception {
 		assign("statusMap", memberService.getStatusMap(false));
 		return displayTemplate();

@@ -11,14 +11,6 @@
 		<td>${(info.name)!""}</td>
 	</tr>
 	<tr>
-		<th>排序</th>
-		<td>${(info.sort)!0}</td>
-	</tr>
-	<tr>
-		<th>状态</th>
-		<td>${(info.status_text)!""}</td>
-	</tr>
-	<tr>
 		<th>部门</th>
 		<td>${(info.organize_rel_text)!""}</td>
 	</tr>
@@ -35,10 +27,6 @@
 		<td>${(info.active_ip)!""}</td>
 	</tr>
 	<tr>
-		<th>创建者</th>
-		<td>[${info.create_id_rel.serial}]${info.create_id_rel.name}</td>
-	</tr>
-	<tr>
 		<th>注册时间</th>
 		<td>${millisToDateTime(info.create_time)}</td>
 	</tr>
@@ -47,18 +35,9 @@
 		<td>${(info.create_ip)!""}</td>
 	</tr>
 	<tr>
-		<th>修改者</th>
-		<td>[${info.update_id_rel.serial}]${info.update_id_rel.name}</td>
-	</tr>
-	<tr>
-		<th>修改时间</th>
-		<td>${millisToDateTime(info.update_time)}</td>
-	</tr>
-	<tr>
 		<th>操作</th>
 		<td>
-			[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>[/#if]
-			[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>[/#if]
+			[#if _BASE_.hasPermit("editSelf")]<a href="${_BASE_.url("editSelf")}" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>[/#if]
 			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
 		</td>
 	</tr>
