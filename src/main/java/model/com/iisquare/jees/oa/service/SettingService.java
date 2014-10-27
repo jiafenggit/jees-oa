@@ -131,6 +131,14 @@ public class SettingService extends ServiceBase {
 		return settingDao.getById(id);
 	}
 	
+	public Map<String, Object> getById(Object id, boolean bFill) {
+		Map<String, Object> map = settingDao.getById("*", id);
+		if(null != map && bFill) {
+			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
+		}
+		return map;
+	}
+	
 	public int delete(Object... ids) {
 		return settingDao.deleteByIds(ids);
 	}
