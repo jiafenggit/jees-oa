@@ -81,7 +81,7 @@ public class MenuController extends PermitController {
 		}
 		assign("info", info);
 		assign("statusMap", menuService.getStatusMap());
-		assign("targetMap", menuService.getTargetMap());
+		assign("goalMap", menuService.getGoalMap());
 		return displayTemplate();
 	}
 	
@@ -101,10 +101,10 @@ public class MenuController extends PermitController {
 		String icon = ValidateUtil.filterSimpleString(get("icon"), true, 0, 64, null);
 		if(null == icon) return displayMessage(3002, "图标参数错误");
 		persist.setIcon(icon);
-		String target = ValidateUtil.filterItem(get("target"), false,
+		String goal = ValidateUtil.filterItem(get("goal"), false,
 				new String[]{"_self", "_blank", "_tab", "_iframe"}, null);
-		if(null == target) return displayMessage(3002, "打开方式参数错误");
-		persist.setTarget(target);
+		if(null == goal) return displayMessage(3002, "打开方式参数错误");
+		persist.setGoal(goal);
 		String url = DPUtil.trim(get("url"));
 		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));

@@ -49,10 +49,10 @@ $(function () {
 	
 	/* Events for Platform Start */
 	platformTab = {
-		add : function (title, url, className, target) { // add tab page
+		add : function (title, url, className, goal) { // add tab page
 			if(Web_empty(url)) return ;
 			var bInFrame = true;
-			switch (target) {
+			switch (goal) {
 				case '_self' : // 当前页打开
 					window.location.href = url;
 					return ;
@@ -64,8 +64,10 @@ $(function () {
 				case '_tab' : // Tab内容打开
 					bInFrame = false;
 				break;
-				default : // Tab框架打开
-				
+				case '_iframe' : // Tab框架打开
+				break;
+				default :
+					return ;
 			}
 			var tabs = $platformTabs.tabs('tabs');
 			for (var i = 0; i < tabs.length; i++) { // select tab when it exists
@@ -175,7 +177,7 @@ $(function () {
 				data : row.children,
 				onClick : function (node) {
 					if(typeof node.text == "undefined") return ;
-					platformTab.add(node.text, node.fullUrl, '', node.target);
+					platformTab.add(node.text, node.fullUrl, '_iframe' == node.goal ? 'scroll-no' : '', node.goal);
 				}
 			});
 		}

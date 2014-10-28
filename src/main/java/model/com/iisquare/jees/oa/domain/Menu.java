@@ -10,7 +10,7 @@ public class Menu {
 	private String name; // 名称
 	private Integer parentId; // 父级
 	private String icon; // 图标CSS类名
-	private String target; // 打开方式
+	private String goal; // 打开方式
 	private String url; // 链接地址
 	private Integer sort; // 排序（从高到低）
 	private Integer status; // 状态
@@ -50,15 +50,15 @@ public class Menu {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
 	
+	public String getGoal() {
+		return goal;
+	}
+
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
+
 	public String getUrl() {
 		return url;
 	}

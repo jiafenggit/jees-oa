@@ -37,7 +37,7 @@ public class MenuService extends ServiceBase {
 		return map;
 	}
 	
-	public Map<String, String> getTargetMap() {
+	public Map<String, String> getGoalMap() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("_iframe", "Tab框架打开");
 		map.put("_blank", "新窗口打开");
@@ -53,7 +53,7 @@ public class MenuService extends ServiceBase {
 		if(!DPUtil.empty(orderBy)) append = DPUtil.stringConcat(" order by ", orderBy);
 		List<Map<String, Object>> list;
 		list = menuDao.getList(columns, null, new Object[]{}, append, page, pageSize);
-		list = ServiceUtil.fillFields(list, new String[]{"status", "target"}, new Map<?, ?>[]{getStatusMap(), getTargetMap()}, null);
+		list = ServiceUtil.fillFields(list, new String[]{"status", "goal"}, new Map<?, ?>[]{getStatusMap(), getGoalMap()}, null);
 		list = ServiceUtil.fillRelations(list, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		return list;
 	}
@@ -70,7 +70,7 @@ public class MenuService extends ServiceBase {
 	public Map<String, Object> getById(Object id, boolean bFill) {
 		Map<String, Object> map = menuDao.getById("*", id);
 		if(null != map && bFill) {
-			map = ServiceUtil.fillFields(map, new String[]{"status", "target"}, new Map<?, ?>[]{getStatusMap(), getTargetMap()}, null);
+			map = ServiceUtil.fillFields(map, new String[]{"status", "goal"}, new Map<?, ?>[]{getStatusMap(), getGoalMap()}, null);
 			map = ServiceUtil.fillRelations(map, memberDao, new String[]{"create_id", "update_id"}, new String[]{"serial", "name"}, null);
 		}
 		return map;

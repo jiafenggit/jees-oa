@@ -8,6 +8,7 @@ a:hover { text-decoration:underline;}
 .bg-color-bootstrap { background:#ffffff;}
 .scroll-x-only { overflow-x:scroll; overflow-y:hidden;}
 .scroll-y-only { overflow-x:hidden; overflow-y:scroll;}
+.scroll-no { overflow:hidden;}
 
 .hidden { display:none;}
 
