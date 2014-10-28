@@ -5,7 +5,7 @@ html, body, form, div, ul, fieldset, li, table, tr, td, span, em, lable, span, i
 a { text-decoration:none; color:#0e2d5f;}
 a:hover { text-decoration:underline;}
 
-.bg-color-bootstrap { background:#ffffff;}
+.bg-color-default { background:#ebf5f7;}
 .scroll-x-only { overflow-x:scroll; overflow-y:hidden;}
 .scroll-y-only { overflow-x:hidden; overflow-y:scroll;}
 .scroll-no { overflow:hidden;}
