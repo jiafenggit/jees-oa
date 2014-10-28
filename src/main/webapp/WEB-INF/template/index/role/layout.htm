@@ -5,7 +5,7 @@
 <div id="toolbar">
 	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('.js-list-table').treegrid({
 		url : '${_BASE_.url("list")}',

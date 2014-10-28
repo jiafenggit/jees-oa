@@ -7,7 +7,7 @@
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-save" iconcls="icon-ok" plain="true">保存所选</a>
 	<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
 </div>
-<script>
+<script type="text/javascript">
 function formatter(key, value, row, index) {
 	var html = '<input type="checkbox" name="' + key + '" value="1" data-id="' + row.id + '"'
 			+ (row.log_setting && 1 == row.log_setting[key] ? ' checked="checked"' : '') + ' />';
@@ -96,7 +96,7 @@ $(function () {
 <div id="js-process-toolbar">
 	<div class="easyui-progressbar js-process-bar" data-options="value:0" style="width:380px"></div>
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	var $processDialog = $('#js-process-dialog');
 	var $processList = $('.js-process-list');

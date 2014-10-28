@@ -6,7 +6,7 @@
 	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('.js-list-table').datagrid({
 		url : '${_BASE_.url("list")}',
@@ -128,7 +128,7 @@ $(function () {
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-cancel" data-options="iconCls:'icon-cancel'">取消</a>
 </div>
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('input[name="typeId"]').combotree({
 		checkbox : true,

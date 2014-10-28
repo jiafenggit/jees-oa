@@ -7,7 +7,7 @@
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
 	[#if _BASE_.hasPermit("renderCss")]<a href="javascript:void(0);" class="easyui-linkbutton js-render-css" iconcls="icon-reload" plain="true">生成样式</a>[/#if]
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('.js-list-table').treegrid({
 		url : '${_BASE_.url("list")}',

@@ -6,7 +6,7 @@
 	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true">数据无价，谨慎操作</a>
 	[#if _BASE_.hasPermit("backup")]<a href="${_BASE_.url("backup")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">备份</a>[/#if]
 </div>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('.js-list-table').datagrid({
 		url : '${_BASE_.url("list")}',

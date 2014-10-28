@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<script>
+<script type="text/javascript">
 function detectOS() {
 	var sUserAgent = navigator.userAgent;
 	var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
@@ -32,30 +32,30 @@ function detectOS() {
 	</tr>
 	<tr>
 		<th>操作系统</th>
-		<td><script>document.write(detectOS());</script></td>
+		<td><script type="text/javascript">document.write(detectOS());</script></td>
 	</tr>
 	<tr>
 		<th>浏览器类型</th>
-		<td><script>document.write(navigator.appName);</script></td>
+		<td><script type="text/javascript">document.write(navigator.appName);</script></td>
 	</tr>
 	<tr>
 		<th>分辨率</th>
-		<td><script>document.write(window.screen.width + 'x' + window.screen.height);</script></td>
+		<td><script type="text/javascript">document.write(window.screen.width + 'x' + window.screen.height);</script></td>
 	</tr>
 	<tr>
 		<th>屏幕颜色</th>
-		<td><script>document.write(window.screen.colorDepth + '位');</script></td>
+		<td><script type="text/javascript">document.write(window.screen.colorDepth + '位');</script></td>
 	</tr>
 	<tr>
 		<th>Cookie</th>
-		<td><script>document.write(navigator.cookieEnabled ? '支持' : '不支持');</script></td>
+		<td><script type="text/javascript">document.write(navigator.cookieEnabled ? '支持' : '不支持');</script></td>
 	</tr>
 	<tr>
 		<th>Java</th>
-		<td><script>document.write(navigator.javaEnabled() ? '支持' : '不支持');</script></td>
+		<td><script type="text/javascript">document.write(navigator.javaEnabled() ? '支持' : '不支持');</script></td>
 	</tr>
 	<tr>
 		<th>userAgent</th>
-		<td><script>document.write(navigator.userAgent);</script></td>
+		<td><script type="text/javascript">document.write(navigator.userAgent);</script></td>
 	</tr>
 </table>
