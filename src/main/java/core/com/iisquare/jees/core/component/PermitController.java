@@ -51,7 +51,7 @@ public abstract class PermitController extends CoreController {
 	public void init(HttpServletRequest request, HttpServletResponse response,
 			Object handler) throws Exception {
 		super.init(request, response, handler);
-		currentMember = memberService.getCurrent(this);
+		currentMember = memberService.getCurrent(this, true);
 		preCheckPermit();
 		if(isCheckPermit && !hasPermit()) throw new PermitDediedException();
 	}

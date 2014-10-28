@@ -4,6 +4,7 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
+	<a href="${_BASE_.url("organize", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
 </div>
 <script type="text/javascript">
 $(function () {

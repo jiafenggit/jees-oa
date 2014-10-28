@@ -15,7 +15,6 @@ function formatter(key, value, row, index) {
 $(function () {
 	$('.js-list-table').treegrid({
 		url : '${_BASE_.url("resource", "list")}?log_setting=1&collapse=1',
-		pagination : true,
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -146,7 +145,7 @@ $(function () {
 			},
 			onClose : function () {
 				bProcessing = false;
-				$('.js-list-table').treegrid('reload');
+				//$('.js-list-table').treegrid('reload');
 			}
 		});
 	});

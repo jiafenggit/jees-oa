@@ -15,6 +15,7 @@ import com.iisquare.jees.framework.controller.ControllerBase;
 import com.iisquare.jees.framework.util.CodeUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.DutyDao;
@@ -284,11 +285,16 @@ public class MemberService extends CoreService {
 		return true;
 	}
 	
-	public Member getCurrent(ControllerBase controller) {
+	public Member getCurrent(ControllerBase controller, boolean bUpdate) {
 		int mid = DPUtil.parseInt(controller.getRequest().getSession().getAttribute("mid"));
 		if(DPUtil.empty(mid)) return null;
 		Member member = getById(mid);
 		if(null == member || 1 != member.getId()) return null;
+		if(bUpdate) {
+			member.setActiveTime(System.currentTimeMillis());
+			member.setActiveIp(ServletUtil.getRemoteAddr(controller.getRequest()));
+			memberDao.update(member);
+		}
 		return member;
 	}
 	
