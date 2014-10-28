@@ -86,7 +86,7 @@ public abstract class PermitController extends CoreController {
 	 * 判断是否拥有对应Module、Controller、Action的权限
 	 */
 	public boolean hasPermit (String module, String controller, String action) {
-		if(isCheckPermit) return true; // 调试模式，拥有所有权限
+		//if(isCheckPermit) return true; // 调试模式，拥有所有权限
 		Resource resource = resourceService.getByRouter(0, module, controller, action); // 获取当前资源对象
 		resource = resourceService.getReferRoot(resource); // 处理引用关系
 		if(null == resource) return false; // 资源不存在

@@ -26,7 +26,7 @@
 	</tr>
 	<tr>
 		<th>备注</th>
-		<td><textarea name="remark" class="easyui-textbox width300" data-options="required:true,multiline:true,height:80">${info.remark!""}</textarea></td>
+		<td><textarea name="remark" class="easyui-textbox width300" data-options="multiline:true,height:80">${info.remark!""}</textarea></td>
 	</tr>
 	<tr>
 		<th>操作</th>
@@ -53,7 +53,9 @@ $(function () {
 			if(data.status) {
 				Web_alertInfo(data.message);
 			} else {
-				Web_redirectPage(data.message);
+				Web_confirm('操作成功，是否继续编辑', function (result) {
+					if(!result) Web_redirectPage(data.message);
+				});
 			}
 		}
 	});
