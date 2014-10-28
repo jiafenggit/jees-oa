@@ -9,7 +9,7 @@ import com.iisquare.jees.framework.util.DPUtil;
  */
 public class UrlUtil {
 	public static String concat(String webUrl, String url) {
-		if(null == url || url.startsWith("http")) return url;
+		if(DPUtil.empty(url) || url.startsWith("http")) return url;
 		return DPUtil.stringConcat(webUrl, "/", url);
 	}
 }

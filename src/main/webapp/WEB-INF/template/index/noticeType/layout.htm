@@ -4,7 +4,7 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
-	<a href="${_BASE_.url("notice", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回列表</a>
+	[#if _BASE_.hasPermit("notice", "layout")]<a href="${_BASE_.url("notice", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">通知公告管理</a>[/#if]
 </div>
 <script type="text/javascript">
 $(function () {
@@ -39,7 +39,7 @@ $(function () {
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
 				return '[#if _BASE_.hasPermit("show")]<a href="${_BASE_.url("show")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("modify")]<a href="${_BASE_.url("edit")}?id='
+					+ '[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';

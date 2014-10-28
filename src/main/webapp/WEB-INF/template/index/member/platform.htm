@@ -175,7 +175,7 @@ $(function () {
 				data : row.children,
 				onClick : function (node) {
 					if(typeof node.text == "undefined") return ;
-					platformTab.add(node.text, node.fullUrl, 'padding2', node.target);
+					platformTab.add(node.text, node.fullUrl, '', node.target);
 				}
 			});
 		}

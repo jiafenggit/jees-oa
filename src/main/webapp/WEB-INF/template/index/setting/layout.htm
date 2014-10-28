@@ -3,7 +3,7 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("create")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
 	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" iconcls="icon-remove" plain="true">批量删除</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" iconcls="icon-search" plain="true">搜索</a>
 </div>

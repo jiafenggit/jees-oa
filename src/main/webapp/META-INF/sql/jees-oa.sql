@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-28 14:02:02
+Date: 2014-10-28 14:21:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,11 +87,12 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
 -- ----------------------------
+INSERT INTO `oa_log` VALUES ('1', '登录操作', 'system', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '0', '127.0.0.1', '1414476749684');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -142,7 +143,7 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414476076682', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414477256154', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -193,7 +194,7 @@ CREATE TABLE `oa_menu` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_menu
@@ -218,6 +219,7 @@ INSERT INTO `oa_menu` VALUES ('17', '菜单管理', '6', '', '_iframe', 'index/m
 INSERT INTO `oa_menu` VALUES ('18', '上传文件', '6', '', '_iframe', 'index/upload/layout', '0', '1', '1', '1414474054106', '1', '1414474054106');
 INSERT INTO `oa_menu` VALUES ('19', '日志管理', '6', '', '_iframe', 'index/log/layout', '0', '1', '1', '1414474069981', '1', '1414474069981');
 INSERT INTO `oa_menu` VALUES ('20', '资源管理', '6', '', '_iframe', 'index/resource/layout', '0', '1', '1', '1414474167390', '1', '1414474167390');
+INSERT INTO `oa_menu` VALUES ('21', '官方主页', '3', '', '_iframe', 'http://www.iisquare.com/', '0', '1', '1', '1414476952893', '1', '1414477049753');
 
 -- ----------------------------
 -- Table structure for `oa_notice`
@@ -483,6 +485,7 @@ INSERT INTO `oa_role_menu_rel` VALUES ('2', '17');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '18');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '19');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '20');
+INSERT INTO `oa_role_menu_rel` VALUES ('2', '21');
 
 -- ----------------------------
 -- Table structure for `oa_role_resource_rel`
