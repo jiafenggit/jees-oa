@@ -227,6 +227,7 @@ public class MemberController extends PermitController {
 			return displayMessage(2, "账号或密码错误，请重新输入！");
 		}
 		memberService.setCurrent(this, member);
+		logService.record(this, member, "用户登陆", "service", null);
 		return displayMessage(0, convertForward(get("forward").toString()));
 	}
 	

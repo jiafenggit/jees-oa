@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-28 14:52:21
+Date: 2014-10-28 18:09:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -92,7 +92,7 @@ CREATE TABLE `oa_log` (
 -- ----------------------------
 -- Records of oa_log
 -- ----------------------------
-INSERT INTO `oa_log` VALUES ('1', '登录操作', 'system', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '0', '127.0.0.1', '1414476749684');
+INSERT INTO `oa_log` VALUES ('1', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414490468022');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -116,7 +116,6 @@ CREATE TABLE `oa_log_setting` (
 -- ----------------------------
 -- Records of oa_log_setting
 -- ----------------------------
-INSERT INTO `oa_log_setting` VALUES ('44', '1', '0', '0', '0', '0', '0', '0', '0', '1', '1414474893177');
 
 -- ----------------------------
 -- Table structure for `oa_member`
@@ -143,7 +142,7 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414478973383', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414490951802', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -237,11 +236,12 @@ CREATE TABLE `oa_notice` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_notice
 -- ----------------------------
+INSERT INTO `oa_notice` VALUES ('1', '系统管理子系统', '3', '<p class=\"MsoNormal\" style=\"text-indent:21.1pt;\">\r\n	<b>2.2.2</b><b> </b><b>系统管理子系统</b><b></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	系统管理子系统是业务管理系统的系统初始化的管理平台，通过此系统，系统管理员可以定制操作界面、按级按角色授权、提高系统安全性，对系统参数及日志进行维护等。<a name=\"_Toc293411153\"></a><span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	（<span>1</span>）流程的定制和修改模块。系统提供行政办公、执法业务管理流程的自定义功能。用户可以根据自身的需要因应业务操作的变动或优化，自行对系统中相应的办公、执法流程的进行定制和修改。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	<a name=\"_Toc293411154\"></a>（<span>2</span>）组织架构管理模块。用于对层次性的组织机构进行管理，可以用树状结构表示各职能部门的人事结构及从属关系、支持基于角色的代理人功能，支持目录服务<span>LDAP</span>的人员资料信息同步。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	部门管理用于维护用户所属单位、部门的组织结构，按照政府机关的实际组织结构来划分，并维护到数据库中，目的是对机构、用户进行统一管理。系统可实现部门的可视化的定义管理，包含以下内容：<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  部门设置，基本信息定义、修改、删除等操作。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  部门分级、排序、检索。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  部门与执法事项、流程环节、办事人员等关联。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	每个用户都属于某个特定的机构，当机构改变，如合并、撤销时，相应用户也要处理。当撤销时，该机构作删除处理，相应用户也作删除处理，当合并时，先做撤销处理，然后在另一个机构中添加用户。注意，这里的删除只是作删除标记，并不真正在数据库里删除。另外，在组织机构管理中也可以对部门或者用户赋予相应的应用权限和菜单权限。同时，组织机构管理支持符合<span>LDAP</span>命名格式的组织单元模型，可以依托目录服务中的组织结构，可以将目录服务中的组织机构和用户数据作为系统组织机构的基础数据，并无缝衔接到其它应用中。同时，通过实现和目录服务的数据捆绑，使得整个系统可以实现单点登录模式。<a name=\"_Toc293411155\"></a><span>  </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	（<span>3</span>）用户管理模块。用户管理模块提供用户资料方面的管理功能，主要有：<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户基本资料；用户基本资料用于对系统中的用户进行管理，注册用户，管理用户的基本信息及<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	删除用户的基本管理功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户权限：给用户赋予相应登寻权限（选择一个用户组权限）以确保系统安全、可靠、有效地进<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	行，防止用户非法操作系统功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户密码修改：当用户忘记密码或因特殊需要必须更改先前设置的密码，并且用户拥有足够权限<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	时，系统才允许用户操作此功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	<a name=\"_Toc293411156\"></a>（<span>4</span>）<a name=\"_Toc293411158\"></a>权限设置模块。权限管理用于管理系统的权限信息，可根据业务和管理要求分配不同的控制管理权限给指定用户或者角色。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  对应用系统的所有资源进行权限控制，系统根据用户的权限对工作窗口进行初始化，为不同角<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	色的用户定制不同的工作窗口界面和功能菜单。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  无限级功能模块管理，自定义模块排序，可以对整个系统中所有模块进行分类管理。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  自定义操作动作<span>(</span>如增加、删除、修改、查询、审核等动作<span>)</span>。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  灵活地为各模块分配操作，即每个模块有哪些操作需要被控制。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  对所有用户基础信息进行管理，实行有效期机制，过期自动失效，在有效期间亦可强制停止用<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	户使用。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  自定义角色，任意角色可任意组合系统权限功能点。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  按角色给用户授权，按用户分配角色，一个用户可有多个角色<span>(</span>多身份<span>)</span>，一个角色也可以被多<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	个用户拥有<span>(</span>同身份<span>)</span>（多对多），灵活授权。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  组织管理，与单位的部门或者机构对应，用于实现对用户和权限的分组归类管理。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:45.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户及角色分级管理，下级用户只能拥有上级用户权限的子集，可无限分级。\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	（<span>5</span>）数据维护模块。数据维护是赋予系统管理员的一种特殊权限，管理员在特定的情况下，可以对数据库进行维护操作，包括制订数据备份计划、数据结构的修改、业务流程的修改等，这类操作必须具备严格的限度控制，必须保留全部修改日志，便于监督追踪。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	<a name=\"_Toc293411157\"></a>（<span>6</span>）日志管理模块。包括用户日志和系统日志。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	用户日志管理主要是系统自动记录所有进入系统用户的信息资料，包括记录操作用户的编号、姓名、进入时间、操作电脑<span>IP</span>等。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n	系统操作日志管理主要是系统自动管理进行过业务处理的日志信息，主要记录用户编号、姓名、进入时间、业务模块操作动作（增加、删除、修改、查询、下载、上传等），授权用户也可以进看系统日志，并可以对日志及统计进行分析、研究。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:26.25pt;\">\r\n	<a name=\"_Toc293411160\"></a>（<span>7</span>）消息管理模块。消息中心是系统内用户互发和收取信息的消息交换枢纽中心，是用户在系统内交流的平台。通过定制的方式实现短信、邮件、文件、文字等信息载体的传送，也可为客户定制向移动设备发送短信功能。主要功能有短信消息管理、论坛、通知公告和系统信息。同时消息中心提供窗口人员评测功能，通过对评测主题的管理，可以让内部人员互相评测，然后在对这些评测数据进行统计、分析和展示。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.1pt;\">\r\n	<b>①手机短信。</b>系统可动态配置短信接口，实现与短信系统的对接，通过短信平台传递立案信息、执法环节信息、结果信息、预警提示等信息，及时通过短信方式反馈给业务人员和相关用户。并可保存信息日志，供管理人员调阅。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  短信系统可与现有软件平台各应用系统、网站和其他第三方系统无缝对接。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  系统支持中国移动<span>CMPP</span>、中国联通<span>SGIP</span>、中国电信<span>SM</span>Ｇ<span>P</span>等多种短信接入协议，后台守护进程<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	方式工作，支持<span>HTTP</span>、<span>WebService</span>和数据共享三种接口方式。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  短信提醒功能。重要信息、事务提醒，节假日祝福，预设日程通知，系统群发与自动回复。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  短信自动发送，支持号段、群组群发，实时或定时发送。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  通讯录分组管理，支持文件导入联系人功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  支持超长短信发送和短信自动分割功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  支持自动回复功能，可定制短信自动回复代码及内容，并支持动态回复扩展功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  支持按角色分配用户权限，支持对短信发送的灵活权限控制，支持短信发送审核管理。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  系统提供强大的查询统计及分析功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  短信处理能力双向最高可达<span>300</span>条<span>/</span>秒，忙时不低于<span>100</span>条<span>/</span>秒，消息丢失率小于<span>0.01%</span>，平均运<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	行无故障时间大于<span>99.6%</span>。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.1pt;\">\r\n	<b>②论坛<span></span></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	论坛系统是一个信息交流的平台，为广大用户提供分享经验、探讨问题的网上社区。系统提供会员注册、发表及回复帖子、浏览帖子等前台功能<span>,</span>同时也为论坛的管理人员提供对应后台的管理功能，包括会员管理、论坛版块管理、帖子管理等功能。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  注册管理：能够对用户名，密码的简单验证，能够防止利用页面刷新重复注册，已经存在的用户<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	名称不能重复注册。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  浏览帖子：可以根据作者或内容等为关键字搜索帖子，分论坛版块显示帖子，显示帖子详情，浏<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	览帖子时不要求用户登录，但回复帖子前用户必须登录。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  发表及回复帖子：只有登录用户才可以发表和回复帖子，并且对帖子的字数有限制。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户个人信息管理：登录用户可以编辑注册后的个人资料，如修改密码等，但是不可以修改用户<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	名称。也可以对自己发表的帖子进行操作：如修改，删除。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  回复管理：各论坛版块的版主可以对自己管理的版块的帖子的回复的帖子进行管理，可以屏蔽回<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	复。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  论坛版块管理：只有管理员有该权限，管理员可以添加，删除版块，也可以修改版块资料，如版<span></span>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n	块名称、上级版块、版主等。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  用户管理：只有管理员有该权限，管理员可以禁用，启用用户，进行用户密码重置。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  公告管理：只有管理员有该权限，管理员可以添加，删除公告。<span></span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:42.0pt;text-indent:-21.0pt;\">\r\n	Ø  帖子管理：各论坛版块的版主可以对自己管理的版块的帖子进行管理，可以屏蔽和删除帖子。<span> </span>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.1pt;\">\r\n	<b>③消息公告<span></span></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:21.0pt;\">\r\n	消息公告，即消息公告的传达处理系统，目的是为了让用户获得需要得到的消息（通知公告、待办业务、活动安排等）及提醒并进行处理，代替日常普通纸质文件的下发和处理，提高工作效率，节省时间和资源。系统提供网页在线图文编辑、表格处理、附件上传等功能，并提供对消息公告分类管理的功能。用户登录系统时，如果有新的消息公告，会弹出一个提示框，显示系统消息条数，点击后可以查看消息公告内容。<span></span>\r\n</p>', '2147483647', '1', '1', '1414487118605', '1', '1414487118605');
 
 -- ----------------------------
 -- Table structure for `oa_notice_type`
@@ -258,11 +258,14 @@ CREATE TABLE `oa_notice_type` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_notice_type
 -- ----------------------------
+INSERT INTO `oa_notice_type` VALUES ('1', '内部通知', '0', '0', '1', '1', '1414486602560', '1', '1414486602560');
+INSERT INTO `oa_notice_type` VALUES ('2', '紧急通知', '1', '0', '1', '1', '1414486632933', '1', '1414486632933');
+INSERT INTO `oa_notice_type` VALUES ('3', '日常文件', '1', '0', '1', '1', '1414486646337', '1', '1414486646337');
 
 -- ----------------------------
 -- Table structure for `oa_organize`
@@ -313,7 +316,7 @@ CREATE TABLE `oa_resource` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
@@ -425,6 +428,11 @@ INSERT INTO `oa_resource` VALUES ('104', '信息删除', '101', '0', '0', '0', '
 INSERT INTO `oa_resource` VALUES ('105', '允许上传', '101', '0', '0', '0', 'index', 'upload', 'uploadJson', '0', '0', '1', '1414460281712', '1', '1414460281712');
 INSERT INTO `oa_resource` VALUES ('106', '允许浏览', '101', '0', '0', '0', 'index', 'upload', 'fileManagerJson', '0', '0', '1', '1414460315927', '1', '1414460315927');
 INSERT INTO `oa_resource` VALUES ('107', '编辑器示例', '101', '0', '1', '1', 'index', 'upload', 'editor', '0', '0', '1', '1414460341793', '1', '1414460341793');
+INSERT INTO `oa_resource` VALUES ('108', '管理首页', '1', '0', '0', '0', 'index', 'index', '', '0', '0', '1', '1414482115257', '1', '1414482192308');
+INSERT INTO `oa_resource` VALUES ('109', '首页面板', '108', '0', '0', '0', 'index', 'index', 'index', '0', '0', '1', '1414482176022', '1', '1414482176022');
+INSERT INTO `oa_resource` VALUES ('110', '登陆日志', '23', '46', '0', '0', 'index', 'log', 'listLogon', '0', '0', '1', '1414489656476', '1', '1414489656476');
+INSERT INTO `oa_resource` VALUES ('111', '首页列表', '55', '46', '0', '0', 'index', 'notice', 'listIndex', '0', '0', '1', '1414489700812', '1', '1414489700812');
+INSERT INTO `oa_resource` VALUES ('112', '信息阅读', '55', '46', '0', '0', 'index', 'notice', 'read', '0', '0', '1', '1414489714899', '1', '1414489714899');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -592,6 +600,8 @@ INSERT INTO `oa_role_resource_rel` VALUES ('2', '104');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '105');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '106');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '107');
+INSERT INTO `oa_role_resource_rel` VALUES ('2', '108');
+INSERT INTO `oa_role_resource_rel` VALUES ('2', '109');
 
 -- ----------------------------
 -- Table structure for `oa_setting`

@@ -64,6 +64,18 @@ public class LogController extends PermitController {
 		return displayJSON();
 	}
 	
+	/**
+	 * 登陆日志列表
+	 */
+	public String listLogonAction () throws Exception {
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
+		Map<Object, Object> map = logService.listLogon(currentMember.getId(), page, pageSize);
+		assign("total", map.get("total"));
+		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
+		return displayJSON();
+	}
+	
 	public String showAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Map<String, Object> info = logService.getById(id, true);

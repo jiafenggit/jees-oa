@@ -43,6 +43,37 @@ public class NoticeController extends PermitController {
 		return displayJSON();
 	}
 	
+	/**
+	 * 首页列表
+	 */
+	@SuppressWarnings("unchecked")
+	public String listIndexAction () throws Exception {
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
+		parameterMap.put("status", new Object[]{1});
+		Map<Object, Object> map = noticeService.search(parameterMap, "sort desc", page, pageSize);
+		List<Map<String, Object>> rows = (List<Map<String, Object>>) map.get("rows");
+		for (Map<String, Object> row : rows) {
+			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
+		}
+		assign("total", map.get("total"));
+		assign("rows", DPUtil.collectionToArray(rows));
+		return displayJSON();
+	}
+	
+	/**
+	 * 首页阅读
+	 */
+	public String readAction() throws Exception {
+		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
+		Map<String, Object> info = noticeService.getById(id, true);
+		if(null == info || !DPUtil.equals(info.get("status"), 1)) {
+			return displayInfo("信息不存在，请刷新后再试", null);
+		}
+		assign("info", info);
+		return displayTemplate();
+	}
+	
 	public String showAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Map<String, Object> info = noticeService.getById(id, true);
@@ -86,6 +117,9 @@ public class NoticeController extends PermitController {
 		String content = get("content");
 		persist.setContent(content);
 		persist.setSort(ValidateUtil.filterLong(get("sort"), true, null, null, null));
+		String status = get("status");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);

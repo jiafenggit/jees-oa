@@ -22,6 +22,7 @@ a:hover { text-decoration:underline;}
 .width196 { width:196px;}
 .width200 { width:200px;}
 .width240 { width:240px;}
+.width245 { width:245px;}
 .width250 { width:250px;}
 .width290 { width:290px;}
 .width300 { width:300px;}
@@ -32,6 +33,7 @@ a:hover { text-decoration:underline;}
 .width-percent50 { width: 50%;}
 .width-percent98 { width:98%;}
 .width-percent100 { width: 100%;}
+.height400 { height:400px;}
 .height500 { height:500px;}
 .w195h100 { width:195px; height:100px;}
 .w250h150 {width:250px; height:150px;}

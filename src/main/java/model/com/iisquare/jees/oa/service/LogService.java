@@ -12,12 +12,14 @@ import com.iisquare.jees.framework.controller.ControllerBase;
 import com.iisquare.jees.framework.model.ServiceBase;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.LogDao;
 import com.iisquare.jees.oa.dao.LogSettingDao;
 import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.domain.Log;
 import com.iisquare.jees.oa.domain.LogSetting;
+import com.iisquare.jees.oa.domain.Member;
 
 @Service
 public class LogService extends ServiceBase {
@@ -33,14 +35,17 @@ public class LogService extends ServiceBase {
 	
 	public LogService() {}
 	
-	public int record(ControllerBase controllerBase, String name, String type, String content) {
+	public int record(ControllerBase controllerBase,
+			Member member, String name, String type, String content) {
 		Log log = new Log();
 		log.setName(name);
 		log.setType(type);
 		log.setModule(controllerBase._MODULE_);
 		log.setController(controllerBase._CONTROLLER_);
 		log.setAction(controllerBase._ACTION_);
-		log.setRequestUrl(controllerBase.getRequest().getRequestURI());
+		log.setOperateId(null == member ? 0 : member.getId());
+		log.setOperateIp(ServletUtil.getRemoteAddr(controllerBase.getRequest()));
+		log.setOperateTime(System.currentTimeMillis());
 		return insert(log);
 	}
 	
@@ -58,6 +63,16 @@ public class LogService extends ServiceBase {
 			item.put("log_setting", indexMap.get(item.get(primaryKey)));
 		}
 		return list;
+	}
+	
+	public Map<Object, Object> listLogon(Object memberId, int page, int pageSize) {
+		String sql = DPUtil.stringConcat("select * from ", logDao.tableName(),
+				" where type = ? and module = ? and controller = ? and action = ? and operate_id = ? order by operate_time desc");
+		Object[] params = new Object[]{"service", "index", "member", "logon", DPUtil.parseInt(memberId)};
+		int total = logDao.getCount(sql, params, true);
+		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
+		List<Map<String, Object>> rows = logDao.queryForList(sql, params);
+		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
 	}
 	
 	public Map<Object, Object> search(Map<String, Object> map, String orderBy, int page, int pageSize) {

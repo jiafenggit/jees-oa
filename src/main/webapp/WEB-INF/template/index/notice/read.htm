@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+[#include "../public/common.inc.htm"]
+[#include "../public/resource.inc.htm"]
+<table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
+	<tr>
+		<th class="width130">标题</th>
+		<td>${info.title}</td>
+	</tr>
+	<tr>
+		<th>类型</th>
+		<td>${(info.type_id_rel.name)!""}</td>
+	</tr>
+	<tr>
+		<th>发布者</th>
+		<td>[${info.create_id_rel.serial}]${info.create_id_rel.name}</td>
+	</tr>
+	<tr>
+		<th>时间</th>
+		<td>${millisToDateTime(info.update_time)!""}</td>
+	</tr>
+	<tr>
+		<th>内容</th>
+		<td>${info.content!""}</td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a href="javascript:void(0);" class="easyui-linkbutton js-tab-close-current" data-options="iconCls:'icon-cancel',plain:true">关闭</a>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+$(function () {
+	$('.js-tab-close-current').bind('click', function () {
+		parent.platformTab.closeCurrent();
+	});
+});
+</script>
