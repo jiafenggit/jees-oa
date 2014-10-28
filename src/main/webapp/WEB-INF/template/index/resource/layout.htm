@@ -8,7 +8,7 @@
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table').treegrid({
-		url : '${_BASE_.url("list")}',
+		url : '${_BASE_.url("list")}?expand_closed=1',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -62,7 +62,7 @@ $(function () {
 		]],
 		onLoadSuccess : function (data) {
 			$('.js-list-button').linkbutton({plain : true});
-			$(this).datagrid('autoSizeColumn');
+			$(this).datagrid('autoSizeColumn', 'operate');
 		},
 		onSelect : function (row) {
 			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
