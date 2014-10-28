@@ -1,5 +1,5 @@
 <div class="hidden">
-<div id="js-pick-url-dialog" style="width:600px;height:400px" data-options="buttons:'#js-pick-url-button',modal:true,resizable:true">
+<div id="js-pick-url-dialog" style="width:700px;height:400px" data-options="buttons:'#js-pick-url-button',modal:true,resizable:true">
 <table class="js-url-list-table"></table>
 </div>
 <div id="js-pick-url-button">
@@ -24,7 +24,7 @@ $(function () {
 					if(bPickResourceLoaded) return ;
 					bPickResourceLoaded = true;
 					$('.js-url-list-table').treegrid({
-						url : '${_BASE_.url("resource", "list")}?menu_enable=1',
+						url : '${_BASE_.url("resource", "list")}?menu_enable=1&collapse=1',
 						idField : 'id',
 						treeField : 'name',
 						toolbar : '#js-url-toolbar',
