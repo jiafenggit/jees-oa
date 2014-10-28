@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.core.util.UrlUtil;
+import com.iisquare.jees.core.util.ViewUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
@@ -32,11 +33,13 @@ public class MenuController extends PermitController {
 	}
 	
 	public String listAction () throws Exception {
+		boolean bCollapse = !DPUtil.empty(get("collapse")); // 折叠菜单
 		List<Map<String, Object>> list = menuService.getList("*", "sort desc", 1, 0);
 		for (Map<String, Object> map : list) {
 			map.put("iconCls", map.get("icon"));
 		}
 		list = ServiceUtil.formatRelation(list, 0);
+		if(bCollapse) ViewUtil.collapseAll(list);
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
 		return displayJSON();
