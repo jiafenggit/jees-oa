@@ -94,7 +94,7 @@ public abstract class PermitController extends CoreController {
 		if(null == currentMember) return false; // 用户未登录
 		Integer memberId = currentMember.getId();
 		List<Object> list = resourceService.getIdArrayByMemberId(memberId); // 获取登录用户全部可用资源
-		if(list.contains(memberId)) return true; // 验证登录用户是否拥有当前资源
+		if(list.contains(resource.getId())) return true; // 验证登录用户是否拥有当前资源
 		return false;
 	}
 	
