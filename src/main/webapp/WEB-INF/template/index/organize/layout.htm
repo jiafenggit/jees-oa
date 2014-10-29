@@ -4,7 +4,7 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
-	[#if _BASE_.hasPermit("duty", "layout")]<a href="${_BASE_.url("duty", "layout")}" class="easyui-linkbutton" iconcls="icon-type" plain="true">职务管理</a>[/#if]
+	[#if _BASE_.hasPermit("duty", "layout")]<a href="${_BASE_.url("duty", "layout")}" class="easyui-linkbutton" data-options="iconCls:'icon-type',plain:true">职务管理</a>[/#if]
 </div>
 <script type="text/javascript">
 $(function () {

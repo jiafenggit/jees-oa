@@ -25,9 +25,9 @@ $(function () {
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
 				return '[#if _BASE_.hasPermit("revert")]<a href="${_BASE_.url("revert")}?path='
-					+ row.fileName + '" class="easyui-linkbutton js-list-button" iconcls="icon-reload" plain="true">还原</a>[/#if]'
+					+ row.fileName + '" class="easyui-linkbutton js-list-button" data-options="iconCls:\'icon-reload\',plain:true">还原</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?path='
-					+ row.fileName + '" class="easyui-linkbutton js-list-button" iconcls="icon-remove" plain="true">删除</a>[/#if]';
+					+ row.fileName + '" class="easyui-linkbutton js-list-button" data-options="iconCls:\'icon-remove\',plain:true">删除</a>[/#if]';
 			}}
 		]],
 		onLoadSuccess : function (data) {
