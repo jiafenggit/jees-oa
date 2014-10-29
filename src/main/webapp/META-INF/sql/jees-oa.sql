@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-29 09:55:21
+Date: 2014-10-29 11:08:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,11 +58,12 @@ CREATE TABLE `oa_icon` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_icon
 -- ----------------------------
+INSERT INTO `oa_icon` VALUES ('1', '系统图标', '0', 'api/jQuery/themes/icons/ok.png', '0', '1', '1', '1414550792111', '1', '1414551076574');
 
 -- ----------------------------
 -- Table structure for `oa_log`
@@ -87,7 +88,7 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
@@ -96,6 +97,12 @@ INSERT INTO `oa_log` VALUES ('1', '用户登陆', 'service', 'index', 'member', 
 INSERT INTO `oa_log` VALUES ('2', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545029912');
 INSERT INTO `oa_log` VALUES ('3', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545168109');
 INSERT INTO `oa_log` VALUES ('4', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414546950839');
+INSERT INTO `oa_log` VALUES ('5', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414549189833');
+INSERT INTO `oa_log` VALUES ('6', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414549226782');
+INSERT INTO `oa_log` VALUES ('7', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549237147');
+INSERT INTO `oa_log` VALUES ('8', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549407194');
+INSERT INTO `oa_log` VALUES ('9', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549503629');
+INSERT INTO `oa_log` VALUES ('10', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414550599929');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -145,8 +152,8 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414546852552', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
-INSERT INTO `oa_member` VALUES ('2', 'guest', '访客', '793a507822c9ec991c3418dfb7950f07', '338043', '0', '1', '1414547687752', '127.0.0.1', '1', '127.0.0.1', '1414546536140', '1', '1414546536140');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414551642712', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('2', 'guest', '访客', '793a507822c9ec991c3418dfb7950f07', '338043', '0', '1', '1414550595011', '127.0.0.1', '1', '127.0.0.1', '1414546536140', '1', '1414546536140');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -348,7 +355,7 @@ INSERT INTO `oa_resource` VALUES ('18', '信息查看', '15', '0', '0', '0', 'in
 INSERT INTO `oa_resource` VALUES ('19', '信息编辑', '15', '0', '0', '0', 'index', 'icon', 'edit', '0', '0', '1', '1414402124092', '1', '1414402124092');
 INSERT INTO `oa_resource` VALUES ('20', '信息保存', '15', '19', '0', '0', 'index', 'icon', 'save', '0', '0', '1', '1414402130741', '1', '1414402197958');
 INSERT INTO `oa_resource` VALUES ('21', '信息删除', '15', '0', '0', '0', 'index', 'icon', 'delete', '0', '0', '1', '1414402142717', '1', '1414402142717');
-INSERT INTO `oa_resource` VALUES ('22', '生成样式', '15', '0', '0', '0', 'index', 'icon', 'render', '0', '0', '1', '1414402164263', '1', '1414402164263');
+INSERT INTO `oa_resource` VALUES ('22', '生成样式', '15', '0', '0', '0', 'index', 'icon', 'renderCss', '0', '0', '1', '1414402164263', '1', '1414551163891');
 INSERT INTO `oa_resource` VALUES ('23', '日志管理', '1', '0', '1', '0', 'index', 'log', '', '0', '0', '1', '1414402272986', '1', '1414402272986');
 INSERT INTO `oa_resource` VALUES ('24', '信息面板', '23', '0', '1', '1', 'index', 'log', 'layout', '0', '0', '1', '1414402296886', '1', '1414402296886');
 INSERT INTO `oa_resource` VALUES ('25', '信息列表', '23', '0', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1414402322140', '1', '1414402322140');
@@ -715,7 +722,7 @@ CREATE TABLE `oa_setting` (
 -- ----------------------------
 INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '1', '127.0.0.1', '1413018957263');
 INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '1', '127.0.0.1', '1413018859640');
-INSERT INTO `oa_setting` VALUES ('3', 'guestSerial', 'system', 'guest', '访客模式账号', '1', '127.0.0.1', '1414546461890');
+INSERT INTO `oa_setting` VALUES ('3', 'guestSerial', 'system', 'guest', '访客模式账号', '1', '127.0.0.1', '1414549233193');
 
 -- ----------------------------
 -- Table structure for `oa_upload`

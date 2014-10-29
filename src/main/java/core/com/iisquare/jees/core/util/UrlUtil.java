@@ -8,8 +8,15 @@ import com.iisquare.jees.framework.util.DPUtil;
  *
  */
 public class UrlUtil {
+	
+	public static final String regexUrl = "^[a-zA-Z]+://.+";
+	
+	/**
+	 * 将相对路径组合成绝对路径
+	 */
 	public static String concat(String webUrl, String url) {
-		if(DPUtil.empty(url) || url.startsWith("http")) return url;
-		return DPUtil.stringConcat(webUrl, "/", url);
+		url = DPUtil.trim(url);
+		if(DPUtil.empty(url) || DPUtil.isMatcher(regexUrl, url)) return url;
+		return DPUtil.stringConcat(webUrl, url.startsWith("/") ? "" : "/", url);
 	}
 }

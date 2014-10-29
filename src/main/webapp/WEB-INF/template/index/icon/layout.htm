@@ -28,12 +28,9 @@ $(function () {
 			}},
 			{field:'name',title:'名称'},
 			{field:'sort',title:'排序'},
-			{field:'fullUrl',title:'效果预览',align:'center',formatter:function (value, row, index) {
-				return '<a href="'
-					+ value + '" class="js-list-button" data-options="iconCls:\'icon-auto'
-					+ row.id + '\'" target="_blank" title="点击查看大图"></a>';
+			{field:'url',title:'地址',formatter:function (value, row, index) {
+				return '<a href="' + row.fullUrl + '" target="_blank" title="点击查看大图">' + row.url + '</a>';
 			}},
-			{field:'url',title:'地址'},
 			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
 				if(!row.create_id_rel) return '';
 				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;

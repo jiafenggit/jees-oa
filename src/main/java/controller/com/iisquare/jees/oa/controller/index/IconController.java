@@ -37,6 +37,7 @@ public class IconController extends PermitController {
 	public String listAction () throws Exception {
 		List<Map<String, Object>> list = iconService.getList("*", "sort desc", 1, 0);
 		for (Map<String, Object> row : list) {
+			row.put("iconCls", DPUtil.stringConcat("icon-auto", row.get("id")));
 			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
 		}
 		list = ServiceUtil.formatRelation(list, 0);
@@ -144,6 +145,6 @@ public class IconController extends PermitController {
 		} catch (Exception e) {
 			return displayMessage(3003, "操作失败");
 		}
-		return displayMessage(0, "操作成功");
+		return displayMessage(0, "操作成功，按[ctrl + f5]强制刷新后可查看效果");
 	}
 }
