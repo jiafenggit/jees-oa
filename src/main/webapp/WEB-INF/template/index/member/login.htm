@@ -19,6 +19,7 @@
 	</form>
 </div>
 <div id="actionButton">
+	[#if !empty(serial)]<a href="${_WEB_URL_}/guest" class="easyui-linkbutton" data-options="iconCls:'icon-tip'">访客模式</a>[/#if]
 	<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">登录</a>
 	<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
 </div>

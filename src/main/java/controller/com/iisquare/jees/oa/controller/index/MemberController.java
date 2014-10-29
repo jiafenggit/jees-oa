@@ -209,9 +209,9 @@ public class MemberController extends PermitController {
 	public String loginAction() throws Exception {
 		String forward = convertForward(get("forward").toString());
 		if(null != currentMember) return redirect(forward);
-		String year = DPUtil.millisToDateTime(System.currentTimeMillis(), "yyyy");
+		String serial = settingService.get("system", "guestSerial");
 		assign("forward", forward);
-		assign("year", year);
+		assign("serial", serial);
 		return displayTemplate();
 	}
 	
