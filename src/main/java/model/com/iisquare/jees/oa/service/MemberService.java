@@ -289,7 +289,7 @@ public class MemberService extends CoreService {
 		int mid = DPUtil.parseInt(controller.getRequest().getSession().getAttribute("mid"));
 		if(DPUtil.empty(mid)) return null;
 		Member member = getById(mid);
-		if(null == member || 1 != member.getId()) return null;
+		if(null == member || 1 != member.getStatus()) return null;
 		if(bUpdate) {
 			member.setActiveTime(System.currentTimeMillis());
 			member.setActiveIp(ServletUtil.getRemoteAddr(controller.getRequest()));

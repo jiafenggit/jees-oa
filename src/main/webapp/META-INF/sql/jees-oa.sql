@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-28 18:09:39
+Date: 2014-10-29 09:55:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,12 +87,15 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
 -- ----------------------------
 INSERT INTO `oa_log` VALUES ('1', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414490468022');
+INSERT INTO `oa_log` VALUES ('2', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545029912');
+INSERT INTO `oa_log` VALUES ('3', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545168109');
+INSERT INTO `oa_log` VALUES ('4', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414546950839');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -137,12 +140,13 @@ CREATE TABLE `oa_member` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414490951802', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414546852552', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('2', 'guest', '访客', '793a507822c9ec991c3418dfb7950f07', '338043', '0', '1', '1414547687752', '127.0.0.1', '1', '127.0.0.1', '1414546536140', '1', '1414546536140');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -159,6 +163,7 @@ CREATE TABLE `oa_member_organize_rel` (
 -- Records of oa_member_organize_rel
 -- ----------------------------
 INSERT INTO `oa_member_organize_rel` VALUES ('1', '6', '5');
+INSERT INTO `oa_member_organize_rel` VALUES ('2', '2', '4');
 
 -- ----------------------------
 -- Table structure for `oa_member_role_rel`
@@ -174,6 +179,7 @@ CREATE TABLE `oa_member_role_rel` (
 -- Records of oa_member_role_rel
 -- ----------------------------
 INSERT INTO `oa_member_role_rel` VALUES ('1', '2');
+INSERT INTO `oa_member_role_rel` VALUES ('2', '5');
 
 -- ----------------------------
 -- Table structure for `oa_menu`
@@ -316,7 +322,7 @@ CREATE TABLE `oa_resource` (
   `update_id` int(11) NOT NULL DEFAULT '0',
   `update_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_resource
@@ -418,7 +424,7 @@ INSERT INTO `oa_resource` VALUES ('94', '配置管理', '1', '0', '1', '0', 'ind
 INSERT INTO `oa_resource` VALUES ('95', '信息面板', '94', '0', '1', '1', 'index', 'setting', 'layout', '0', '0', '1', '1414460091787', '1', '1414460091787');
 INSERT INTO `oa_resource` VALUES ('96', '信息列表', '94', '0', '0', '0', 'index', 'setting', 'list', '0', '0', '1', '1414460100457', '1', '1414460100457');
 INSERT INTO `oa_resource` VALUES ('97', '信息查看', '94', '0', '0', '0', 'index', 'setting', 'show', '0', '0', '1', '1414460108513', '1', '1414460108513');
-INSERT INTO `oa_resource` VALUES ('98', '信息编辑', '94', '0', '0', '0', 'index', 'setting', 'eidt', '0', '0', '1', '1414460118136', '1', '1414460118136');
+INSERT INTO `oa_resource` VALUES ('98', '信息编辑', '94', '0', '0', '0', 'index', 'setting', 'edit', '0', '0', '1', '1414460118136', '1', '1414546404335');
 INSERT INTO `oa_resource` VALUES ('99', '信息保存', '94', '98', '0', '0', 'index', 'setting', 'save', '0', '0', '1', '1414460130225', '1', '1414460130225');
 INSERT INTO `oa_resource` VALUES ('100', '信息删除', '94', '0', '0', '0', 'index', 'setting', 'delete', '0', '0', '1', '1414460141657', '1', '1414460141657');
 INSERT INTO `oa_resource` VALUES ('101', '上传文件管理', '1', '0', '1', '0', 'index', 'upload', '', '0', '0', '1', '1414460183474', '1', '1414460183474');
@@ -429,10 +435,11 @@ INSERT INTO `oa_resource` VALUES ('105', '允许上传', '101', '0', '0', '0', '
 INSERT INTO `oa_resource` VALUES ('106', '允许浏览', '101', '0', '0', '0', 'index', 'upload', 'fileManagerJson', '0', '0', '1', '1414460315927', '1', '1414460315927');
 INSERT INTO `oa_resource` VALUES ('107', '编辑器示例', '101', '0', '1', '1', 'index', 'upload', 'editor', '0', '0', '1', '1414460341793', '1', '1414460341793');
 INSERT INTO `oa_resource` VALUES ('108', '管理首页', '1', '0', '0', '0', 'index', 'index', '', '0', '0', '1', '1414482115257', '1', '1414482192308');
-INSERT INTO `oa_resource` VALUES ('109', '首页面板', '108', '0', '0', '0', 'index', 'index', 'index', '0', '0', '1', '1414482176022', '1', '1414482176022');
+INSERT INTO `oa_resource` VALUES ('109', '任务面板', '108', '0', '0', '0', 'index', 'index', 'task', '0', '0', '1', '1414482176022', '1', '1414482176022');
 INSERT INTO `oa_resource` VALUES ('110', '登陆日志', '23', '46', '0', '0', 'index', 'log', 'listLogon', '0', '0', '1', '1414489656476', '1', '1414489656476');
 INSERT INTO `oa_resource` VALUES ('111', '首页列表', '55', '46', '0', '0', 'index', 'notice', 'listIndex', '0', '0', '1', '1414489700812', '1', '1414489700812');
 INSERT INTO `oa_resource` VALUES ('112', '信息阅读', '55', '46', '0', '0', 'index', 'notice', 'read', '0', '0', '1', '1414489714899', '1', '1414489714899');
+INSERT INTO `oa_resource` VALUES ('113', '访客模式', '31', '0', '1', '1', 'index', 'member', 'guest', '0', '-1', '1', '1414546177437', '1', '1414546177437');
 
 -- ----------------------------
 -- Table structure for `oa_role`
@@ -494,6 +501,26 @@ INSERT INTO `oa_role_menu_rel` VALUES ('2', '18');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '19');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '20');
 INSERT INTO `oa_role_menu_rel` VALUES ('2', '21');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '2');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '3');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '4');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '5');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '6');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '7');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '8');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '9');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '10');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '11');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '12');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '13');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '14');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '15');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '16');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '17');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '18');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '19');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '20');
+INSERT INTO `oa_role_menu_rel` VALUES ('5', '21');
 
 -- ----------------------------
 -- Table structure for `oa_role_resource_rel`
@@ -602,6 +629,70 @@ INSERT INTO `oa_role_resource_rel` VALUES ('2', '106');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '107');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '108');
 INSERT INTO `oa_role_resource_rel` VALUES ('2', '109');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '1');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '2');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '3');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '4');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '8');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '9');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '10');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '11');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '15');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '16');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '17');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '18');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '23');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '24');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '25');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '26');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '31');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '32');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '35');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '37');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '38');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '39');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '43');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '45');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '46');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '47');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '48');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '49');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '50');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '54');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '55');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '56');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '57');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '60');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '62');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '63');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '64');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '65');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '69');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '70');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '71');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '72');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '76');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '77');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '78');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '79');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '83');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '84');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '85');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '86');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '92');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '93');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '94');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '95');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '96');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '97');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '101');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '102');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '103');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '106');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '107');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '108');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '109');
+INSERT INTO `oa_role_resource_rel` VALUES ('5', '113');
 
 -- ----------------------------
 -- Table structure for `oa_setting`
@@ -617,13 +708,14 @@ CREATE TABLE `oa_setting` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_setting
 -- ----------------------------
 INSERT INTO `oa_setting` VALUES ('1', 'webName', 'system', '在线办公管理系统', '系统名称', '1', '127.0.0.1', '1413018957263');
 INSERT INTO `oa_setting` VALUES ('2', 'pageSize', 'system', '15', '分页大小', '1', '127.0.0.1', '1413018859640');
+INSERT INTO `oa_setting` VALUES ('3', 'guestSerial', 'system', 'guest', '访客模式账号', '1', '127.0.0.1', '1414546461890');
 
 -- ----------------------------
 -- Table structure for `oa_upload`

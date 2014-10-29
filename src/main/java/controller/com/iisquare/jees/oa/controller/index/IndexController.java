@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 
 /**
- * 管理首页
+ * 首页控制器
  * @author Ouyang <iisquare@163.com>
  *
  */
@@ -14,7 +14,10 @@ import com.iisquare.jees.core.component.PermitController;
 @Scope("prototype")
 public class IndexController extends PermitController {
 	
-	public String indexAction() throws Exception {
+	/**
+	 * 任务面板
+	 */
+	public String taskAction() throws Exception {
 		return displayTemplate();
 	}
 	

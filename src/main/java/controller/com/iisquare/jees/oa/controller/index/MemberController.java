@@ -231,6 +231,21 @@ public class MemberController extends PermitController {
 		return displayMessage(0, convertForward(get("forward").toString()));
 	}
 	
+	/**
+	 * 访客模式登陆
+	 */
+	@RequestMapping(value="/guest")
+	public String guestAction() throws Exception {
+		String serial = settingService.get("system", "guestSerial");
+		Member member = memberService.getBySerial(0, serial);
+		if(DPUtil.empty(serial) || null == member || 1 != member.getStatus()) {
+			return displayInfo("访客模式已关闭，请采用系统账号登陆", convertForward("login"));
+		}
+		memberService.setCurrent(this, member);
+		logService.record(this, member, "用户登陆", "service", null);
+		return redirect(convertForward(get("forward").toString()));
+	}
+	
 	public String logoutAction() throws Exception {
 		request.getSession().invalidate();
 		return redirect(_WEB_URL_);
@@ -238,7 +253,7 @@ public class MemberController extends PermitController {
 	
 	@RequestMapping(value="/platform")
 	public String platformAction() throws Exception {
-		if(null == currentMember) return redirect("/login");
+		if(null == currentMember) return redirect(convertForward("login"));
 		assign("currentMember", currentMember);
 		return displayTemplate();
 	}
@@ -255,6 +270,8 @@ public class MemberController extends PermitController {
 				} else {
 					return backUrl;
 				}
+			} else if("login".equals(forward)) {
+				return DPUtil.stringConcat(_WEB_URL_, "/login");
 			} else {
 				return forward;
 			}
