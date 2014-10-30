@@ -3,7 +3,6 @@ package com.iisquare.jees.oa.controller.index;
 import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -11,7 +10,6 @@ import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.LogSetting;
-import com.iisquare.jees.oa.service.ResourceService;
 
 /**
  * 日志管理
@@ -21,9 +19,6 @@ import com.iisquare.jees.oa.service.ResourceService;
 @Controller
 @Scope("prototype")
 public class LogController extends PermitController {
-
-	@Autowired
-	public ResourceService resourceService;
 	
 	public String editSettingAction() throws Exception {
 		return displayTemplate();
