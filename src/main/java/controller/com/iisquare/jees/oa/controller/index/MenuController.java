@@ -102,7 +102,7 @@ public class MenuController extends PermitController {
 		if(null == icon) return displayMessage(3002, "图标参数错误");
 		persist.setIcon(icon);
 		String goal = ValidateUtil.filterItem(get("goal"), false,
-				new String[]{"_self", "_blank", "_tab", "_iframe"}, null);
+				DPUtil.collectionToStringArray(menuService.getGoalMap().keySet()), null);
 		if(null == goal) return displayMessage(3002, "打开方式参数错误");
 		persist.setGoal(goal);
 		String url = DPUtil.trim(get("url"));
