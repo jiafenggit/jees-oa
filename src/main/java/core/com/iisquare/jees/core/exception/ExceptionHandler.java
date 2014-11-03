@@ -41,7 +41,7 @@ public class ExceptionHandler extends HandlerExceptionResolverComposite {
 			if(!DPUtil.empty(themeName)) {
 				viewName.append(themeName).append("/");
 			}
-			viewName.append("index/exception/permit");
+			viewName.append("base/exception/permit");
 			modelAndView.setViewName(viewName.toString());
 			/* 控制器善后处理 */
 			Object object = ((HandlerMethod) handler).getBean();

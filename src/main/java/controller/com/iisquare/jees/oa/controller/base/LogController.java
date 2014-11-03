@@ -1,4 +1,4 @@
-package com.iisquare.jees.oa.controller.index;
+package com.iisquare.jees.oa.controller.base;
 
 import java.util.Collection;
 import java.util.Map;

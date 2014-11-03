@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-10-29 11:08:47
+Date: 2014-11-03 10:24:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -88,21 +88,35 @@ CREATE TABLE `oa_log` (
   `operate_ip` varchar(64) NOT NULL DEFAULT '',
   `operate_time` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oa_log
 -- ----------------------------
-INSERT INTO `oa_log` VALUES ('1', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414490468022');
-INSERT INTO `oa_log` VALUES ('2', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545029912');
-INSERT INTO `oa_log` VALUES ('3', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414545168109');
-INSERT INTO `oa_log` VALUES ('4', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414546950839');
-INSERT INTO `oa_log` VALUES ('5', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414549189833');
-INSERT INTO `oa_log` VALUES ('6', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414549226782');
-INSERT INTO `oa_log` VALUES ('7', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549237147');
-INSERT INTO `oa_log` VALUES ('8', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549407194');
-INSERT INTO `oa_log` VALUES ('9', '用户登陆', 'service', 'index', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '127.0.0.1', '1414549503629');
-INSERT INTO `oa_log` VALUES ('10', '用户登陆', 'service', 'index', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414550599929');
+INSERT INTO `oa_log` VALUES ('1', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414490468022');
+INSERT INTO `oa_log` VALUES ('2', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414545029912');
+INSERT INTO `oa_log` VALUES ('3', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414545168109');
+INSERT INTO `oa_log` VALUES ('4', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414546950839');
+INSERT INTO `oa_log` VALUES ('5', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414549189833');
+INSERT INTO `oa_log` VALUES ('6', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414549226782');
+INSERT INTO `oa_log` VALUES ('7', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414549237147');
+INSERT INTO `oa_log` VALUES ('8', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414549407194');
+INSERT INTO `oa_log` VALUES ('9', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414549503629');
+INSERT INTO `oa_log` VALUES ('10', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '255.255.255.255', '1414550599929');
+INSERT INTO `oa_log` VALUES ('11', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414559016739');
+INSERT INTO `oa_log` VALUES ('12', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414561725725');
+INSERT INTO `oa_log` VALUES ('13', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414631019545');
+INSERT INTO `oa_log` VALUES ('14', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632851778');
+INSERT INTO `oa_log` VALUES ('15', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632854729');
+INSERT INTO `oa_log` VALUES ('16', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632857073');
+INSERT INTO `oa_log` VALUES ('17', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632859264');
+INSERT INTO `oa_log` VALUES ('18', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632862502');
+INSERT INTO `oa_log` VALUES ('19', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632864144');
+INSERT INTO `oa_log` VALUES ('20', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632865669');
+INSERT INTO `oa_log` VALUES ('21', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632867695');
+INSERT INTO `oa_log` VALUES ('22', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632869151');
+INSERT INTO `oa_log` VALUES ('23', '用户登陆', 'service', 'base', 'member', 'guest', null, null, null, null, null, null, null, null, '2', '255.255.255.255', '1414632870685');
+INSERT INTO `oa_log` VALUES ('24', '用户登陆', 'service', 'base', 'member', 'logon', null, null, null, null, null, null, null, null, '1', '127.0.0.1', '1414981454973');
 
 -- ----------------------------
 -- Table structure for `oa_log_setting`
@@ -152,8 +166,8 @@ CREATE TABLE `oa_member` (
 -- ----------------------------
 -- Records of oa_member
 -- ----------------------------
-INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414551642712', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
-INSERT INTO `oa_member` VALUES ('2', 'guest', '访客', '793a507822c9ec991c3418dfb7950f07', '338043', '0', '1', '1414550595011', '127.0.0.1', '1', '127.0.0.1', '1414546536140', '1', '1414546536140');
+INSERT INTO `oa_member` VALUES ('1', 'admin', '管理员', '0f4e8ac95b5c1fc48dc98004c7525bc7', '888888', '0', '1', '1414981455859', '127.0.0.1', '1', '127.0.0.1', '1411090286300', '1', '1414476075652');
+INSERT INTO `oa_member` VALUES ('2', 'guest', '访客', '793a507822c9ec991c3418dfb7950f07', '338043', '0', '1', '1414633005220', '127.0.0.1', '1', '127.0.0.1', '1414546536140', '1', '1414546536140');
 
 -- ----------------------------
 -- Table structure for `oa_member_organize_rel`
@@ -217,20 +231,20 @@ INSERT INTO `oa_menu` VALUES ('3', '服务支持', '1', '', '_iframe', '', '0', 
 INSERT INTO `oa_menu` VALUES ('4', '个人事务', '2', '', '_iframe', '', '0', '1', '1', '1414473213512', '1', '1414473213512');
 INSERT INTO `oa_menu` VALUES ('5', '基础设置', '2', '', '_iframe', '', '0', '1', '1', '1414473222525', '1', '1414473222525');
 INSERT INTO `oa_menu` VALUES ('6', '系统管理', '2', '', '_iframe', '', '0', '1', '1', '1414473231226', '1', '1414473231226');
-INSERT INTO `oa_menu` VALUES ('7', '个人信息', '4', '', '_iframe', 'index/member/showSelf', '0', '1', '1', '1414473258867', '1', '1414473323577');
-INSERT INTO `oa_menu` VALUES ('8', '密码修改', '4', '', '_iframe', 'index/member/editPassword', '0', '1', '1', '1414473301898', '1', '1414473363515');
-INSERT INTO `oa_menu` VALUES ('9', '通知公告', '4', '', '_iframe', 'index/notice/layout', '0', '1', '1', '1414473847340', '1', '1414473847340');
-INSERT INTO `oa_menu` VALUES ('10', '用户管理', '5', '', '_iframe', 'index/member/layout', '0', '1', '1', '1414473880919', '1', '1414473880919');
-INSERT INTO `oa_menu` VALUES ('11', '组织管理', '5', '', '_iframe', 'index/organize/layout', '0', '1', '1', '1414473895222', '1', '1414473895222');
-INSERT INTO `oa_menu` VALUES ('12', '角色管理', '5', '', '_iframe', 'index/role/layout', '0', '1', '1', '1414473908483', '1', '1414473908483');
-INSERT INTO `oa_menu` VALUES ('13', '配置参数', '6', '', '_iframe', 'index/setting/layout', '0', '1', '1', '1414473954180', '1', '1414473954180');
-INSERT INTO `oa_menu` VALUES ('14', '环境状态', '6', '', '_iframe', 'index/server/info', '0', '1', '1', '1414473978182', '1', '1414473978182');
-INSERT INTO `oa_menu` VALUES ('15', '备份还原', '6', '', '_iframe', 'index/database/layout', '0', '1', '1', '1414473996215', '1', '1414473996215');
-INSERT INTO `oa_menu` VALUES ('16', '图标管理', '6', '', '_iframe', 'index/icon/layout', '0', '1', '1', '1414474015579', '1', '1414474015579');
-INSERT INTO `oa_menu` VALUES ('17', '菜单管理', '6', '', '_iframe', 'index/menu/layout', '0', '1', '1', '1414474026735', '1', '1414474026735');
-INSERT INTO `oa_menu` VALUES ('18', '上传文件', '6', '', '_iframe', 'index/upload/layout', '0', '1', '1', '1414474054106', '1', '1414474054106');
-INSERT INTO `oa_menu` VALUES ('19', '日志管理', '6', '', '_iframe', 'index/log/layout', '0', '1', '1', '1414474069981', '1', '1414474069981');
-INSERT INTO `oa_menu` VALUES ('20', '资源管理', '6', '', '_iframe', 'index/resource/layout', '0', '1', '1', '1414474167390', '1', '1414474167390');
+INSERT INTO `oa_menu` VALUES ('7', '个人信息', '4', '', '_iframe', 'base/member/showSelf', '0', '1', '1', '1414473258867', '1', '1414473323577');
+INSERT INTO `oa_menu` VALUES ('8', '密码修改', '4', '', '_iframe', 'base/member/editPassword', '0', '1', '1', '1414473301898', '1', '1414473363515');
+INSERT INTO `oa_menu` VALUES ('9', '通知公告', '4', '', '_iframe', 'base/notice/layout', '0', '1', '1', '1414473847340', '1', '1414473847340');
+INSERT INTO `oa_menu` VALUES ('10', '用户管理', '5', '', '_iframe', 'base/member/layout', '0', '1', '1', '1414473880919', '1', '1414473880919');
+INSERT INTO `oa_menu` VALUES ('11', '组织管理', '5', '', '_iframe', 'base/organize/layout', '0', '1', '1', '1414473895222', '1', '1414473895222');
+INSERT INTO `oa_menu` VALUES ('12', '角色管理', '5', '', '_iframe', 'base/role/layout', '0', '1', '1', '1414473908483', '1', '1414473908483');
+INSERT INTO `oa_menu` VALUES ('13', '配置参数', '6', '', '_iframe', 'base/setting/layout', '0', '1', '1', '1414473954180', '1', '1414473954180');
+INSERT INTO `oa_menu` VALUES ('14', '环境状态', '6', '', '_iframe', 'base/server/info', '0', '1', '1', '1414473978182', '1', '1414473978182');
+INSERT INTO `oa_menu` VALUES ('15', '备份还原', '6', '', '_iframe', 'base/database/layout', '0', '1', '1', '1414473996215', '1', '1414473996215');
+INSERT INTO `oa_menu` VALUES ('16', '图标管理', '6', '', '_iframe', 'base/icon/layout', '0', '1', '1', '1414474015579', '1', '1414474015579');
+INSERT INTO `oa_menu` VALUES ('17', '菜单管理', '6', '', '_iframe', 'base/menu/layout', '0', '1', '1', '1414474026735', '1', '1414474026735');
+INSERT INTO `oa_menu` VALUES ('18', '上传文件', '6', '', '_iframe', 'base/upload/layout', '0', '1', '1', '1414474054106', '1', '1414474054106');
+INSERT INTO `oa_menu` VALUES ('19', '日志管理', '6', '', '_iframe', 'base/log/layout', '0', '1', '1', '1414474069981', '1', '1414474069981');
+INSERT INTO `oa_menu` VALUES ('20', '资源管理', '6', '', '_iframe', 'base/resource/layout', '0', '1', '1', '1414474167390', '1', '1414474167390');
 INSERT INTO `oa_menu` VALUES ('21', '官方主页', '3', '', '_iframe', 'http://www.iisquare.com/', '0', '1', '1', '1414476952893', '1', '1414477049753');
 
 -- ----------------------------
@@ -334,119 +348,119 @@ CREATE TABLE `oa_resource` (
 -- ----------------------------
 -- Records of oa_resource
 -- ----------------------------
-INSERT INTO `oa_resource` VALUES ('1', '基础模块', '0', '0', '1', '0', 'index', '', '', '0', '0', '1', '1414399426157', '1', '1414399426157');
-INSERT INTO `oa_resource` VALUES ('2', '数据库管理', '1', '0', '1', '0', 'index', 'database', '', '0', '0', '1', '1414400830252', '1', '1414400830252');
-INSERT INTO `oa_resource` VALUES ('3', '操作面板', '2', '0', '1', '1', 'index', 'database', 'layout', '0', '0', '1', '1414400894225', '1', '1414400894225');
-INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', '0', '0', 'index', 'database', 'list', '0', '0', '1', '1414400944169', '1', '1414400944169');
-INSERT INTO `oa_resource` VALUES ('5', '数据备份', '2', '0', '0', '0', 'index', 'database', 'backup', '0', '0', '1', '1414400966217', '1', '1414400966217');
-INSERT INTO `oa_resource` VALUES ('6', '数据还原', '2', '0', '0', '0', 'index', 'database', 'revert', '0', '0', '1', '1414400983956', '1', '1414400983956');
-INSERT INTO `oa_resource` VALUES ('7', '删除备份', '2', '0', '0', '0', 'index', 'database', 'delete', '0', '0', '1', '1414401003781', '1', '1414401003781');
-INSERT INTO `oa_resource` VALUES ('8', '职务管理', '1', '0', '1', '0', 'index', 'duty', '', '0', '0', '1', '1414401485227', '1', '1414401485227');
-INSERT INTO `oa_resource` VALUES ('9', '信息面板', '8', '0', '1', '1', 'index', 'duty', 'layout', '0', '0', '1', '1414401511673', '1', '1414401633197');
-INSERT INTO `oa_resource` VALUES ('10', '信息列表', '8', '0', '0', '0', 'index', 'duty', 'list', '0', '0', '1', '1414401527117', '1', '1414401642141');
-INSERT INTO `oa_resource` VALUES ('11', '信息查看', '8', '0', '0', '0', 'index', 'duty', 'show', '0', '0', '1', '1414401544398', '1', '1414401652724');
-INSERT INTO `oa_resource` VALUES ('12', '信息编辑', '8', '0', '0', '0', 'index', 'duty', 'edit', '0', '0', '1', '1414401558454', '1', '1414401619629');
-INSERT INTO `oa_resource` VALUES ('13', '信息保存', '8', '12', '0', '0', 'index', 'duty', 'save', '0', '0', '1', '1414401721807', '1', '1414401721807');
-INSERT INTO `oa_resource` VALUES ('14', '信息删除', '8', '0', '0', '0', 'index', 'duty', 'delete', '0', '0', '1', '1414401780062', '1', '1414401780062');
-INSERT INTO `oa_resource` VALUES ('15', '图标管理', '1', '0', '1', '0', 'index', 'icon', '', '0', '0', '1', '1414401979277', '1', '1414401979277');
-INSERT INTO `oa_resource` VALUES ('16', '信息面板', '15', '0', '1', '1', 'index', 'icon', 'layout', '0', '0', '1', '1414402032626', '1', '1414402032626');
-INSERT INTO `oa_resource` VALUES ('17', '信息列表', '15', '0', '0', '0', 'index', 'icon', 'list', '0', '0', '1', '1414402095471', '1', '1414402095471');
-INSERT INTO `oa_resource` VALUES ('18', '信息查看', '15', '0', '0', '0', 'index', 'icon', 'show', '0', '0', '1', '1414402108019', '1', '1414402108019');
-INSERT INTO `oa_resource` VALUES ('19', '信息编辑', '15', '0', '0', '0', 'index', 'icon', 'edit', '0', '0', '1', '1414402124092', '1', '1414402124092');
-INSERT INTO `oa_resource` VALUES ('20', '信息保存', '15', '19', '0', '0', 'index', 'icon', 'save', '0', '0', '1', '1414402130741', '1', '1414402197958');
-INSERT INTO `oa_resource` VALUES ('21', '信息删除', '15', '0', '0', '0', 'index', 'icon', 'delete', '0', '0', '1', '1414402142717', '1', '1414402142717');
-INSERT INTO `oa_resource` VALUES ('22', '生成样式', '15', '0', '0', '0', 'index', 'icon', 'renderCss', '0', '0', '1', '1414402164263', '1', '1414551163891');
-INSERT INTO `oa_resource` VALUES ('23', '日志管理', '1', '0', '1', '0', 'index', 'log', '', '0', '0', '1', '1414402272986', '1', '1414402272986');
-INSERT INTO `oa_resource` VALUES ('24', '信息面板', '23', '0', '1', '1', 'index', 'log', 'layout', '0', '0', '1', '1414402296886', '1', '1414402296886');
-INSERT INTO `oa_resource` VALUES ('25', '信息列表', '23', '0', '0', '0', 'index', 'log', 'list', '0', '0', '1', '1414402322140', '1', '1414402322140');
-INSERT INTO `oa_resource` VALUES ('26', '信息查看', '23', '0', '0', '0', 'index', 'log', 'show', '0', '0', '1', '1414402336315', '1', '1414402336315');
-INSERT INTO `oa_resource` VALUES ('27', '信息删除', '23', '0', '0', '0', 'index', 'log', 'delete', '0', '0', '1', '1414402343369', '1', '1414402343369');
-INSERT INTO `oa_resource` VALUES ('28', '清空日志', '23', '0', '0', '0', 'index', 'log', 'truncate', '0', '0', '1', '1414402362954', '1', '1414402362954');
-INSERT INTO `oa_resource` VALUES ('29', '配置编辑', '23', '0', '0', '0', 'index', 'log', 'editSetting', '0', '0', '1', '1414402405746', '1', '1414402405746');
-INSERT INTO `oa_resource` VALUES ('30', '配置保存', '23', '29', '0', '0', 'index', 'log', 'saveSetting', '0', '0', '1', '1414402433522', '1', '1414402433522');
-INSERT INTO `oa_resource` VALUES ('31', '用户管理', '1', '0', '1', '0', 'index', 'member', '', '0', '0', '1', '1414402491921', '1', '1414402491921');
-INSERT INTO `oa_resource` VALUES ('32', '个人信息查看', '31', '0', '1', '1', 'index', 'member', 'showSelf', '0', '0', '1', '1414402546818', '1', '1414402546818');
-INSERT INTO `oa_resource` VALUES ('33', '个人信息编辑', '31', '0', '0', '0', 'index', 'member', 'editSelf', '0', '0', '1', '1414402562703', '1', '1414473532137');
-INSERT INTO `oa_resource` VALUES ('34', '个人信息保存', '31', '33', '0', '0', 'index', 'member', 'saveSelf', '0', '0', '1', '1414402605681', '1', '1414402605681');
-INSERT INTO `oa_resource` VALUES ('35', '密码修改', '31', '0', '1', '1', 'index', 'member', 'editPassword', '0', '0', '1', '1414402625112', '1', '1414402625112');
-INSERT INTO `oa_resource` VALUES ('36', '密码保存', '31', '35', '0', '0', 'index', 'member', 'savePassword', '0', '0', '1', '1414402660355', '1', '1414402660355');
-INSERT INTO `oa_resource` VALUES ('37', '信息面板', '31', '0', '1', '1', 'index', 'member', 'layout', '0', '0', '1', '1414402685905', '1', '1414402685905');
-INSERT INTO `oa_resource` VALUES ('38', '信息列表', '31', '0', '0', '0', 'index', 'member', 'list', '0', '0', '1', '1414402697030', '1', '1414402697030');
-INSERT INTO `oa_resource` VALUES ('39', '信息查看', '31', '0', '0', '0', 'index', 'member', 'show', '0', '0', '1', '1414402706006', '1', '1414402706006');
-INSERT INTO `oa_resource` VALUES ('40', '信息编辑', '31', '0', '0', '0', 'index', 'member', 'edit', '0', '0', '1', '1414402713165', '1', '1414402713165');
-INSERT INTO `oa_resource` VALUES ('41', '信息保存', '31', '40', '0', '0', 'index', 'member', 'save', '0', '0', '1', '1414402744183', '1', '1414402744183');
-INSERT INTO `oa_resource` VALUES ('42', '信息删除', '31', '0', '0', '0', 'index', 'member', 'delete', '0', '0', '1', '1414403375177', '1', '1414403375177');
-INSERT INTO `oa_resource` VALUES ('43', '用户登录', '31', '0', '0', '0', 'index', 'member', 'login', '0', '-1', '1', '1414403427001', '1', '1414403427001');
-INSERT INTO `oa_resource` VALUES ('44', '登录操作', '31', '43', '0', '0', 'index', 'member', 'logon', '0', '-1', '1', '1414403482207', '1', '1414403546406');
-INSERT INTO `oa_resource` VALUES ('45', '退出登录', '31', '0', '1', '1', 'index', 'member', 'logout', '0', '-1', '1', '1414403504054', '1', '1414473548347');
-INSERT INTO `oa_resource` VALUES ('46', '管理面板', '31', '0', '0', '0', 'index', 'member', 'platform', '0', '0', '1', '1414403576300', '1', '1414473555796');
-INSERT INTO `oa_resource` VALUES ('47', '菜单管理', '1', '0', '1', '0', 'index', 'menu', '', '0', '0', '1', '1414403891391', '1', '1414403891391');
-INSERT INTO `oa_resource` VALUES ('48', '信息面板', '47', '0', '1', '1', 'index', 'menu', 'layout', '0', '0', '1', '1414404306214', '1', '1414404306214');
-INSERT INTO `oa_resource` VALUES ('49', '信息列表', '47', '0', '0', '0', 'index', 'menu', 'list', '0', '0', '1', '1414404314895', '1', '1414404314895');
-INSERT INTO `oa_resource` VALUES ('50', '信息查看', '47', '0', '0', '0', 'index', 'menu', 'show', '0', '0', '1', '1414404329289', '1', '1414404329289');
-INSERT INTO `oa_resource` VALUES ('51', '信息编辑', '47', '0', '0', '0', 'index', 'menu', 'edit', '0', '0', '1', '1414404336445', '1', '1414404336445');
-INSERT INTO `oa_resource` VALUES ('52', '信息保存', '47', '51', '0', '0', 'index', 'menu', 'save', '0', '0', '1', '1414404365813', '1', '1414404365813');
-INSERT INTO `oa_resource` VALUES ('53', '信息删除', '47', '0', '0', '0', 'index', 'menu', 'delete', '0', '0', '1', '1414404376789', '1', '1414404376789');
-INSERT INTO `oa_resource` VALUES ('54', '个人菜单', '47', '0', '0', '0', 'index', 'menu', 'listSelf', '0', '0', '1', '1414404413958', '1', '1414404413958');
-INSERT INTO `oa_resource` VALUES ('55', '通知公告管理', '1', '0', '1', '0', 'index', 'notice', '', '0', '0', '1', '1414404457696', '1', '1414404457696');
-INSERT INTO `oa_resource` VALUES ('56', '信息面板', '55', '0', '1', '1', 'index', 'notice', 'layout', '0', '0', '1', '1414458698435', '1', '1414458698435');
-INSERT INTO `oa_resource` VALUES ('57', '信息列表', '55', '0', '0', '0', 'index', 'notice', 'list', '0', '0', '1', '1414458711121', '1', '1414458711121');
-INSERT INTO `oa_resource` VALUES ('58', '信息编辑', '55', '0', '0', '0', 'index', 'notice', 'edit', '0', '0', '1', '1414458719499', '1', '1414458719499');
-INSERT INTO `oa_resource` VALUES ('59', '信息保存', '55', '58', '0', '0', 'index', 'notice', 'save', '0', '0', '1', '1414458764845', '1', '1414458764845');
-INSERT INTO `oa_resource` VALUES ('60', '信息查看', '55', '0', '0', '0', 'index', 'notice', 'show', '0', '0', '1', '1414458774570', '1', '1414458774570');
-INSERT INTO `oa_resource` VALUES ('61', '信息删除', '55', '0', '0', '0', 'index', 'notice', 'delete', '0', '0', '1', '1414458782864', '1', '1414458782864');
-INSERT INTO `oa_resource` VALUES ('62', '通知公告类型管理', '1', '0', '1', '0', 'index', 'noticeType', '', '0', '0', '1', '1414458831505', '1', '1414458866683');
-INSERT INTO `oa_resource` VALUES ('63', '信息面板', '62', '0', '1', '1', 'index', 'noticeType', 'layout', '0', '0', '1', '1414458956167', '1', '1414458956167');
-INSERT INTO `oa_resource` VALUES ('64', '信息列表', '62', '0', '0', '0', 'index', 'noticeType', 'list', '0', '0', '1', '1414458969335', '1', '1414458969335');
-INSERT INTO `oa_resource` VALUES ('65', '信息查看', '62', '0', '0', '0', 'index', 'noticeType', 'show', '0', '0', '1', '1414458977059', '1', '1414458977059');
-INSERT INTO `oa_resource` VALUES ('66', '信息编辑', '62', '0', '0', '0', 'index', 'noticeType', 'edit', '0', '0', '1', '1414458985130', '1', '1414458985130');
-INSERT INTO `oa_resource` VALUES ('67', '信息保存', '62', '66', '0', '0', 'index', 'noticeType', 'save', '0', '0', '1', '1414459034444', '1', '1414459034444');
-INSERT INTO `oa_resource` VALUES ('68', '信息删除', '62', '0', '0', '0', 'index', 'noticeType', 'delete', '0', '0', '1', '1414459045022', '1', '1414459045022');
-INSERT INTO `oa_resource` VALUES ('69', '组织机构管理', '1', '0', '1', '0', 'index', 'organize', '', '0', '0', '1', '1414459082278', '1', '1414459082278');
-INSERT INTO `oa_resource` VALUES ('70', '信息面板', '69', '0', '1', '1', 'index', 'organize', 'layout', '0', '0', '1', '1414459163148', '1', '1414459163148');
-INSERT INTO `oa_resource` VALUES ('71', '信息列表', '69', '0', '0', '0', 'index', 'organize', 'list', '0', '0', '1', '1414459173404', '1', '1414459173404');
-INSERT INTO `oa_resource` VALUES ('72', '信息查看', '69', '0', '0', '0', 'index', 'organize', 'show', '0', '0', '1', '1414459180245', '1', '1414459180245');
-INSERT INTO `oa_resource` VALUES ('73', '信息编辑', '69', '0', '0', '0', 'index', 'organize', 'edit', '0', '0', '1', '1414459197236', '1', '1414459197236');
-INSERT INTO `oa_resource` VALUES ('74', '信息保存', '69', '73', '0', '0', 'index', 'organize', 'save', '0', '0', '1', '1414459205962', '1', '1414459327553');
-INSERT INTO `oa_resource` VALUES ('75', '信息删除', '69', '0', '0', '0', 'index', 'organize', 'delete', '0', '0', '1', '1414459220682', '1', '1414459220682');
-INSERT INTO `oa_resource` VALUES ('76', '资源管理', '1', '0', '1', '0', 'index', 'resource', '', '0', '0', '1', '1414459522076', '1', '1414459522076');
-INSERT INTO `oa_resource` VALUES ('77', '信息面板', '76', '0', '1', '1', 'index', 'resource', 'layout', '0', '0', '1', '1414459567488', '1', '1414459567488');
-INSERT INTO `oa_resource` VALUES ('78', '信息列表', '76', '0', '0', '0', 'index', 'resource', 'list', '0', '0', '1', '1414459579421', '1', '1414459579421');
-INSERT INTO `oa_resource` VALUES ('79', '信息查看', '76', '0', '0', '0', 'index', 'resource', 'show', '0', '0', '1', '1414459586669', '1', '1414459586669');
-INSERT INTO `oa_resource` VALUES ('80', '信息编辑', '76', '0', '0', '0', 'index', 'resource', 'edit', '0', '0', '1', '1414459594366', '1', '1414459594366');
-INSERT INTO `oa_resource` VALUES ('81', '信息保存', '76', '80', '0', '0', 'index', 'resource', 'save', '0', '0', '1', '1414459640744', '1', '1414459640744');
-INSERT INTO `oa_resource` VALUES ('82', '信息删除', '76', '0', '0', '0', 'index', 'resource', 'delete', '0', '0', '1', '1414459653125', '1', '1414459653125');
-INSERT INTO `oa_resource` VALUES ('83', '角色管理', '1', '0', '1', '0', 'index', 'role', '', '0', '0', '1', '1414459694481', '1', '1414459694481');
-INSERT INTO `oa_resource` VALUES ('84', '信息面板', '83', '0', '1', '1', 'index', 'role', 'layout', '0', '0', '1', '1414459717821', '1', '1414459717821');
-INSERT INTO `oa_resource` VALUES ('85', '信息列表', '83', '0', '0', '0', 'index', 'role', 'list', '0', '0', '1', '1414459726982', '1', '1414459726982');
-INSERT INTO `oa_resource` VALUES ('86', '信息查看', '83', '0', '0', '0', 'index', 'role', 'show', '0', '0', '1', '1414459733953', '1', '1414459733953');
-INSERT INTO `oa_resource` VALUES ('87', '信息编辑', '83', '0', '0', '0', 'index', 'role', 'edit', '0', '0', '1', '1414459745612', '1', '1414459745612');
-INSERT INTO `oa_resource` VALUES ('88', '信息保存', '83', '87', '0', '0', 'index', 'role', 'save', '0', '0', '1', '1414459804648', '1', '1414459804648');
-INSERT INTO `oa_resource` VALUES ('89', '信息删除', '83', '0', '0', '0', 'index', 'role', 'delete', '0', '0', '1', '1414459817120', '1', '1414459817120');
-INSERT INTO `oa_resource` VALUES ('90', '权限菜单编辑', '83', '0', '0', '0', 'index', 'role', 'editPower', '0', '0', '1', '1414459831534', '1', '1414459831534');
-INSERT INTO `oa_resource` VALUES ('91', '权限菜单保存', '83', '90', '0', '0', 'index', 'role', 'savePower', '0', '0', '1', '1414459850875', '1', '1414459850875');
-INSERT INTO `oa_resource` VALUES ('92', '服务器信息管理', '1', '0', '1', '0', 'index', 'server', '', '0', '0', '1', '1414459880216', '1', '1414459880216');
-INSERT INTO `oa_resource` VALUES ('93', '环境状态', '92', '0', '1', '1', 'index', 'server', 'info', '0', '0', '1', '1414460037057', '1', '1414460037057');
-INSERT INTO `oa_resource` VALUES ('94', '配置管理', '1', '0', '1', '0', 'index', 'setting', '', '0', '0', '1', '1414460066587', '1', '1414460066587');
-INSERT INTO `oa_resource` VALUES ('95', '信息面板', '94', '0', '1', '1', 'index', 'setting', 'layout', '0', '0', '1', '1414460091787', '1', '1414460091787');
-INSERT INTO `oa_resource` VALUES ('96', '信息列表', '94', '0', '0', '0', 'index', 'setting', 'list', '0', '0', '1', '1414460100457', '1', '1414460100457');
-INSERT INTO `oa_resource` VALUES ('97', '信息查看', '94', '0', '0', '0', 'index', 'setting', 'show', '0', '0', '1', '1414460108513', '1', '1414460108513');
-INSERT INTO `oa_resource` VALUES ('98', '信息编辑', '94', '0', '0', '0', 'index', 'setting', 'edit', '0', '0', '1', '1414460118136', '1', '1414546404335');
-INSERT INTO `oa_resource` VALUES ('99', '信息保存', '94', '98', '0', '0', 'index', 'setting', 'save', '0', '0', '1', '1414460130225', '1', '1414460130225');
-INSERT INTO `oa_resource` VALUES ('100', '信息删除', '94', '0', '0', '0', 'index', 'setting', 'delete', '0', '0', '1', '1414460141657', '1', '1414460141657');
-INSERT INTO `oa_resource` VALUES ('101', '上传文件管理', '1', '0', '1', '0', 'index', 'upload', '', '0', '0', '1', '1414460183474', '1', '1414460183474');
-INSERT INTO `oa_resource` VALUES ('102', '信息面板', '101', '0', '1', '1', 'index', 'upload', 'layout', '0', '0', '1', '1414460205524', '1', '1414460205524');
-INSERT INTO `oa_resource` VALUES ('103', '信息列表', '101', '0', '0', '0', 'index', 'upload', 'list', '0', '0', '1', '1414460215464', '1', '1414460215464');
-INSERT INTO `oa_resource` VALUES ('104', '信息删除', '101', '0', '0', '0', 'index', 'upload', 'delete', '0', '0', '1', '1414460231081', '1', '1414460231081');
-INSERT INTO `oa_resource` VALUES ('105', '允许上传', '101', '0', '0', '0', 'index', 'upload', 'uploadJson', '0', '0', '1', '1414460281712', '1', '1414460281712');
-INSERT INTO `oa_resource` VALUES ('106', '允许浏览', '101', '0', '0', '0', 'index', 'upload', 'fileManagerJson', '0', '0', '1', '1414460315927', '1', '1414460315927');
-INSERT INTO `oa_resource` VALUES ('107', '编辑器示例', '101', '0', '1', '1', 'index', 'upload', 'editor', '0', '0', '1', '1414460341793', '1', '1414460341793');
-INSERT INTO `oa_resource` VALUES ('108', '管理首页', '1', '0', '0', '0', 'index', 'index', '', '0', '0', '1', '1414482115257', '1', '1414482192308');
-INSERT INTO `oa_resource` VALUES ('109', '任务面板', '108', '0', '0', '0', 'index', 'index', 'task', '0', '0', '1', '1414482176022', '1', '1414482176022');
-INSERT INTO `oa_resource` VALUES ('110', '登陆日志', '23', '46', '0', '0', 'index', 'log', 'listLogon', '0', '0', '1', '1414489656476', '1', '1414489656476');
-INSERT INTO `oa_resource` VALUES ('111', '首页列表', '55', '46', '0', '0', 'index', 'notice', 'listIndex', '0', '0', '1', '1414489700812', '1', '1414489700812');
-INSERT INTO `oa_resource` VALUES ('112', '信息阅读', '55', '46', '0', '0', 'index', 'notice', 'read', '0', '0', '1', '1414489714899', '1', '1414489714899');
-INSERT INTO `oa_resource` VALUES ('113', '访客模式', '31', '0', '1', '1', 'index', 'member', 'guest', '0', '-1', '1', '1414546177437', '1', '1414546177437');
+INSERT INTO `oa_resource` VALUES ('1', '基础模块', '0', '0', '1', '0', 'base', '', '', '0', '0', '1', '1414399426157', '1', '1414399426157');
+INSERT INTO `oa_resource` VALUES ('2', '数据库管理', '1', '0', '1', '0', 'base', 'database', '', '0', '0', '1', '1414400830252', '1', '1414400830252');
+INSERT INTO `oa_resource` VALUES ('3', '操作面板', '2', '0', '1', '1', 'base', 'database', 'layout', '0', '0', '1', '1414400894225', '1', '1414400894225');
+INSERT INTO `oa_resource` VALUES ('4', '信息列表', '2', '0', '0', '0', 'base', 'database', 'list', '0', '0', '1', '1414400944169', '1', '1414400944169');
+INSERT INTO `oa_resource` VALUES ('5', '数据备份', '2', '0', '0', '0', 'base', 'database', 'backup', '0', '0', '1', '1414400966217', '1', '1414400966217');
+INSERT INTO `oa_resource` VALUES ('6', '数据还原', '2', '0', '0', '0', 'base', 'database', 'revert', '0', '0', '1', '1414400983956', '1', '1414400983956');
+INSERT INTO `oa_resource` VALUES ('7', '删除备份', '2', '0', '0', '0', 'base', 'database', 'delete', '0', '0', '1', '1414401003781', '1', '1414401003781');
+INSERT INTO `oa_resource` VALUES ('8', '职务管理', '1', '0', '1', '0', 'base', 'duty', '', '0', '0', '1', '1414401485227', '1', '1414401485227');
+INSERT INTO `oa_resource` VALUES ('9', '信息面板', '8', '0', '1', '1', 'base', 'duty', 'layout', '0', '0', '1', '1414401511673', '1', '1414401633197');
+INSERT INTO `oa_resource` VALUES ('10', '信息列表', '8', '0', '0', '0', 'base', 'duty', 'list', '0', '0', '1', '1414401527117', '1', '1414401642141');
+INSERT INTO `oa_resource` VALUES ('11', '信息查看', '8', '0', '0', '0', 'base', 'duty', 'show', '0', '0', '1', '1414401544398', '1', '1414401652724');
+INSERT INTO `oa_resource` VALUES ('12', '信息编辑', '8', '0', '0', '0', 'base', 'duty', 'edit', '0', '0', '1', '1414401558454', '1', '1414401619629');
+INSERT INTO `oa_resource` VALUES ('13', '信息保存', '8', '12', '0', '0', 'base', 'duty', 'save', '0', '0', '1', '1414401721807', '1', '1414401721807');
+INSERT INTO `oa_resource` VALUES ('14', '信息删除', '8', '0', '0', '0', 'base', 'duty', 'delete', '0', '0', '1', '1414401780062', '1', '1414401780062');
+INSERT INTO `oa_resource` VALUES ('15', '图标管理', '1', '0', '1', '0', 'base', 'icon', '', '0', '0', '1', '1414401979277', '1', '1414401979277');
+INSERT INTO `oa_resource` VALUES ('16', '信息面板', '15', '0', '1', '1', 'base', 'icon', 'layout', '0', '0', '1', '1414402032626', '1', '1414402032626');
+INSERT INTO `oa_resource` VALUES ('17', '信息列表', '15', '0', '0', '0', 'base', 'icon', 'list', '0', '0', '1', '1414402095471', '1', '1414402095471');
+INSERT INTO `oa_resource` VALUES ('18', '信息查看', '15', '0', '0', '0', 'base', 'icon', 'show', '0', '0', '1', '1414402108019', '1', '1414402108019');
+INSERT INTO `oa_resource` VALUES ('19', '信息编辑', '15', '0', '0', '0', 'base', 'icon', 'edit', '0', '0', '1', '1414402124092', '1', '1414402124092');
+INSERT INTO `oa_resource` VALUES ('20', '信息保存', '15', '19', '0', '0', 'base', 'icon', 'save', '0', '0', '1', '1414402130741', '1', '1414402197958');
+INSERT INTO `oa_resource` VALUES ('21', '信息删除', '15', '0', '0', '0', 'base', 'icon', 'delete', '0', '0', '1', '1414402142717', '1', '1414402142717');
+INSERT INTO `oa_resource` VALUES ('22', '生成样式', '15', '0', '0', '0', 'base', 'icon', 'renderCss', '0', '0', '1', '1414402164263', '1', '1414551163891');
+INSERT INTO `oa_resource` VALUES ('23', '日志管理', '1', '0', '1', '0', 'base', 'log', '', '0', '0', '1', '1414402272986', '1', '1414402272986');
+INSERT INTO `oa_resource` VALUES ('24', '信息面板', '23', '0', '1', '1', 'base', 'log', 'layout', '0', '0', '1', '1414402296886', '1', '1414402296886');
+INSERT INTO `oa_resource` VALUES ('25', '信息列表', '23', '0', '0', '0', 'base', 'log', 'list', '0', '0', '1', '1414402322140', '1', '1414402322140');
+INSERT INTO `oa_resource` VALUES ('26', '信息查看', '23', '0', '0', '0', 'base', 'log', 'show', '0', '0', '1', '1414402336315', '1', '1414402336315');
+INSERT INTO `oa_resource` VALUES ('27', '信息删除', '23', '0', '0', '0', 'base', 'log', 'delete', '0', '0', '1', '1414402343369', '1', '1414402343369');
+INSERT INTO `oa_resource` VALUES ('28', '清空日志', '23', '0', '0', '0', 'base', 'log', 'truncate', '0', '0', '1', '1414402362954', '1', '1414402362954');
+INSERT INTO `oa_resource` VALUES ('29', '配置编辑', '23', '0', '0', '0', 'base', 'log', 'editSetting', '0', '0', '1', '1414402405746', '1', '1414402405746');
+INSERT INTO `oa_resource` VALUES ('30', '配置保存', '23', '29', '0', '0', 'base', 'log', 'saveSetting', '0', '0', '1', '1414402433522', '1', '1414402433522');
+INSERT INTO `oa_resource` VALUES ('31', '用户管理', '1', '0', '1', '0', 'base', 'member', '', '0', '0', '1', '1414402491921', '1', '1414402491921');
+INSERT INTO `oa_resource` VALUES ('32', '个人信息查看', '31', '0', '1', '1', 'base', 'member', 'showSelf', '0', '0', '1', '1414402546818', '1', '1414402546818');
+INSERT INTO `oa_resource` VALUES ('33', '个人信息编辑', '31', '0', '0', '0', 'base', 'member', 'editSelf', '0', '0', '1', '1414402562703', '1', '1414473532137');
+INSERT INTO `oa_resource` VALUES ('34', '个人信息保存', '31', '33', '0', '0', 'base', 'member', 'saveSelf', '0', '0', '1', '1414402605681', '1', '1414402605681');
+INSERT INTO `oa_resource` VALUES ('35', '密码修改', '31', '0', '1', '1', 'base', 'member', 'editPassword', '0', '0', '1', '1414402625112', '1', '1414402625112');
+INSERT INTO `oa_resource` VALUES ('36', '密码保存', '31', '35', '0', '0', 'base', 'member', 'savePassword', '0', '0', '1', '1414402660355', '1', '1414402660355');
+INSERT INTO `oa_resource` VALUES ('37', '信息面板', '31', '0', '1', '1', 'base', 'member', 'layout', '0', '0', '1', '1414402685905', '1', '1414402685905');
+INSERT INTO `oa_resource` VALUES ('38', '信息列表', '31', '0', '0', '0', 'base', 'member', 'list', '0', '0', '1', '1414402697030', '1', '1414402697030');
+INSERT INTO `oa_resource` VALUES ('39', '信息查看', '31', '0', '0', '0', 'base', 'member', 'show', '0', '0', '1', '1414402706006', '1', '1414402706006');
+INSERT INTO `oa_resource` VALUES ('40', '信息编辑', '31', '0', '0', '0', 'base', 'member', 'edit', '0', '0', '1', '1414402713165', '1', '1414402713165');
+INSERT INTO `oa_resource` VALUES ('41', '信息保存', '31', '40', '0', '0', 'base', 'member', 'save', '0', '0', '1', '1414402744183', '1', '1414402744183');
+INSERT INTO `oa_resource` VALUES ('42', '信息删除', '31', '0', '0', '0', 'base', 'member', 'delete', '0', '0', '1', '1414403375177', '1', '1414403375177');
+INSERT INTO `oa_resource` VALUES ('43', '用户登录', '31', '0', '0', '0', 'base', 'member', 'login', '0', '-1', '1', '1414403427001', '1', '1414403427001');
+INSERT INTO `oa_resource` VALUES ('44', '登录操作', '31', '43', '0', '0', 'base', 'member', 'logon', '0', '-1', '1', '1414403482207', '1', '1414403546406');
+INSERT INTO `oa_resource` VALUES ('45', '退出登录', '31', '0', '1', '1', 'base', 'member', 'logout', '0', '-1', '1', '1414403504054', '1', '1414473548347');
+INSERT INTO `oa_resource` VALUES ('46', '管理面板', '31', '0', '0', '0', 'base', 'member', 'platform', '0', '0', '1', '1414403576300', '1', '1414473555796');
+INSERT INTO `oa_resource` VALUES ('47', '菜单管理', '1', '0', '1', '0', 'base', 'menu', '', '0', '0', '1', '1414403891391', '1', '1414403891391');
+INSERT INTO `oa_resource` VALUES ('48', '信息面板', '47', '0', '1', '1', 'base', 'menu', 'layout', '0', '0', '1', '1414404306214', '1', '1414404306214');
+INSERT INTO `oa_resource` VALUES ('49', '信息列表', '47', '0', '0', '0', 'base', 'menu', 'list', '0', '0', '1', '1414404314895', '1', '1414404314895');
+INSERT INTO `oa_resource` VALUES ('50', '信息查看', '47', '0', '0', '0', 'base', 'menu', 'show', '0', '0', '1', '1414404329289', '1', '1414404329289');
+INSERT INTO `oa_resource` VALUES ('51', '信息编辑', '47', '0', '0', '0', 'base', 'menu', 'edit', '0', '0', '1', '1414404336445', '1', '1414404336445');
+INSERT INTO `oa_resource` VALUES ('52', '信息保存', '47', '51', '0', '0', 'base', 'menu', 'save', '0', '0', '1', '1414404365813', '1', '1414404365813');
+INSERT INTO `oa_resource` VALUES ('53', '信息删除', '47', '0', '0', '0', 'base', 'menu', 'delete', '0', '0', '1', '1414404376789', '1', '1414404376789');
+INSERT INTO `oa_resource` VALUES ('54', '个人菜单', '47', '0', '0', '0', 'base', 'menu', 'listSelf', '0', '0', '1', '1414404413958', '1', '1414404413958');
+INSERT INTO `oa_resource` VALUES ('55', '通知公告管理', '1', '0', '1', '0', 'base', 'notice', '', '0', '0', '1', '1414404457696', '1', '1414404457696');
+INSERT INTO `oa_resource` VALUES ('56', '信息面板', '55', '0', '1', '1', 'base', 'notice', 'layout', '0', '0', '1', '1414458698435', '1', '1414458698435');
+INSERT INTO `oa_resource` VALUES ('57', '信息列表', '55', '0', '0', '0', 'base', 'notice', 'list', '0', '0', '1', '1414458711121', '1', '1414458711121');
+INSERT INTO `oa_resource` VALUES ('58', '信息编辑', '55', '0', '0', '0', 'base', 'notice', 'edit', '0', '0', '1', '1414458719499', '1', '1414458719499');
+INSERT INTO `oa_resource` VALUES ('59', '信息保存', '55', '58', '0', '0', 'base', 'notice', 'save', '0', '0', '1', '1414458764845', '1', '1414458764845');
+INSERT INTO `oa_resource` VALUES ('60', '信息查看', '55', '0', '0', '0', 'base', 'notice', 'show', '0', '0', '1', '1414458774570', '1', '1414458774570');
+INSERT INTO `oa_resource` VALUES ('61', '信息删除', '55', '0', '0', '0', 'base', 'notice', 'delete', '0', '0', '1', '1414458782864', '1', '1414458782864');
+INSERT INTO `oa_resource` VALUES ('62', '通知公告类型管理', '1', '0', '1', '0', 'base', 'noticeType', '', '0', '0', '1', '1414458831505', '1', '1414458866683');
+INSERT INTO `oa_resource` VALUES ('63', '信息面板', '62', '0', '1', '1', 'base', 'noticeType', 'layout', '0', '0', '1', '1414458956167', '1', '1414458956167');
+INSERT INTO `oa_resource` VALUES ('64', '信息列表', '62', '0', '0', '0', 'base', 'noticeType', 'list', '0', '0', '1', '1414458969335', '1', '1414458969335');
+INSERT INTO `oa_resource` VALUES ('65', '信息查看', '62', '0', '0', '0', 'base', 'noticeType', 'show', '0', '0', '1', '1414458977059', '1', '1414458977059');
+INSERT INTO `oa_resource` VALUES ('66', '信息编辑', '62', '0', '0', '0', 'base', 'noticeType', 'edit', '0', '0', '1', '1414458985130', '1', '1414458985130');
+INSERT INTO `oa_resource` VALUES ('67', '信息保存', '62', '66', '0', '0', 'base', 'noticeType', 'save', '0', '0', '1', '1414459034444', '1', '1414459034444');
+INSERT INTO `oa_resource` VALUES ('68', '信息删除', '62', '0', '0', '0', 'base', 'noticeType', 'delete', '0', '0', '1', '1414459045022', '1', '1414459045022');
+INSERT INTO `oa_resource` VALUES ('69', '组织机构管理', '1', '0', '1', '0', 'base', 'organize', '', '0', '0', '1', '1414459082278', '1', '1414459082278');
+INSERT INTO `oa_resource` VALUES ('70', '信息面板', '69', '0', '1', '1', 'base', 'organize', 'layout', '0', '0', '1', '1414459163148', '1', '1414459163148');
+INSERT INTO `oa_resource` VALUES ('71', '信息列表', '69', '0', '0', '0', 'base', 'organize', 'list', '0', '0', '1', '1414459173404', '1', '1414459173404');
+INSERT INTO `oa_resource` VALUES ('72', '信息查看', '69', '0', '0', '0', 'base', 'organize', 'show', '0', '0', '1', '1414459180245', '1', '1414459180245');
+INSERT INTO `oa_resource` VALUES ('73', '信息编辑', '69', '0', '0', '0', 'base', 'organize', 'edit', '0', '0', '1', '1414459197236', '1', '1414459197236');
+INSERT INTO `oa_resource` VALUES ('74', '信息保存', '69', '73', '0', '0', 'base', 'organize', 'save', '0', '0', '1', '1414459205962', '1', '1414459327553');
+INSERT INTO `oa_resource` VALUES ('75', '信息删除', '69', '0', '0', '0', 'base', 'organize', 'delete', '0', '0', '1', '1414459220682', '1', '1414459220682');
+INSERT INTO `oa_resource` VALUES ('76', '资源管理', '1', '0', '1', '0', 'base', 'resource', '', '0', '0', '1', '1414459522076', '1', '1414459522076');
+INSERT INTO `oa_resource` VALUES ('77', '信息面板', '76', '0', '1', '1', 'base', 'resource', 'layout', '0', '0', '1', '1414459567488', '1', '1414459567488');
+INSERT INTO `oa_resource` VALUES ('78', '信息列表', '76', '0', '0', '0', 'base', 'resource', 'list', '0', '0', '1', '1414459579421', '1', '1414459579421');
+INSERT INTO `oa_resource` VALUES ('79', '信息查看', '76', '0', '0', '0', 'base', 'resource', 'show', '0', '0', '1', '1414459586669', '1', '1414459586669');
+INSERT INTO `oa_resource` VALUES ('80', '信息编辑', '76', '0', '0', '0', 'base', 'resource', 'edit', '0', '0', '1', '1414459594366', '1', '1414459594366');
+INSERT INTO `oa_resource` VALUES ('81', '信息保存', '76', '80', '0', '0', 'base', 'resource', 'save', '0', '0', '1', '1414459640744', '1', '1414459640744');
+INSERT INTO `oa_resource` VALUES ('82', '信息删除', '76', '0', '0', '0', 'base', 'resource', 'delete', '0', '0', '1', '1414459653125', '1', '1414459653125');
+INSERT INTO `oa_resource` VALUES ('83', '角色管理', '1', '0', '1', '0', 'base', 'role', '', '0', '0', '1', '1414459694481', '1', '1414459694481');
+INSERT INTO `oa_resource` VALUES ('84', '信息面板', '83', '0', '1', '1', 'base', 'role', 'layout', '0', '0', '1', '1414459717821', '1', '1414459717821');
+INSERT INTO `oa_resource` VALUES ('85', '信息列表', '83', '0', '0', '0', 'base', 'role', 'list', '0', '0', '1', '1414459726982', '1', '1414459726982');
+INSERT INTO `oa_resource` VALUES ('86', '信息查看', '83', '0', '0', '0', 'base', 'role', 'show', '0', '0', '1', '1414459733953', '1', '1414459733953');
+INSERT INTO `oa_resource` VALUES ('87', '信息编辑', '83', '0', '0', '0', 'base', 'role', 'edit', '0', '0', '1', '1414459745612', '1', '1414459745612');
+INSERT INTO `oa_resource` VALUES ('88', '信息保存', '83', '87', '0', '0', 'base', 'role', 'save', '0', '0', '1', '1414459804648', '1', '1414459804648');
+INSERT INTO `oa_resource` VALUES ('89', '信息删除', '83', '0', '0', '0', 'base', 'role', 'delete', '0', '0', '1', '1414459817120', '1', '1414459817120');
+INSERT INTO `oa_resource` VALUES ('90', '权限菜单编辑', '83', '0', '0', '0', 'base', 'role', 'editPower', '0', '0', '1', '1414459831534', '1', '1414459831534');
+INSERT INTO `oa_resource` VALUES ('91', '权限菜单保存', '83', '90', '0', '0', 'base', 'role', 'savePower', '0', '0', '1', '1414459850875', '1', '1414459850875');
+INSERT INTO `oa_resource` VALUES ('92', '服务器信息管理', '1', '0', '1', '0', 'base', 'server', '', '0', '0', '1', '1414459880216', '1', '1414459880216');
+INSERT INTO `oa_resource` VALUES ('93', '环境状态', '92', '0', '1', '1', 'base', 'server', 'info', '0', '0', '1', '1414460037057', '1', '1414460037057');
+INSERT INTO `oa_resource` VALUES ('94', '配置管理', '1', '0', '1', '0', 'base', 'setting', '', '0', '0', '1', '1414460066587', '1', '1414460066587');
+INSERT INTO `oa_resource` VALUES ('95', '信息面板', '94', '0', '1', '1', 'base', 'setting', 'layout', '0', '0', '1', '1414460091787', '1', '1414460091787');
+INSERT INTO `oa_resource` VALUES ('96', '信息列表', '94', '0', '0', '0', 'base', 'setting', 'list', '0', '0', '1', '1414460100457', '1', '1414460100457');
+INSERT INTO `oa_resource` VALUES ('97', '信息查看', '94', '0', '0', '0', 'base', 'setting', 'show', '0', '0', '1', '1414460108513', '1', '1414460108513');
+INSERT INTO `oa_resource` VALUES ('98', '信息编辑', '94', '0', '0', '0', 'base', 'setting', 'edit', '0', '0', '1', '1414460118136', '1', '1414546404335');
+INSERT INTO `oa_resource` VALUES ('99', '信息保存', '94', '98', '0', '0', 'base', 'setting', 'save', '0', '0', '1', '1414460130225', '1', '1414460130225');
+INSERT INTO `oa_resource` VALUES ('100', '信息删除', '94', '0', '0', '0', 'base', 'setting', 'delete', '0', '0', '1', '1414460141657', '1', '1414460141657');
+INSERT INTO `oa_resource` VALUES ('101', '上传文件管理', '1', '0', '1', '0', 'base', 'upload', '', '0', '0', '1', '1414460183474', '1', '1414460183474');
+INSERT INTO `oa_resource` VALUES ('102', '信息面板', '101', '0', '1', '1', 'base', 'upload', 'layout', '0', '0', '1', '1414460205524', '1', '1414460205524');
+INSERT INTO `oa_resource` VALUES ('103', '信息列表', '101', '0', '0', '0', 'base', 'upload', 'list', '0', '0', '1', '1414460215464', '1', '1414460215464');
+INSERT INTO `oa_resource` VALUES ('104', '信息删除', '101', '0', '0', '0', 'base', 'upload', 'delete', '0', '0', '1', '1414460231081', '1', '1414460231081');
+INSERT INTO `oa_resource` VALUES ('105', '允许上传', '101', '0', '0', '0', 'base', 'upload', 'uploadJson', '0', '0', '1', '1414460281712', '1', '1414460281712');
+INSERT INTO `oa_resource` VALUES ('106', '允许浏览', '101', '0', '0', '0', 'base', 'upload', 'fileManagerJson', '0', '0', '1', '1414460315927', '1', '1414460315927');
+INSERT INTO `oa_resource` VALUES ('107', '编辑器示例', '101', '0', '1', '1', 'base', 'upload', 'editor', '0', '0', '1', '1414460341793', '1', '1414460341793');
+INSERT INTO `oa_resource` VALUES ('108', '管理首页', '1', '0', '0', '0', 'base', 'index', '', '0', '0', '1', '1414482115257', '1', '1414482192308');
+INSERT INTO `oa_resource` VALUES ('109', '任务面板', '108', '0', '0', '0', 'base', 'index', 'task', '0', '0', '1', '1414482176022', '1', '1414482176022');
+INSERT INTO `oa_resource` VALUES ('110', '登陆日志', '23', '46', '0', '0', 'base', 'log', 'listLogon', '0', '0', '1', '1414489656476', '1', '1414489656476');
+INSERT INTO `oa_resource` VALUES ('111', '首页列表', '55', '46', '0', '0', 'base', 'notice', 'listIndex', '0', '0', '1', '1414489700812', '1', '1414489700812');
+INSERT INTO `oa_resource` VALUES ('112', '信息阅读', '55', '46', '0', '0', 'base', 'notice', 'read', '0', '0', '1', '1414489714899', '1', '1414489714899');
+INSERT INTO `oa_resource` VALUES ('113', '访客模式', '31', '0', '1', '1', 'base', 'member', 'guest', '0', '-1', '1', '1414546177437', '1', '1414546177437');
 
 -- ----------------------------
 -- Table structure for `oa_role`

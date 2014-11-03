@@ -1,46 +1,41 @@
-package com.iisquare.jees.oa.controller.index;
+package com.iisquare.jees.oa.controller.base;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
 import com.iisquare.jees.framework.util.DPUtil;
-import com.iisquare.jees.framework.util.ServiceUtil;
+import com.iisquare.jees.framework.util.ServletUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
-import com.iisquare.jees.oa.domain.NoticeType;
-import com.iisquare.jees.oa.service.NoticeTypeService;
+import com.iisquare.jees.oa.domain.Setting;
 
 /**
- * 通知公告类型管理
+ * 配置管理
  * @author Ouyang <iisquare@163.com>
  *
  */
 @Controller
 @Scope("prototype")
-public class NoticeTypeController extends PermitController {
-	
-	@Autowired
-	public NoticeTypeService noticeTypeService;
-	
+public class SettingController extends PermitController {
 	public String layoutAction() throws Exception {
 		return displayTemplate();
 	}
 	
 	public String listAction () throws Exception {
-		List<Map<String, Object>> list = noticeTypeService.getList("*", "sort desc", 1, 0);
-		list = ServiceUtil.formatRelation(list, 0);
-		assign("total", list.size());
-		assign("rows", DPUtil.collectionToArray(list));
+		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
+		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
+		Map<Object, Object> map = settingService.search(parameterMap, "operate_time desc", page, pageSize);
+		assign("total", map.get("total"));
+		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
 	}
 	
 	public String showAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Map<String, Object> info = noticeTypeService.getById(id, true);
+		Map<String, Object> info = settingService.getById(id, true);
 		if(null == info) {
 			return displayInfo("信息不存在，请刷新后再试", null);
 		}
@@ -50,46 +45,43 @@ public class NoticeTypeController extends PermitController {
 	
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		NoticeType info;
+		Setting info;
 		if(DPUtil.empty(id)) {
-			info = new NoticeType();
-			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
+			info = new Setting();
 		} else {
-			info = noticeTypeService.getById(id);
+			info = settingService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
-		assign("statusMap", noticeTypeService.getStatusMap());
 		return displayTemplate();
 	}
 	
 	public String saveAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		NoticeType persist;
+		Setting persist;
 		if(DPUtil.empty(id)) {
-			persist = new NoticeType();
+			persist = new Setting();
 		} else {
-			persist = noticeTypeService.getById(id);
+			persist = settingService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
-		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
-		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
-		String status = get("status");
-		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
-		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
+		String type = ValidateUtil.filterSimpleString(get("type"), true, 1, 64, null);
+		if(DPUtil.empty(type)) return displayMessage(3003, "类型参数错误");
+		persist.setType(type);
+		persist.setContent(DPUtil.trim(get("content")));
+		persist.setRemark(DPUtil.parseString(get("remark")));
+		persist.setOperateId(currentMember.getId());
+		persist.setOperateIp(ServletUtil.getRemoteAddr(request));
 		long time = System.currentTimeMillis();
-		persist.setUpdateId(currentMember.getId());
-		persist.setUpdateTime(time);
+		persist.setOperateTime(time);
 		int result;
 		if(DPUtil.empty(persist.getId())) {
-			persist.setCreateId(currentMember.getId());
-			persist.setCreateTime(time);
-			result = noticeTypeService.insert(persist);
+			result = settingService.insert(persist);
 		} else {
-			result = noticeTypeService.update(persist);
+			result = settingService.update(persist);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));
@@ -100,9 +92,7 @@ public class NoticeTypeController extends PermitController {
 	
 	public String deleteAction() throws Exception {
 		Object[] idArray = DPUtil.explode(get("ids"), ",", " ", true);
-		int result = noticeTypeService.delete(idArray);
-		if(-1 == result) return displayInfo("该节点拥有下级节点，不允许删除", null);
-		if(-2 == result) return displayInfo("该节点拥有从属通知公告，不允许删除", null);
+		int result = settingService.delete(idArray);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
 		} else {

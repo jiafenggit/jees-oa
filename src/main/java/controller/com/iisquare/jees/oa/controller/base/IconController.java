@@ -1,5 +1,8 @@
-package com.iisquare.jees.oa.controller.index;
+package com.iisquare.jees.oa.controller.base;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -8,30 +11,35 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iisquare.jees.core.component.PermitController;
+import com.iisquare.jees.core.util.UrlUtil;
 import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
-import com.iisquare.jees.oa.domain.Duty;
-import com.iisquare.jees.oa.service.DutyService;
+import com.iisquare.jees.oa.domain.Icon;
+import com.iisquare.jees.oa.service.IconService;
 
 /**
- * 职务管理
+ * 图标管理
  * @author Ouyang <iisquare@163.com>
  *
  */
 @Controller
 @Scope("prototype")
-public class DutyController extends PermitController {
+public class IconController extends PermitController {
 	
 	@Autowired
-	public DutyService dutyService;
+	public IconService iconService;
 	
 	public String layoutAction() throws Exception {
 		return displayTemplate();
 	}
-	
-	public String listAction() throws Exception {
-		List<Map<String, Object>> list = dutyService.getList("*", "sort desc", 1, 0);
+
+	public String listAction () throws Exception {
+		List<Map<String, Object>> list = iconService.getList("*", "sort desc", 1, 0);
+		for (Map<String, Object> row : list) {
+			row.put("iconCls", DPUtil.stringConcat("icon-auto", row.get("id")));
+			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
+		}
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
 		assign("rows", DPUtil.collectionToArray(list));
@@ -40,7 +48,7 @@ public class DutyController extends PermitController {
 	
 	public String showAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Map<String, Object> info = dutyService.getById(id, true);
+		Map<String, Object> info = iconService.getById(id, true);
 		if(null == info) {
 			return displayInfo("信息不存在，请刷新后再试", null);
 		}
@@ -50,32 +58,37 @@ public class DutyController extends PermitController {
 	
 	public String editAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Duty info;
+		Icon info;
 		if(DPUtil.empty(id)) {
-			info = new Duty();
+			info = new Icon();
 			info.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		} else {
-			info = dutyService.getById(id);
+			info = iconService.getById(id);
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
-		assign("statusMap", dutyService.getStatusMap());
+		assign("statusMap", iconService.getStatusMap());
+		assign("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(info.getUrl())));
+		assign("sessionId", request.getSession().getId());
 		return displayTemplate();
 	}
 	
 	public String saveAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
-		Duty persist;
+		Icon persist;
 		if(DPUtil.empty(id)) {
-			persist = new Duty();
+			persist = new Icon();
 		} else {
-			persist = dutyService.getById(id);
+			persist = iconService.getById(id);
 			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
 		}
 		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
 		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
 		persist.setName(name);
+		String url = DPUtil.trim(get("url"));
+		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
+		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");
 		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
@@ -87,9 +100,9 @@ public class DutyController extends PermitController {
 		if(DPUtil.empty(persist.getId())) {
 			persist.setCreateId(currentMember.getId());
 			persist.setCreateTime(time);
-			result = dutyService.insert(persist);
+			result = iconService.insert(persist);
 		} else {
-			result = dutyService.update(persist);
+			result = iconService.update(persist);
 		}
 		if(result > 0) {
 			return displayMessage(0, url("layout"));
@@ -100,13 +113,38 @@ public class DutyController extends PermitController {
 	
 	public String deleteAction() throws Exception {
 		Object[] idArray = DPUtil.explode(get("ids"), ",", " ", true);
-		int result = dutyService.delete(idArray);
+		int result = iconService.delete(idArray);
 		if(-1 == result) return displayInfo("该节点拥有下级节点，不允许删除", null);
-		if(-2 == result) return displayInfo("该节点拥有从属用户，不允许删除", null);
 		if(result > 0) {
 			return displayInfo("操作成功", url("layout"));
 		} else {
 			return displayInfo("操作失败，请刷新后再试", null);
 		}
+	}
+	
+	public String renderCssAction() throws Exception {
+		String cssPath = DPUtil.stringConcat(_WEB_ROOT_, "/", "files/work/icon.auto.css");
+		File cssFile = new File(cssPath);
+		//检查文件
+		if(!cssFile.exists()) return displayMessage(3001, "样式文件不存在");
+		//检查目录写权限
+		if(!cssFile.canWrite()) return displayMessage(3002, "样式文件没有操作权限");
+		try {
+			OutputStream os = new FileOutputStream(cssFile);
+			for (Icon icon : iconService.getList(null, 1, 0)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(".icon-auto");
+				sb.append(icon.getId());
+				sb.append(" {background:url('");
+				sb.append(UrlUtil.concat(_WEB_URL_, icon.getUrl()));
+				sb.append("') no-repeat center center;}\r\n");
+				os.write(sb.toString().getBytes());
+			}
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			return displayMessage(3003, "操作失败");
+		}
+		return displayMessage(0, "操作成功，按[ctrl + f5]强制刷新后可查看效果");
 	}
 }

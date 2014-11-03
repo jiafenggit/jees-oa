@@ -122,7 +122,7 @@ public abstract class PermitController extends CoreController {
 		if(1 == logSetting.getReferer()) log.setReferer(request.getHeader("referer"));
 		if(1 == logSetting.getRequestUrl()) log.setRequestUrl(request.getRequestURL().toString());
 		if(1 == logSetting.getRequestParam()) {
-			if("index".equals(_MODULE_) && "member".equals(_CONTROLLER_) && "logon".equals(_ACTION_)) {
+			if("base".equals(_MODULE_) && "member".equals(_CONTROLLER_) && "logon".equals(_ACTION_)) {
 				log.setRequestParam("******");
 			} else {
 				log.setRequestParam(JSONObject.fromObject(request.getParameterMap()).toString());

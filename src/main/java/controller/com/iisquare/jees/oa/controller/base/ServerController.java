@@ -1,4 +1,4 @@
-package com.iisquare.jees.oa.controller.index;
+package com.iisquare.jees.oa.controller.base;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -6,18 +6,15 @@ import org.springframework.stereotype.Controller;
 import com.iisquare.jees.core.component.PermitController;
 
 /**
- * 首页控制器
+ * 服务器信息管理
  * @author Ouyang <iisquare@163.com>
  *
  */
 @Controller
 @Scope("prototype")
-public class IndexController extends PermitController {
+public class ServerController extends PermitController {
 	
-	/**
-	 * 任务面板
-	 */
-	public String taskAction() throws Exception {
+	public String infoAction() throws Exception {
 		return displayTemplate();
 	}
 	

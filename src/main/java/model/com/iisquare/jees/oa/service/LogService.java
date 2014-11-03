@@ -68,7 +68,7 @@ public class LogService extends ServiceBase {
 	public Map<Object, Object> listLogon(Object memberId, int page, int pageSize) {
 		String sql = DPUtil.stringConcat("select * from ", logDao.tableName(),
 				" where type = ? and module = ? and controller = ? and (action = ? or action = ?) and operate_id = ? order by operate_time desc");
-		Object[] params = new Object[]{"service", "index", "member", "logon", "guest", DPUtil.parseInt(memberId)};
+		Object[] params = new Object[]{"service", "base", "member", "logon", "guest", DPUtil.parseInt(memberId)};
 		int total = logDao.getCount(sql, params, true);
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = logDao.queryForList(sql, params);
