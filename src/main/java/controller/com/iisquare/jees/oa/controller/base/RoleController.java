@@ -3,7 +3,6 @@ package com.iisquare.jees.oa.controller.base;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -12,7 +11,6 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.domain.Role;
-import com.iisquare.jees.oa.service.RoleService;
 
 /**
  * 角色管理
@@ -22,10 +20,7 @@ import com.iisquare.jees.oa.service.RoleService;
 @Controller
 @Scope("prototype")
 public class RoleController extends PermitController {
-	
-	@Autowired
-	public RoleService roleService;
-	
+
 	public String editPowerAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Role info = roleService.getById(id);

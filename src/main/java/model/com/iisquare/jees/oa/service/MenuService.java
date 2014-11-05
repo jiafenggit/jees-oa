@@ -13,7 +13,6 @@ import com.iisquare.jees.framework.util.DPUtil;
 import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
-import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.dao.MenuDao;
 import com.iisquare.jees.oa.dao.RoleMenuRelDao;
 import com.iisquare.jees.oa.domain.Menu;
@@ -27,8 +26,6 @@ public class MenuService extends ServiceBase {
 	public MemberDao memberDao;
 	@Autowired
 	public RoleMenuRelDao roleMenuRelDao;
-	@Autowired
-	public MemberRoleRelDao memberRoleRelDao;
 	
 	public Map<String, String> getStatusMap() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -58,13 +55,13 @@ public class MenuService extends ServiceBase {
 		return list;
 	}
 	
-	public List<Map<String, Object>> getListByMemberId(Object memberId) {
-		if(DPUtil.empty(memberId)) return new ArrayList<Map<String, Object>>(0);
+	public List<Map<String, Object>> getListByRoleId(Object[] roleIdArray) {
+		String roleIdStr = SqlUtil.buildSafeWhere(",", roleIdArray);
+		if(DPUtil.empty(roleIdStr)) return new ArrayList<Map<String, Object>>(0);
 		String sql = DPUtil.stringConcat("select * from ", menuDao.tableName(),
-				" where ", menuDao.getPrimaryKey(), " in (select menu_id from ",
-				roleMenuRelDao.tableName(), " where role_id in (select role_id from ",
-				memberRoleRelDao.tableName(), " where member_id = ?)) and status = 1 order by sort desc");
-		return menuDao.queryForList(sql, memberId);
+				" where ", menuDao.getPrimaryKey(), " in (select menu_id from ", roleMenuRelDao.tableName(),
+				" where role_id in (", roleIdStr, ")) and status = 1 order by sort desc");
+		return menuDao.queryForList(sql);
 	}
 	
 	public Map<String, Object> getById(Object id, boolean bFill) {

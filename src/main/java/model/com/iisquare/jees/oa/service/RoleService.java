@@ -13,6 +13,7 @@ import com.iisquare.jees.framework.util.ServiceUtil;
 import com.iisquare.jees.framework.util.SqlUtil;
 import com.iisquare.jees.framework.util.ValidateUtil;
 import com.iisquare.jees.oa.dao.MemberDao;
+import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.dao.RoleDao;
 import com.iisquare.jees.oa.dao.RoleMenuRelDao;
 import com.iisquare.jees.oa.dao.RoleResourceRelDao;
@@ -31,6 +32,8 @@ public class RoleService extends ServiceBase {
 	public RoleMenuRelDao roleMenuRelDao;
 	@Autowired
 	public MemberDao memberDao;
+	@Autowired
+	public MemberRoleRelDao memberRoleRelDao;
 	
 	public Map<String, String> getStatusMap() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
@@ -40,6 +43,23 @@ public class RoleService extends ServiceBase {
 	}
 	
 	public RoleService() {}
+	
+	/**
+	 * 根据用户主键值获取角色主键值数组
+	 * @param memberId 用户主键值
+	 * @param statusArray 角色状态数组，若为null，则仅获取正常状态记录
+	 * @return
+	 */
+	public Object[] getIdListByMemberId(Object memberId, Object[] statusArray) {
+		String statusStr = (null == statusArray) ? "1" : SqlUtil.buildSafeWhere(",", statusArray);
+		if(null == memberId || DPUtil.empty(statusStr)) return new Object[]{};
+		String primaryKey = roleDao.getPrimaryKey();
+		String sql = DPUtil.stringConcat("select ", primaryKey, " from ", roleDao.tableName(),
+				" where ", primaryKey, " in (select role_id from ", memberRoleRelDao.tableName(),
+				" where member_id = ?) and status in (", statusStr, ")");
+		List<Map<String, Object>> list = roleResourceRelDao.queryForList(sql, memberId);
+		return DPUtil.collectionToArray(ServiceUtil.getFieldValues(list, primaryKey));
+	}
 	
 	public List<Map<String, Object>> getList(String columns, String orderBy, int page, int pageSize) {
 		String append = null;

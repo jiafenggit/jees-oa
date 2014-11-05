@@ -17,7 +17,6 @@ import com.iisquare.jees.oa.dao.MemberDao;
 import com.iisquare.jees.oa.dao.ResourceDao;
 import com.iisquare.jees.oa.dao.RoleDao;
 import com.iisquare.jees.oa.dao.RoleResourceRelDao;
-import com.iisquare.jees.oa.dao.MemberRoleRelDao;
 import com.iisquare.jees.oa.domain.Resource;
 
 @Service
@@ -29,8 +28,6 @@ public class ResourceService extends ServiceBase {
 	public MemberDao memberDao;
 	@Autowired
 	public RoleResourceRelDao roleResourceRelDao;
-	@Autowired
-	public MemberRoleRelDao memberRoleRelDao;
 	@Autowired
 	public RoleDao roleDao;
 	
@@ -77,13 +74,12 @@ public class ResourceService extends ServiceBase {
 		return list;
 	}
 	
-	public List<Object> getIdArrayByMemberId(Object memberId) {
-		if(DPUtil.empty(memberId)) return new ArrayList<Object>(0);
+	public List<Object> getIdArrayByRoleId(Object[] roleIdArray) {
+		String roleIdStr = SqlUtil.buildSafeWhere(",", roleIdArray);
+		if(DPUtil.empty(roleIdStr)) return new ArrayList<Object>(0);
 		String sql = DPUtil.stringConcat("select resource_id from ", roleResourceRelDao.tableName(),
-				" where role_id in (select ", roleDao.getPrimaryKey(), " from ", roleDao.tableName(),
-				" where ", roleDao.getPrimaryKey(), " in (select role_id from ", memberRoleRelDao.tableName(),
-				" where member_id = ?) and status = 1)");
-		List<Map<String, Object>> list = roleResourceRelDao.queryForList(sql, memberId);
+				" where role_id in (", roleIdStr, ")");
+		List<Map<String, Object>> list = roleResourceRelDao.queryForList(sql);
 		return ServiceUtil.getFieldValues(list, "resource_id");
 	}
 	

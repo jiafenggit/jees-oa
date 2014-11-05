@@ -22,6 +22,7 @@ import com.iisquare.jees.oa.domain.Resource;
 import com.iisquare.jees.oa.service.LogService;
 import com.iisquare.jees.oa.service.MemberService;
 import com.iisquare.jees.oa.service.ResourceService;
+import com.iisquare.jees.oa.service.RoleService;
 import com.iisquare.jees.oa.service.SettingService;
 
 @Controller
@@ -29,6 +30,8 @@ import com.iisquare.jees.oa.service.SettingService;
 public abstract class PermitController extends CoreController {
 	@Autowired
 	public MemberService memberService;
+	@Autowired
+	public RoleService roleService;
 	@Autowired
 	public LogService logService;
 	@Autowired
@@ -93,7 +96,8 @@ public abstract class PermitController extends CoreController {
 		if(-1 == resource.getStatus()) return true; // 禁用验证
 		if(null == currentMember) return false; // 用户未登录
 		Integer memberId = currentMember.getId();
-		List<Object> list = resourceService.getIdArrayByMemberId(memberId); // 获取登录用户全部可用资源
+		List<Object> list = resourceService.getIdArrayByRoleId(
+				roleService.getIdListByMemberId(memberId, null)); // 获取登录用户全部可用资源
 		if(list.contains(resource.getId())) return true; // 验证登录用户是否拥有当前资源
 		return false;
 	}
