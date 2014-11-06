@@ -54,10 +54,6 @@ public class NoticeService extends ServiceBase {
 			sb.append(" and type_id = :typeId");
 			paramMap.put("typeId", typeId);
 		}
-		String statusStr = SqlUtil.buildSafeWhere(",", (Object[]) paramMap.get("status"));
-		if(!DPUtil.empty(statusStr)) {
-			sb.append(DPUtil.stringConcat(" and status in (", statusStr, ")"));
-		}
 		Object serial = map.get("serial");
 		if(!DPUtil.empty(serial)) {
 			sb.append(" and operate_id in (select ").append(memberDao.getPrimaryKey())
