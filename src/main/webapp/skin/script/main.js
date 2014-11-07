@@ -144,13 +144,14 @@ function Web_trimRight(str, trimStr) {
  * 将数据格式化为combotree需要的格式
  * @param data 原数据
  * @param valueArray 已选择项数组
- * @param tips 提示信息
- * @param valueField 内容名称
- * @param idField 值名称
- * @param childrenField 子节点数据名称
+ * @param tips 提示信息（可选）
+ * @param valueField 内容字段名称（可选）
+ * @param idField 值名称（可选）
+ * @param childrenField 子节点数据名称（可选）
+ * @param formatter(value, row, index) 内容格式化函数（可选）
  * @returns 格式化后的数据
  */
-function Web_formatComboTree(data, valueArray, tips, valueField, idField, childrenField) {
+function Web_formatComboTree(data, valueArray, tips, valueField, idField, childrenField, formatter) {
 	if($.isEmptyObject(idField)) idField = 'id';
 	if($.isEmptyObject(valueField)) valueField = idField;
 	if($.isEmptyObject(childrenField)) childrenField = 'children';
@@ -166,10 +167,10 @@ function Web_formatComboTree(data, valueArray, tips, valueField, idField, childr
 		var value = data[key];
 		rows.push({
 			id : value[idField],
-			text : value[valueField],
+			text : (formatter && $.isFunction(formatter)) ? formatter(value[valueField], value, key) : value[valueField],
 			checked : -1 != $.inArray(value[idField], valueArray) || -1 != $.inArray(value[idField] + '', valueArray),
 			children : Web_formatComboTree(
-				value[childrenField], valueArray, null, valueField, idField, childrenField)
+				value[childrenField], valueArray, null, valueField, idField, childrenField, formatter)
 		});
 	}
 	return rows;
