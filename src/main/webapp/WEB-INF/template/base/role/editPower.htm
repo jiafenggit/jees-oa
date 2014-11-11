@@ -96,8 +96,8 @@ $(function () {
 	$('#buttonOk').bind('click', function () {
 		$.post('${_BASE_.url("savePower")}', {
 			id : '${info.id}',
-			resourceIds : Web_getDatagridCheckedIdArray($('.js-list-table-resource')),
-			menuIds : Web_getDatagridCheckedIdArray($('.js-list-table-menu'))
+			resourceIds : Web_getDatagridIdArray($('.js-list-table-resource'), 'checked'),
+			menuIds : Web_getDatagridIdArray($('.js-list-table-menu'), 'checked')
 		}, function (data) {
 			if(data.status) {
 				Web_alertInfo(data.message);
