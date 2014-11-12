@@ -52,7 +52,7 @@ public class ServletUtil {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object generateParameterMap(Map<String, Object> map,
+	public static Map<String, Object> generateParameterMap(Map<String, Object> map,
 			List<String> keyList, String[] valueArray, int index, int length) {
 		int indexNext = index + 1;
 		String key = keyList.get(index);
