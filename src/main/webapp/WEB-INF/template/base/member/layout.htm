@@ -41,7 +41,7 @@ $(function () {
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>[/#if]'
 					+ '[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids='
+					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids[]='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -52,20 +52,16 @@ $(function () {
 	});
 	
 	$('.js-control-delete').bind('click', function () {
-		var rows = $('.js-list-table').datagrid('getChecked');
-		var ids = '', size = rows.length;
-		if(size < 1) {
+		var ids = Web_getDatagridIdArray($('.js-list-table'), 'checked');
+		var length = ids.length;
+		if(length < 1) {
 			Web_alertInfo('请选择要删除的记录！');
 			return ;
 		}
-		for(var i = 0; i < size; i++) {
-			var row = rows[i];
-			ids += row.id;
-			if(i + 1 < size) {
-				ids += ',';
-			}
+		for(var i = 0; i < length; i++) {
+			ids[i] = 'ids[]=' + ids[i];
 		}
-		var url = '${_BASE_.url("delete")}?ids=' + ids;
+		var url = '${_BASE_.url("delete")}?' + ids.join('&');
 		Web_redirectPage(url);
 	});
 });

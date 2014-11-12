@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
 /**
  * Servlet操作类
  */
@@ -32,13 +30,10 @@ public class ServletUtil {
 	 */
 	public static Map<String, Object> parseParameterMap(Map<String, String[]> parameterMap) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		System.out.println(regexParameterMapKey);
 		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
 			List<String> keys = DPUtil.getMatcher(regexParameterMapKey, entry.getKey(), true);
-			System.out.println(entry.getKey() + ":" + DPUtil.implode(",", DPUtil.collectionToArray(keys)));
 			generateParameterMap(map, keys, entry.getValue(), 0, keys.size());
 		}
-		System.out.println(JSONObject.fromObject(map).toString());
 		return map;
 	}
 	

@@ -46,7 +46,7 @@
 		<th>操作</th>
 		<td>
 			[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}?id=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>[/#if]
-			[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>[/#if]
+			[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids[]=${info.id}" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>[/#if]
 			<a href="javascript:void(0);" onclick="Web_redirectPage(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true">返回</a>
 		</td>
 	</tr>
