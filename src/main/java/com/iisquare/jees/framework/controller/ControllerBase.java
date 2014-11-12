@@ -3,6 +3,7 @@ package com.iisquare.jees.framework.controller;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,7 +86,7 @@ public abstract class ControllerBase {
 	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		this.request = request;
 		this.response = response;
-		parameterMap = ServletUtil.singleParameterMap(request);
+		parameterMap = ServletUtil.parseParameterMap(request.getParameterMap());
 		_ASSIGN_ = new HashMap<String, Object>(0);
 		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
 		_WEB_URL_ = ServletUtil.getWebUrl(request);
@@ -322,9 +323,21 @@ public abstract class ControllerBase {
 	 * @param key 参数名称
 	 * @return
 	 */
-	protected String[] gets(String key) {
+	protected String[] getArray(String key) {
 		Object value = parameterMap.get(key);
 		if(null == value || !value.getClass().isArray()) return new String[]{};
 		return (String[]) value;
+	}
+	
+	/**
+	 * 获取请求参数Map
+	 * @param key 参数名称
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	protected Map<String, Object> getMap(String key) {
+		Object value = parameterMap.get(key);
+		if(null == value || !(value instanceof Map)) return new LinkedHashMap<String, Object>();
+		return (Map<String, Object>) value;
 	}
 }

@@ -168,9 +168,9 @@ public class MemberController extends PermitController {
 			persist.setSalt(salt);
 			persist.setPassword(memberService.encodePassword(password, salt));
 		}
-		String[] organizeDutyIds = gets("organizeDutyIds");
+		String[] organizeDutyIds = getArray("organizeDutyIds");
 		if(DPUtil.empty(organizeDutyIds)) return displayMessage(3007, "部门参数错误");
-		String[] roleIds = gets("roleIds");
+		String[] roleIds = getArray("roleIds");
 		if(DPUtil.empty(roleIds)) return displayMessage(3008, "角色参数错误");
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");

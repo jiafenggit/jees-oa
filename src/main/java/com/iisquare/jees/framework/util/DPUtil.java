@@ -276,13 +276,13 @@ public class DPUtil {
 		return DPUtil.collectionToStringArray(list);
 	}
 	
-	public static String implode(String split, Object[] objects) {
-		if(null == objects) return "";
-		int size = objects.length;
+	public static String implode(String split, Object[] array) {
+		if(null == array) return "";
+		int size = array.length;
 		if(1 > size) return "";
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < size; i++) {
-			Object value = objects[i];
+			Object value = array[i];
 			if(null == value) continue;
 			if(value instanceof Collection) {
 				sb.append(implode(split, collectionToArray((Collection<?>) value)));
@@ -304,10 +304,10 @@ public class DPUtil {
 	 * @param bDuplicate 去重
 	 * @return 字符串数组
 	 */
-	public static String[] filterArray(Object[] objects, String wrap, boolean bTrim, boolean bEmpty, boolean bSafe, boolean bDuplicate) {
-		if(empty(objects)) return new String[]{};
+	public static String[] filterArray(Object[] array, String wrap, boolean bTrim, boolean bEmpty, boolean bSafe, boolean bDuplicate) {
+		if(empty(array)) return new String[]{};
 		List<Object> list = new ArrayList<Object>();
-		for (Object object : objects) {
+		for (Object object : array) {
 			String str = parseString(object);
 			if(bTrim) str = trim(str);
 			if(bEmpty && empty(str)) continue ;
@@ -347,9 +347,9 @@ public class DPUtil {
 		if(null == collection) {
 			return new Object[]{};
 		}
-		Object[] objectArray = new Object[collection.size()];
-		collection.toArray(objectArray);
-		return objectArray;
+		Object[] array = new Object[collection.size()];
+		collection.toArray(array);
+		return array;
 	}
 	
 	/**
@@ -357,10 +357,10 @@ public class DPUtil {
 	 * @param stringArray
 	 * @return
 	 */
-	public static Integer[] objectArrayToIntegerArray(Object[] objectArray) {
-		Integer[] intArray = new Integer[objectArray.length];
-		for(int i = 0; i < objectArray.length; i++) {
-			intArray[i] = DPUtil.parseInt(objectArray[i]);
+	public static Integer[] arrayToIntegerArray(Object[] array) {
+		Integer[] intArray = new Integer[array.length];
+		for(int i = 0; i < array.length; i++) {
+			intArray[i] = DPUtil.parseInt(array[i]);
 		}
 		return intArray;
 	}
@@ -438,10 +438,10 @@ public class DPUtil {
 	/**
 	 * 判断下标是否在数组范围内
 	 */
-	public static boolean isIndexExist(Object[] objects, int index) {
-		if(null == objects) return false;
+	public static boolean isIndexExist(Object[] array, int index) {
+		if(null == array) return false;
 		if(index < 0) return false;
-		return objects.length >= index;
+		return array.length >= index;
 	}
 	
 	/**
@@ -456,9 +456,9 @@ public class DPUtil {
 	/**
 	 * 判断元素是否包含在数组中
 	 */
-	public static boolean isItemExist(Object[] objects, Object item) {
-		if(null == objects) return false;
-		for (Object object : objects) {
+	public static boolean isItemExist(Object[] array, Object item) {
+		if(null == array) return false;
+		for (Object object : array) {
 			if(DPUtil.equals(item, object)) return true;
 		}
 		return false;
@@ -480,8 +480,8 @@ public class DPUtil {
 	/**
 	 * 安全获取数组中对应下标的值
 	 */
-	public static Object getByIndex(Object[] objects, int index) {
-		if(isIndexExist(objects, index)) return objects[index];
+	public static Object getByIndex(Object[] array, int index) {
+		if(isIndexExist(array, index)) return array[index];
 		return null;
 	}
 	
@@ -510,26 +510,26 @@ public class DPUtil {
 	/**
 	 * 将元素添加到数组末尾
 	 */
-	public static Object[] arrayPush(Object[] objects, Object item) {
-		if(null == objects) return null;
-		return arrayMerge(objects, new Object[]{item});
+	public static Object[] arrayPush(Object[] array, Object item) {
+		if(null == array) return null;
+		return arrayMerge(array, new Object[]{item});
 	}
 
 	/**
 	 * 将元素添加到数组开头
 	 */
-	public static Object[] arrayUnShift(Object[] objects, Object item) {
-		if(null == objects) return null;
-		return arrayMerge(new Object[]{item}, objects);
+	public static Object[] arrayUnShift(Object[] array, Object item) {
+		if(null == array) return null;
+		return arrayMerge(new Object[]{item}, array);
 	}
 	
 	/**
 	 * 将元素从数组中移除
 	 */
-	public static Object[] arrayRemove(Object[] objects, Object item) {
-		if(null == objects) return null;
-		List<Object> list = new ArrayList<Object>(objects.length);
-		for (Object object : objects) {
+	public static Object[] arrayRemove(Object[] array, Object item) {
+		if(null == array) return null;
+		List<Object> list = new ArrayList<Object>(array.length);
+		for (Object object : array) {
 			if(!equals(item, object)) list.add(object);
 		}
 		return collectionToArray(list);
@@ -583,19 +583,19 @@ public class DPUtil {
 	 * 获取初始化填充数组
 	 */
 	public static Object[] getFillArray(int length, Object object) {
-		Object[] objects = new Object[length];
-		Arrays.fill(objects, object);
-		return objects;
+		Object[] array = new Object[length];
+		Arrays.fill(array, object);
+		return array;
 	}
 	
 	/**
 	 * 创建HashMap
 	 */
-	public static Map<Object, Object> buildMap(Object[] keys, Object[] values) {
-		int length = keys.length;
+	public static Map<Object, Object> buildMap(Object[] keyArray, Object[] valueArray) {
+		int length = keyArray.length;
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		for (int i = 0; i < length; i++) {
-			map.put(keys[i], values[i]);
+			map.put(keyArray[i], valueArray[i]);
 		}
 		return map;
 	}
