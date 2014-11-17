@@ -103,6 +103,7 @@ public class SettingService extends ServiceBase {
 		long time = System.currentTimeMillis();
 		if(null == setting) {
 			setting = new Setting();
+			setting.setType(type);
 			setting.setName(name);
 		}
 		setting.setContent(content);
