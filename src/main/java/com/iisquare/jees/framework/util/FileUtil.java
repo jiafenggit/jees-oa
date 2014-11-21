@@ -67,7 +67,6 @@ public class FileUtil {
 	 * @return 文件不存在或读取异常时返回null
 	 */
 	public static String getContent(String filePath, boolean bDislodgeLine, String encoding) {
-		String output = "";
 		File file = new File(filePath);
 		if (!file.exists()) return null;
 		if (!file.isFile()) return null;
@@ -77,6 +76,7 @@ public class FileUtil {
 		InputStream inputStream = null;
         InputStreamReader inputReader = null;
         BufferedReader bufferReader = null;
+        String output = "";
 		try {
 			inputStream = new FileInputStream(file);
             inputReader = new InputStreamReader(inputStream, encoding);
