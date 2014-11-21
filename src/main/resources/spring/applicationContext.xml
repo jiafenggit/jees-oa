@@ -32,8 +32,10 @@
 
 	<bean id="configuration" class="com.iisquare.jees.framework.Configuration">
 		<property name="modulePrefix" value="com.iisquare.jees.oa.controller." />
-		<property name="skinFolder" value="skin" />
 		<property name="themeName" value="${config.theme_name}" />
+		<property name="skinFolder" value="${config.skin_folder}" />
+		<property name="templateLoaderPath" value="${config.template_load_path}" />
+		<property name="templateSuffix" value="${config.template_suffix}" />
 		<property name="dateTimeFormat" value="${config.datetime_format}" />
 		<property name="sessionName" value="${config.session_name}" />
 		<property name="tablePrefix" value="${config.table_prefix}" />
@@ -59,7 +61,7 @@
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="cache" value="true" />
-		<property name="suffix" value=".htm" />
+		<property name="suffix" value="#{configuration.templateSuffix}" />
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
 		<property name="exposeSpringMacroHelpers" value="true" />
@@ -75,13 +77,13 @@
 
 	<bean id="freeMarkerConfigurer"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/WEB-INF/template/" />
+		<property name="templateLoaderPath" value="#{configuration.templateLoaderPath}" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="freemarkerSettings">
 			<props>
 				<prop key="template_update_delay">0</prop>
 				<prop key="locale">zh_CN</prop>
-				<prop key="datetime_format">${config.datetime_format}</prop>
+				<prop key="datetime_format">#{configuration.dateTimeFormat}</prop>
 				<!-- <prop key="template_exception_handler">ignore</prop> -->
 			</props>
 		</property>

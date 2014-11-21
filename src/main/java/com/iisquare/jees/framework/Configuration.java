@@ -1,19 +1,18 @@
 package com.iisquare.jees.framework;
 
-import java.util.Hashtable;
-import java.util.Map;
-
 public class Configuration {
-	private static Map<String, Object> cache = new Hashtable<String, Object>(0); // 虚拟缓存
+
 	private String modulePrefix = "com.iisquare.smh.action."; // 模块包前缀
 	private String controllerSuffix = "Controller"; // 控制器名称后缀
 	private String actionSuffix = "Action"; // 方法名称后缀
-	private String skinFolder = "skin"; // 主题资源所在目录
 	private String themeName = "default"; // 主题名称，留空为不区分主题
+	private String skinFolder = "skin"; // 主题资源所在目录
+	private String templateLoaderPath = "/WEB-INF/template/"; // 视图模板所在路径
+	private String templateSuffix = ".htm"; // 视图模板文件后缀
 	private String dateTimeFormat = "yyyy-MM-dd HH:mm:ss"; // 日期格式
 	private String sessionName = "JSESSIONID"; // 服务器环境的SESSIONID
 	private String tablePrefix = "jees_"; // 数据库表前缀
-	
+
 	public String getModulePrefix() {
 		return modulePrefix;
 	}
@@ -38,6 +37,14 @@ public class Configuration {
 		this.actionSuffix = actionSuffix;
 	}
 
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
 	public String getSkinFolder() {
 		return skinFolder;
 	}
@@ -46,12 +53,20 @@ public class Configuration {
 		this.skinFolder = skinFolder;
 	}
 
-	public String getThemeName() {
-		return themeName;
+	public String getTemplateLoaderPath() {
+		return templateLoaderPath;
 	}
 
-	public void setThemeName(String themeName) {
-		this.themeName = themeName;
+	public void setTemplateLoaderPath(String templateLoaderPath) {
+		this.templateLoaderPath = templateLoaderPath.replaceAll("\\\\", "/");
+	}
+
+	public String getTemplateSuffix() {
+		return templateSuffix;
+	}
+
+	public void setTemplateSuffix(String templateSuffix) {
+		this.templateSuffix = templateSuffix;
 	}
 
 	public String getDateTimeFormat() {
@@ -79,16 +94,4 @@ public class Configuration {
 	}
 
 	public Configuration() {}
-	
-	public static Object get(String key) {
-		return cache.get(key);
-	}
-	
-	public static void put(String key, Object value) {
-		if(null == value) {
-			cache.remove(key);
-		} else {
-			cache.put(key, value);
-		}
-	}
 }

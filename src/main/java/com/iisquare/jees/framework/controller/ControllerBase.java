@@ -17,16 +17,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.iisquare.jees.framework.Configuration;
 import com.iisquare.jees.framework.util.DPUtil;
+import com.iisquare.jees.framework.util.FileUtil;
 import com.iisquare.jees.framework.util.ServletUtil;
 
 @Controller
 @Scope("prototype")
 public abstract class ControllerBase {
 	
-	public static final class ResultType {
+	public static final class ResultType { // 当前支持的视图资源类型
 		public static final String _FREEMARKER_ = "_FREEMARKER_";
 		public static final String _REDIRECT_ = "_REDIRECT_";
 		public static final String _TEXT_ = "_TEXT_";
@@ -36,13 +36,13 @@ public abstract class ControllerBase {
 	public static final String CONTENT_TYPE = "text/html;charset=utf-8";
 	
 	@Autowired
-	protected Configuration configuration;
-	protected HttpServletRequest request;
-	protected HttpServletResponse response;
-	protected Map<String, Object> parameterMap;
+	protected Configuration configuration; // 框架配置对象
+	protected HttpServletRequest request; // HTTP请求对象
+	protected HttpServletResponse response; // HTTP响应对象
+	protected Map<String, Object> parameterMap; // 请求参数Map对象
 
 	public String _MODULE_, _CONTROLLER_, _ACTION_;
-	public Map<String, Object> _ASSIGN_;
+	public Map<String, Object> _ASSIGN_; // 视图数据Map对象
 	public String _WEB_ROOT_, _WEB_URL_, _SKIN_URL_, _THEME_URL_, _DIRECTORY_SEPARATOR_;
 
 	public Configuration getConfiguration() {
@@ -200,13 +200,16 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayTemplate(String module, String controller, String action) throws Exception {
-		StringBuilder sb = new StringBuilder("/");
-		String themeName = configuration.getThemeName();
-		if(!DPUtil.empty(themeName)) {
-			sb.append(themeName).append("/");
+		String themeName = configuration.getThemeName(); // 主题名称
+		String viewName = DPUtil.stringConcat("/", module, "/", controller, "/", action); // 模板路径
+		if(DPUtil.empty(themeName)) return display(viewName, ResultType._FREEMARKER_); // 未启用主题
+		String themeViewName = DPUtil.stringConcat("/", themeName, viewName); // 主题模板路径
+		String themeViewPath = DPUtil.stringConcat("/".equals(_DIRECTORY_SEPARATOR_) ? _WEB_ROOT_ : _WEB_ROOT_.replaceAll("\\\\", "/"),
+				"/", DPUtil.trim(configuration.getTemplateLoaderPath(), "/"), themeViewName, configuration.getTemplateSuffix());
+		if(!"default".equals(themeName) && !FileUtil.isExists(themeViewPath)) { // 设定主题模板文件不存在
+			themeViewName = DPUtil.stringConcat("/", "default", viewName); // 采用默认模板文件
 		}
-		sb.append(module).append("/").append(controller).append("/").append(action);
-		return display(sb.toString(), ResultType._FREEMARKER_);
+		return display(themeViewName, ResultType._FREEMARKER_);
 	}
 	
 	/**
@@ -285,18 +288,14 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String display(String result, String type) throws Exception {
-		if(ResultType._FREEMARKER_.equals(type)) {
-			String themeName = configuration.getThemeName();
-			if(!DPUtil.empty(themeName)) return DPUtil.stringConcat("/", themeName, result);
-			return result;
-		} else if(ResultType._TEXT_.equals(type)){
+		if(ResultType._FREEMARKER_.equals(type)) return result;
+		if(ResultType._TEXT_.equals(type)){
 			PrintWriter out = response.getWriter();
 			out.print(result);
 			out.flush();
 			return "";
-		} else if (ResultType._REDIRECT_.equals(type)) {
-			return DPUtil.stringConcat("redirect:", result);
 		}
+		if(ResultType._REDIRECT_.equals(type)) return DPUtil.stringConcat("redirect:", result);
 		return null;
 	}
 	
