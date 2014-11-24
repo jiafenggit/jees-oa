@@ -36,8 +36,8 @@ public class DPUtil {
 		if(object instanceof Boolean) {
 			return !(Boolean) object;
 		}
-		if(object instanceof Set) {
-			return ((Set<?>) object).isEmpty();
+		if(object instanceof Collection) {
+			return ((Collection<?>) object).isEmpty();
 		}
 		if(object instanceof Map) {
 			return ((Map<?, ?>) object).isEmpty();
