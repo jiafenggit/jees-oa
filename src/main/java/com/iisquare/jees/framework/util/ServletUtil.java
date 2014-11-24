@@ -150,11 +150,21 @@ public class ServletUtil {
 		return ip;
 	}
 	
+	/**
+	 * 获取项目物理路径
+	 * @param request
+	 * @return
+	 */
 	public static String getWebRoot(HttpServletRequest request) {
 		String webRoot = request.getSession().getServletContext().getRealPath("/");
 		return webRoot.substring(0, webRoot.length() - 1);
 	}
 	
+	/**
+	 * 获取项目访问地址
+	 * @param request
+	 * @return
+	 */
 	public static String getWebUrl(HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(request.getScheme())
@@ -167,6 +177,23 @@ public class ServletUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * 获取完整请求地址和参数
+	 * @param request
+	 * @return
+	 */
+	public static String getFullUrl(HttpServletRequest request) {
+		String webUrl = getWebUrl(request);
+		String queryString = request.getQueryString();
+		if(null == queryString) return webUrl;
+		return DPUtil.stringConcat(webUrl, "?", queryString);
+	}
+	
+	/**
+	 * 获取目录分隔符
+	 * @param request
+	 * @return
+	 */
 	public static String getDirectorySeparator(HttpServletRequest request) {
 		String webRoot = getWebRoot(request);
 		if(webRoot.startsWith("/")) return "/";
