@@ -556,9 +556,10 @@ public class DPUtil {
 	public static String subStringWithByte(String targetString, int byteIndex, String suffix, String encoding) {
 		if(null == encoding) encoding = "UTF-8";
 		try {
-			if (targetString.getBytes(encoding).length < byteIndex) return targetString;
+			if (targetString.getBytes(encoding).length <= byteIndex) return targetString;
 			String temp = targetString;
-			for (int i = 0; i < targetString.length(); i++) {
+			int length = targetString.length();
+			for (int i = 0; i < length; i++) {
 				if (temp.getBytes(encoding).length <= byteIndex) break;
 				temp = temp.substring(0, temp.length() - 1);
 			}
