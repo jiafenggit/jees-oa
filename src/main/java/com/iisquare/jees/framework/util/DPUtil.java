@@ -545,6 +545,28 @@ public class DPUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * 根据字节宽度截取字符串
+	 * @param targetString 目标字符串
+	 * @param byteIndex 截取位置
+	 * @param suffix 如目标字符串被窃取，则用该字符串作为后缀
+	 * @param encoding 字符编码，若为null则默认采用UTF-8格式
+	 */
+	public static String subStringWithByte(String targetString, int byteIndex, String suffix, String encoding) {
+		if(null == encoding) encoding = "UTF-8";
+		try {
+			if (targetString.getBytes(encoding).length < byteIndex) return targetString;
+			String temp = targetString;
+			for (int i = 0; i < targetString.length(); i++) {
+				if (temp.getBytes(encoding).length <= byteIndex) break;
+				temp = temp.substring(0, temp.length() - 1);
+			}
+			return null == suffix ? temp : DPUtil.stringConcat(temp, suffix);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	/**
 	 * 安全截取字符串，正向从下标0开始，逆向从-1开始
