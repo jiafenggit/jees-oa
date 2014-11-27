@@ -80,7 +80,7 @@ public class ValidateUtil {
 	}
 	
 	public static Long filterLong(String object, boolean bBound, Long min, Long max, Long defaultValue) {
-		long obj = DPUtil.parseInt(object);
+		long obj = DPUtil.parseLong(object);
 		if(null != min && obj < min) return bBound ? min : defaultValue;
 		if(null != max && obj > max) return bBound ? max : defaultValue;
 		return obj;
