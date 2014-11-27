@@ -622,4 +622,16 @@ public class DPUtil {
 		}
 		return map;
 	}
+	
+	/**
+	 * 解析JSON字符串
+	 */
+	public static JSONObject parseJSON(String json) {
+		if(empty(json)) return null;
+		try {
+			return JSONObject.fromObject(json);
+		} catch (Exception e) {
+			return null;
+		}
+	} 
 }
