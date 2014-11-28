@@ -52,7 +52,7 @@ $(function () {
 	$submitForm.form({
 		success : function (data) {
 			data = Web_parseMessage(data);
-			if(data.status) {
+			if(0 != data.status) {
 				Web_alertInfo(data.message);
 			} else {
 				Web_confirm('操作成功，是否继续编辑', function (result) {
