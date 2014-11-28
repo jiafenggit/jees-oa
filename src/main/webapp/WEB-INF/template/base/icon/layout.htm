@@ -86,7 +86,7 @@ $(function () {
 		}
 		isRendering = true;
 		$.get('${_BASE_.url("renderCss")}', function (data) {
-			data = Web_parseJSON(data);
+			data = Web_parseMessage(data);
 			isRendering = false;
 			Web_alertInfo(data.message);
 		});
