@@ -40,7 +40,7 @@ public abstract class ControllerBase {
 	protected HttpServletRequest request; // HTTP请求对象
 	protected HttpServletResponse response; // HTTP响应对象
 	protected Map<String, Object> parameter; // 请求参数Map对象
-	protected boolean isWebUrlWithDomain = false; // 项目路径是否携带域名
+	protected boolean isWebUrlWithDomain = true; // 项目路径是否携带域名
 
 	public String moduleName, controllerName, actionName;
 	public Map<String, Object> assign; // 视图数据Map对象
