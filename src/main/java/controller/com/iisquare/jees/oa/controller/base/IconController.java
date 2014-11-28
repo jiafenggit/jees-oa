@@ -80,18 +80,18 @@ public class IconController extends PermitController {
 			persist = new Icon();
 		} else {
 			persist = iconService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试", null);
 		}
 		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
-		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
+		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误", null);
 		persist.setName(name);
 		String url = DPUtil.trim(get("url"));
-		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误");
+		if(DPUtil.empty(url)) return displayMessage(3004, "地址参数错误", null);
 		persist.setUrl(url);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");
-		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态", null);
 		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
@@ -105,9 +105,9 @@ public class IconController extends PermitController {
 			result = iconService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	
@@ -126,9 +126,9 @@ public class IconController extends PermitController {
 		String cssPath = DPUtil.stringConcat(_WEB_ROOT_, "/", "files/work/icon.auto.css");
 		File cssFile = new File(cssPath);
 		//检查文件
-		if(!cssFile.exists()) return displayMessage(3001, "样式文件不存在");
+		if(!cssFile.exists()) return displayMessage(3001, "样式文件不存在", null);
 		//检查目录写权限
-		if(!cssFile.canWrite()) return displayMessage(3002, "样式文件没有操作权限");
+		if(!cssFile.canWrite()) return displayMessage(3002, "样式文件没有操作权限", null);
 		try {
 			OutputStream os = new FileOutputStream(cssFile);
 			for (Icon icon : iconService.getList(null, 1, 0)) {
@@ -143,8 +143,8 @@ public class IconController extends PermitController {
 			os.flush();
 			os.close();
 		} catch (Exception e) {
-			return displayMessage(3003, "操作失败");
+			return displayMessage(3003, "操作失败", null);
 		}
-		return displayMessage(0, "操作成功，按[ctrl + f5]强制刷新后可查看效果");
+		return displayMessage(0, "操作成功，按[ctrl + f5]强制刷新后可查看效果", null);
 	}
 }

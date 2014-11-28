@@ -40,9 +40,9 @@ public class LogController extends PermitController {
 		persist.setOperateTime(time);
 		int result = logService.saveSetting(persist);
 		if(result > 0) {
-			return displayMessage(0, "操作成功");
+			return displayMessage(0, "操作成功", null);
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	

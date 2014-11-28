@@ -35,9 +35,9 @@ public class RoleController extends PermitController {
 	
 	public String savePowerAction() throws Exception {
 		if(roleService.updatePower(get("id"), getArray("resourceIds"), getArray("menuIds"))) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(1, "操作失败");
+			return displayMessage(1, "操作失败", null);
 		}
 	}
 	
@@ -85,15 +85,15 @@ public class RoleController extends PermitController {
 			persist = new Role();
 		} else {
 			persist = roleService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试", null);
 		}
 		persist.setParentId(ValidateUtil.filterInteger(get("parentId"), true, 0, null, null));
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
-		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
+		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误", null);
 		persist.setName(name);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");
-		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态", null);
 		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		persist.setRemark(DPUtil.parseString(get("remark")));
 		long time = System.currentTimeMillis();
@@ -108,9 +108,9 @@ public class RoleController extends PermitController {
 			result = roleService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	

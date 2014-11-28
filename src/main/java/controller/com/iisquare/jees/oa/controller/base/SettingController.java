@@ -63,13 +63,13 @@ public class SettingController extends PermitController {
 			persist = new Setting();
 		} else {
 			persist = settingService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试", null);
 		}
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
-		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误");
+		if(DPUtil.empty(name)) return displayMessage(3002, "名称参数错误", null);
 		persist.setName(name);
 		String type = ValidateUtil.filterSimpleString(get("type"), true, 1, 64, null);
-		if(DPUtil.empty(type)) return displayMessage(3003, "类型参数错误");
+		if(DPUtil.empty(type)) return displayMessage(3003, "类型参数错误", null);
 		persist.setType(type);
 		persist.setContent(DPUtil.trim(get("content")));
 		persist.setRemark(DPUtil.parseString(get("remark")));
@@ -84,9 +84,9 @@ public class SettingController extends PermitController {
 			result = settingService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	

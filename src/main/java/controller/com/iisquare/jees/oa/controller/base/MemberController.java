@@ -48,19 +48,19 @@ public class MemberController extends PermitController {
 	public String saveSelfAction() throws Exception {
 		Integer id = currentMember.getId();
 		Member persist = memberService.getById(id);
-		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试");
+		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试", null);
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
-		if(DPUtil.empty(name)) return displayMessage(3004, "请输入合理的名称");
-		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在");
+		if(DPUtil.empty(name)) return displayMessage(3004, "请输入合理的名称", null);
+		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在", null);
 		persist.setName(name);
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
 		persist.setUpdateTime(time);
 		int result = memberService.update(persist, null, null);
 		if(result > 0) {
-			return displayMessage(0, url("showSelf"));
+			return displayMessage(0, "操作成功", url("showSelf"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	
@@ -77,12 +77,12 @@ public class MemberController extends PermitController {
 	public String savePasswordAction() throws Exception {
 		Integer id = currentMember.getId();
 		Member persist = memberService.getById(id);
-		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试");
+		if(DPUtil.empty(persist)) return displayMessage(3001, "系统异常，请刷新后再试", null);
 		String password = DPUtil.trim(get("password"));
 		String passwordNew = DPUtil.trim(get("passwordNew"));
-		if(6 > passwordNew.length()) return displayMessage(3002, "密码长度不小于6位");
+		if(6 > passwordNew.length()) return displayMessage(3002, "密码长度不小于6位", null);
 		if(!memberService.encodePassword(password, persist.getSalt())
-				.equals(persist.getPassword())) return displayMessage(3003, "原密码错误");
+				.equals(persist.getPassword())) return displayMessage(3003, "原密码错误", null);
 		String salt = DPUtil.random(6);
 		persist.setSalt(salt);
 		persist.setPassword(memberService.encodePassword(passwordNew, salt));
@@ -92,9 +92,9 @@ public class MemberController extends PermitController {
 		int result = memberService.update(persist, null, null);
 		if(result > 0) {
 			request.getSession().invalidate(); // 退出登陆
-			return displayMessage(0, url("logout"));
+			return displayMessage(0, "操作成功", url("logout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	
@@ -151,30 +151,30 @@ public class MemberController extends PermitController {
 			persist = new Member();
 		} else {
 			persist = memberService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试", null);
 		}
 		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64, null);
-		if(DPUtil.empty(serial)) return displayMessage(3002, "账号参数错误");
-		if(null != memberService.getBySerial(persist.getId(), serial)) return displayMessage(3003, "账号已存在");
+		if(DPUtil.empty(serial)) return displayMessage(3002, "账号参数错误", null);
+		if(null != memberService.getBySerial(persist.getId(), serial)) return displayMessage(3003, "账号已存在", null);
 		persist.setSerial(serial);
 		String name = ValidateUtil.filterSimpleString(get("name"), true, 1, 64, null);
-		if(DPUtil.empty(name)) return displayMessage(3004, "名称参数错误");
-		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在");
+		if(DPUtil.empty(name)) return displayMessage(3004, "名称参数错误", null);
+		if(null != memberService.getByName(persist.getId(), name)) return displayMessage(3005, "名称已存在", null);
 		persist.setName(name);
 		String password = DPUtil.trim(get("password"));
 		if(!DPUtil.empty(password)) {
-			if(6 > password.length()) return displayMessage(3006, "密码参数错误");
+			if(6 > password.length()) return displayMessage(3006, "密码参数错误", null);
 			String salt = DPUtil.random(6);
 			persist.setSalt(salt);
 			persist.setPassword(memberService.encodePassword(password, salt));
 		}
 		String[] organizeDutyIds = getArray("organizeDutyIds");
-		if(DPUtil.empty(organizeDutyIds)) return displayMessage(3007, "部门参数错误");
+		if(DPUtil.empty(organizeDutyIds)) return displayMessage(3007, "部门参数错误", null);
 		String[] roleIds = getArray("roleIds");
-		if(DPUtil.empty(roleIds)) return displayMessage(3008, "角色参数错误");
+		if(DPUtil.empty(roleIds)) return displayMessage(3008, "角色参数错误", null);
 		persist.setSort(ValidateUtil.filterInteger(get("sort"), true, null, null, null));
 		String status = get("status");
-		if(ValidateUtil.isNull(status, true)) return displayMessage(3009, "请选择记录状态");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3009, "请选择记录状态", null);
 		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
@@ -189,9 +189,9 @@ public class MemberController extends PermitController {
 			result = memberService.update(persist, organizeDutyIds, roleIds);
 		}
 		if(result > 0) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	
@@ -219,16 +219,16 @@ public class MemberController extends PermitController {
 		String serial = ValidateUtil.filterSimpleString(get("serial"), true, 1, 64, null);
 		String password = ValidateUtil.filterSimpleString(get("password"), true, 1, null, null);
 		if(DPUtil.empty(serial) || DPUtil.empty(password)) {
-			return displayMessage(1, "请输入正确的账号和密码！");
+			return displayMessage(1, "请输入正确的账号和密码！", null);
 		}
 		Member member = memberService.getBySerial(0, serial);
 		if(null == member || 1 != member.getStatus()
 				|| !memberService.encodePassword(password, member.getSalt()).equals(member.getPassword())) {
-			return displayMessage(2, "账号或密码错误，请重新输入！");
+			return displayMessage(2, "账号或密码错误，请重新输入！", null);
 		}
 		memberService.setCurrent(this, member);
 		logService.record(this, member, "用户登陆", "service", null);
-		return displayMessage(0, convertForward(get("forward").toString()));
+		return displayMessage(0, "操作成功", convertForward(get("forward").toString()));
 	}
 	
 	/**

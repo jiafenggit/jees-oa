@@ -56,17 +56,17 @@ public class UploadController extends PermitController {
 	public String deleteAction() throws Exception {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Upload info = uploadService.getById(id);
-		if(null == info) return displayMessage(3001, "记录不存在");
+		if(null == info) return displayMessage(3001, "记录不存在", null);
 		String filePath = DPUtil.stringConcat(_WEB_ROOT_, "/", info.getUri());
 		File file = new File(filePath);
 		if(file.exists()) {
-			if(!file.delete()) return displayMessage(3002, "文件删除失败");
+			if(!file.delete()) return displayMessage(3002, "文件删除失败", null);
 		}
 		int result = uploadService.delete(id);
 		if(result > 0) {
-			return displayMessage(0, "操作成功");
+			return displayMessage(0, "操作成功", null);
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	

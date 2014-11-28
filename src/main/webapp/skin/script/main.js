@@ -51,6 +51,26 @@ $.extend($.fn.form.methods, {
 
 /* Global functions Start */
 /**
+ * 按照约定规则解析JSON字符串
+ */
+function Web_parseMessage(json) {
+	if(typeof json == "string") {
+		try {
+			json = $.parseJSON(json);
+		} catch (e) {
+			json = null;
+		}
+	}
+	if(null == json) {
+		json = {
+			status : 500,
+			message : '登陆超时，或服务器处理异常',
+			data : null
+		};
+	}
+	return json;
+}
+/**
  * 消息提示
  */
 function Web_alertInfo(msg, callBack) {

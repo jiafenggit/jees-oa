@@ -106,19 +106,19 @@ public class NoticeController extends PermitController {
 			persist = new Notice();
 		} else {
 			persist = noticeService.getById(id);
-			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试");
+			if(DPUtil.empty(persist)) return displayMessage(3001, "信息不存在，请刷新后再试", null);
 		}
 		String typeId = get("typeId");
-		if(ValidateUtil.isNull(typeId, true)) return displayMessage(3003, "请选择所属类型");
+		if(ValidateUtil.isNull(typeId, true)) return displayMessage(3003, "请选择所属类型", null);
 		persist.setTypeId(ValidateUtil.filterInteger(typeId, true, 1, null, 0));
 		String title = ValidateUtil.filterSimpleString(get("title"), true, 1, 64, null);
-		if(DPUtil.empty(title)) return displayMessage(3002, "标题参数错误");
+		if(DPUtil.empty(title)) return displayMessage(3002, "标题参数错误", null);
 		persist.setTitle(title);
 		String content = get("content");
 		persist.setContent(content);
 		persist.setSort(ValidateUtil.filterLong(get("sort"), true, null, null, null));
 		String status = get("status");
-		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态");
+		if(ValidateUtil.isNull(status, true)) return displayMessage(3003, "请选择记录状态", null);
 		persist.setStatus(ValidateUtil.filterInteger(status, true, null, null, null));
 		long time = System.currentTimeMillis();
 		persist.setUpdateId(currentMember.getId());
@@ -132,9 +132,9 @@ public class NoticeController extends PermitController {
 			result = noticeService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, url("layout"));
+			return displayMessage(0, "操作成功", url("layout"));
 		} else {
-			return displayMessage(500, "操作失败");
+			return displayMessage(500, "操作失败", null);
 		}
 	}
 	
