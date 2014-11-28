@@ -259,7 +259,7 @@ public class MemberController extends PermitController {
 	}
 	
 	private String convertForward(String forward) throws Exception {
-		String platformUrl = DPUtil.stringConcat(webUrl, "/platform");
+		String platformUrl = "/platform";
 		if(DPUtil.empty(forward)) {
 			return platformUrl;
 		} else {
@@ -271,7 +271,7 @@ public class MemberController extends PermitController {
 					return backUrl;
 				}
 			} else if("login".equals(forward)) {
-				return DPUtil.stringConcat(webUrl, "/login");
+				return "/login";
 			} else {
 				return forward;
 			}
