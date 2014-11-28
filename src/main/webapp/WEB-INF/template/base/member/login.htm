@@ -1,6 +1,6 @@
 [#include "../public/header.inc.htm"]
 <div id="login" class="easyui-dialog" title="用户登录" minimizable="false" maximizable="false" closable="false" style="width:260px;height:140px" data-options="buttons:'#actionButton',modal:true">
-	<form id="submitForm" method="post" action="${_BASE_.url("logon")}">
+	<form id="submitForm" method="post" action="${_base_.url("logon")}">
 	<input type="hidden" name="forward" value="${forward}" />
 		<table align="center" class="table-horizontal tr-height25">
 			<tr>
@@ -19,7 +19,7 @@
 	</form>
 </div>
 <div id="actionButton">
-	[#if !empty(serial)]<a href="${_WEB_URL_}/guest" class="easyui-linkbutton" data-options="iconCls:'icon-tip'">访客模式</a>[/#if]
+	[#if !empty(serial)]<a href="${_webUrl_}/guest" class="easyui-linkbutton" data-options="iconCls:'icon-tip'">访客模式</a>[/#if]
 	<a id="buttonOk" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">登录</a>
 	<a id="buttonCancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
 </div>

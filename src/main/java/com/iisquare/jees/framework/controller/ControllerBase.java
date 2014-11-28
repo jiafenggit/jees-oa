@@ -27,11 +27,11 @@ import com.iisquare.jees.framework.util.ServletUtil;
 public abstract class ControllerBase {
 	
 	public static final class ResultType { // 当前支持的视图资源类型
-		public static final String _FREEMARKER_ = "_FREEMARKER_";
-		public static final String _REDIRECT_ = "_REDIRECT_";
-		public static final String _TEXT_ = "_TEXT_";
-		public static final String _STREAM_ = "_STREAM_";
-		public static final String _PLAIN_TEXT_ = "_PLAIN_TEXT_";
+		public static final String TYPE_FREEMARKER = "TYPE_FREEMARKER";
+		public static final String TYPE_REDIRECT = "TYPE_REDIRECT";
+		public static final String TYPE_TEXT = "TYPE_TEXT";
+		public static final String TYPE_STREAM = "TYPE_STREAM";
+		public static final String TYPE_PLAINTYPE_TEX = "TYPE_PLAINTYPE_TEX";
 	}
 	public static final String CONTENT_TYPE = "text/html;charset=utf-8";
 	
@@ -39,12 +39,12 @@ public abstract class ControllerBase {
 	protected Configuration configuration; // 框架配置对象
 	protected HttpServletRequest request; // HTTP请求对象
 	protected HttpServletResponse response; // HTTP响应对象
-	protected Map<String, Object> parameterMap; // 请求参数Map对象
+	protected Map<String, Object> parameter; // 请求参数Map对象
 	protected boolean isWebUrlWithDomain = false; // 项目路径是否携带域名
 
-	public String _MODULE_, _CONTROLLER_, _ACTION_;
-	public Map<String, Object> _ASSIGN_; // 视图数据Map对象
-	public String _WEB_ROOT_, _WEB_URL_, _SKIN_URL_, _THEME_URL_, _DIRECTORY_SEPARATOR_;
+	public String moduleName, controllerName, actionName;
+	public Map<String, Object> assign; // 视图数据Map对象
+	public String webRoot, webUrl, skinUrl, themeUrl, directorySeparator;
 
 	public Configuration getConfiguration() {
 		return configuration;
@@ -70,12 +70,12 @@ public abstract class ControllerBase {
 		this.response = response;
 	}
 
-	public Map<String, Object> getParameterMap() {
-		return parameterMap;
+	public Map<String, Object> getParameter() {
+		return parameter;
 	}
 
-	public void setParameterMap(Map<String, Object> parameterMap) {
-		this.parameterMap = parameterMap;
+	public void setParameter(Map<String, Object> parameter) {
+		this.parameter = parameter;
 	}
 
 	public boolean isWebUrlWithDomain() {
@@ -95,45 +95,45 @@ public abstract class ControllerBase {
 	public void init(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		this.request = request;
 		this.response = response;
-		parameterMap = ServletUtil.parseParameterMap(request.getParameterMap());
-		_ASSIGN_ = new HashMap<String, Object>(0);
-		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
-		_WEB_URL_ = ServletUtil.getWebUrl(request, isWebUrlWithDomain);
+		parameter = ServletUtil.parseParameterMap(request.getParameterMap());
+		assign = new HashMap<String, Object>(0);
+		webRoot = ServletUtil.getWebRoot(request);
+		webUrl = ServletUtil.getWebUrl(request, isWebUrlWithDomain);
 		String skinFolder = configuration.getSkinFolder();
 		if(DPUtil.empty(skinFolder)) {
-			_SKIN_URL_ = _WEB_URL_;
+			skinUrl = webUrl;
 		} else {
-			StringBuilder sb = new StringBuilder(_WEB_URL_);
+			StringBuilder sb = new StringBuilder(webUrl);
 			sb.append("/").append(skinFolder);
-			_SKIN_URL_ = sb.toString();
+			skinUrl = sb.toString();
 		}
 		String themeName = configuration.getThemeName();
 		if(DPUtil.empty(themeName)) {
-			_THEME_URL_ = _SKIN_URL_;
+			themeUrl = skinUrl;
 		} else {
-			StringBuilder sb = new StringBuilder(_SKIN_URL_);
+			StringBuilder sb = new StringBuilder(skinUrl);
 			sb.append("/").append(themeName);
-			_THEME_URL_ = sb.toString();
+			themeUrl = sb.toString();
 		}
-		_DIRECTORY_SEPARATOR_ = ServletUtil.getDirectorySeparator(request);
+		directorySeparator = ServletUtil.getDirectorySeparator(request);
 		Method method = ((HandlerMethod) handler).getMethod();
 		/* 提取相关URI路径参数 */
 		String classFullName = this.getClass().getName();
-		String actionName = method.getName();
+		actionName = method.getName();
 		/* 约定前提判定 */
 		if(classFullName.startsWith(configuration.getModulePrefix())
 				&& classFullName.endsWith(configuration.getControllerSuffix())
 				&& actionName.endsWith(configuration.getActionSuffix())) {
 			/* 提取Module名称 */
-			String moduleName = classFullName.substring(0, classFullName.lastIndexOf("."));
+			moduleName = classFullName.substring(0, classFullName.lastIndexOf("."));
 			moduleName = moduleName.substring(configuration.getModulePrefix().length());
-			_MODULE_ = moduleName.replaceAll("\\.", "/");
+			moduleName = moduleName.replaceAll("\\.", "/");
 			/* 提取Controller名称 */
-			String controllerName = classFullName.substring(classFullName.lastIndexOf(".") + 1);
+			controllerName = classFullName.substring(classFullName.lastIndexOf(".") + 1);
 			controllerName = controllerName.substring(0, controllerName.lastIndexOf(configuration.getControllerSuffix()));
-			_CONTROLLER_ = DPUtil.lowerCaseFirst(controllerName);
+			controllerName = DPUtil.lowerCaseFirst(controllerName);
 			/* 提取Action名称 */
-			_ACTION_ = actionName.substring(0, actionName.lastIndexOf(configuration.getActionSuffix()));
+			actionName = actionName.substring(0, actionName.lastIndexOf(configuration.getActionSuffix()));
 		}
 	}
 	
@@ -147,32 +147,32 @@ public abstract class ControllerBase {
 		if(DPUtil.empty(viewName)) {
 			modelAndView.clear();
 		} else if(viewName.startsWith("redirect:")) {
-			modelAndView.addAllObjects(_ASSIGN_);
+			modelAndView.addAllObjects(assign);
 		} else {
-			modelAndView.addObject("_BASE_", this)
-				.addObject("_CONFIG_", configuration)
-				.addObject("_MODULE_", _MODULE_)
-				.addObject("_CONTROLLER_", _CONTROLLER_)
-				.addObject("_ACTION_", _ACTION_)
-				.addObject("_WEB_ROOT_", _WEB_ROOT_)
-				.addObject("_WEB_URL_", _WEB_URL_)
-				.addObject("_SKIN_URL_", _SKIN_URL_)
-				.addObject("_THEME_URL_", _THEME_URL_)
-				.addObject("_DIRECTORY_SEPARATOR_", _DIRECTORY_SEPARATOR_)
-				.addAllObjects(_ASSIGN_);
+			modelAndView.addObject("_base_", this)
+				.addObject("_config_", configuration)
+				.addObject("_moduleName_", moduleName)
+				.addObject("_controllerName_", controllerName)
+				.addObject("_actionName_", actionName)
+				.addObject("_webRoot_", webRoot)
+				.addObject("_webUrl_", webUrl)
+				.addObject("_skinUrl_", skinUrl)
+				.addObject("_themeUrl_", themeUrl)
+				.addObject("_directorySeparator_", directorySeparator)
+				.addAllObjects(assign);
 		}
 	}
 	
 	public String url() {
-		return url(_ACTION_);
+		return url(actionName);
 	}
 	
 	public String url(String action) {
-		return url(_CONTROLLER_, action);
+		return url(controllerName, action);
 	}
 	
 	public String url(String controller, String action) {
-		return url(_MODULE_, controller, action);
+		return url(moduleName, controller, action);
 	}
 	
 	/**
@@ -183,21 +183,21 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	public String url(String module, String controller, String action) {
-		StringBuilder sb = new StringBuilder(_WEB_URL_)
+		StringBuilder sb = new StringBuilder(webUrl)
 			.append("/").append(module).append("/").append(controller).append("/").append(action);
 		return sb.toString();
 	}
 	
 	protected String displayTemplate() throws Exception {
-		return displayTemplate(_ACTION_);
+		return displayTemplate(actionName);
 	}
 	
 	protected String displayTemplate(String action) throws Exception {
-		return displayTemplate(_CONTROLLER_, action);
+		return displayTemplate(controllerName, action);
 	}
 	
 	protected String displayTemplate(String controller, String action) throws Exception {
-		return displayTemplate(_MODULE_, controller, action);
+		return displayTemplate(moduleName, controller, action);
 	}
 	
 	/**
@@ -211,14 +211,14 @@ public abstract class ControllerBase {
 	protected String displayTemplate(String module, String controller, String action) throws Exception {
 		String themeName = configuration.getThemeName(); // 主题名称
 		String viewName = DPUtil.stringConcat("/", module, "/", controller, "/", action); // 模板路径
-		if(DPUtil.empty(themeName)) return display(viewName, ResultType._FREEMARKER_); // 未启用主题
+		if(DPUtil.empty(themeName)) return display(viewName, ResultType.TYPE_FREEMARKER); // 未启用主题
 		String themeViewName = DPUtil.stringConcat("/", themeName, viewName); // 主题模板路径
-		String themeViewPath = DPUtil.stringConcat("/".equals(_DIRECTORY_SEPARATOR_) ? _WEB_ROOT_ : _WEB_ROOT_.replaceAll("\\\\", "/"),
+		String themeViewPath = DPUtil.stringConcat("/".equals(directorySeparator) ? webRoot : webRoot.replaceAll("\\\\", "/"),
 				"/", DPUtil.trim(configuration.getTemplateLoaderPath(), "/"), themeViewName, configuration.getTemplateSuffix());
 		if(!"default".equals(themeName) && !FileUtil.isExists(themeViewPath)) { // 设定主题模板文件不存在
 			themeViewName = DPUtil.stringConcat("/", "default", viewName); // 采用默认模板文件
 		}
-		return display(themeViewName, ResultType._FREEMARKER_);
+		return display(themeViewName, ResultType.TYPE_FREEMARKER);
 	}
 	
 	/**
@@ -240,7 +240,7 @@ public abstract class ControllerBase {
 	 */
 	protected String displayText(String text, String contentType) throws Exception {
 		response.setContentType(contentType);
-		return display(text, ResultType._TEXT_);
+		return display(text, ResultType.TYPE_TEXT);
 	}
 	
 	/**
@@ -249,7 +249,7 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayJSON() throws Exception {
-		return displayJSON(_ASSIGN_);
+		return displayJSON(assign);
 	}
 	
 	/**
@@ -286,7 +286,7 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String redirect(String url) throws Exception {
-		return display(url, ResultType._REDIRECT_);
+		return display(url, ResultType.TYPE_REDIRECT);
 	} 
 	
 	/**
@@ -297,14 +297,14 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String display(String result, String type) throws Exception {
-		if(ResultType._FREEMARKER_.equals(type)) return result;
-		if(ResultType._TEXT_.equals(type)){
+		if(ResultType.TYPE_FREEMARKER.equals(type)) return result;
+		if(ResultType.TYPE_TEXT.equals(type)){
 			PrintWriter out = response.getWriter();
 			out.print(result);
 			out.flush();
 			return "";
 		}
-		if(ResultType._REDIRECT_.equals(type)) return DPUtil.stringConcat("redirect:", result);
+		if(ResultType.TYPE_REDIRECT.equals(type)) return DPUtil.stringConcat("redirect:", result);
 		return null;
 	}
 	
@@ -314,7 +314,7 @@ public abstract class ControllerBase {
 	 * @param value
 	 */
 	protected void assign(String key, Object value) {
-		_ASSIGN_.put(key, value);
+		assign.put(key, value);
 	}
 
 	/**
@@ -323,7 +323,7 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String get(String key) {
-		return DPUtil.parseString(parameterMap.get(key));
+		return DPUtil.parseString(parameter.get(key));
 	}
 	
 	/**
@@ -332,7 +332,7 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String[] getArray(String key) {
-		Object value = parameterMap.get(key);
+		Object value = parameter.get(key);
 		if(null == value || !value.getClass().isArray()) return new String[]{};
 		return (String[]) value;
 	}
@@ -344,7 +344,7 @@ public abstract class ControllerBase {
 	 */
 	@SuppressWarnings("unchecked")
 	protected Map<String, Object> getMap(String key) {
-		Object value = parameterMap.get(key);
+		Object value = parameter.get(key);
 		if(null == value || !(value instanceof Map)) return new LinkedHashMap<String, Object>();
 		return (Map<String, Object>) value;
 	}

@@ -1,5 +1,5 @@
 [#-- This page can be include only --]
-<script type="text/javascript" src="${_WEB_URL_}/api/SWFUpload/swfupload.js"></script>
+<script type="text/javascript" src="${_webUrl_}/api/SWFUpload/swfupload.js"></script>
 <script type="text/javascript">
 var isSWFUploading = false;
 var swfUploadFunction = {
@@ -53,9 +53,9 @@ var swfUploadFunction = {
 
 
 var swfUploadSettings = {
-	upload_url: '${_BASE_.url("upload", "uploadJson")}',
+	upload_url: '${_base_.url("upload", "uploadJson")}',
 	file_post_name : 'files',
-	post_params: {'${_CONFIG_.sessionName}' : '${sessionId!""}'},
+	post_params: {'${_config_.sessionName}' : '${sessionId!""}'},
 	file_size_limit : "1 MB",
 	file_types : "*.jpg;*.jpeg;*.bmp;*.png;*.gif",
 	file_types_description : "Picture Files",
@@ -74,7 +74,7 @@ var swfUploadSettings = {
 	button_text_top_padding: 0,
 	button_cursor: SWFUpload.CURSOR.HAND,
 	button_window_mode:'transparent',
-	flash_url : "${_WEB_URL_}/api/SWFUpload/Flash/swfupload.swf",
+	flash_url : "${_webUrl_}/api/SWFUpload/Flash/swfupload.swf",
 	prevent_swf_caching : false,
 	
 	file_queued_handler : swfUploadFunction.fileQueued,

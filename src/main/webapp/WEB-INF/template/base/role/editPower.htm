@@ -32,7 +32,7 @@
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table-resource').treegrid({
-		url : '${_BASE_.url("resource", "list")}?no_refer=1',
+		url : '${_base_.url("resource", "list")}?no_refer=1',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar-resource',
@@ -63,7 +63,7 @@ $(function () {
 		}
 	});
 	$('.js-list-table-menu').treegrid({
-		url : '${_BASE_.url("menu", "list")}',
+		url : '${_base_.url("menu", "list")}',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar-menu',
@@ -94,7 +94,7 @@ $(function () {
 	});
 	
 	$('#buttonOk').bind('click', function () {
-		$.post('${_BASE_.url("savePower")}', {
+		$.post('${_base_.url("savePower")}', {
 			id : '${info.id}',
 			resourceIds : Web_getDatagridIdArray($('.js-list-table-resource'), 'checked'),
 			menuIds : Web_getDatagridIdArray($('.js-list-table-menu'), 'checked')
@@ -103,7 +103,7 @@ $(function () {
 			if(0 != data.status) {
 				Web_alertInfo(data.message);
 			} else {
-				Web_redirectPage('${_BASE_.url("layout")}');
+				Web_redirectPage('${_base_.url("layout")}');
 			}
 		});
 	});

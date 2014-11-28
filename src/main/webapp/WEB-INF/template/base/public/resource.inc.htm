@@ -1,17 +1,17 @@
 [#-- This page can be include only --]
-<link href="${_WEB_URL_}/api/jQuery/themes/default/easyui.css" rel="stylesheet" type="text/css" />
-<link href="${_WEB_URL_}/api/jQuery/themes/icon.css" rel="stylesheet" type="text/css" />
-<link href="${_THEME_URL_}/css/main.css" rel="stylesheet" type="text/css" />
-<link href="${_WEB_URL_}/files/work/icon.auto.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${_WEB_URL_}/api/jQuery/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="${_WEB_URL_}/api/jQuery/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${_WEB_URL_}/api/jQuery/jquery-jtemplates.min.js"></script>
+<link href="${_webUrl_}/api/jQuery/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="${_webUrl_}/api/jQuery/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="${_themeUrl_}/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${_webUrl_}/files/work/icon.auto.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery-jtemplates.min.js"></script>
 <script type="text/javascript">
-	var Web_pageSize = parseInt('${_PAGE_SIZE_}');
-	var Web_projectUrl = '${_WEB_URL_}';
-	var Web_skinUrl = '${_SKIN_URL_}';
-	var Web_themeUrl = '${_THEME_URL_}';
-	var Web_dateTimeFormat = '${_CONFIG_.dateTimeFormat}';
+	var Web_pageSize = parseInt('${_pageSize_}');
+	var Web_projectUrl = '${_webUrl_}';
+	var Web_skinUrl = '${_skinUrl_}';
+	var Web_themeUrl = '${_themeUrl_}';
+	var Web_dateTimeFormat = '${_config_.dateTimeFormat}';
 	Web_dateTimeFormat = Web_dateTimeFormat.replace('HH', 'hh');
 	
 	function Web_formatDateTime(dateVal) {
@@ -20,5 +20,5 @@
 		return dateObj.format(Web_dateTimeFormat);
 	}
 </script>
-<script type="text/javascript" src="${_THEME_URL_}/script/code.js"></script>
-<script type="text/javascript" src="${_THEME_URL_}/script/main.js"></script>
+<script type="text/javascript" src="${_themeUrl_}/script/code.js"></script>
+<script type="text/javascript" src="${_themeUrl_}/script/main.js"></script>

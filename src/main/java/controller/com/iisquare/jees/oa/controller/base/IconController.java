@@ -38,7 +38,7 @@ public class IconController extends PermitController {
 		List<Map<String, Object>> list = iconService.getList("*", "sort desc", 1, 0);
 		for (Map<String, Object> row : list) {
 			row.put("iconCls", DPUtil.stringConcat("icon-auto", row.get("id")));
-			row.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(row.get("url"))));
+			row.put("fullUrl", UrlUtil.concat(webUrl, DPUtil.parseString(row.get("url"))));
 		}
 		list = ServiceUtil.formatRelation(list, 0);
 		assign("total", list.size());
@@ -68,7 +68,7 @@ public class IconController extends PermitController {
 		}
 		assign("info", info);
 		assign("statusMap", iconService.getStatusMap());
-		assign("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(info.getUrl())));
+		assign("fullUrl", UrlUtil.concat(webUrl, DPUtil.parseString(info.getUrl())));
 		assign("sessionId", request.getSession().getId());
 		return displayTemplate();
 	}
@@ -123,7 +123,7 @@ public class IconController extends PermitController {
 	}
 	
 	public String renderCssAction() throws Exception {
-		String cssPath = DPUtil.stringConcat(_WEB_ROOT_, "/", "files/work/icon.auto.css");
+		String cssPath = DPUtil.stringConcat(webRoot, "/", "files/work/icon.auto.css");
 		File cssFile = new File(cssPath);
 		//检查文件
 		if(!cssFile.exists()) return displayMessage(3001, "样式文件不存在", null);
@@ -136,7 +136,7 @@ public class IconController extends PermitController {
 				sb.append(".icon-auto");
 				sb.append(icon.getId());
 				sb.append(" {background:url('");
-				sb.append(UrlUtil.concat(_WEB_URL_, icon.getUrl()));
+				sb.append(UrlUtil.concat(webUrl, icon.getUrl()));
 				sb.append("') no-repeat center center;}\r\n");
 				os.write(sb.toString().getBytes());
 			}

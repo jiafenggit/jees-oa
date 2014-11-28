@@ -40,9 +40,9 @@ public class LogService extends ServiceBase {
 		Log log = new Log();
 		log.setName(name);
 		log.setType(type);
-		log.setModule(controllerBase._MODULE_);
-		log.setController(controllerBase._CONTROLLER_);
-		log.setAction(controllerBase._ACTION_);
+		log.setModule(controllerBase.moduleName);
+		log.setController(controllerBase.controllerName);
+		log.setAction(controllerBase.actionName);
 		log.setOperateId(null == member ? 0 : member.getId());
 		log.setOperateIp(ServletUtil.getRemoteAddr(controllerBase.getRequest()));
 		log.setOperateTime(System.currentTimeMillis());

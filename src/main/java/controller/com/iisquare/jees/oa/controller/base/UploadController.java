@@ -47,7 +47,7 @@ public class UploadController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = uploadService.search(parameterMap, "operate_time desc", page, pageSize);
+		Map<Object, Object> map = uploadService.search(parameter, "operate_time desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -57,7 +57,7 @@ public class UploadController extends PermitController {
 		Integer id = ValidateUtil.filterInteger(get("id"), true, 0, null, null);
 		Upload info = uploadService.getById(id);
 		if(null == info) return displayMessage(3001, "记录不存在", null);
-		String filePath = DPUtil.stringConcat(_WEB_ROOT_, "/", info.getUri());
+		String filePath = DPUtil.stringConcat(webRoot, "/", info.getUri());
 		File file = new File(filePath);
 		if(file.exists()) {
 			if(!file.delete()) return displayMessage(3002, "文件删除失败", null);
@@ -87,7 +87,7 @@ public class UploadController extends PermitController {
 		
 		File tempFile;
 		/* 检查上传目录读写权限 */
-		tempFile = new File(DPUtil.stringConcat(_WEB_ROOT_, "/", uploadFolder));
+		tempFile = new File(DPUtil.stringConcat(webRoot, "/", uploadFolder));
 		if(!tempFile.isDirectory() || !tempFile.canWrite()) return displayError(3001, "上传目录不存在或无访问权限");
 		
 		/* 上传类别检查 */
@@ -96,7 +96,7 @@ public class UploadController extends PermitController {
 		
 		/* 生成上传目录 */
 		uploadFolder = DPUtil.stringConcat(uploadFolder, dirName, "/", DPUtil.getCurrentDateTime("yyyyMMdd"), "/");
-		if(!FileUtil.mkdirs(DPUtil.stringConcat(_WEB_ROOT_, "/", uploadFolder))) return displayError(500, "生成上传目录失败");
+		if(!FileUtil.mkdirs(DPUtil.stringConcat(webRoot, "/", uploadFolder))) return displayError(500, "生成上传目录失败");
 		
 		Iterator<String> iterator = multiRequest.getFileNames();
 		StringBuilder sb = new StringBuilder();
@@ -115,7 +115,7 @@ public class UploadController extends PermitController {
 			persist.setOperateId(currentMember.getId());
 			persist.setOperateIp(ServletUtil.getRemoteAddr(request));
 			persist.setOperateTime(time);
-			tempFile = new File(DPUtil.stringConcat(_WEB_ROOT_, "/", uri));
+			tempFile = new File(DPUtil.stringConcat(webRoot, "/", uri));
 			try {
 				file.transferTo(tempFile);
 			} catch (Exception e) {
@@ -126,7 +126,7 @@ public class UploadController extends PermitController {
 			JSONObject obj = new JSONObject();
 			obj.put("error", 0);
 			obj.put("uri", uri);
-			obj.put("url", DPUtil.stringConcat(_WEB_URL_, "/", uri));
+			obj.put("url", DPUtil.stringConcat(webUrl, "/", uri));
 			sb.append(obj.toString() + "\r\n");
 		}
 		return displayText(sb.toString());
@@ -139,9 +139,9 @@ public class UploadController extends PermitController {
 	public String fileManagerJsonAction() throws Exception {
 		String uploadFolder = "files/attached/"; // 文件上传目录
 		//根目录路径，可以指定绝对路径
-		String rootPath = DPUtil.stringConcat(_WEB_ROOT_, "/", uploadFolder);
+		String rootPath = DPUtil.stringConcat(webRoot, "/", uploadFolder);
 		//根目录URL，可以指定绝对路径
-		String rootUrl  = DPUtil.stringConcat(_WEB_URL_, "/", uploadFolder);
+		String rootUrl  = DPUtil.stringConcat(webUrl, "/", uploadFolder);
 		//图片扩展名
 		String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
 		

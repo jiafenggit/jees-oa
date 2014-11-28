@@ -138,9 +138,9 @@
 
 		
 		// Button Actions
-		private var BUTTON_ACTION_SELECT_FILE:Number                = -100;
-		private var BUTTON_ACTION_SELECT_FILES:Number               = -110;
-		private var BUTTON_ACTION_START_UPLOAD:Number               = -120;
+		private var BUTTON_actionName_SELECT_FILE:Number                = -100;
+		private var BUTTON_actionName_SELECT_FILES:Number               = -110;
+		private var BUTTON_actionName_START_UPLOAD:Number               = -120;
 		
 		private var BUTTON_CURSOR_ARROW:Number						= -1;
 		private var BUTTON_CURSOR_HAND:Number						= -2;
@@ -367,7 +367,7 @@
 			try {
 				this.SetButtonAction(Number(root.loaderInfo.parameters.buttonAction));
 			} catch (ex:Object) {
-				this.SetButtonAction(this.BUTTON_ACTION_SELECT_FILES);
+				this.SetButtonAction(this.BUTTON_actionName_SELECT_FILES);
 			}
 			
 			try {
@@ -1085,10 +1085,10 @@
 		
 		private function ButtonClickHandler(e:MouseEvent):void {
 			if (!this.buttonStateDisabled) {
-				if (this.buttonAction === this.BUTTON_ACTION_SELECT_FILE) {
+				if (this.buttonAction === this.BUTTON_actionName_SELECT_FILE) {
 					this.SelectFile();
 				}
-				else if (this.buttonAction === this.BUTTON_ACTION_START_UPLOAD) {
+				else if (this.buttonAction === this.BUTTON_actionName_START_UPLOAD) {
 					this.StartUpload();
 				}
 				else {

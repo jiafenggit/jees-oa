@@ -3,13 +3,13 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
+	[#if _base_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" data-options="iconCls:'icon-search',plain:true">搜索</a>
 </div>
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '${_BASE_.url("list")}',
+		url : '${_base_.url("list")}',
 		pagination : true,
 		idField : 'id',
 		toolbar : '#toolbar',
@@ -126,7 +126,7 @@ $(function () {
 		var length = rows.length;
 		if(index >= length) return true;
 		var row = rows[index];
-		$.post('${_BASE_.url("delete")}', {
+		$.post('${_base_.url("delete")}', {
 			id : row.id
 		}, function (data) {
 			index++;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<form id="submitForm" method="post" action="${_BASE_.url("save")}">
+<form id="submitForm" method="post" action="${_base_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
@@ -37,7 +37,7 @@
 <script type="text/javascript">
 $(function () {
 	$('input[name="parentId"]').combotree({
-		url : '${_BASE_.url("list")}',
+		url : '${_base_.url("list")}',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
 		}
@@ -50,7 +50,7 @@ $(function () {
 				Web_alertInfo(data.message);
 			} else {
 				Web_confirm('操作成功，是否继续编辑', function (result) {
-					if(!result) Web_redirectPage('${_BASE_.url("layout")}');
+					if(!result) Web_redirectPage('${_base_.url("layout")}');
 				});
 			}
 		}

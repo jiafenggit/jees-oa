@@ -106,7 +106,7 @@ public class MemberController extends PermitController {
 	public String listAction () throws Exception {
 		int page = ValidateUtil.filterInteger(get("page"), true, 0, null, null);
 		int pageSize = ValidateUtil.filterInteger(get("rows"), true, 0, 500, null);
-		Map<Object, Object> map = memberService.search(parameterMap, "sort desc", page, pageSize);
+		Map<Object, Object> map = memberService.search(parameter, "sort desc", page, pageSize);
 		assign("total", map.get("total"));
 		assign("rows", DPUtil.collectionToArray((Collection<?>) map.get("rows")));
 		return displayJSON();
@@ -248,7 +248,7 @@ public class MemberController extends PermitController {
 	
 	public String logoutAction() throws Exception {
 		request.getSession().invalidate();
-		return redirect(_WEB_URL_);
+		return redirect(webUrl);
 	}
 	
 	@RequestMapping(value="/platform")
@@ -259,7 +259,7 @@ public class MemberController extends PermitController {
 	}
 	
 	private String convertForward(String forward) throws Exception {
-		String platformUrl = DPUtil.stringConcat(_WEB_URL_, "/platform");
+		String platformUrl = DPUtil.stringConcat(webUrl, "/platform");
 		if(DPUtil.empty(forward)) {
 			return platformUrl;
 		} else {
@@ -271,7 +271,7 @@ public class MemberController extends PermitController {
 					return backUrl;
 				}
 			} else if("login".equals(forward)) {
-				return DPUtil.stringConcat(_WEB_URL_, "/login");
+				return DPUtil.stringConcat(webUrl, "/login");
 			} else {
 				return forward;
 			}

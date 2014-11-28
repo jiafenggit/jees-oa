@@ -12,7 +12,7 @@
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table-log').datagrid({
-		url : '${_BASE_.url("log", "listLogon")}',
+		url : '${_base_.url("log", "listLogon")}',
 		pagination : true,
 		loadMsg : 'loading...',
 		idField : 'id',
@@ -39,7 +39,7 @@ $(function () {
 	});
 	
 	$('.js-list-table-notice').datagrid({
-		url : '${_BASE_.url("notice", "listIndex")}',
+		url : '${_base_.url("notice", "listIndex")}',
 		pagination : true,
 		idField : 'id',
 		rownumbers : true,
@@ -70,7 +70,7 @@ $(function () {
 			$('.js-notice-list-button').linkbutton({plain : true});
 			$(this).datagrid('autoSizeColumn', 'operate');
 			$('.js-notice-list-button[data-type="show"]').bind('click', function () {
-				var url = '${_BASE_.url("notice", "read")}?id=' + $(this).data('id');
+				var url = '${_base_.url("notice", "read")}?id=' + $(this).data('id');
 				parent.platformTab.add('通知查看', url, 'scroll-no', '_iframe');
 			});
 		}

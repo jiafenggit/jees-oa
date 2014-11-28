@@ -4,12 +4,12 @@
 <table class="js-list-table"></table>
 <div id="toolbar">
 	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true">数据无价，谨慎操作</a>
-	[#if _BASE_.hasPermit("backup")]<a href="${_BASE_.url("backup")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">备份</a>[/#if]
+	[#if _base_.hasPermit("backup")]<a href="${_base_.url("backup")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">备份</a>[/#if]
 </div>
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '${_BASE_.url("list")}',
+		url : '${_base_.url("list")}',
 		toolbar : '#toolbar',
 		rownumbers : true,
 		fitcolumns : true,
@@ -24,9 +24,9 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("revert")]<a href="${_BASE_.url("revert")}?path='
+				return '[#if _base_.hasPermit("revert")]<a href="${_base_.url("revert")}?path='
 					+ row.fileName + '" class="easyui-linkbutton js-list-button" data-options="iconCls:\'icon-reload\',plain:true">还原</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?path='
+					+ '[#if _base_.hasPermit("delete")]<a href="${_base_.url("delete")}?path='
 					+ row.fileName + '" class="easyui-linkbutton js-list-button" data-options="iconCls:\'icon-remove\',plain:true">删除</a>[/#if]';
 			}}
 		]],

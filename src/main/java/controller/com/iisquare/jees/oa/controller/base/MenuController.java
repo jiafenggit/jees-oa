@@ -54,7 +54,7 @@ public class MenuController extends PermitController {
 		for (Map<String, Object> map : list) {
 			map.put("text", map.get("name"));
 			map.put("iconCls", map.get("icon"));
-			map.put("fullUrl", UrlUtil.concat(_WEB_URL_, DPUtil.parseString(map.get("url"))));
+			map.put("fullUrl", UrlUtil.concat(webUrl, DPUtil.parseString(map.get("url"))));
 		}
 		list = ServiceUtil.formatRelation(list, null);
 		return displayJSON(DPUtil.collectionToArray(list));

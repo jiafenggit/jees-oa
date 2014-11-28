@@ -1,12 +1,12 @@
 [#include "../public/header.inc.htm"]
 <div id="platform" class="easyui-layout" data-options="fit:true,border:true,plain:true">
 	<div id="platform-north" data-options="region:'north',split:true,plain:true" class="bg-color-default">
-		<div class="left">${_WEB_NAME_}</div>
+		<div class="left">${_webName_}</div>
 		<div class="right">
 			<ul>
 				<li>${currentMember.name}</li>
 				<li class="splite">|</li>
-				<li><a href="${_BASE_.url("logout")}">安全退出</a></li>
+				<li><a href="${_base_.url("logout")}">安全退出</a></li>
 			</ul>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 	</div>
 	<div id="platform-center" data-options="region:'center',split:true,plain:true" class="bg-color-default">
 		<div id="platformTabs" data-options="fit:true,border:false,plain:true">
-			<div title="欢迎使用" class="scroll-no"><iframe scrolling="auto" frameborder="0" src="${_BASE_.url("index", "task")}" class="full-w-h"></iframe></div>
+			<div title="欢迎使用" class="scroll-no"><iframe scrolling="auto" frameborder="0" src="${_base_.url("index", "task")}" class="full-w-h"></iframe></div>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<form id="submitForm" method="post" action="${_BASE_.url("save")}">
+<form id="submitForm" method="post" action="${_base_.url("save")}">
 <input type="hidden" name="id" value="${info.id!0}" />
 <table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
@@ -27,7 +27,7 @@
 	<tr>
 		<th>图标</th>
 		<td>
-			效果预览[<img src="[#if empty(fullUrl)]${_WEB_URL_}/api/jQuery/themes/icons/large_picture.png[#else]${fullUrl}[/#if]" class="img js-icon-image-show" width="16px" height="16px" />]16*16
+			效果预览[<img src="[#if empty(fullUrl)]${_webUrl_}/api/jQuery/themes/icons/large_picture.png[#else]${fullUrl}[/#if]" class="img js-icon-image-show" width="16px" height="16px" />]16*16
 			<a href="javascript:void(0);" class="easyui-linkbutton js-swf-upload-button" data-options="iconCls:'icon-upload',plain:'true'"><span id="js-swf-upload"></span></a>
 		</td>
 	</tr>
@@ -69,7 +69,7 @@ $(function () {
 	});
 	
 	$('input[name="parentId"]').combotree({
-		url : '${_BASE_.url("list")}',
+		url : '${_base_.url("list")}',
 		loadFilter : function (data, parent) {
 			return Web_formatComboTree(data.rows, [], '默认为顶级', 'name');
 		}
@@ -81,7 +81,7 @@ $(function () {
 			if(0 != data.status) {
 				Web_alertInfo(data.message);
 			} else {
-				Web_redirectPage('${_BASE_.url("layout")}');
+				Web_redirectPage('${_base_.url("layout")}');
 			}
 		}
 	});

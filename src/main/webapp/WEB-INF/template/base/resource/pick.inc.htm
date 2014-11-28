@@ -24,7 +24,7 @@ $(function () {
 					if(bPickResourceLoaded) return ;
 					bPickResourceLoaded = true;
 					$('.js-url-list-table').treegrid({
-						url : '${_BASE_.url("resource", "list")}?menu_enable=1&collapse=1',
+						url : '${_base_.url("resource", "list")}?menu_enable=1&collapse=1',
 						idField : 'id',
 						treeField : 'name',
 						toolbar : '#js-url-toolbar',

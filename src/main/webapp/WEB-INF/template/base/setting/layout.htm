@@ -3,14 +3,14 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
-	[#if _BASE_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
+	[#if _base_.hasPermit("edit")]<a href="${_base_.url("edit")}" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>[/#if]
+	[#if _base_.hasPermit("delete")]<a href="javascript:void(0);" class="easyui-linkbutton js-control-delete" data-options="iconCls:'icon-remove',plain:true">批量删除</a>[/#if]
 	<a href="javascript:void(0);" class="easyui-linkbutton js-control-search" data-options="iconCls:'icon-search',plain:true">搜索</a>
 </div>
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table').datagrid({
-		url : '${_BASE_.url("list")}',
+		url : '${_base_.url("list")}',
 		pagination : true,
 		idField : 'id',
 		toolbar : '#toolbar',
@@ -39,11 +39,11 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("show")]<a href="${_BASE_.url("show")}?id='
+				return '[#if _base_.hasPermit("show")]<a href="${_base_.url("show")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}?id='
+					+ '[#if _base_.hasPermit("edit")]<a href="${_base_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids[]='
+					+ '[#if _base_.hasPermit("delete")]<a href="${_base_.url("delete")}?ids[]='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -63,7 +63,7 @@ $(function () {
 		for(var i = 0; i < length; i++) {
 			ids[i] = 'ids[]=' + ids[i];
 		}
-		var url = '${_BASE_.url("delete")}?' + ids.join('&');
+		var url = '${_base_.url("delete")}?' + ids.join('&');
 		Web_redirectPage(url);
 	});
 });

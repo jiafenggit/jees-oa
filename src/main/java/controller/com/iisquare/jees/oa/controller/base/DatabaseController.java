@@ -27,7 +27,7 @@ public class DatabaseController extends PermitController {
 	
 	private String getBackupPath() {
 		String backupPath = settingService.get("database", "backupPath");
-		if(DPUtil.empty(backupPath)) backupPath = DPUtil.stringConcat(_WEB_ROOT_, "/META-INF/sql/");
+		if(DPUtil.empty(backupPath)) backupPath = DPUtil.stringConcat(webRoot, "/META-INF/sql/");
 		return backupPath;
 	}
 	

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 [#include "../public/common.inc.htm"]
 [#include "../public/resource.inc.htm"]
-<form id="submitForm" method="post" action="${_BASE_.url("saveSelf")}">
+<form id="submitForm" method="post" action="${_base_.url("saveSelf")}">
 <table cellspacing="1" cellpadding="0" class="table-line td-left td-break-word">
 	<tr>
 		<th class="width130">账号</th>
@@ -54,7 +54,7 @@ $(function () {
 			if(0 != data.status) {
 				Web_alertInfo(data.message);
 			} else {
-				Web_redirectPage('${_BASE_.url("showSelf")}');
+				Web_redirectPage('${_base_.url("showSelf")}');
 			}
 		}
 	});

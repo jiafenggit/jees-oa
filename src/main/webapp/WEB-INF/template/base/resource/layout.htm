@@ -3,12 +3,12 @@
 [#include "../public/resource.inc.htm"]
 <table class="js-list-table"></table>
 <div id="toolbar">
-	[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
+	[#if _base_.hasPermit("edit")]<a href="${_base_.url("edit")}" class="easyui-linkbutton js-control-add" data-options="iconCls:'icon-add',plain:true">添加顶级节点</a>[/#if]
 </div>
 <script type="text/javascript">
 $(function () {
 	$('.js-list-table').treegrid({
-		url : '${_BASE_.url("list")}?collapse=1',
+		url : '${_base_.url("list")}?collapse=1',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -45,11 +45,11 @@ $(function () {
 				return Web_formatDateTime(value);
 			}},
 			{field:'operate',title:'操作',formatter:function (value, row, index) {
-				return '[#if _BASE_.hasPermit("show")]<a href="${_BASE_.url("show")}?id='
+				return '[#if _base_.hasPermit("show")]<a href="${_base_.url("show")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-detail\'">查看</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("edit")]<a href="${_BASE_.url("edit")}?id='
+					+ '[#if _base_.hasPermit("edit")]<a href="${_base_.url("edit")}?id='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-edit\'">修改</a>[/#if]'
-					+ '[#if _BASE_.hasPermit("delete")]<a href="${_BASE_.url("delete")}?ids[]='
+					+ '[#if _base_.hasPermit("delete")]<a href="${_base_.url("delete")}?ids[]='
 					+ row.id + '" class="js-list-button" data-options="iconCls:\'icon-remove\'">删除</a>[/#if]';
 			}}
 		]],
@@ -58,7 +58,7 @@ $(function () {
 			$(this).datagrid('autoSizeColumn', 'operate');
 		},
 		onSelect : function (row) {
-			$('.js-control-add').attr('href', '${_BASE_.url("edit")}?parentId=' + row.id);
+			$('.js-control-add').attr('href', '${_base_.url("edit")}?parentId=' + row.id);
 			$('.js-control-add').linkbutton({text:'添加下级节点'});
 		}
 	});

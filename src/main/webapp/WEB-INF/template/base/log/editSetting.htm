@@ -14,7 +14,7 @@ function formatter(key, value, row, index) {
 }
 $(function () {
 	$('.js-list-table').treegrid({
-		url : '${_BASE_.url("resource", "list")}?log_setting=1&collapse=1',
+		url : '${_base_.url("resource", "list")}?log_setting=1&collapse=1',
 		idField : 'id',
 		treeField : 'name',
 		toolbar : '#toolbar',
@@ -106,7 +106,7 @@ $(function () {
 		var length = rows.length;
 		if(index >= length) return true;
 		var row = rows[index];
-		$.post('${_BASE_.url("saveSetting")}', {
+		$.post('${_base_.url("saveSetting")}', {
 			id : row.id,
 			enable : $('input[name="enable"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
 			referer : $('input[name="referer"][data-id="' + row.id + '"]:checked').length > 0 ? 1 : 0,
