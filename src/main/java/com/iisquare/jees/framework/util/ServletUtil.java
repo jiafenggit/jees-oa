@@ -163,15 +163,14 @@ public class ServletUtil {
 	/**
 	 * 获取项目访问地址
 	 * @param request
+	 * @param bWithDomain
 	 * @return
 	 */
-	public static String getWebUrl(HttpServletRequest request) {
+	public static String getWebUrl(HttpServletRequest request, boolean bWithDomain) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(request.getScheme())
-				.append("://")
-				.append(request.getServerName());
-		if(80 != request.getServerPort()) {
-			sb.append(":").append(request.getServerPort());
+		if(bWithDomain) {
+			sb.append(request.getScheme()).append("://").append(request.getServerName());
+			if(80 != request.getServerPort()) sb.append(":").append(request.getServerPort());
 		}
 		sb.append(request.getContextPath());
 		return sb.toString();
@@ -180,10 +179,11 @@ public class ServletUtil {
 	/**
 	 * 获取完整请求地址和参数
 	 * @param request
+	 * @param bWithDomain
 	 * @return
 	 */
-	public static String getFullUrl(HttpServletRequest request) {
-		String webUrl = getWebUrl(request);
+	public static String getFullUrl(HttpServletRequest request, boolean bWithDomain) {
+		String webUrl = getWebUrl(request, bWithDomain);
 		String queryString = request.getQueryString();
 		if(null == queryString) return webUrl;
 		return DPUtil.stringConcat(webUrl, "?", queryString);

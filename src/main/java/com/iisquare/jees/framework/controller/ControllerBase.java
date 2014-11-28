@@ -40,6 +40,7 @@ public abstract class ControllerBase {
 	protected HttpServletRequest request; // HTTP请求对象
 	protected HttpServletResponse response; // HTTP响应对象
 	protected Map<String, Object> parameterMap; // 请求参数Map对象
+	protected boolean isWebUrlWithDomain = false; // 项目路径是否携带域名
 
 	public String _MODULE_, _CONTROLLER_, _ACTION_;
 	public Map<String, Object> _ASSIGN_; // 视图数据Map对象
@@ -77,6 +78,14 @@ public abstract class ControllerBase {
 		this.parameterMap = parameterMap;
 	}
 
+	public boolean isWebUrlWithDomain() {
+		return isWebUrlWithDomain;
+	}
+
+	public void setWebUrlWithDomain(boolean isWebUrlWithDomain) {
+		this.isWebUrlWithDomain = isWebUrlWithDomain;
+	}
+
 	public ControllerBase() {}
 	
 	/**
@@ -89,7 +98,7 @@ public abstract class ControllerBase {
 		parameterMap = ServletUtil.parseParameterMap(request.getParameterMap());
 		_ASSIGN_ = new HashMap<String, Object>(0);
 		_WEB_ROOT_ = ServletUtil.getWebRoot(request);
-		_WEB_URL_ = ServletUtil.getWebUrl(request);
+		_WEB_URL_ = ServletUtil.getWebUrl(request, isWebUrlWithDomain);
 		String skinFolder = configuration.getSkinFolder();
 		if(DPUtil.empty(skinFolder)) {
 			_SKIN_URL_ = _WEB_URL_;
