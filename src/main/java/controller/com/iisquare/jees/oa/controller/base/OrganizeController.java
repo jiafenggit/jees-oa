@@ -92,7 +92,7 @@ public class OrganizeController extends PermitController {
 			result = organizeService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, "操作成功", url("layout"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(500, "操作失败", null);
 		}

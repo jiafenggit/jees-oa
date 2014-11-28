@@ -56,7 +56,7 @@ $(function () {
 				Web_alertInfo(data.message);
 			} else {
 				Web_confirm('操作成功，是否继续编辑', function (result) {
-					if(!result) Web_redirectPage(data.message);
+					if(!result) Web_redirectPage('${_BASE_.url("layout")}');
 				});
 			}
 		}

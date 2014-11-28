@@ -58,7 +58,7 @@ public class MemberController extends PermitController {
 		persist.setUpdateTime(time);
 		int result = memberService.update(persist, null, null);
 		if(result > 0) {
-			return displayMessage(0, "操作成功", url("showSelf"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(500, "操作失败", null);
 		}
@@ -92,7 +92,7 @@ public class MemberController extends PermitController {
 		int result = memberService.update(persist, null, null);
 		if(result > 0) {
 			request.getSession().invalidate(); // 退出登陆
-			return displayMessage(0, "操作成功", url("logout"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(500, "操作失败", null);
 		}
@@ -189,7 +189,7 @@ public class MemberController extends PermitController {
 			result = memberService.update(persist, organizeDutyIds, roleIds);
 		}
 		if(result > 0) {
-			return displayMessage(0, "操作成功", url("layout"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(500, "操作失败", null);
 		}

@@ -35,7 +35,7 @@ public class RoleController extends PermitController {
 	
 	public String savePowerAction() throws Exception {
 		if(roleService.updatePower(get("id"), getArray("resourceIds"), getArray("menuIds"))) {
-			return displayMessage(0, "操作成功", url("layout"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(1, "操作失败", null);
 		}
@@ -108,7 +108,7 @@ public class RoleController extends PermitController {
 			result = roleService.update(persist);
 		}
 		if(result > 0) {
-			return displayMessage(0, "操作成功", url("layout"));
+			return displayMessage(0, "操作成功", null);
 		} else {
 			return displayMessage(500, "操作失败", null);
 		}
