@@ -67,7 +67,7 @@ $(function () {
 	var $submitForm = $('#submitForm');
 	$submitForm.form({
 		success : function (data) {
-			data = $.parseJSON(data);
+			data = Web_parseJSON(data);
 			if(data.status) {
 				Web_alertInfo(data.message);
 			} else {
