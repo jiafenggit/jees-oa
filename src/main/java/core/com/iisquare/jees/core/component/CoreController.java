@@ -22,7 +22,7 @@ public abstract class CoreController extends ControllerBase {
 	 * @return
 	 * @throws Exception
 	 */
-	public String displayMessage(int status, Object message, Object data) throws Exception {
+	protected String displayMessage(int status, Object message, Object data) throws Exception {
 		Map<String, Object> map = new LinkedHashMap<String, Object>(2);
 		map.put("status", status);
 		map.put("message", message);
