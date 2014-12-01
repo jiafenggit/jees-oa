@@ -148,7 +148,7 @@ public abstract class PermitController extends CoreController {
 	 */
 	protected String displayInfo(String message, String forward) throws Exception {
 		assign("message", message);
-		assign("url", forward);
+		assign("forward", forward);
 		return displayTemplate("public", "info");
 	}
 }
