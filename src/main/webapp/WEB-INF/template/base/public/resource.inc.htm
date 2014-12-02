@@ -1,10 +1,11 @@
 [#-- This page can be include only --]
-<link href="${_webUrl_}/api/jQuery/themes/default/easyui.css" rel="stylesheet" type="text/css" />
-<link href="${_webUrl_}/api/jQuery/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="${_webUrl_}/api/jQuery/EasyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="${_webUrl_}/api/jQuery/EasyUI/themes/icon.css" rel="stylesheet" type="text/css" />
 <link href="${_themeUrl_}/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${_webUrl_}/files/work/icon.auto.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${_webUrl_}/api/jQuery/EasyUI/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${_webUrl_}/api/jQuery/EasyUI/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${_webUrl_}/api/jQuery/jquery-jtemplates.min.js"></script>
 <script type="text/javascript">
 	var Web_pageSize = parseInt('${_pageSize_}');
@@ -18,6 +19,13 @@
 		if(!dateVal) return '';
 		var dateObj = new Date(dateVal);
 		return dateObj.format(Web_dateTimeFormat);
+	}
+	
+	function Web_fullUrl(url) {
+		var regexUrl = /^[a-zA-Z]+:\/\/.+/;
+		url = $.trim(url);
+		if(Web_empty(url) || null != url.match(regexUrl)) return url;
+		return Web_projectUrl + ('/' == url.substring(0, 1) ? '' : '/') + url;
 	}
 </script>
 <script type="text/javascript" src="${_themeUrl_}/script/code.js"></script>

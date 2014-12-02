@@ -226,13 +226,6 @@ $.extend($.fn.datagrid.defaults, {
 	pageList : $.fn.pagination.defaults.pageList
 });
 /**
- * 设置messager默认值
- */
-$.extend($.messager.defaults, {  
-	ok : '确定',  
-	cancel : '取消'  
-});
-/**
  * 设置datebox默认日期格式
  */
 $.fn.datebox.defaults.formatter = function(date){
