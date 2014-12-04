@@ -163,7 +163,7 @@ public class ServletUtil {
 	/**
 	 * 获取项目访问地址
 	 * @param request
-	 * @param bWithDomain
+	 * @param bWithDomain 是否携带域名地址
 	 * @return
 	 */
 	public static String getWebUrl(HttpServletRequest request, boolean bWithDomain) {
@@ -179,14 +179,18 @@ public class ServletUtil {
 	/**
 	 * 获取完整请求地址和参数
 	 * @param request
-	 * @param bWithDomain
+	 * @param bWithWebUrl 是否携带项目地址
+	 * @param bWithQuery 是否携带请求参数
 	 * @return
 	 */
-	public static String getFullUrl(HttpServletRequest request, boolean bWithDomain) {
-		String webUrl = getWebUrl(request, bWithDomain);
-		String queryString = request.getQueryString();
-		if(null == queryString) return webUrl;
-		return DPUtil.stringConcat(webUrl, "?", queryString);
+	public static String getFullUrl(HttpServletRequest request, boolean bWithWebUrl, boolean bWithQuery) {
+		String requestUrl = request.getRequestURL().toString();
+		if(bWithQuery) {
+			String queryString = request.getQueryString();
+			if(null != queryString) requestUrl = DPUtil.stringConcat(requestUrl, "?", queryString);
+		}
+		if(!bWithWebUrl) requestUrl = requestUrl.substring(getWebUrl(request, true).length());
+		return requestUrl;
 	}
 	
 	/**
