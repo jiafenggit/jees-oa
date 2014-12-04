@@ -441,7 +441,7 @@ public class DPUtil {
 	public static boolean isIndexExist(Object[] array, int index) {
 		if(null == array) return false;
 		if(index < 0) return false;
-		return array.length >= index;
+		return array.length > index;
 	}
 	
 	/**
@@ -450,7 +450,7 @@ public class DPUtil {
 	public static boolean isIndexExist(Collection<?> collection, int index) {
 		if(null == collection) return false;
 		if(index < 0) return false;
-		return collection.size() >= index;
+		return collection.size() > index;
 	}
 	
 	/**
@@ -490,7 +490,11 @@ public class DPUtil {
 	 */
 	public static Object getByIndex(Collection<?> collection, int index) {
 		if(isIndexExist(collection, index)) {
-			return collection.iterator().next();
+			Iterator<?> iterator = collection.iterator();
+			for (int i = 0; i < index; i++) {
+				iterator.next();
+			}
+			return iterator.next();
 		}
 		return null;
 	}
@@ -554,6 +558,7 @@ public class DPUtil {
 	 * @param encoding 字符编码，若为null则默认采用UTF-8格式
 	 */
 	public static String subStringWithByte(String targetString, int byteIndex, String suffix, String encoding) {
+		if(null == targetString) return "";
 		if(null == encoding) encoding = "UTF-8";
 		try {
 			if (targetString.getBytes(encoding).length <= byteIndex) return targetString;

@@ -27,6 +27,7 @@ public class FreemarkerTemplateManager {
 		fmConfiguration.setSharedVariable("empty", new FreemarkerEmptyModel());
 		fmConfiguration.setSharedVariable("escapeHtml", new FreemarkerEscapeHtmlModel());
 		fmConfiguration.setSharedVariable("unescapeHtml", new FreemarkerUnescapeHtmlModel());
+		fmConfiguration.setSharedVariable("subStringWithByte", new FreemarkerSubStringWithByteModel());
 	}
 	
 	public FreemarkerTemplateManager() {}
