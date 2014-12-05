@@ -13,7 +13,7 @@ public String getCookie(HttpServletRequest request, String key) throws Unsupport
 String debugCode = getCookie(request, "debug");
 if("iisquare.com".equals(debugCode)) {
 %>
-Debug Message:<br/>
+Debug Message:<br/><hr/>
 <%
 out.println("Protocol: " + request.getProtocol() + "<br>");
 out.println("Scheme: " + request.getScheme() + "<br>");
