@@ -18,6 +18,10 @@
 	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
 		<url-pattern>*.ico</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -79,7 +83,6 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-<!-- 自定义错误页面
 	<error-page>
 		<error-code>400</error-code>
 		<location>/error.jsp</location>
@@ -108,5 +111,4 @@
 		<error-code>504</error-code>
 		<location>/error.jsp</location>
 	</error-page>
--->
 </web-app>
