@@ -116,30 +116,30 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	}
 	
 	/**
-	 * 添加记录，返回自增长ID
+	 * 添加记录，返回自增长ID或影响记录行数
 	 */
-	public int insert(Map<String, Object> values) {
+	public Number insert(Map<String, Object> values) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		int result = npJdbcTemplate().update(SqlUtil.buildInsert(tableName(), values)
 				, new MapSqlParameterSource(values), keyHolder);
 		Number number = keyHolder.getKey();
-		return result > 0 && null != number ? number.intValue() : result;
+		return result > 0 && null != number ? number : result;
 	}
 	
 	/**
 	 * 添加记录，返回自增长ID
 	 */
-	public int insert(String[] fields, Object[] values) {
+	public Number insert(String[] fields, Object[] values) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		int result = update(SqlUtil.buildInsert(tableName(), fields, true) , values, keyHolder);
 		Number number = keyHolder.getKey();
-		return result > 0 && null != number ? number.intValue() : result;
+		return result > 0 && null != number ? number : result;
 	}
 	
 	/**
 	 * 添加记录，返回自增长ID
 	 */
-	public int insert(T object) {
+	public Number insert(T object) {
 		Map<String, Object> values = ReflectUtil.convertEntityToMap(object, true, null);
 		if(null == values) return 0;
 		return insert(values);
@@ -421,14 +421,14 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(Map<String, Object> where, Map<String, String> operators, String append) {
+	public Number getCount(Map<String, Object> where, Map<String, String> operators, String append) {
 		return getCount(SqlUtil.buildWhere(where, operators), where, append);
 	}
 	
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(String where, Map<String, Object> paramMap, String append) {
+	public Number getCount(String where, Map<String, Object> paramMap, String append) {
 		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, where, append, 1, 0);
 		return getCount(sql, paramMap, false);
 	}
@@ -436,23 +436,23 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(String sql, Map<String, Object> paramMap, boolean bConvert) {
+	public Number getCount(String sql, Map<String, Object> paramMap, boolean bConvert) {
 		if(bConvert) sql = SqlUtil.convertForCount(sql);
-		Number number = npJdbcTemplate().queryForObject(sql, paramMap, Integer.class);
-		return (number != null ? number.intValue() : 0);
+		Number number = npJdbcTemplate().queryForObject(sql, paramMap, Number.class);
+		return number != null ? number : 0;
 	}
 	
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(String[] whereFields, Object[] whereValues, String[] operators, String append) {
+	public Number getCount(String[] whereFields, Object[] whereValues, String[] operators, String append) {
 		return getCount(SqlUtil.buildWhere(whereFields, operators, true), whereValues, append);
 	}
 	
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(String where, Object[] paramValues, String append) {
+	public Number getCount(String where, Object[] paramValues, String append) {
 		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, where, append, 1, 0);
 		return getCount(sql, paramValues, false);
 	}
@@ -460,18 +460,18 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount(String sql, Object[] paramValues, boolean bConvert) {
+	public Number getCount(String sql, Object[] paramValues, boolean bConvert) {
 		if(bConvert) sql = SqlUtil.convertForCount(sql);
-		Number number = queryForObject(sql, paramValues, Integer.class);
-		return (number != null ? number.intValue() : 0);
+		Number number = queryForObject(sql, paramValues, Number.class);
+		return number != null ? number : 0;
 	}
 	
 	/**
 	 * 获取查询记录结果条数
 	 */
-	public int getCount() {
+	public Number getCount() {
 		String sql = SqlUtil.buildSelect(tableName(), SqlUtil.sqlCountName, null, null, 1, 0);
-		Number number = queryForObject(sql, null, Integer.class);
-		return (number != null ? number.intValue() : 0);
+		Number number = queryForObject(sql, null, Number.class);
+		return number != null ? number : 0;
 	}
 }

@@ -66,7 +66,7 @@ public class IconService extends ServiceBase {
 	}
 	
 	public int insert(Icon persist) {
-		return iconDao.insert(persist);
+		return iconDao.insert(persist).intValue();
 	}
 	
 	public int update(Icon persist) {
@@ -76,7 +76,7 @@ public class IconService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = iconDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
+		int count = iconDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -1;
 		return iconDao.deleteByIds(ids);
 	}

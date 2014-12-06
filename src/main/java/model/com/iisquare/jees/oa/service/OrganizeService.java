@@ -55,7 +55,7 @@ public class OrganizeService extends ServiceBase {
 	}
 	
 	public int insert(Organize persist) {
-		return organizeDao.insert(persist);
+		return organizeDao.insert(persist).intValue();
 	}
 	
 	public int update(Organize persist) {
@@ -65,9 +65,9 @@ public class OrganizeService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = organizeDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
+		int count = organizeDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -1;
-		count = memberDao.getCount(DPUtil.stringConcat("organize_id in (", idStr, " )"), new Object[]{}, null);
+		count = memberDao.getCount(DPUtil.stringConcat("organize_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -2;
 		return organizeDao.deleteByIds(ids);
 	}

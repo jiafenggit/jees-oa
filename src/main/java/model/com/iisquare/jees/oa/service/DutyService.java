@@ -58,7 +58,7 @@ public class DutyService extends ServiceBase {
 	}
 	
 	public int insert(Duty persist) {
-		return dutyDao.insert(persist);
+		return dutyDao.insert(persist).intValue();
 	}
 	
 	public int update(Duty persist) {
@@ -68,9 +68,9 @@ public class DutyService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = dutyDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
+		int count = dutyDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -1;
-		count = memberOrganizeRelDao.getCount(DPUtil.stringConcat("duty_id in (", idStr, " )"), new Object[]{}, null);
+		count = memberOrganizeRelDao.getCount(DPUtil.stringConcat("duty_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -2;
 		return dutyDao.deleteByIds(ids);
 	}

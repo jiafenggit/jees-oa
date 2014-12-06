@@ -113,7 +113,7 @@ public class ResourceService extends ServiceBase {
 	}
 	
 	public int insert(Resource persist) {
-		return resourceDao.insert(persist);
+		return resourceDao.insert(persist).intValue();
 	}
 	
 	public int update(Resource persist) {
@@ -123,7 +123,7 @@ public class ResourceService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = resourceDao.getCount(new String[]{"parent_id"}, new Object[]{idStr}, new String[]{"in"}, null);
+		int count = resourceDao.getCount(new String[]{"parent_id"}, new Object[]{idStr}, new String[]{"in"}, null).intValue();
 		if(count > 0) return -1;
 		return resourceDao.deleteByIds(ids);
 	}

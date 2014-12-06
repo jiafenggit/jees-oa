@@ -65,7 +65,7 @@ public class UploadService extends ServiceBase {
 		}
 		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
-		int total = uploadDao.getCount(sql, paramMap, true);
+		int total = uploadDao.getCount(sql, paramMap, true).intValue();
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = uploadDao.npJdbcTemplate().queryForList(sql, paramMap);
 		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
@@ -77,7 +77,7 @@ public class UploadService extends ServiceBase {
 	}
 	
 	public int insert(Upload persist) {
-		return uploadDao.insert(persist);
+		return uploadDao.insert(persist).intValue();
 	}
 	
 	public int delete(Object... ids) {

@@ -78,7 +78,7 @@ public class MenuService extends ServiceBase {
 	}
 	
 	public int insert(Menu persist) {
-		return menuDao.insert(persist);
+		return menuDao.insert(persist).intValue();
 	}
 	
 	public int update(Menu persist) {
@@ -88,7 +88,7 @@ public class MenuService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = menuDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
+		int count = menuDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -1;
 		return menuDao.deleteByIds(ids);
 	}

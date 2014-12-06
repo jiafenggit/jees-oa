@@ -136,7 +136,7 @@ public class MemberService extends CoreService {
 		}
 		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
-		int total = memberDao.getCount(sql, paramMap, true);
+		int total = memberDao.getCount(sql, paramMap, true).intValue();
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> list = fillList(memberDao.npJdbcTemplate().queryForList(sql, paramMap));
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, list});
@@ -217,7 +217,7 @@ public class MemberService extends CoreService {
 	}
 	
 	public int insert(Member persist, Object[] organizeDutyIds, Object[] roleIds) {
-		int result =  memberDao.insert(persist);
+		int result =  memberDao.insert(persist).intValue();
 		if(result > 0) updateRel(result, organizeDutyIds, roleIds);
 		return result;
 	}

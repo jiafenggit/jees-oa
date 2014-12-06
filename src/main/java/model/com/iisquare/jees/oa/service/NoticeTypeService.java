@@ -58,7 +58,7 @@ public class NoticeTypeService extends ServiceBase {
 	}
 	
 	public int insert(NoticeType persist) {
-		return noticeTypeDao.insert(persist);
+		return noticeTypeDao.insert(persist).intValue();
 	}
 	
 	public int update(NoticeType persist) {
@@ -68,9 +68,9 @@ public class NoticeTypeService extends ServiceBase {
 	public int delete(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		int count = noticeTypeDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null);
+		int count = noticeTypeDao.getCount(DPUtil.stringConcat("parent_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -1;
-		count = noticeDao.getCount(DPUtil.stringConcat("type_id in (", idStr, " )"), new Object[]{}, null);
+		count = noticeDao.getCount(DPUtil.stringConcat("type_id in (", idStr, " )"), new Object[]{}, null).intValue();
 		if(count > 0) return -2;
 		return noticeTypeDao.deleteByIds(ids);
 	}

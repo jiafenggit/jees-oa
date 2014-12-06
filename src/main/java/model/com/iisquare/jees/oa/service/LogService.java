@@ -50,7 +50,7 @@ public class LogService extends ServiceBase {
 	}
 	
 	public int insert(Log log) {
-		return logDao.insert(log);
+		return logDao.insert(log).intValue();
 	}
 	
 	public List<Map<String, Object>> fillSetting(List<Map<String, Object>> list) {
@@ -69,7 +69,7 @@ public class LogService extends ServiceBase {
 		String sql = DPUtil.stringConcat("select * from ", logDao.tableName(),
 				" where type = ? and module = ? and controller = ? and (action = ? or action = ?) and operate_id = ? order by operate_time desc");
 		Object[] params = new Object[]{"service", "base", "member", "logon", "guest", DPUtil.parseInt(memberId)};
-		int total = logDao.getCount(sql, params, true);
+		int total = logDao.getCount(sql, params, true).intValue();
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = logDao.queryForList(sql, params);
 		return DPUtil.buildMap(new String[]{"total", "rows"}, new Object[]{total, rows});
@@ -132,7 +132,7 @@ public class LogService extends ServiceBase {
 		}
 		if(!DPUtil.empty(orderBy)) sb.append(" order by ").append(orderBy);
 		String sql = sb.toString();
-		int total = logDao.getCount(sql, paramMap, true);
+		int total = logDao.getCount(sql, paramMap, true).intValue();
 		sql = DPUtil.stringConcat(sql, SqlUtil.buildLimit(page, pageSize));
 		List<Map<String, Object>> rows = logDao.npJdbcTemplate().queryForList(sql, paramMap);
 		rows = ServiceUtil.fillRelations(rows, memberDao, new String[]{"operate_id"}, new String[]{"serial", "name"}, null);
@@ -145,7 +145,7 @@ public class LogService extends ServiceBase {
 	
 	public int saveSetting(LogSetting persist) {
 		if(null == logSettingDao.getById(persist.getId())) {
-			return logSettingDao.insert(persist);
+			return logSettingDao.insert(persist).intValue();
 		} else {
 			return logSettingDao.update(persist);
 		}
