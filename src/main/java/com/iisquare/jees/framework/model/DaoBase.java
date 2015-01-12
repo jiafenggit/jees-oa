@@ -204,7 +204,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int updateByIds(String[] fields, Object[] values, Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		return update(fields, values, DPUtil.stringConcat(primaryKey, " in (", idStr, " )"));
+		return update(fields, values, DPUtil.stringConcat(primaryKey, " in (", idStr, ")"));
 	}
 	
 	/**
@@ -246,7 +246,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public int deleteByIds(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return 0;
-		return delete(DPUtil.stringConcat(primaryKey, " in (", idStr, " )"));
+		return delete(DPUtil.stringConcat(primaryKey, " in (", idStr, ")"));
 	}
 	
 	/**
@@ -273,7 +273,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public List<T> getByIds(Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return new ArrayList<T>(0);
-		return getList(DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
+		return getList(DPUtil.stringConcat(primaryKey, " in (", idStr, ")"), new Object[]{}, null, 0, 0);
 	}
 	
 	/**
@@ -282,7 +282,7 @@ public abstract class DaoBase<T> extends JdbcTemplate {
 	public List<Map<String, Object>> getByIds(String columns, Object... ids) {
 		String idStr = SqlUtil.buildSafeWhere(",", ids);
 		if(DPUtil.empty(idStr)) return new ArrayList<Map<String, Object>>(0);
-		return getList(columns, DPUtil.stringConcat(primaryKey, " in (", idStr, " )"), new Object[]{}, null, 0, 0);
+		return getList(columns, DPUtil.stringConcat(primaryKey, " in (", idStr, ")"), new Object[]{}, null, 0, 0);
 	}
 	
 	/**
