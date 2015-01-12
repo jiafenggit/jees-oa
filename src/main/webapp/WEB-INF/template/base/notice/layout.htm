@@ -30,19 +30,19 @@ $(function () {
 			{field:'title',title:'标题'},
 			{field:'sort',title:'排序'},
 			{field:'type_id',title:'分类',formatter:function (value, row, index) {
-				return row.type_id_rel ? row.type_id_rel.name : row.type_id;
+				return row.type_id_info ? row.type_id_info.name : row.type_id;
 			}},
 			{field:'status_text',title:'状态'},
 			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
-				if(!row.create_id_rel) return '';
-				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;
+				if(!row.create_id_info) return '';
+				return '[' + row.create_id_info.serial + ']' + row.create_id_info.name;
 			}},
 			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
 			}},
 			{field:'update_id',title:'修改者',formatter:function (value, row, index) {
-				if(!row.update_id_rel) return '';
-				return '[' + row.update_id_rel.serial + ']' + row.update_id_rel.name;
+				if(!row.update_id_info) return '';
+				return '[' + row.update_id_info.serial + ']' + row.update_id_info.name;
 			}},
 			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);

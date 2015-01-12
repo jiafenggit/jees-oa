@@ -64,8 +64,8 @@ $(function () {
 				return formatter('response_data', value, row, index);
 			}},
 			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
-				if(!row.log_setting || !row.log_setting.operate_id_rel) return '';
-				return '[' + row.log_setting.operate_id_rel.serial + ']' + row.log_setting.operate_id_rel.name;
+				if(!row.log_setting || !row.log_setting.operate_id_info) return '';
+				return '[' + row.log_setting.operate_id_info.serial + ']' + row.log_setting.operate_id_info.name;
 			}},
 			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {
 				if(!row.log_setting) return '';

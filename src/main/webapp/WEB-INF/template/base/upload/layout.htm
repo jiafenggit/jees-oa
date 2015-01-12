@@ -26,8 +26,8 @@ $(function () {
 				return row.id;
 			}},
 			{field:'operate_id',title:'操作者',formatter:function (value, row, index) {
-				if(!row.operate_id_rel) return '';
-				return '[' + row.operate_id_rel.serial + ']' + row.operate_id_rel.name;
+				if(!row.operate_id_info) return '';
+				return '[' + row.operate_id_info.serial + ']' + row.operate_id_info.name;
 			}},
 			{field:'operate_ip',title:'IP'},
 			{field:'operate_time',title:'操作时间',formatter:function (value, row, index) {

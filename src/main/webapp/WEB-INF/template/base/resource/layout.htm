@@ -38,8 +38,8 @@ $(function () {
  			}},
 			{field:'status_text',title:'状态'},
 			{field:'update_id',title:'修改者',formatter:function (value, row, index) {
-				if(!row.update_id_rel) return '';
-				return '[' + row.update_id_rel.serial + ']' + row.update_id_rel.name;
+				if(!row.update_id_info) return '';
+				return '[' + row.update_id_info.serial + ']' + row.update_id_info.name;
 			}},
 			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);

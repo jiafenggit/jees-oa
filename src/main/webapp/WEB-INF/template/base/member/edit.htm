@@ -19,9 +19,9 @@
 	<tr>
 		<th>部门</th>
 		<td>
-			<span class="js-organize-duty-text">${info.organize_rel_text!""}</span>
+			<span class="js-organize-duty-text">${info.organize_info_text!""}</span>
 			<a href="javascript:void(0);" class="easyui-linkbutton js-organize-duty-pick" data-options="iconCls:'icon-pick',plain:true">选择部门</a>
-			[#list info.organize_rel![] as organizeDuty]
+			[#list info.organize_info![] as organizeDuty]
 			<input type="hidden" name="organizeDutyIds[]" class="js-organize-duty-ids" data-organize="${organizeDuty.organize_id}" data-duty="${organizeDuty.duty_id}" value="${organizeDuty.organize_id}-${organizeDuty.duty_id}" />
 			[/#list]
 		</td>

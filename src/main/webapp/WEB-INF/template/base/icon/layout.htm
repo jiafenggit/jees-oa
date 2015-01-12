@@ -32,15 +32,15 @@ $(function () {
 				return '<a href="' + row.fullUrl + '" target="_blank" title="点击查看大图">' + row.url + '</a>';
 			}},
 			{field:'create_id',title:'创建者',formatter:function (value, row, index) {
-				if(!row.create_id_rel) return '';
-				return '[' + row.create_id_rel.serial + ']' + row.create_id_rel.name;
+				if(!row.create_id_info) return '';
+				return '[' + row.create_id_info.serial + ']' + row.create_id_info.name;
 			}},
 			{field:'create_time',title:'创建时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);
 			}},
 			{field:'update_id',title:'修改者',formatter:function (value, row, index) {
-				if(!row.update_id_rel) return '';
-				return '[' + row.update_id_rel.serial + ']' + row.update_id_rel.name;
+				if(!row.update_id_info) return '';
+				return '[' + row.update_id_info.serial + ']' + row.update_id_info.name;
 			}},
 			{field:'update_time',title:'修改时间',formatter:function (value, row, index) {
 				return Web_formatDateTime(value);

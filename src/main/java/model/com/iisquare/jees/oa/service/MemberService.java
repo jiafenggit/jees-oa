@@ -147,12 +147,12 @@ public class MemberService extends CoreService {
 		if(DPUtil.empty(list)) return "";
 		List<String> returnList = new ArrayList<String>();
 		for (Map<String, Object> map : list) {
-			Object orgRel = map.get("organize_id_rel");
-			if(DPUtil.empty(orgRel)) continue ;
-			Object dutyRel = map.get("duty_id_rel");
+			Object orgRelInfo = map.get("organize_id_info");
+			if(DPUtil.empty(orgRelInfo)) continue ;
+			Object dutyRelInfo = map.get("duty_id_info");
 			returnList.add(DPUtil.stringConcat(
-					((Map<String, Object>) orgRel).get("name"), "[",
-					DPUtil.empty(dutyRel) ? "--" : ((Map<String, Object>) dutyRel).get("name"), "]"));
+					((Map<String, Object>) orgRelInfo).get("name"), "[",
+					DPUtil.empty(dutyRelInfo) ? "--" : ((Map<String, Object>) dutyRelInfo).get("name"), "]"));
 		}
 		return DPUtil.implode(",", DPUtil.collectionToArray(returnList));
 	}
@@ -162,7 +162,7 @@ public class MemberService extends CoreService {
 		if(DPUtil.empty(list)) return "";
 		List<Object> returnList = new ArrayList<Object>();
 		for (Map<String, Object> map : list) {
-			Object roleRel = map.get("role_id_rel");
+			Object roleRel = map.get("role_id_info");
 			if(DPUtil.empty(roleRel)) continue ;
 			returnList.add(((Map<String, Object>) roleRel).get("name"));
 		}
@@ -183,9 +183,9 @@ public class MemberService extends CoreService {
 			roleRelList = ServiceUtil.fillRelations(roleRelList, roleDao, new String[]{"role_id"}, new String[]{"name"}, null);
 			Map<Object, List<Map<String, Object>>> roleIndexMapList = ServiceUtil.indexesMapList(roleRelList, "member_id");
 			
-			String organizeRelKey = DPUtil.stringConcat("organize", ServiceUtil.relPostfix);
+			String organizeRelKey = DPUtil.stringConcat("organize", ServiceUtil.relInfoPostfix);
 			String organizeRelKeyText = DPUtil.stringConcat(organizeRelKey, "_text");
-			String roleRelKey = DPUtil.stringConcat("role", ServiceUtil.relPostfix);
+			String roleRelKey = DPUtil.stringConcat("role", ServiceUtil.relInfoPostfix);
 			String roleRelKeyText = DPUtil.stringConcat(roleRelKey, "_text");
 			List<Map<String, Object>> tempList;
 			for (Map<String, Object> map : list) {

@@ -14,7 +14,7 @@ import com.iisquare.jees.framework.model.DaoBase;
  */
 public class ServiceUtil {
 
-	public static final String relPostfix = "_rel";
+	public static final String relInfoPostfix = "_info";
 	
 	/**
 	 * 填充关联记录
@@ -44,7 +44,7 @@ public class ServiceUtil {
 		List<Map<String, Object>> settingList = relationDao.getByIds(
 				DPUtil.implode(",", fillFields), DPUtil.collectionToArray(idList));
 		Map<Object, Map<String, Object>> indexMap = ServiceUtil.indexMapList(settingList, primaryKey);
-		if(null == fieldPostfix) fieldPostfix = relPostfix;
+		if(null == fieldPostfix) fieldPostfix = relInfoPostfix;
 		for (Map<String, Object> item : list) {
 			for (String field : relationFields) {
 				item.put(DPUtil.stringConcat(field, fieldPostfix), indexMap.get(item.get(field)));

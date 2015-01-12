@@ -133,12 +133,12 @@ public class MemberController extends PermitController {
 			if(DPUtil.empty(info)) return displayInfo("信息不存在，请刷新后再试", null);
 		}
 		assign("info", info);
-		Object roleRel = info.get("role_rel");
-		if(DPUtil.empty(roleRel)) {
+		Object roleRelInfo = info.get("role_info");
+		if(DPUtil.empty(roleRelInfo)) {
 			assign("roleIds", "");
 		} else {
 			assign("roleIds", DPUtil.implode(",", DPUtil.collectionToArray(
-					ServiceUtil.getFieldValues((List<Map<String, Object>>) roleRel, new String[]{"role_id"}))));
+					ServiceUtil.getFieldValues((List<Map<String, Object>>) roleRelInfo, new String[]{"role_id"}))));
 		}
 		assign("statusMap", memberService.getStatusMap(false));
 		return displayTemplate();
