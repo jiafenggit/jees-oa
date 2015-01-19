@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/chardet-1.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/cpdetector_1.0.10.jar"/>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_6.0"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
