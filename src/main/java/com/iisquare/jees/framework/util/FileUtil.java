@@ -70,7 +70,6 @@ public class FileUtil {
 		try {
 			inputStream = new FileInputStream(file);
 			inputStream.read(fileContent);
-			inputStream.close();
 		} catch (Exception e) {
 			return null;
 		} finally {
