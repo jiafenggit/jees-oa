@@ -55,6 +55,30 @@ public class FileUtil {
 		return null;
 	}
 	
+	/**
+	 * 获取文件内容,默认编码
+	 * @param filePath 文件路径
+	 */
+	public static String getContent(String filePath) {
+		File file = new File(filePath);
+		if (!file.exists()) return null;
+		if (!file.isFile()) return null;
+		if (!file.canRead()) return null;
+		Long fileLength = file.length(); // 获取文件长度
+		byte[] fileContent = new byte[fileLength.intValue()];
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(file);
+			inputStream.read(fileContent);
+			inputStream.close();
+		} catch (Exception e) {
+			return null;
+		} finally {
+			close(inputStream);
+		}
+		return new String(fileContent);
+	}
+	
 	public static String getContent(String filePath, String encoding) {
 		return getContent(filePath, false, encoding);
 	}
